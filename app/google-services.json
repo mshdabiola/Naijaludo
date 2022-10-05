@@ -1,0 +1,115 @@
+{
+  "project_info": {
+    "project_number": "1027300737790",
+    "firebase_url": "https://naijaludo.firebaseio.com",
+    "project_id": "naijaludo",
+    "storage_bucket": "naijaludo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027300737790:android:ccff06c41adf7b8e4d1baf",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.ludo.have.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITYFydgod2rQ6f9uoLR8k_C5o4uv86Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027300737790:android:5a103df9acf3f66e4d1baf",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.naijaludo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027300737790-og8ojpguauhnh2aj0aviqgvllh539lbb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mshdabiola.naijaludo",
+            "certificate_hash": "ae2596c0e85894f7ef2f236def8e4ed6ed935a46"
+          }
+        },
+        {
+          "client_id": "1027300737790-om9ecvtuig6k83eg8nq7rrr3kr9c4j05.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mshdabiola.naijaludo",
+            "certificate_hash": "e50534e1c37c8b0b6f1ae1bf3513c32d6dce7cd2"
+          }
+        },
+        {
+          "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITYFydgod2rQ6f9uoLR8k_C5o4uv86Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-6629038423064076~7317069542"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027300737790:android:682c7126515dffd54d1baf",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.naijaludo.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITYFydgod2rQ6f9uoLR8k_C5o4uv86Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027300737790-eajl27tg1s35aumaataago9eegf95rkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

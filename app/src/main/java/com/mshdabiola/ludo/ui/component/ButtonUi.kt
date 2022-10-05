@@ -1,0 +1,100 @@
+package com.mshdabiola.ludo.ui.component
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameButton(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = CircleShape,
+    colors: Color = MaterialTheme.colorScheme.primary,
+    elevation: Dp = 2.dp,
+    border: BorderStroke? = null,
+    contentPadding: PaddingValues = PaddingValues(8.dp),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable BoxScope.() -> Unit
+) {
+    val contentColor = contentColorFor(backgroundColor = colors)
+
+    Surface(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        shape = shape,
+        color = Color.Transparent,
+        contentColor = contentColor,
+        tonalElevation = elevation,
+        shadowElevation = elevation,
+        border = border,
+        interactionSource = interactionSource
+    ) {
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
+
+            Box(
+                Modifier
+                    .defaultMinSize(
+                        minWidth = ButtonDefaults.MinHeight,
+                        minHeight = ButtonDefaults.MinHeight
+                    )
+                    .drawBehind {
+                        drawRect(Color.White)
+                        drawRect(
+                            Brush.radialGradient(
+                                0.0f to colors.copy(alpha = 0.7f),
+                                0.6f to colors,
+                                center = Offset(size.width * 0.5f, size.height * 0.3f),
+                                radius = size.width * 0.8f
+                            )
+                        )
+                    }
+                    .padding(contentPadding),
+                contentAlignment = Alignment.Center,
+                content = content
+            )
+
+        }
+    }
+
+
+}
+
+@Preview
+@Composable
+fun GameButtonPreview() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        GameButton(
+            shape = RoundedCornerShape(8.dp),
+            onClick = {}
+
+        ) {
+            Icon(
+                imageVector = Icons.Default.Place,
+                contentDescription = "Place"
+            )
+        }
+    }
+
+}
+
