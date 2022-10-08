@@ -6,6 +6,7 @@ import com.mshdabiola.naijaludo.state.Counter
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.LudoGameState
 import com.mshdabiola.naijaludo.state.Pawn
+import kotlin.math.abs
 import kotlin.math.pow
 
 data class RandomComputerPlayer(
@@ -38,7 +39,9 @@ data class RandomComputerPlayer(
             .toIntArray()
 
         val playerPawn = ludoGameState.listOfPawn
-            .filter { it.color in colors }
+
+            .filter { it.color in colors && !it.isOut()}
+
 
 
         //kill
@@ -79,14 +82,22 @@ data class RandomComputerPlayer(
     private fun pawnLogic(ludoGameState: LudoGameState): Pawn {
 
         val enablePawn = ludoGameState.listOfPawn.filter { it.isEnable && it.color in colors }
-        val oppPawn = getOpponentPawns(ludoGameState)
+       val allOppPawns=getOpponentPawns(ludoGameState)
+
+        val oppPawn = allOppPawns
             .filter { it.isOnPath() }
             .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
         val number = ludoGameState.currentDice
 
-        val oppPawn2 = getOpponentPawns(ludoGameState)
+
+        val oppPawn2 = allOppPawns
             .filter { it.isOnPath() }
+
+        val oppColorAtHome= allOppPawns
+            .filter { it.isHome() }
+            .map { it.color }
+            .distinctBy {it }
 
         //kill
 
@@ -95,7 +106,7 @@ data class RandomComputerPlayer(
             val pos = if (it.isHome() && number == 6) ludoGameState.board.specificToGeneral(
                 0,
                 it.color
-            ) else ludoGameState.board.specificToGeneral(it.currentPos, it.color) + number
+            ) else ludoGameState.board.specificToGeneral(it.currentPos+number, it.color)
 
             if (pos in oppPawn) {
                 return it
@@ -104,39 +115,29 @@ data class RandomComputerPlayer(
 
         //come out
         if (number == 6 && enablePawn.any { it.isHome() }) {
-           val sortedHomePawn = enablePawn
+            val sortedHomePawn = enablePawn
                 .filter { it.isHome() }
                 .shuffled()
                 .associateBy {
-                    getPawnPoint(
-                        ludoGameState.board.specificToGeneral(
-                            0,
-                            it.color
-                        ), oppPawn
-                    )
+                    getPawnPoint(it, oppPawn2, oppColorAtHome,ludoGameState.board, 0)
                 }.toSortedMap()
 
-            return sortedHomePawn[sortedHomePawn.firstKey()]!!
+            return sortedHomePawn[sortedHomePawn.lastKey()]!!
         }
-        //test
 
-//        enablePawn.forEach {
-//            log("Point is ${getPointNew(it,oppPawn2,ludoGameState.board,ludoGameState.currentDice)}")
-//        }
 
         //test point
-       val sortedMap= enablePawn
-           .shuffled()
+        val sortedMap = enablePawn
+            .shuffled()
             .associateBy {
-                getPointNew(it,oppPawn2,ludoGameState.board,ludoGameState.currentDice)
+                getPawnPoint(it, oppPawn2, oppColorAtHome,ludoGameState.board, number+it.currentPos)
             }.toSortedMap(compareBy { -it })
-           log("sorted by risk $sortedMap")
+        log("sorted by risk $sortedMap")
 
-        //val mean = sortedMap.keys.toFloatArray().average().toFloat()
-        //log("Mean is $mean and smallest is $ ${1/36f}")
+
         //move
         return sortedMap[sortedMap.firstKey()]!!
-        //return if(mean<(1/36f)) sortedMap[sortedMap.lastKey()]!!else sortedMap[sortedMap.firstKey()]!!
+
     }
 
     private fun getOpponentPawns(ludoGameState: LudoGameState): List<Pawn> {
@@ -144,22 +145,15 @@ data class RandomComputerPlayer(
         return ludoGameState.listOfPawn.filter { it.color !in colors }
     }
 
-    private fun getPawnPoint(pawnPos: Int, oppPawns: IntArray): Float {
 
-        return oppPawns.map {
-            val dis = if (pawnPos > it) pawnPos - it else 52 - (it - pawnPos)
-            getPoint(dis)
-        }.sum()
-
-    }
 
     private fun getPoint(distance: Int): Float {
         log("get point on distance $distance")
         return when (distance) {
             in 1..12 -> getProbability(distance)
-            in 13..24 -> getProbability(12) * getProbability(distance-12)
-            in 25..36 -> getProbability(12,2) * getProbability(distance-24)
-            else -> getProbability(12,3) * getProbability(distance-36)
+            in 13..24 -> getProbability(12) * getProbability(distance - 12)
+            in 25..36 -> getProbability(12, 2) * getProbability(distance - 24)
+            else -> getProbability(12, 3) * getProbability(distance - 36)
         }
 
     }
@@ -171,34 +165,53 @@ data class RandomComputerPlayer(
         return result.toDouble().pow(pow.toDouble()).toFloat()
     }
 
-    private fun getPointNew(pawn : Pawn, oppPawn:List<Pawn>, board: Board, num : Int):Float{
-        var point =0f
+    private fun getPawnPoint(pawn: Pawn, oppPawnOnPath: List<Pawn>, oppColorPawnAtHome:List<GameColor>,board: Board, newPos: Int): Float {
 
-        val gpp = board.specificToGeneral(pawn.currentPos+num,pawn.color)
 
-        oppPawn.forEach {
-            val gop = board.specificToGeneral(it.currentPos,it.color)
+       return when {
+            newPos > 51 -> getPoint(6)
+            else -> {
+                var point = 0f
+                val generalNewPos = board.specificToGeneral(newPos, pawn.color)
 
-            val projectDistance = if(gpp>gop) gpp-gop else 52-(gop-gpp)
+                oppPawnOnPath.forEach {
+                    val generalOppoPawnPos = board.specificToGeneral(it.currentPos, it.color)
+                    log("pos of pawn is $generalNewPos opp pos $generalOppoPawnPos")
+                    var distanceBtwPawnAndOpp = generalOppoPawnPos-generalNewPos
 
-            val oppToPawn =52-projectDistance
+                    if (distanceBtwPawnAndOpp<0){
+                        distanceBtwPawnAndOpp += 52
+                    }
 
-//            log("btw ${pawn.id}-${pawn.color} and ${it.id}-${it.color} from Pawn $projectDistance to Pawn $oppToPawn")
+                    val distanceBtwOppAndPawn = 52-distanceBtwPawnAndOpp
 
-            if ((pawn.getDistanceRemain()-6)>projectDistance) {
-                log("subtract point")
-                point -= getPoint(projectDistance)
-            }
+                    log("distance from ${pawn.color} ${pawn.id} and ${it.color} ${it.id} $distanceBtwPawnAndOpp ")
 
-            if ((it.getDistanceRemain()-6)>oppToPawn) {
-                log("add point")
-                point += getPoint(oppToPawn)
+                    point+=getPoint(distanceBtwPawnAndOpp)
+
+                    if ((it.getDistanceRemain()-6)>distanceBtwOppAndPawn){
+                        log("distance from ${it.color} ${it.id} and ${pawn.color} ${pawn.id} $distanceBtwOppAndPawn ")
+                        point-=getPoint(distanceBtwOppAndPawn)
+                    }
+
+
+
+                }
+                oppColorPawnAtHome.forEach {
+                    val homePos=board.specificToGeneral(0,it)
+                    if(generalNewPos in homePos..(homePos+4)){
+                        point-=2
+                    }
+                }
+
+
+                point
+
             }
         }
 
-        return point
-    }
 
+    }
 
 
 }
