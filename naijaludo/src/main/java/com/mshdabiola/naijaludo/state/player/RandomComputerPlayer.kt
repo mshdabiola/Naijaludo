@@ -6,7 +6,6 @@ import com.mshdabiola.naijaludo.state.Counter
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.LudoGameState
 import com.mshdabiola.naijaludo.state.Pawn
-import kotlin.math.abs
 import kotlin.math.pow
 
 data class RandomComputerPlayer(
@@ -75,7 +74,7 @@ data class RandomComputerPlayer(
 
         //random
 
-        return enableCounter.random()
+        return enableCounter.first()
 
     }
 
@@ -169,7 +168,8 @@ data class RandomComputerPlayer(
 
 
        return when {
-            newPos > 51 -> getPoint(6)
+           pawn.currentPos >51-> -9f
+            newPos > 51 -> 9f
             else -> {
                 var point = 0f
                 val generalNewPos = board.specificToGeneral(newPos, pawn.color)
@@ -200,7 +200,7 @@ data class RandomComputerPlayer(
                 oppColorPawnAtHome.forEach {
                     val homePos=board.specificToGeneral(0,it)
                     if(generalNewPos in homePos..(homePos+4)){
-                        point-=2
+                        point-=9
                     }
                 }
 
