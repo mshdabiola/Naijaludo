@@ -9,11 +9,13 @@ buildscript {
         activity_compose_version = '1.6.0'
         espresso_version = '3.4.0'
         lifecycle_version = '2.5.1'
+        kotlin_corountine = '1.6.4'
+        compose_runtime = '2.6.0-alpha02'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '8.0.0-alpha02' apply false
-    id 'com.android.library' version '8.0.0-alpha02' apply false
+    id 'com.android.application' version '8.0.0-alpha03' apply false
+    id 'com.android.library' version '8.0.0-alpha03' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.0' apply false
     id 'org.jetbrains.kotlin.jvm' version '1.7.10' apply false
 }
