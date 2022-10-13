@@ -5,15 +5,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ludo.R
 import com.mshdabiola.naijaludo.state.Board
+import com.mshdabiola.naijaludo.state.GameColor
+import java.lang.ProcessBuilder.Redirect
 
 @Composable
 fun BoardUi(
@@ -34,7 +47,36 @@ fun BoardUi(
 
         CompositionLocalProvider(LocalUnitDP provides oneUnit) {
             BoardBoxUi(board = board)
-            //   Icon(modifier=Modifier.offset((oneUnit/2f),oneUnit*7), imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow), contentDescription = "")
+            for(r in 0..270 step 90) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .rotate(r.toFloat())) {
+                    ArrowBox(
+                        modifier = Modifier
+
+                            .size(oneUnit.times(2), oneUnit)
+                            .padding(oneUnit.div(4))
+                            .offset(0.dp, oneUnit.times(7))
+                    )
+                    ArrowBox(
+                        modifier = Modifier
+
+                            .size(oneUnit.times(2), oneUnit)
+                            .padding(oneUnit.div(4))
+                            .offset(oneUnit.times(3), oneUnit.times(6))
+                    )
+                    ArrowBox(
+                        modifier = Modifier
+
+                            .size(oneUnit.times(2), oneUnit)
+                            .padding(oneUnit.div(4))
+
+                            .offset(oneUnit.times(5), oneUnit.times(5.5f))
+                            .rotate(-45f)
+                    )
+
+                }
+            }
             content()
         }
 
@@ -45,11 +87,25 @@ fun BoardUi(
 
 @Composable
 fun BoardBoxUi(board: Board) {
+    val ress= intArrayOf(
+        R.drawable.red,
+        R.drawable.green,
+        R.drawable.yellow,
+        R.drawable.blue)
+    val redIndex = remember (board.colors){
+            board.colors.indexOf(GameColor.RED)*90f
+    }
 
     Box(modifier = Modifier) {
         board.bigHomeBoxes.forEach {
             HomeBoxUi(box = it)
         }
+        Box(modifier = Modifier.fillMaxSize().rotate(redIndex)){
+            board.bigHomeBoxes.forEachIndexed { index, box ->
+                ImageBoxUi(box = box,ress[index])
+            }
+        }
+
         board.paths.forEach {
             BoxUi(box = it)
         }
@@ -63,7 +119,7 @@ fun BoardBoxUi(board: Board) {
 @Preview
 @Composable
 fun BoardPreview() {
-    val board = Board()
+    val board = Board(listOf(GameColor.GREEN,GameColor.YELLOW,GameColor.BLUE,GameColor.RED))
     BoardUi(board = board) {
 
 

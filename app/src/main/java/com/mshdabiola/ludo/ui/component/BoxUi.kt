@@ -1,10 +1,19 @@
 package com.mshdabiola.ludo.ui.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -13,14 +22,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ludo.R
 import com.mshdabiola.naijaludo.state.Box
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.Point
@@ -34,7 +46,7 @@ fun BoxUi(box: Box, sizeScale: Int = 1) {
             .size(oneUnit * sizeScale)
             .offset(oneUnit * box.point.x, oneUnit * box.point.y),
         color = if (box.showColor) box.color.toColor() else Color.Transparent,
-        border = BorderStroke((0.3f).dp, Color.Black)
+        border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
     ) {}
 
 }
@@ -47,7 +59,7 @@ fun SafeBoxUi(box: Box) {
             .size(oneUnit)
             .offset(oneUnit * box.point.x, oneUnit * box.point.y),
         color = if (box.showColor) box.color.toColor() else Color.Transparent,
-        border = BorderStroke((0.3f).dp, Color.Black)
+        border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
     ) {
         Box(
             modifier = Modifier
@@ -76,28 +88,57 @@ fun HomeBoxUi(box: Box) {
 
 }
 
+@Composable
+fun ImageBoxUi(box: Box, @DrawableRes drawableRes: Int = R.drawable.red) {
+    val oneUnit = LocalUnitDP.current
+    Box(
+        modifier = Modifier
+            .size(oneUnit * 6)
+            .offset(oneUnit * box.point.x, oneUnit * box.point.y)
+
+
+    ) {
+        Image(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+            painter = painterResource(id = drawableRes),
+            contentDescription = ""
+        )
+    }
+
+}
+
 @Preview
 @Composable
 fun HomeBoxUiPreview() {
 
     CompositionLocalProvider(LocalUnitDP provides 100.dp) {
 
-        SafeBoxUi(box = Box(point = Point.zero, showColor = true))
+        ImageBoxUi(box = Box(point = Point.zero, showColor = true))
     }
 
 }
 
 
-@Preview
 @Composable
-fun xMpe() {
-    Box(modifier = Modifier.size(100.dp).innerShadow(foreGroundColor = Color.Green))
+fun ArrowBox(modifier: Modifier) {
 
+    Box(modifier = modifier) {
+        Icon(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.arrow),
+            contentDescription = "",
+            tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f)
+        )
+    }
 }
 
+
+
 fun Modifier.innerShadow(
-    foreGroundColor: Color= Color.Red,
-    shadowColor: Color= Color.Black
+    foreGroundColor: Color = Color.Red,
+    shadowColor: Color = Color.Black
 ) = composed(
     inspectorInfo = {
 
@@ -163,15 +204,15 @@ fun Modifier.innerShadow(
         }
     }
 )
-
-fun Point.toOffset()=Offset(x,y)
-fun Point.toIntOffset()=IntOffset(x.toInt(),y.toInt())
-fun GameColor.toColor():Color{
-    return  when(this){
-        GameColor.RED-> Color.Red
-        GameColor.YELLOW-> Color.Yellow
-        GameColor.BLUE-> Color.Blue
-        GameColor.GREEN-> Color.Green
+//
+//fun Point.toOffset() = Offset(x, y)
+fun Point.toIntOffset() = IntOffset(x.toInt(), y.toInt())
+fun GameColor.toColor(): Color {
+    return when (this) {
+        GameColor.RED -> Color.Red
+        GameColor.YELLOW -> Color.Yellow
+        GameColor.BLUE -> Color.Blue
+        GameColor.GREEN -> Color.Green
     }
 }
 

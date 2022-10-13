@@ -7,8 +7,8 @@ import androidx.compose.ui.geometry.Offset
 fun getInitOfDice(diceId: Int, numberOfDice: Int): Offset {
     val index = if (diceId > (numberOfDice / 2)) diceId - 1 else diceId
     return when (index) {
-        0 -> Offset(6f, 7f)
-        1 -> Offset(8f, 7f)
+        0 -> Offset(6f, 6.75f)
+        1 -> Offset(7.5f, 6.75f)
         2 -> Offset(7f, 6f)
         3 -> Offset(7f, 8f)
         else -> Offset(6f, 6f)

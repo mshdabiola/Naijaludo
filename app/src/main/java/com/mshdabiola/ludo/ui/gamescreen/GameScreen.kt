@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.mshdabiola.ludo.ui.component.BoardUi
 import com.mshdabiola.ludo.ui.component.CounterGroupUi
@@ -31,10 +33,11 @@ import com.mshdabiola.naijaludo.state.Counter
 
 
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun GameScreen(navController: NavController, gameScreenViewModel: GameViewModel) {
 
-    val gameUiState by gameScreenViewModel.gameUiState.collectAsState()
+    val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
 
     val observer = object : DefaultLifecycleObserver {
         override fun onResume(owner: LifecycleOwner) {

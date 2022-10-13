@@ -7,8 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -19,9 +21,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.getInitOfDice
 import com.mshdabiola.ludo.randDiceOffSet
 import com.mshdabiola.naijaludo.LudoGame
@@ -41,29 +45,40 @@ fun DiceUi(
 ) {
 
     val unitDp = LocalUnitDP.current
+    val diceRes = intArrayOf(
+        R.drawable.dice,
+        R.drawable.dice_1,
+        R.drawable.dice_2,
+        R.drawable.dice_3,
+        R.drawable.dice_4,
+        R.drawable.dice_5,
+        R.drawable.dice_6
+        )
     Box(
         modifier = modifier
-            .size(unitDp)
+
+            .size(unitDp.times(1.5f))
 
             .offset(unitDp * offset.x, unitDp * offset.y)
             .rotate(rotate)
             .clip(RoundedCornerShape(6.dp))
-            .background(Brush.horizontalGradient(listOf(Color.Blue, Color.Red)))
+            .background(Color.Red)
 
             .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
             .clickable(enabled = dice.isEnable && isEnableForPlayer) {
                 onDiceClick()
             }
+            .padding(unitDp.times(0.25f))
 
 
     ) {
         if (!dice.animate) {
-            Text(
-                text = "${dice.number}",
-                color = Color.White,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.align(Alignment.Center)
+            Icon(
+                painter = painterResource(id = diceRes[dice.number]),
+                modifier = Modifier.align(Alignment.Center),
+                contentDescription = ""
             )
+
         }
 
     }
