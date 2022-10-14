@@ -103,18 +103,25 @@ fun MovablePawnUi(
     val scale = remember {
         Animatable(1f)
     }
-    LaunchedEffect(key1 = pawn.isEnable, block = {
+    LaunchedEffect(key1 = pawn.isEnable, key2 = isHuman, block = {
 
-        if(pawn.isEnable){
-            scale.animateTo(1.3f, animationSpec = infiniteRepeatable(repeatMode = RepeatMode.Reverse, animation = keyframes {
-                durationMillis=500
+    //    if(isHuman){
+            if (pawn.isEnable&&isHuman) {
+                scale.animateTo(
+                    1.2f,
+                    animationSpec = infiniteRepeatable(
+                        repeatMode = RepeatMode.Reverse,
+                        animation = keyframes {
+                            durationMillis = 500
 
-                1.3f atFraction 0.5f
-                1f atFraction 1f
-            }) )
-        }else{
-            scale.snapTo(1f)
-        }
+                            1.2f atFraction 0.5f
+                            1f atFraction 1f
+                        })
+                )
+            } else {
+                scale.snapTo(1f)
+            }
+       // }
     })
 
 
