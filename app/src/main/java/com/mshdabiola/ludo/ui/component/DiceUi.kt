@@ -1,6 +1,7 @@
 package com.mshdabiola.ludo.ui.component
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -52,36 +53,26 @@ fun DiceUi(
         R.drawable.dice_3,
         R.drawable.dice_4,
         R.drawable.dice_5,
-        R.drawable.dice_6
+        R.drawable.dice_6,
         )
-    Box(
+    val res=if(dice.animate)R.drawable.dice_roll else diceRes[dice.number]
+    Image(
         modifier = modifier
 
             .size(unitDp.times(1.5f))
 
             .offset(unitDp * offset.x, unitDp * offset.y)
             .rotate(rotate)
-            .clip(RoundedCornerShape(6.dp))
-            .background(Color.Red)
 
-            .border(1.dp, Color.Black, RoundedCornerShape(6.dp))
             .clickable(enabled = dice.isEnable && isEnableForPlayer) {
                 onDiceClick()
-            }
-            .padding(unitDp.times(0.25f))
+            },
+        painter = painterResource(id =res ),
+        contentDescription = ""
 
 
-    ) {
-        if (!dice.animate) {
-            Icon(
-                painter = painterResource(id = diceRes[dice.number]),
-                modifier = Modifier.align(Alignment.Center),
-                contentDescription = ""
-            )
 
-        }
-
-    }
+    )
 }
 
 @Preview
