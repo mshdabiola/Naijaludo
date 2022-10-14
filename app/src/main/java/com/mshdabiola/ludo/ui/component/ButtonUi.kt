@@ -36,7 +36,15 @@ fun GameButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable BoxScope.() -> Unit
 ) {
-    val contentColor = contentColorFor(backgroundColor = colors)
+    var contentColor = contentColorFor(backgroundColor = colors)
+    var startColor = colors.copy(alpha = 0.7f)
+    var endColor = colors
+    if(!enabled){
+        endColor= startColor
+        startColor=colors.copy(alpha = 0.4f)
+        contentColor = contentColor.copy(alpha = 0.8f)
+    }
+
 
     Surface(
         onClick = onClick,
@@ -62,8 +70,8 @@ fun GameButton(
                         drawRect(Color.White)
                         drawRect(
                             Brush.radialGradient(
-                                0.0f to colors.copy(alpha = 0.7f),
-                                0.6f to colors,
+                                0.0f to startColor,
+                                0.6f to endColor,
                                 center = Offset(size.width * 0.5f, size.height * 0.3f),
                                 radius = size.width * 0.8f
                             )
@@ -83,10 +91,11 @@ fun GameButton(
 @Preview
 @Composable
 fun GameButtonPreview() {
-    Box(modifier = Modifier.fillMaxSize()) {
+
         GameButton(
             shape = RoundedCornerShape(8.dp),
-            onClick = {}
+            onClick = {},
+            enabled = false
 
         ) {
             Icon(
@@ -94,7 +103,7 @@ fun GameButtonPreview() {
                 contentDescription = "Place"
             )
         }
-    }
+
 
 }
 
