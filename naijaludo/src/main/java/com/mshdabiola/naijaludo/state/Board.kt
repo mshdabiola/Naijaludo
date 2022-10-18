@@ -10,7 +10,7 @@ class Board(var colors :List<GameColor> = GameColor.values().toList()) {
     val homeStartPoint = listOf(Point(0f, 0f), Point(9f, 0f), Point(9f, 9f), Point(0f, 9f))
     val paths = initPathBox()
     val safePath = initSafePath()
-    val smallHomeBoxes = initSmallBoxes()
+    private val smallHomeBoxes = initSmallBoxes()
 
     val bigHomeBoxes = homeStartPoint.mapIndexed { index, Point ->
         Box(

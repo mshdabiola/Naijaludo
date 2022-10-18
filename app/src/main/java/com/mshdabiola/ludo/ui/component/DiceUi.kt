@@ -2,43 +2,32 @@ package com.mshdabiola.ludo.ui.component
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.getInitOfDice
 import com.mshdabiola.ludo.randDiceOffSet
+import com.mshdabiola.ludo.ui.gamescreen.state.DiceUiState
+import com.mshdabiola.ludo.ui.gamescreen.state.toBoardUiState
+import com.mshdabiola.ludo.ui.gamescreen.state.toDiceUiState
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.state.Dice
-import com.mshdabiola.naijaludo.state.LudoGameState
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun DiceUi(
     modifier: Modifier = Modifier,
-    dice: Dice,
+    diceUiState: DiceUiState,
     isEnableForPlayer: Boolean = true,
     rotate: Float = 0f,
     offset: Offset = Offset.Zero,
@@ -55,7 +44,7 @@ fun DiceUi(
         R.drawable.dice_5,
         R.drawable.dice_6,
         )
-    val res=if(dice.animate)R.drawable.dice_roll else diceRes[dice.number]
+    val res=if(diceUiState.animate)R.drawable.dice_roll else diceRes[diceUiState.number]
     Image(
         modifier = modifier
 
@@ -64,7 +53,7 @@ fun DiceUi(
             .offset(unitDp * offset.x, unitDp * offset.y)
             .rotate(rotate)
 
-            .clickable(enabled = dice.isEnable && isEnableForPlayer) {
+            .clickable(enabled = diceUiState.isEnable && isEnableForPlayer) {
                 onDiceClick()
             },
         painter = painterResource(id =res ),
@@ -82,31 +71,31 @@ fun DiceUiPreview() {
 
 
     val ludoGameState=LudoGame.getDefaultGameState()
-    val board =ludoGameState.board
+    val board =ludoGameState.board.toBoardUiState()
 
 
-    BoardUi(board=board) {
-        DicesUi(dices = ludoGameState.listOfDice)
+    BoardUi(boardUiState=board) {
+        DicesUi(diceUiStateList = ludoGameState.listOfDice.map { it.toDiceUiState() })
     }
 }
 
 @Composable
-fun DicesUi(dices: List<Dice>,
+fun DicesUi(diceUiStateList: List<DiceUiState>,
             isHuman: Boolean = true,
             onClick: () -> Unit = {}) {
     //val oneDp = LocalUnitDP.current
     Box(modifier = Modifier.fillMaxSize()){
-        dices.forEach {
-            if (!it.isTotal) {
+        diceUiStateList.forEach {
+           // if (!it.isTotal) {
 
                 AnimateDiceUi(
-                    dice = it,
+                    diceUiState = it,
                     isHuman = isHuman,
                     onClick = onClick,
-                    numberOfDice = dices.size
+                    numberOfDice = diceUiStateList.size
 
                 )
-            }
+          //  }
 
         }
     }
@@ -116,7 +105,7 @@ fun DicesUi(dices: List<Dice>,
 @Composable
 fun AnimateDiceUi(
     modifier: Modifier = Modifier,
-    dice: Dice,
+    diceUiState: DiceUiState,
     isHuman: Boolean = true,
     numberOfDice: Int,
     onClick: () -> Unit = {}
@@ -124,7 +113,7 @@ fun AnimateDiceUi(
 
 
     val iniOff = remember {
-        getInitOfDice(dice.id, numberOfDice)
+        getInitOfDice(diceUiState.id, numberOfDice)
     }
 
     val off = remember {
@@ -135,10 +124,10 @@ fun AnimateDiceUi(
     }
 
 
-    LaunchedEffect(key1 = dice.animate) {
+    LaunchedEffect(key1 = diceUiState.animate) {
 
 
-        if (dice.animate) {
+        if (diceUiState.animate) {
             launch {
                 off.animateTo(randDiceOffSet(), animationSpec = tween(600, easing = LinearEasing))
             }
@@ -170,8 +159,8 @@ fun AnimateDiceUi(
 
     }
 
-    LaunchedEffect(key1 = dice.isEnable, key2 = isHuman, block = {
-        if(dice.isEnable&&isHuman){
+    LaunchedEffect(key1 = diceUiState.isEnable, key2 = isHuman, block = {
+        if(diceUiState.isEnable&&isHuman){
             launch {
                 rot.animateTo(360f,
                     animationSpec = infiniteRepeatable(repeatMode = RepeatMode.Reverse, animation =  keyframes {
@@ -193,7 +182,7 @@ fun AnimateDiceUi(
 
     DiceUi(
         modifier = modifier.zIndex(40f),
-        dice = dice,
+        diceUiState = diceUiState,
         isEnableForPlayer = isHuman,
         rotate = rot.value,
         offset = off.value,

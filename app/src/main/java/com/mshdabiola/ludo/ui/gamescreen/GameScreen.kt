@@ -28,9 +28,10 @@ import com.mshdabiola.ludo.ui.component.DrawerUi
 import com.mshdabiola.ludo.ui.component.PawnsUi
 import com.mshdabiola.ludo.ui.component.PlayersUi
 import com.mshdabiola.ludo.ui.component.UnCancelableDialog
+import com.mshdabiola.ludo.ui.gamescreen.state.toLudoUiState
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.state.Counter
-
+import com.mshdabiola.naijaludo.state.GameColor
+import com.mshdabiola.naijaludo.state.Point
 
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -86,6 +87,7 @@ fun GameScreen(navController: NavController, gameScreenViewModel: GameViewModel)
         onCounter = gameScreenViewModel::onCounter,
         onDice = gameScreenViewModel::onDice,
         onPawn = gameScreenViewModel::onPawn,
+        getPositionIntOffset=gameScreenViewModel::getPositionIntOffset
     )
 }
 
@@ -100,7 +102,8 @@ fun GameScreen(
     onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
-    onPawn: (Int, Boolean) -> Unit = { _, _ -> }
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset : (Int,gameColor: GameColor)->Point={_,_-> Point(0f,0f)}
 ) {
 
 
@@ -129,9 +132,9 @@ fun GameScreen(
 
                 if (ludoGameState.listOfPawn.isNotEmpty()) {
                     PawnsUi(
-                        pawns = ludoGameState.listOfPawn,
+                        pawnUiStateList = ludoGameState.listOfPawn,
                         isHuman = isHuman,
-                        getPositionIntOffset = board::getPositionIntPoint,
+                        getPositionIntOffset = getPositionIntOffset,
                         onClick = onPawn
                     )
                 }
@@ -141,7 +144,7 @@ fun GameScreen(
 
                 if (ludoGameState.listOfDice.isNotEmpty())   {
                     DicesUi(
-                        dices = ludoGameState.listOfDice,
+                        diceUiStateList = ludoGameState.listOfDice,
                         isHuman = isHuman,
                         onClick = onDice
                     )
@@ -152,8 +155,8 @@ fun GameScreen(
                 val drawer = ludoGameState.drawer
                 if (drawer != null) {
                     DrawerUi(
-                        drawer = drawer,
-                        getPositionIntOffset = board::getPositionIntPoint,
+                        drawerUiState = drawer,
+                        getPositionIntOffset = getPositionIntOffset,
                         onPawnDrawer = onPawn
                     )
 
@@ -167,7 +170,7 @@ fun GameScreen(
             if (ludoGameState.listOfCounter.isNotEmpty())   {
                 CounterGroupUi(
                     modifier = Modifier,
-                    counters = ludoGameState.listOfCounter,
+                    counterUiStateList = ludoGameState.listOfCounter,
                     isHuman = isHuman,
                     onCounterClick = onCounter
                 )
@@ -190,7 +193,7 @@ fun GameScreen(
 fun GameScreenPreview() {
 
 
-    val game = LudoGame.getDefaultGameState()
+    val game = LudoGame.getDefaultGameState().toLudoUiState()
     val state = GameUiState(ludoGameState = game,isStartDialogOpen = false)
     GameScreen(
         gameUiState = state

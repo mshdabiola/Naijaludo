@@ -7,6 +7,7 @@ import com.mshdabiola.naijaludo.state.Drawer
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.LudoGameState
 import com.mshdabiola.naijaludo.state.Pawn
+import com.mshdabiola.naijaludo.state.Point
 import com.mshdabiola.naijaludo.state.player.ComputerPlayer
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
@@ -763,6 +764,10 @@ class LudoGame {
 
     private fun getPawnBox(pawn: Pawn) =
         getGameState().board.getBoxByIndex(pawn.currentPos, pawn.color)
+
+    fun getPositionIntOffset(id: Int, gameColor: GameColor) : Point{
+       return getGameState().board.getPositionIntPoint(id,gameColor)
+    }
 
     companion object {
         private const val numberOfDice = 3

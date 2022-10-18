@@ -2,9 +2,11 @@ package com.mshdabiola.ludo.ui.gamescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.ludo.ui.gamescreen.state.toLudoUiState
 import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.state.Counter
 import com.mshdabiola.naijaludo.state.GameColor
+import com.mshdabiola.naijaludo.state.Point
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +31,7 @@ class GameViewModel : ViewModel() {
                 .distinctUntilChanged { old, new -> old == new }
                 .collect { ludoGameState ->
                     _gameUiState.value =
-                        gameUiState.value.copy(ludoGameState = ludoGameState)
+                        gameUiState.value.copy(ludoGameState = ludoGameState.toLudoUiState())
                 }
         }
 
@@ -111,6 +113,10 @@ class GameViewModel : ViewModel() {
 
     fun onPawn(index: Int,isDrawer: Boolean=false) {
         game.onPawn(index, isDrawer)
+    }
+
+    fun getPositionIntOffset(id: Int, gameColor: GameColor): Point {
+      return  game.getPositionIntOffset(id,gameColor)
     }
 
 
