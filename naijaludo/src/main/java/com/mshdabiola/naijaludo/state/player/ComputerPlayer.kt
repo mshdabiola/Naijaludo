@@ -26,6 +26,6 @@ sealed class ComputerPlayer(
     sort by distance remain
      */
 
-    abstract fun choosePawn(gameState: LudoGameState): Pawn
+    abstract fun choosePawn(gameState: LudoGameState): Int
 
 }

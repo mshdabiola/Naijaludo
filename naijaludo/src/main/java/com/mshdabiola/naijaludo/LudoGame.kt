@@ -231,10 +231,10 @@ class LudoGame {
         if (currentPlayer is ComputerPlayer) {
 
 
-            val pawn = currentPlayer.choosePawn(ludoGameState)
+            val pawnId = currentPlayer.choosePawn(ludoGameState)
 
-            log("onComputerPawn $currentPlayer $pawn")
-            onPawn(pawn.index, false)
+            log("onComputerPawn $currentPlayer $pawnId")
+            onPawn(pawnId, false)
         }
 
     }
