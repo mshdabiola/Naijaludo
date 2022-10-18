@@ -5,5 +5,5 @@ data class Dice(
     val isEnable: Boolean = false,
     val animate: Boolean = false,
     val isTotal: Boolean = false,
-    val number: Int = 0
+    val number: Int = 1
 )

@@ -28,13 +28,13 @@ fun CounterUi(
         modifier = modifier
             .size(64.dp),
         onClick = {
-            if (counter.isEnable && isHuman) {
+
                 onCounterClick(counter)
-            }
+
         },
         shape = CircleShape,
         border = BorderStroke(2.dp, Color.White.copy(alpha = 0.6f)),
-
+        enabled = counter.isEnable && isHuman
 
         ) {
         Text(
@@ -98,6 +98,6 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counters = (0..2).map { Counter() })
+        counters = (0..2).map {if(it==1) Counter(isEnable = true) else Counter() })
 
 }
