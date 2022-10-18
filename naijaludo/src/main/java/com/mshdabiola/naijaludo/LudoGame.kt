@@ -142,7 +142,7 @@ class LudoGame {
         )
 
         val listOfCounter =
-            (0 until numberOfDice).map { if (it == totalIndex) Counter(isTotal = true) else Counter() }
+            (0 until numberOfDice).map { if (it == totalIndex) Counter(isTotal = true, id = it) else Counter(id = it) }
         val listOfDices =
             (0 until numberOfDice).map {
                 if (it == totalIndex) Dice(isTotal = true, id = it) else Dice(
@@ -333,12 +333,13 @@ class LudoGame {
     }
 
 
-    fun onCounter(counter: Counter) {
+    fun onCounter(counterId: Int) {
         if (getGameState().isOnResume && getGameState().start) {
-            log("Counter $counter")
+
             //disable all counter
             val listOfCounterMutable = getGameState().listOfCounter.toMutableList()
-
+            val counter = listOfCounterMutable[counterId]
+            log("Counter $counter")
             repeat(listOfCounterMutable.size) {
                 listOfCounterMutable[it] =
                     listOfCounterMutable[it].copy(isEnable = false)
@@ -390,11 +391,11 @@ class LudoGame {
                 getGameState().copy(
                     listOfCounter = listOfCounterMutable,
                     listOfPawn = allPawnsMutableList,
-                    currentDice = counter.number
+                    pressedCounterId = counterId
                 )
             )
         } else {
-            log("Counter $counter pause")
+            log("Counter $counterId pause")
         }
     }
 
@@ -493,7 +494,7 @@ class LudoGame {
 
             //move pawn
             pawn = getGameState().listOfPawn[pawnIndex]
-            val numberOnDice = getGameState().currentDice
+            val numberOnDice = getGameState().currentDiceNumber
 
             if (pawn.isHome()) {
                 pawn = pawn.copy(currentPos = 0, zIndex = 9f)
@@ -786,7 +787,7 @@ class LudoGame {
             )
 
             val listOfCounter =
-                (0 until numberOfDice).map { if (it == totalIndex) Counter(isTotal = true) else Counter() }
+                (0 until numberOfDice).map { if (it == totalIndex) Counter(isTotal = true, id = it) else Counter(id=it) }
             val listOfDices =
                 (0 until numberOfDice).map {
                     if (it == totalIndex) Dice(isTotal = true, id = it) else Dice(

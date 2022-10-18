@@ -15,7 +15,7 @@ sealed class ComputerPlayer(
 
     abstract fun chooseCounter(
         gameState: LudoGameState,
-    ): Counter
+    ): Int
 
     //check kill
     //check if any can move out

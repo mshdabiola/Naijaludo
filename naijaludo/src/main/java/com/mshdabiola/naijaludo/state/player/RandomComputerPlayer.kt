@@ -16,7 +16,7 @@ data class RandomComputerPlayer(
 ) : ComputerPlayer(name, win, isCurrent, colors) {
     override fun chooseCounter(
         gameState: LudoGameState,
-    ): Counter {
+    ): Int {
 //        val clickableCounter = gameState.listOfCounter.filter { it.isEnable }
 //        //Todo(bug is here)
 //        return clickableCounter.random()
@@ -29,7 +29,7 @@ data class RandomComputerPlayer(
         return pawnLogic(gameState)
     }
 
-    private fun counterLogic(ludoGameState: LudoGameState): Counter {
+    private fun counterLogic(ludoGameState: LudoGameState): Int {
         val enableCounter =
             ludoGameState.listOfCounter.filter { it.isEnable }.sortedBy { it.number }
         val oppPawn = getOpponentPawns(ludoGameState)
@@ -59,7 +59,7 @@ data class RandomComputerPlayer(
                 }
                 .forEach {
                     if (it in oppPawn) {
-                        return counter
+                        return counter.id
                     }
                 }
         }
@@ -68,13 +68,13 @@ data class RandomComputerPlayer(
 
         enableCounter.forEach {
             if (it.number == 6) {
-                return it
+                return it.id
             }
         }
 
         //random
 
-        return enableCounter.first()
+        return enableCounter.first().id
 
     }
 
@@ -87,7 +87,7 @@ data class RandomComputerPlayer(
             .filter { it.isOnPath() }
             .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
-        val number = ludoGameState.currentDice
+        val number = ludoGameState.currentDiceNumber
 
 
         val oppPawn2 = allOppPawns

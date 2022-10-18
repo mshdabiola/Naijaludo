@@ -99,7 +99,7 @@ fun GameScreen(
     onTournament: () -> Unit = {},
     onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
-    onCounter: (Counter) -> Unit = {},
+    onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> }
 ) {
 

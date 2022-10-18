@@ -105,8 +105,8 @@ class GameViewModel : ViewModel() {
 
     }
 
-    fun onCounter(counter: Counter) {
-        game.onCounter(counter)
+    fun onCounter(counterId: Int) {
+        game.onCounter(counterId)
     }
 
     fun onPawn(index: Int,isDrawer: Boolean=false) {

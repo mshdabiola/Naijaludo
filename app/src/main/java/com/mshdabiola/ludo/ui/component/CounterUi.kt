@@ -21,7 +21,7 @@ fun CounterUi(
     modifier: Modifier = Modifier,
     counter: Counter,
     isHuman: Boolean = true,
-    onCounterClick: (Counter) -> Unit = {}
+    onCounterClick: (Int) -> Unit = {}
 ) {
 
     GameButton(
@@ -29,7 +29,7 @@ fun CounterUi(
             .size(64.dp),
         onClick = {
 
-                onCounterClick(counter)
+                onCounterClick(counter.id)
 
         },
         shape = CircleShape,
@@ -54,7 +54,7 @@ fun CounterGroupUi(
     modifier: Modifier = Modifier,
     counters: List<Counter>,
     isHuman: Boolean = true,
-    onCounterClick: (Counter) -> Unit = {}
+    onCounterClick: (Int) -> Unit = {}
 
 ) {
     Surface(
