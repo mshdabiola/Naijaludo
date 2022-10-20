@@ -17,11 +17,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.ui.component.BoardUi
@@ -37,7 +37,7 @@ import com.mshdabiola.naijaludo.LudoGame
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun GameScreen(navController: NavController, gameScreenViewModel: GameViewModel) {
+fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
 

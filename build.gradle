@@ -14,6 +14,10 @@ buildscript {
         gradle_version = '8.0.0-alpha03'
         kotlin_version = '1.7.20'
         agp_version = gradle_version
+        hilt_version = "2.44"
+    }
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

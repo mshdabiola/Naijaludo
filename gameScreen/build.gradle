@@ -1,25 +1,18 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    namespace 'com.mshdabiola.ludo'
+    namespace 'com.mshdabiola.gamescreen'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.mshdabiola.ludo"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -27,22 +20,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            applicationIdSuffix '.debug'
-            versionNameSuffix '-debug'
-        }
-        benchmark {
-            signingConfig signingConfigs.debug
-            matchingFallbacks = ['release']
-            debuggable false
-        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
     buildFeatures {
         compose true
@@ -50,10 +31,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
@@ -65,20 +44,11 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.material3:material3:$material_version"
 
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation('androidx.hilt:hilt-navigation-compose:1.0.0')
-
-//    kapt "androidx.room:room-compiler:2.4.3"
-//    implementation "androidx.room:room-runtime:2.4.3"
-//    implementation "androidx.room:room-ktx:2.4.3"
-
     implementation('org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5')
     implementation project(path: ':naijaludo')
     implementation('androidx.navigation:navigation-compose:2.5.2')
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$compose_runtime"
     implementation project(path: ':model')
-    implementation "androidx.compose.material3:material3-window-size-class:$material_version"
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

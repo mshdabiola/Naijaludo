@@ -25,16 +25,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.ui.component.GameButton
+import com.mshdabiola.ludo.ui.gamescreen.GameDestination
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(navigateTo : (String)->Unit) {
     val activity = LocalContext.current as Activity
 
     MainScreen(onPlay = {
-        navController.popBackStack()
-        navController.navigate("game"){
-
-        }
+       // navController.popBackStack()
+      //  navController.navigate("game")
+                        navigateTo(GameDestination.route)
     },
         onCloseApp = {
             activity.finish()
