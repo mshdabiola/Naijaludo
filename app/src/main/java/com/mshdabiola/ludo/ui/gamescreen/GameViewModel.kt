@@ -9,6 +9,7 @@ import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.Point
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -44,9 +45,11 @@ class GameViewModel : ViewModel() {
     }
 
     fun onYouAndComputer() {
-        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+
 
         viewModelScope.launch {
+            _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+            delay(300)
             game.start(onGameFinish = this@GameViewModel::onGameFinish)
         }
     }

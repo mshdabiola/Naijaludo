@@ -3,22 +3,23 @@ package com.mshdabiola.naijaludo.state
 
 import kotlin.math.abs
 
-class Board(var colors :List<GameColor> = GameColor.values().toList()) {
+class Board(var colors: List<GameColor> = GameColor.values().toList()) {
 
     private
     //Starting point <col,row>, and number of box
     val homeStartPoint = listOf(Point(0f, 0f), Point(9f, 0f), Point(9f, 9f), Point(0f, 9f))
-    val paths = initPathBox()
-    val safePath = initSafePath()
-    private val smallHomeBoxes = initSmallBoxes()
+    val paths = if (colors.isNotEmpty()) initPathBox() else emptyList()
+    val safePath = if (colors.isNotEmpty()) initSafePath() else emptyList()
+    private val smallHomeBoxes = if (colors.isNotEmpty()) initSmallBoxes() else emptyList()
 
-    val bigHomeBoxes = homeStartPoint.mapIndexed { index, Point ->
+    val bigHomeBoxes = if (colors.isNotEmpty()) homeStartPoint.mapIndexed { index, Point ->
         Box(
             Point,
             color = colors[index],
             showColor = true
         )
     }
+    else emptyList()
 
 
     private fun initPathBox(): List<Box> {
@@ -154,10 +155,12 @@ class Board(var colors :List<GameColor> = GameColor.values().toList()) {
 
                 getBoxByIndex(generalIndex)
             }
+
             in 51..55 -> {
                 val safeIndex = index - 51
                 getSafeBox(safeIndex, color)
             }
+
             56 -> getLastBox()
             else -> getHomeBox(abs(index + 1), color) //because home is -1 to -4
         }
@@ -184,7 +187,8 @@ class Board(var colors :List<GameColor> = GameColor.values().toList()) {
     private fun getHomeBox(index: Int, color: GameColor): Box {
         return smallHomeBoxes.filter { color == it.color }[abs(index)]
     }
-     fun specificToGeneral(index: Int, color: GameColor): Int {
+
+    fun specificToGeneral(index: Int, color: GameColor): Int {
         val homeOfColor = getCurrentIndex(getStartBox(color))
 
 

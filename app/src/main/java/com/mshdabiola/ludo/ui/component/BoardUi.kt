@@ -44,36 +44,6 @@ fun BoardUi(
 
         CompositionLocalProvider(LocalUnitDP provides oneUnit) {
             BoardBoxUi(boardUiState = boardUiState)
-            for(r in 0..270 step 90) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .rotate(r.toFloat())) {
-                    ArrowBox(
-                        modifier = Modifier
-
-                            .size(oneUnit.times(2), oneUnit)
-                            .padding(oneUnit.div(4))
-                            .offset(0.dp, oneUnit.times(7))
-                    )
-                    ArrowBox(
-                        modifier = Modifier
-
-                            .size(oneUnit.times(2), oneUnit)
-                            .padding(oneUnit.div(4))
-                            .offset(oneUnit.times(3), oneUnit.times(6))
-                    )
-                    ArrowBox(
-                        modifier = Modifier
-
-                            .size(oneUnit.times(2), oneUnit)
-                            .padding(oneUnit.div(4))
-
-                            .offset(oneUnit.times(5), oneUnit.times(5.5f))
-                            .rotate(-45f)
-                    )
-
-                }
-            }
             content()
         }
 
@@ -97,7 +67,9 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
         boardUiState.homeBoxes.forEach {
             HomeBoxUi(box = it)
         }
-        Box(modifier = Modifier.fillMaxSize().rotate(redIndex)){
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .rotate(redIndex)){
             boardUiState.homeBoxes.forEachIndexed { index, box ->
                 ImageBoxUi(box = box,ress[index])
             }
@@ -109,8 +81,48 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
         boardUiState.heavenBoxes.forEach {
             SafeBoxUi(box = it)
         }
+        if(boardUiState.pathBoxes.isNotEmpty()){
+            ArrowImage()
+        }
     }
 
+}
+
+@Composable
+fun ArrowImage() {
+    val oneUnit = LocalUnitDP.current
+    Box(Modifier.fillMaxSize()) {
+        for(r in 0..270 step 90) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .rotate(r.toFloat())) {
+                ArrowBox(
+                    modifier = Modifier
+
+                        .size(oneUnit.times(2), oneUnit)
+                        .padding(oneUnit.div(4))
+                        .offset(0.dp, oneUnit.times(7))
+                )
+                ArrowBox(
+                    modifier = Modifier
+
+                        .size(oneUnit.times(2), oneUnit)
+                        .padding(oneUnit.div(4))
+                        .offset(oneUnit.times(3), oneUnit.times(6))
+                )
+                ArrowBox(
+                    modifier = Modifier
+
+                        .size(oneUnit.times(2), oneUnit)
+                        .padding(oneUnit.div(4))
+
+                        .offset(oneUnit.times(5), oneUnit.times(5.5f))
+                        .rotate(-45f)
+                )
+
+            }
+        }
+    }
 }
 
 @Preview

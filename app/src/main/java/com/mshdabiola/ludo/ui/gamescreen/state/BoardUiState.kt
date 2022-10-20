@@ -6,10 +6,10 @@ import com.mshdabiola.naijaludo.state.GameColor
 
 @Immutable
 data class BoardUiState(
-    val colors : List<GameColor>,
-    val homeBoxes : List<BoxUiState>,
-    val pathBoxes : List<BoxUiState>,
-    val heavenBoxes : List<BoxUiState>
+    val colors : List<GameColor> = emptyList(),
+    val homeBoxes : List<BoxUiState> = emptyList(),
+    val pathBoxes : List<BoxUiState> = emptyList(),
+    val heavenBoxes : List<BoxUiState> = emptyList()
 )
 
 fun Board.toBoardUiState()=BoardUiState(

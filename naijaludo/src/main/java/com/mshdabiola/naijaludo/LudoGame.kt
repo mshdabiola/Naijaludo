@@ -1,6 +1,7 @@
 package com.mshdabiola.naijaludo
 
 import com.mshdabiola.naijaludo.state.Board
+import com.mshdabiola.naijaludo.state.Box
 import com.mshdabiola.naijaludo.state.Counter
 import com.mshdabiola.naijaludo.state.Dice
 import com.mshdabiola.naijaludo.state.Drawer
@@ -26,7 +27,7 @@ class LudoGame {
 
     private lateinit var onGameFinish: () -> Unit
 
-    private val _gameState = MutableStateFlow(LudoGameState())
+    private val _gameState = MutableStateFlow(LudoGameState(board = Board(colors = emptyList())))
 
     val gameState = _gameState.asStateFlow()
 
