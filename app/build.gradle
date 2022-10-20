@@ -48,19 +48,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    flavorDimensions 'advert'
-    productFlavors {
-        have {
-            dimension 'advert'
-            versionNameSuffix '-have'
-            applicationIdSuffix '.have'
-        }
-        not_having {
-            dimension 'advert'
-            applicationIdSuffix '.nothaving'
-            versionNameSuffix '-nothaving'
-        }
-    }
 }
 
 dependencies {
