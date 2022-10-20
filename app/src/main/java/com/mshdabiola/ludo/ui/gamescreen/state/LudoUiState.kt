@@ -2,13 +2,15 @@ package com.mshdabiola.ludo.ui.gamescreen.state
 
 import androidx.compose.runtime.Immutable
 import com.mshdabiola.naijaludo.state.LudoGameState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Immutable
 data class LudoUiState(
-    val listOfPlayer: List<PlayerUiState> = emptyList(),
-    val listOfDice: List<DiceUiState> = emptyList(),
-    val listOfPawn: List<PawnUiState> = emptyList(),
-    val listOfCounter: List<CounterUiState> = emptyList(),
+    val listOfPlayer: ImmutableList<PlayerUiState> = emptyList<PlayerUiState>().toImmutableList(),
+    val listOfDice: ImmutableList<DiceUiState> = emptyList<DiceUiState>().toImmutableList(),
+    val listOfPawn: ImmutableList<PawnUiState> = emptyList<PawnUiState>().toImmutableList(),
+    val listOfCounter: ImmutableList<CounterUiState> = emptyList<CounterUiState>().toImmutableList(),
     val drawer: DrawerUiState? = null,
     val board: BoardUiState,
     val isHumanPlayer: Boolean = false,
@@ -18,10 +20,10 @@ data class LudoUiState(
 
 fun LudoGameState.toLudoUiState() =
     LudoUiState(
-        listOfPlayer = listOfPlayer.map { it.toPlayerUiState() },
-        listOfDice = listOfDice.filter { !it.isTotal }.map { it.toDiceUiState() },
-        listOfPawn = listOfPawn.map { it.toPawnUiState() },
-        listOfCounter = listOfCounter.map { it.toCounterUiState() },
+        listOfPlayer = listOfPlayer.map { it.toPlayerUiState() }.toImmutableList(),
+        listOfDice = listOfDice.filter { !it.isTotal }.map { it.toDiceUiState() }.toImmutableList(),
+        listOfPawn = listOfPawn.map { it.toPawnUiState() }.toImmutableList(),
+        listOfCounter = listOfCounter.map { it.toCounterUiState() }.toImmutableList(),
         drawer = drawer?.toDrawerUiState(),
         board = board.toBoardUiState(),
         isHumanPlayer, rotate, numGamePlay

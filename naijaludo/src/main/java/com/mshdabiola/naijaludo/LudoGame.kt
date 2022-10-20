@@ -504,14 +504,14 @@ class LudoGame {
                 listPawn[pawnIndex] = pawn
                 setGameState(getGameState().copy(listOfPawn = listPawn))
             } else {
-                repeat(numberOnDice) {
+               // repeat(numberOnDice) {
 
-                    pawn = pawn.copy(currentPos = pawn.currentPos + 1, zIndex = 9f)
+                    pawn = pawn.copy(currentPos = pawn.currentPos + numberOnDice, zIndex = 9f)
 
                     listPawn[pawnIndex] = pawn
 
                     setGameState(getGameState().copy(listOfPawn = listPawn))
-                }
+                //}
             }
 
 

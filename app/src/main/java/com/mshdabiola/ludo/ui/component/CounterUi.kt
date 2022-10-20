@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.ui.gamescreen.state.CounterUiState
 import com.mshdabiola.naijaludo.state.Counter
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 
 @Composable
@@ -53,7 +55,7 @@ fun CounterUi(
 @Composable
 fun CounterGroupUi(
     modifier: Modifier = Modifier,
-    counterUiStateList: List<CounterUiState>,
+    counterUiStateList: ImmutableList<CounterUiState>,
     isHuman: Boolean = true,
     onCounterClick: (Int) -> Unit = {}
 
@@ -99,6 +101,6 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() })
+        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
 
 }

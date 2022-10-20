@@ -250,5 +250,6 @@ fun RestartDialog(
 @Preview
 @Composable
 fun RestartDialogPreview() {
+
     RestartDialog(show = true)
 }

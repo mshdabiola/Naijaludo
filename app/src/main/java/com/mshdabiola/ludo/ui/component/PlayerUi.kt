@@ -1,5 +1,6 @@
 package com.mshdabiola.ludo.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -22,6 +23,8 @@ import com.mshdabiola.ludo.ui.gamescreen.state.PlayerUiState
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.Player
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 
 @Composable
@@ -39,7 +42,11 @@ fun PlayerUi(
     }
     val image = @Composable {
        Box(modifier = Modifier
-           .border(1.dp, Brush.verticalGradient(0f to colorBrush[0],1f to colorBrush[1]), CircleShape)
+           .border(
+               1.dp,
+               Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
+               CircleShape
+           )
            .padding(2.dp)
        ) {
             Icon(
@@ -113,7 +120,7 @@ fun PlayerUiPreview() {
 }
 
 @Composable
-fun PlayersUi(player: List<PlayerUiState>) {
+fun PlayersUi(player: ImmutableList<PlayerUiState>) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         when (player.size) {
             2 -> {
@@ -161,6 +168,6 @@ fun PlayersPreview() {
             PlayerUiState(isCurrent = true, name = "abiolalawal moshood",colors = listOf(GameColor.GREEN,GameColor.RED)),
             PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
             PlayerUiState(colors = listOf(GameColor.BLUE,GameColor.YELLOW), name = "abiola Moshood")
-        )
+        ).toImmutableList()
     )
 }
