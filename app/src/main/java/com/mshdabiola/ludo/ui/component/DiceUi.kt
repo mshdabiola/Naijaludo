@@ -175,9 +175,9 @@ fun AnimateDiceUi(
                     animationSpec = infiniteRepeatable(repeatMode = RepeatMode.Reverse, animation =  keyframes {
                         durationMillis=2000
 
-                        180f atFraction 0.5f
-                        359f atFraction 0.999f
-                        0f atFraction 1f
+//                        180f atFraction 0.5f
+//                        359f atFraction 0.999f
+//                        0f atFraction 1f
 
                     })
                 )

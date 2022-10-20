@@ -123,8 +123,8 @@ fun MovablePawnUi(
                     animation = keyframes {
                         durationMillis = 500
 
-                        1.2f atFraction 0.5f
-                        1f atFraction 1f
+//                        1.2f atFraction 0.5f
+//                        1f atFraction 1f
                     })
             )
         } else {

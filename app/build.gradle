@@ -29,6 +29,11 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable false
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
