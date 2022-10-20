@@ -33,13 +33,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.R
+import com.mshdabiola.ludo.ui.gamescreen.state.BoxUiState
 import com.mshdabiola.naijaludo.state.Box
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.Point
 
 
 @Composable
-fun BoxUi(box: Box, sizeScale: Int = 1) {
+fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {
     val oneUnit = LocalUnitDP.current
     Surface(
         modifier = Modifier
@@ -52,7 +53,7 @@ fun BoxUi(box: Box, sizeScale: Int = 1) {
 }
 
 @Composable
-fun SafeBoxUi(box: Box) {
+fun SafeBoxUi(box: BoxUiState) {
     val oneUnit = LocalUnitDP.current
     Surface(
         modifier = Modifier
@@ -76,7 +77,7 @@ fun SafeBoxUi(box: Box) {
 }
 
 @Composable
-fun HomeBoxUi(box: Box) {
+fun HomeBoxUi(box: BoxUiState) {
     val oneUnit = LocalUnitDP.current
     Box(
         modifier = Modifier
@@ -89,7 +90,7 @@ fun HomeBoxUi(box: Box) {
 }
 
 @Composable
-fun ImageBoxUi(box: Box, @DrawableRes drawableRes: Int = R.drawable.red) {
+fun ImageBoxUi(box: BoxUiState, @DrawableRes drawableRes: Int = R.drawable.red) {
     val oneUnit = LocalUnitDP.current
     Box(
         modifier = Modifier
@@ -115,7 +116,7 @@ fun HomeBoxUiPreview() {
 
     CompositionLocalProvider(LocalUnitDP provides 100.dp) {
 
-        ImageBoxUi(box = Box(point = Point.zero, showColor = true))
+        ImageBoxUi(box = BoxUiState(point = Point.zero, showColor = true))
     }
 
 }

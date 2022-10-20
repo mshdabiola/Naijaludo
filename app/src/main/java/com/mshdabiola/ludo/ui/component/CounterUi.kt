@@ -13,13 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ludo.ui.gamescreen.state.CounterUiState
 import com.mshdabiola.naijaludo.state.Counter
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 
 @Composable
 fun CounterUi(
     modifier: Modifier = Modifier,
-    counter: Counter,
+    counterUiState: CounterUiState,
     isHuman: Boolean = true,
     onCounterClick: (Int) -> Unit = {}
 ) {
@@ -29,16 +32,16 @@ fun CounterUi(
             .size(64.dp),
         onClick = {
 
-                onCounterClick(counter.id)
+                onCounterClick(counterUiState.id)
 
         },
         shape = CircleShape,
         border = BorderStroke(2.dp, Color.White.copy(alpha = 0.6f)),
-        enabled = counter.isEnable && isHuman
+        enabled = counterUiState.isEnable && isHuman
 
         ) {
         Text(
-            text = "${counter.number}",
+            text = "${counterUiState.number}",
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.align(
                 Alignment.Center
@@ -52,7 +55,7 @@ fun CounterUi(
 @Composable
 fun CounterGroupUi(
     modifier: Modifier = Modifier,
-    counters: List<Counter>,
+    counterUiStateList: ImmutableList<CounterUiState>,
     isHuman: Boolean = true,
     onCounterClick: (Int) -> Unit = {}
 
@@ -70,13 +73,13 @@ fun CounterGroupUi(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            counters.forEachIndexed { index, counter ->
+            counterUiStateList.forEachIndexed { index, counter ->
                 CounterUi(
-                    counter = counter,
+                    counterUiState = counter,
                     isHuman = isHuman,
                     onCounterClick = onCounterClick
                 )
-                if (index != counters.lastIndex) {
+                if (index != counterUiStateList.lastIndex) {
                     Spacer(modifier = Modifier.width(8.dp))
                 }
             }
@@ -88,9 +91,9 @@ fun CounterGroupUi(
 @Preview
 @Composable
 fun CounterUiPreview() {
-    val counter = Counter(number = 9)
+    val counter = CounterUiState(number = 9)
 
-    CounterUi(counter = counter, modifier = Modifier.size(50.dp))
+    CounterUi(counterUiState = counter, modifier = Modifier.size(50.dp))
 }
 
 @Preview
@@ -98,6 +101,6 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counters = (0..2).map {if(it==1) Counter(isEnable = true) else Counter() })
+        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
 
 }

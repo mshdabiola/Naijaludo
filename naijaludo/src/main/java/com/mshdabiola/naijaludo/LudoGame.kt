@@ -1,12 +1,14 @@
 package com.mshdabiola.naijaludo
 
 import com.mshdabiola.naijaludo.state.Board
+import com.mshdabiola.naijaludo.state.Box
 import com.mshdabiola.naijaludo.state.Counter
 import com.mshdabiola.naijaludo.state.Dice
 import com.mshdabiola.naijaludo.state.Drawer
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.LudoGameState
 import com.mshdabiola.naijaludo.state.Pawn
+import com.mshdabiola.naijaludo.state.Point
 import com.mshdabiola.naijaludo.state.player.ComputerPlayer
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
@@ -25,7 +27,7 @@ class LudoGame {
 
     private lateinit var onGameFinish: () -> Unit
 
-    private val _gameState = MutableStateFlow(LudoGameState())
+    private val _gameState = MutableStateFlow(LudoGameState(board = Board(colors = emptyList())))
 
     val gameState = _gameState.asStateFlow()
 
@@ -502,14 +504,14 @@ class LudoGame {
                 listPawn[pawnIndex] = pawn
                 setGameState(getGameState().copy(listOfPawn = listPawn))
             } else {
-                repeat(numberOnDice) {
+               // repeat(numberOnDice) {
 
-                    pawn = pawn.copy(currentPos = pawn.currentPos + 1, zIndex = 9f)
+                    pawn = pawn.copy(currentPos = pawn.currentPos + numberOnDice, zIndex = 9f)
 
                     listPawn[pawnIndex] = pawn
 
                     setGameState(getGameState().copy(listOfPawn = listPawn))
-                }
+                //}
             }
 
 
@@ -763,6 +765,10 @@ class LudoGame {
 
     private fun getPawnBox(pawn: Pawn) =
         getGameState().board.getBoxByIndex(pawn.currentPos, pawn.color)
+
+    fun getPositionIntOffset(id: Int, gameColor: GameColor) : Point{
+       return getGameState().board.getPositionIntPoint(id,gameColor)
+    }
 
     companion object {
         private const val numberOfDice = 3

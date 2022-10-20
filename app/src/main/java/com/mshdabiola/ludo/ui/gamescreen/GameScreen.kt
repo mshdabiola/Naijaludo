@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -28,9 +29,11 @@ import com.mshdabiola.ludo.ui.component.DrawerUi
 import com.mshdabiola.ludo.ui.component.PawnsUi
 import com.mshdabiola.ludo.ui.component.PlayersUi
 import com.mshdabiola.ludo.ui.component.UnCancelableDialog
+import com.mshdabiola.ludo.ui.gamescreen.state.toLudoUiState
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.state.Counter
-
+import com.mshdabiola.naijaludo.state.Board
+import com.mshdabiola.naijaludo.state.GameColor
+import com.mshdabiola.naijaludo.state.Point
 
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -86,6 +89,7 @@ fun GameScreen(navController: NavController, gameScreenViewModel: GameViewModel)
         onCounter = gameScreenViewModel::onCounter,
         onDice = gameScreenViewModel::onDice,
         onPawn = gameScreenViewModel::onPawn,
+        getPositionIntOffset=gameScreenViewModel::getPositionIntOffset
     )
 }
 
@@ -100,7 +104,8 @@ fun GameScreen(
     onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
-    onPawn: (Int, Boolean) -> Unit = { _, _ -> }
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset : (Int,gameColor: GameColor)->Point={_,_-> Point(0f,0f)}
 ) {
 
 
@@ -118,56 +123,61 @@ fun GameScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            if (ludoGameState.listOfPlayer.isNotEmpty()) {
+            AnimatedVisibility (ludoGameState.listOfPlayer.isNotEmpty()) {
                 PlayersUi(player = ludoGameState.listOfPlayer)
             }
             Spacer(modifier = Modifier.height(16.dp))
-            
-            BoardUi(modifier = Modifier.rotate(rotateF),board) {
 
-                //pawn
+            AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+                BoardUi(modifier = Modifier.rotate(rotateF),board) {
 
-                if (ludoGameState.listOfPawn.isNotEmpty()) {
-                    PawnsUi(
-                        pawns = ludoGameState.listOfPawn,
-                        isHuman = isHuman,
-                        getPositionIntOffset = board::getPositionIntPoint,
-                        onClick = onPawn
-                    )
+                    //pawn
+
+                    if (ludoGameState.listOfPawn.isNotEmpty()) {
+                        PawnsUi(
+                            pawnUiStateList = ludoGameState.listOfPawn,
+                            isHuman = isHuman,
+                            getPositionIntOffset = getPositionIntOffset,
+                            onClick = onPawn
+                        )
+                    }
+
+
+                    //dice
+
+                    if (ludoGameState.listOfDice.isNotEmpty())   {
+                        DicesUi(
+                            diceUiStateList = ludoGameState.listOfDice,
+                            isHuman = isHuman,
+                            onClick = onDice
+                        )
+                    }
+
+
+                    //drawer
+                    val drawer = ludoGameState.drawer
+                    if (drawer != null) {
+                        DrawerUi(
+                            drawerUiState = drawer,
+                            getPositionIntOffset = getPositionIntOffset,
+                            onPawnDrawer = onPawn
+                        )
+
+                    }
+
+
                 }
-
-
-                //dice
-
-                if (ludoGameState.listOfDice.isNotEmpty())   {
-                    DicesUi(
-                        dices = ludoGameState.listOfDice,
-                        isHuman = isHuman,
-                        onClick = onDice
-                    )
-                }
-
-
-                //drawer
-                val drawer = ludoGameState.drawer
-                if (drawer != null) {
-                    DrawerUi(
-                        drawer = drawer,
-                        getPositionIntOffset = board::getPositionIntPoint,
-                        onPawnDrawer = onPawn
-                    )
-
-                }
-
-
+            }
+            AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
+                Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (ludoGameState.listOfCounter.isNotEmpty())   {
+            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
                 CounterGroupUi(
                     modifier = Modifier,
-                    counters = ludoGameState.listOfCounter,
+                    counterUiStateList = ludoGameState.listOfCounter,
                     isHuman = isHuman,
                     onCounterClick = onCounter
                 )
@@ -191,9 +201,10 @@ fun GameScreenPreview() {
 
 
     val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game,isStartDialogOpen = false)
+    val state = GameUiState(ludoGameState = game.toLudoUiState(),isStartDialogOpen = false)
     GameScreen(
-        gameUiState = state
+        gameUiState = state,
+        getPositionIntOffset = game.board::getPositionIntPoint
     )
 }
 
@@ -239,5 +250,6 @@ fun RestartDialog(
 @Preview
 @Composable
 fun RestartDialogPreview() {
+
     RestartDialog(show = true)
 }

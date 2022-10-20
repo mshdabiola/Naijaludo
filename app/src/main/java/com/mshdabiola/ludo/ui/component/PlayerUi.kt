@@ -1,5 +1,6 @@
 package com.mshdabiola.ludo.ui.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -18,14 +19,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ludo.ui.gamescreen.state.PlayerUiState
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.player.HumanPlayer
 import com.mshdabiola.naijaludo.state.player.Player
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 
 @Composable
 fun PlayerUi(
-    player: Player,
+    player: PlayerUiState,
     isEven: Boolean = true,
     topStart: Int = 0,
     topEnd: Int = 0,
@@ -38,7 +42,11 @@ fun PlayerUi(
     }
     val image = @Composable {
        Box(modifier = Modifier
-           .border(1.dp, Brush.verticalGradient(0f to colorBrush[0],1f to colorBrush[1]), CircleShape)
+           .border(
+               1.dp,
+               Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
+               CircleShape
+           )
            .padding(2.dp)
        ) {
             Icon(
@@ -108,11 +116,11 @@ fun PlayerUi(
 @Preview
 @Composable
 fun PlayerUiPreview() {
-    PlayerUi(player = HumanPlayer())
+    PlayerUi(player = PlayerUiState())
 }
 
 @Composable
-fun PlayersUi(player: List<Player>) {
+fun PlayersUi(player: ImmutableList<PlayerUiState>) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         when (player.size) {
             2 -> {
@@ -157,9 +165,9 @@ fun PlayersUi(player: List<Player>) {
 fun PlayersPreview() {
     PlayersUi(
         player = listOf(
-            HumanPlayer(isCurrent = true, name = "abiolalawal moshood",colors = listOf(GameColor.GREEN,GameColor.RED)),
-            HumanPlayer(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            HumanPlayer(colors = listOf(GameColor.BLUE,GameColor.YELLOW), name = "abiola Moshood")
-        )
+            PlayerUiState(isCurrent = true, name = "abiolalawal moshood",colors = listOf(GameColor.GREEN,GameColor.RED)),
+            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+            PlayerUiState(colors = listOf(GameColor.BLUE,GameColor.YELLOW), name = "abiola Moshood")
+        ).toImmutableList()
     )
 }

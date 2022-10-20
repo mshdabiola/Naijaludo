@@ -11,20 +11,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import com.mshdabiola.ludo.isHorizontal
+import com.mshdabiola.ludo.ui.gamescreen.state.DrawerUiState
+import com.mshdabiola.ludo.ui.gamescreen.state.PawnUiState
+import com.mshdabiola.ludo.ui.gamescreen.state.toBoardUiState
 import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.Drawer
 import com.mshdabiola.naijaludo.state.GameColor
 import com.mshdabiola.naijaludo.state.Point
 
 @Composable
 fun DrawerUi(
     modifier: Modifier=Modifier.zIndex(60f)
-    , drawer: Drawer = Drawer(),
+    , drawerUiState: DrawerUiState = DrawerUiState(),
     onPawnDrawer: (Int,Boolean)->Unit={_,_->},
     getPositionIntOffset: (Int, GameColor) -> Point = { _, _-> Point.zero}
              ) {
 
-    val pawn = drawer.pawns.first()
+    val pawn = drawerUiState.listOfPawnUiState.first()
     val offset = getPositionIntOffset(pawn.currentPos,pawn.color)
     val oneDp = LocalUnitDP.current
     val padding = oneDp*0.1f
@@ -43,17 +45,17 @@ fun DrawerUi(
 
             ) {
 
-                drawer.pawns.forEachIndexed { index, pawn ->
+                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(
                         modifier = Modifier.size(oneDp),
                         offset = IntOffset.Zero,
-                        newPawn = pawn,
+                        pawnUiState = pawn,
                         isEnableForPlayer = true,
                         onClick = {_,_-> onPawnDrawer(index,true)}
                     )
 
-                    if (index!=drawer.pawns.lastIndex){
+                    if (index!=drawerUiState.listOfPawnUiState.lastIndex){
                         Spacer(modifier = Modifier.height(padding))
                     }
 
@@ -72,17 +74,17 @@ fun DrawerUi(
 
             ) {
 
-                drawer.pawns.forEachIndexed { index, pawn ->
+                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(
                         modifier = Modifier.size(oneDp),
                         offset = IntOffset.Zero,
-                        newPawn = pawn,
+                        pawnUiState = pawn,
                         isEnableForPlayer = true,
                         onClick = {_,_-> onPawnDrawer(index,true)}
                     )
 
-                    if (index!=drawer.pawns.lastIndex){
+                    if (index!=drawerUiState.listOfPawnUiState.lastIndex){
                         Spacer(modifier = Modifier.width(padding))
                     }
 
@@ -101,9 +103,13 @@ fun DrawerUi(
 @Composable
 fun DrawerBoardPreview() {
     val board = Board()
-    BoardUi(board = board) {
+    BoardUi(boardUiState = board.toBoardUiState()) {
 
         DrawerUi(
+            drawerUiState = DrawerUiState(listOf(
+                PawnUiState(),
+                PawnUiState(color = GameColor.BLUE)
+            )),
             getPositionIntOffset = board::getPositionIntPoint
         )
     }
