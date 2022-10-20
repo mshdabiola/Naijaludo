@@ -2,13 +2,12 @@ package com.mshdabiola.ludo.ui.gamescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.ludo.model.player.HumanPlayer
+import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.ludo.ui.gamescreen.state.toLudoUiState
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.state.Counter
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
-import com.mshdabiola.naijaludo.state.player.HumanPlayer
-import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

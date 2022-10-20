@@ -1,6 +1,6 @@
 package com.mshdabiola.ludo.ui.gamescreen.state
 
-import com.mshdabiola.naijaludo.state.Dice
+import com.mshdabiola.ludo.model.Dice
 
 data class DiceUiState(
     val id: Int = 1,

@@ -21,10 +21,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.R
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.ui.gamescreen.state.BoardUiState
 import com.mshdabiola.ludo.ui.gamescreen.state.toBoardUiState
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.GameColor
+
 
 @Composable
 fun BoardUi(

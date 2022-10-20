@@ -1,11 +1,10 @@
-package com.mshdabiola.naijaludo.state.player
+package com.mshdabiola.ludo.model.player
 
-import com.mshdabiola.naijaludo.log
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.Counter
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.LudoGameState
-import com.mshdabiola.naijaludo.state.Pawn
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.LudoGameState
+import com.mshdabiola.ludo.model.Pawn
+import com.mshdabiola.ludo.model.log
 import kotlin.math.pow
 
 data class RandomComputerPlayer(

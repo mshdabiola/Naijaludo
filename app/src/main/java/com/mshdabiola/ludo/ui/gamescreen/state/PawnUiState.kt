@@ -1,8 +1,7 @@
 package com.mshdabiola.ludo.ui.gamescreen.state
 
-import androidx.compose.ui.unit.IntOffset
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Pawn
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Pawn
 
 data class PawnUiState(
     val index: Int = 0,

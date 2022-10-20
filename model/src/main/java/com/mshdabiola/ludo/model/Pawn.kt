@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo.state
+package com.mshdabiola.ludo.model
 
 data class Pawn(
     val id: Int = 0,

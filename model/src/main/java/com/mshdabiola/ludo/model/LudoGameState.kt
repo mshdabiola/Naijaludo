@@ -1,6 +1,6 @@
-package com.mshdabiola.naijaludo.state
+package com.mshdabiola.ludo.model
 
-import com.mshdabiola.naijaludo.state.player.Player
+import com.mshdabiola.ludo.model.player.Player
 
 data class LudoGameState(
     val listOfPlayer: List<Player> = emptyList(),

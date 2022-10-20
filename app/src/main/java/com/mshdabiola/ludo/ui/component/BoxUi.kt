@@ -26,17 +26,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.R
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.ui.gamescreen.state.BoxUiState
-import com.mshdabiola.naijaludo.state.Box
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
 
 
 @Composable

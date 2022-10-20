@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -26,11 +25,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.mshdabiola.ludo.log
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.ui.gamescreen.state.PawnUiState
 import com.mshdabiola.ludo.ui.gamescreen.state.toBoardUiState
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -123,8 +122,8 @@ fun MovablePawnUi(
                     animation = keyframes {
                         durationMillis = 500
 
-//                        1.2f atFraction 0.5f
-//                        1f atFraction 1f
+                        1.2f atFraction 0.5f
+                        1f atFraction 1f
                     })
             )
         } else {

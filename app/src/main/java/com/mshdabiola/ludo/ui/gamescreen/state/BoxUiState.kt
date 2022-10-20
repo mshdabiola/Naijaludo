@@ -1,8 +1,8 @@
 package com.mshdabiola.ludo.ui.gamescreen.state
 
-import com.mshdabiola.naijaludo.state.Box
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
+import com.mshdabiola.ludo.model.Box
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 
 data class BoxUiState(
     val point: Point,

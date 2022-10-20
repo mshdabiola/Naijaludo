@@ -1,7 +1,14 @@
 package com.mshdabiola.ludo.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -11,12 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import com.mshdabiola.ludo.isHorizontal
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.ui.gamescreen.state.DrawerUiState
 import com.mshdabiola.ludo.ui.gamescreen.state.PawnUiState
 import com.mshdabiola.ludo.ui.gamescreen.state.toBoardUiState
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
 
 @Composable
 fun DrawerUi(

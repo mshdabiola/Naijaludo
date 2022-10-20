@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo
+package com.mshdabiola.ludo.model
 
 import java.util.logging.Logger
 

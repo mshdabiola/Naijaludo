@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo.state
+package com.mshdabiola.ludo.model
 data class Box(
     val point: Point,
     val color: GameColor = GameColor.RED,

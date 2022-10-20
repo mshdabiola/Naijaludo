@@ -1,6 +1,5 @@
 package com.mshdabiola.ludo.ui.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,10 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.ui.gamescreen.state.PlayerUiState
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.player.HumanPlayer
-import com.mshdabiola.naijaludo.state.player.Player
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

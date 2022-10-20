@@ -16,3 +16,4 @@ rootProject.name = "Naija Ludo"
 include ':app'
 include ':naijaludo'
 include ':benchmark'
+include ':model'

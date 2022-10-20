@@ -22,6 +22,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.ui.component.BoardUi
 import com.mshdabiola.ludo.ui.component.CounterGroupUi
 import com.mshdabiola.ludo.ui.component.DicesUi
@@ -31,9 +33,6 @@ import com.mshdabiola.ludo.ui.component.PlayersUi
 import com.mshdabiola.ludo.ui.component.UnCancelableDialog
 import com.mshdabiola.ludo.ui.gamescreen.state.toLudoUiState
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.Point
 
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -105,7 +104,7 @@ fun GameScreen(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset : (Int,gameColor: GameColor)->Point={_,_-> Point(0f,0f)}
+    getPositionIntOffset : (Int,gameColor: GameColor)-> Point ={ _, _-> Point.zero}
 ) {
 
 

@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo.state
+package com.mshdabiola.ludo.model
 
 data class Point(val x:Float,val y:Float){
     operator fun plus(point: Point)= Point(x+point.x,y+point.y)

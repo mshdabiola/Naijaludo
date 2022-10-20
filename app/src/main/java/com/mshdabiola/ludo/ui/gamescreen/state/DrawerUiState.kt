@@ -1,7 +1,7 @@
 package com.mshdabiola.ludo.ui.gamescreen.state
 
 import androidx.compose.runtime.Immutable
-import com.mshdabiola.naijaludo.state.Drawer
+import com.mshdabiola.ludo.model.Drawer
 
 @Immutable
 data class DrawerUiState(

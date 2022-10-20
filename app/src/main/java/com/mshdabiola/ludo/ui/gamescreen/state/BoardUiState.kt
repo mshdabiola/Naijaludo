@@ -1,8 +1,8 @@
 package com.mshdabiola.ludo.ui.gamescreen.state
 
 import androidx.compose.runtime.Immutable
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.GameColor
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.GameColor
 
 @Immutable
 data class BoardUiState(

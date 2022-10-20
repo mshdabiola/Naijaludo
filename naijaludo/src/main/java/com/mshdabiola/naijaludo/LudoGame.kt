@@ -1,17 +1,18 @@
 package com.mshdabiola.naijaludo
 
-import com.mshdabiola.naijaludo.state.Board
-import com.mshdabiola.naijaludo.state.Box
-import com.mshdabiola.naijaludo.state.Counter
-import com.mshdabiola.naijaludo.state.Dice
-import com.mshdabiola.naijaludo.state.Drawer
-import com.mshdabiola.naijaludo.state.GameColor
-import com.mshdabiola.naijaludo.state.LudoGameState
-import com.mshdabiola.naijaludo.state.Pawn
-import com.mshdabiola.naijaludo.state.Point
-import com.mshdabiola.naijaludo.state.player.ComputerPlayer
-import com.mshdabiola.naijaludo.state.player.HumanPlayer
-import com.mshdabiola.naijaludo.state.player.RandomComputerPlayer
+
+import com.mshdabiola.ludo.model.Board
+import com.mshdabiola.ludo.model.Counter
+import com.mshdabiola.ludo.model.Dice
+import com.mshdabiola.ludo.model.Drawer
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.LudoGameState
+import com.mshdabiola.ludo.model.Pawn
+import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.ludo.model.log
+import com.mshdabiola.ludo.model.player.ComputerPlayer
+import com.mshdabiola.ludo.model.player.HumanPlayer
+import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -766,7 +767,7 @@ class LudoGame {
     private fun getPawnBox(pawn: Pawn) =
         getGameState().board.getBoxByIndex(pawn.currentPos, pawn.color)
 
-    fun getPositionIntOffset(id: Int, gameColor: GameColor) : Point{
+    fun getPositionIntOffset(id: Int, gameColor: GameColor) : Point {
        return getGameState().board.getPositionIntPoint(id,gameColor)
     }
 

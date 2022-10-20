@@ -1,6 +1,6 @@
-package com.mshdabiola.naijaludo.state.player
+package com.mshdabiola.ludo.model.player
 
-import com.mshdabiola.naijaludo.state.GameColor
+import com.mshdabiola.ludo.model.GameColor
 
 sealed class Player(
     open val name: String,
