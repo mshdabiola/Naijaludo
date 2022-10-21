@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.mshdabiola.designsystem.theme.toPawnColor
+import com.mshdabiola.designsystem.theme.toPawnTextColor
 import com.mshdabiola.gamescreen.state.PawnUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.ludo.model.Board
@@ -60,7 +63,7 @@ fun PawnUi(
 
             },
         shape = CircleShape,
-        color = pawnUiState.color.toColor(),
+        color = pawnUiState.color.toPawnColor(),
         border = BorderStroke(
             2.dp,
             Brush.radialGradient(0.8f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.8f))
@@ -77,7 +80,7 @@ fun PawnUi(
                 Text(
                     text = "${pawnUiState.zIndex.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
+                    color = pawnUiState.color.toPawnTextColor(),
                     modifier = Modifier.align(Alignment.Center)
 
                 )

@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.navigation.LudoNavHost
-import com.mshdabiola.ludo.ui.theme.NaijaLudoTheme
 
 @Composable
 fun LudoApp(

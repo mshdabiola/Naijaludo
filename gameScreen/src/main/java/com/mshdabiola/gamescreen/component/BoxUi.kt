@@ -32,6 +32,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon.ArrowIcon
 import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
+import com.mshdabiola.designsystem.theme.blue
+import com.mshdabiola.designsystem.theme.green
+import com.mshdabiola.designsystem.theme.red
+import com.mshdabiola.designsystem.theme.toHomeColor
+import com.mshdabiola.designsystem.theme.yellow
 import com.mshdabiola.gamescreen.state.BoxUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
@@ -44,7 +49,7 @@ fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {
         modifier = Modifier
             .size(oneUnit * sizeScale)
             .offset(oneUnit * box.point.x, oneUnit * box.point.y),
-        color = if (box.showColor) box.color.toColor() else Color.Transparent,
+        color = if (box.showColor) box.color.toHomeColor() else Color.Transparent,
         border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
     ) {}
 
@@ -57,7 +62,7 @@ fun SafeBoxUi(box: BoxUiState) {
         modifier = Modifier
             .size(oneUnit)
             .offset(oneUnit * box.point.x, oneUnit * box.point.y),
-        color = if (box.showColor) box.color.toColor() else Color.Transparent,
+        color = if (box.showColor) box.color.toHomeColor() else Color.Transparent,
         border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
     ) {
         Box(
@@ -81,7 +86,7 @@ fun HomeBoxUi(box: BoxUiState) {
         modifier = Modifier
             .size(oneUnit * 6)
             .offset(oneUnit * box.point.x, oneUnit * box.point.y)
-            .innerShadow(box.color.toColor())
+            .innerShadow(box.color.toHomeColor())
 
     )
 
@@ -206,14 +211,6 @@ fun Modifier.innerShadow(
 //
 //fun Point.toOffset() = Offset(x, y)
 fun Point.toIntOffset() = IntOffset(x.toInt(), y.toInt())
-fun GameColor.toColor(): Color {
-    return when (this) {
-        GameColor.RED -> Color.Red
-        GameColor.YELLOW -> Color.Yellow
-        GameColor.BLUE -> Color.Blue
-        GameColor.GREEN -> Color.Green
-    }
-}
 
 
 

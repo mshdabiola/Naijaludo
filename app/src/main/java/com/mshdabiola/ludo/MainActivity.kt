@@ -3,14 +3,9 @@ package com.mshdabiola.ludo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.ludo.ui.LudoApp
-import com.mshdabiola.ludo.ui.theme.NaijaLudoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,22 +27,5 @@ class MainActivity : ComponentActivity() {
 //                }
 //            }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-    Button(onClick = { /*TODO*/ }) {
-
-    }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NaijaLudoTheme {
-        Greeting("Android")
     }
 }
