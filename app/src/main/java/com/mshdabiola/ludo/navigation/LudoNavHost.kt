@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.mshdabiola.ludo.ui.gamescreen.gameScreenGraph
-import com.mshdabiola.ludo.ui.mainscreen.MainDestination
-import com.mshdabiola.ludo.ui.mainscreen.mainScreenGraph
+import com.mshdabiola.gamescreen.gameScreenGraph
+import com.mshdabiola.ludo.model.navigation.LudoNavDestination
+import com.mshdabiola.mainscreen.mainScreenGraph
+
 
 @Composable
 fun LudoNavHost(
@@ -14,14 +15,14 @@ fun LudoNavHost(
     navController: NavHostController,
     onNavigate : (String)->Unit,
     onBackClick : ()->Unit,
-    startDestination: String=MainDestination.route
+    startDestination: String=LudoNavDestination.MainNavDestination.route
     ) {
     NavHost(modifier = modifier,
         navController =navController ,
         startDestination =startDestination){
 
         mainScreenGraph(onNavigate)
-        gameScreenGraph()
+       gameScreenGraph()
 
     }
 }
