@@ -12,7 +12,7 @@ data class RandomComputerPlayer(
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor>
-) : ComputerPlayer(name, win, isCurrent, colors) {
+) :PlayerInteface{
 
     override fun chooseCounter(
         gameState: LudoGameState,
@@ -27,6 +27,19 @@ data class RandomComputerPlayer(
         // val listOfPawn = gameState.listOfPawn.filter { it.isEnable && it.color in colors }
         // return listOfPawn.random()
         return pawnLogic(gameState)
+    }
+
+    override fun copyPlayer(
+        name: String,
+        win: Int,
+        isCurrent: Boolean,
+        colors: List<GameColor>
+    ): PlayerInteface {
+        return copy(
+            name=name,
+            win=win,
+            isCurrent=isCurrent,
+            colors = colors)
     }
 
     private fun counterLogic(ludoGameState: LudoGameState): Int {

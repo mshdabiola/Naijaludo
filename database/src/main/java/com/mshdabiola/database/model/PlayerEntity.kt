@@ -1,9 +1,7 @@
 package com.mshdabiola.database.model
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.player.Player
+import com.mshdabiola.ludo.model.player.PlayerInteface
 
 @Entity(tableName = "player_table", primaryKeys = ["id","gameId"])
 data class PlayerEntity(
@@ -16,4 +14,4 @@ data class PlayerEntity(
 
 //fun PlayerEntity.toPlayer(colors : List<GameColor>)=Player(name, win, isCurrent, colors)
 
-fun Player.toPlayerEntity(id:Int,gameId: Long)=PlayerEntity(id,gameId ,name, win, isCurrent)
+fun PlayerInteface.toPlayerEntity(id:Int,gameId: Long)=PlayerEntity(id,gameId ,name, win, isCurrent)

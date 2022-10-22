@@ -3,15 +3,14 @@ package com.mshdabiola.ludo.model.player
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 
+interface PlayerInteface {
+    val name: String
+    val win : Int
+    val isCurrent: Boolean
+    val colors: List<GameColor>
 
-sealed class ComputerPlayer(
-    override val name : String = "Computer",
-    override val win : Int =0,
-    override val isCurrent: Boolean = false,
-    override val colors: List<GameColor>
-) : Player(name, win, isCurrent, colors) {
 
-    abstract fun chooseCounter(
+    fun chooseCounter(
         gameState: LudoGameState,
     ): Int
 
@@ -24,6 +23,7 @@ sealed class ComputerPlayer(
     sort by distance remain
      */
 
-    abstract fun choosePawn(gameState: LudoGameState): Int
+    fun choosePawn(gameState: LudoGameState): Int
 
+    fun copyPlayer(name:String = this.name,win:Int=this.win,isCurrent:Boolean=this.isCurrent,colors:List<GameColor> = this.colors):PlayerInteface
 }

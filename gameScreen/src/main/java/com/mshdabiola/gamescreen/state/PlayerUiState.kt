@@ -2,7 +2,7 @@ package com.mshdabiola.gamescreen.state
 
 import androidx.compose.runtime.Immutable
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.player.Player
+import com.mshdabiola.ludo.model.player.PlayerInteface
 
 @Immutable
 data class PlayerUiState(
@@ -12,7 +12,7 @@ data class PlayerUiState(
     val colors: List<GameColor> = listOf(GameColor.RED,GameColor.BLUE)
 )
 
-fun Player.toPlayerUiState()
+fun PlayerInteface.toPlayerUiState()
 = PlayerUiState(
     name, win, isCurrent, colors
 )
