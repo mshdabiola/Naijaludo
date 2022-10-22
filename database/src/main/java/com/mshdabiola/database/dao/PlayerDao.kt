@@ -14,7 +14,7 @@ interface PlayerDao {
     suspend fun upsert(playerEntity: PlayerEntity)
 
     @Upsert
-    suspend fun upsertMany(vararg playerEntity: PlayerEntity)
+    suspend fun upsertMany(players: List< PlayerEntity>)
 
     @Delete
     suspend fun delete(playerEntity: PlayerEntity)

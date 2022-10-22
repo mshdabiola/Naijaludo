@@ -62,6 +62,7 @@ fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
         lifecycle.addObserver(observer)
 
         onDispose {
+            gameScreenViewModel.onDispose()
             lifecycle.removeObserver(observer)
         }
     }

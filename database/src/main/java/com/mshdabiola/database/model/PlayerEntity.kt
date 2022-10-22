@@ -8,7 +8,7 @@ import com.mshdabiola.ludo.model.player.Player
 @Entity(tableName = "player_table", primaryKeys = ["id","gameId"])
 data class PlayerEntity(
     val id : Int,
-    val gameId : Int,
+    val gameId : Long,
     val name: String,
     val win: Int,
     val isCurrent: Boolean,
@@ -16,4 +16,4 @@ data class PlayerEntity(
 
 //fun PlayerEntity.toPlayer(colors : List<GameColor>)=Player(name, win, isCurrent, colors)
 
-fun Player.toPlayerEntity(id:Int,gameId: Int)=PlayerEntity(id,gameId ,name, win, isCurrent)
+fun Player.toPlayerEntity(id:Int,gameId: Long)=PlayerEntity(id,gameId ,name, win, isCurrent)

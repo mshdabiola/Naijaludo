@@ -14,7 +14,7 @@ interface PawnDao {
     suspend fun upsert(pawnEntity: PawnEntity):Long
 
     @Upsert
-    suspend fun upsertMany(vararg pawnEntity: PawnEntity)
+    suspend fun upsertMany(pawns: List<PawnEntity>)
 
     @Delete
     suspend fun delete(pawnEntity: PawnEntity)

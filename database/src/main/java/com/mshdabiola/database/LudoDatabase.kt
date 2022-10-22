@@ -12,9 +12,7 @@ import com.mshdabiola.database.model.PlayerEntity
 
 @Database(
     entities = [LudoEntity::class,PawnEntity::class,PlayerEntity::class],
-    version = 1,
-    exportSchema = false
-
+    version = 1
 )
 abstract class LudoDatabase : RoomDatabase() {
 

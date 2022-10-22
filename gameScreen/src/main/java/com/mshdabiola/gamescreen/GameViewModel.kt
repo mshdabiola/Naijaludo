@@ -1,7 +1,9 @@
 package com.mshdabiola.gamescreen
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
@@ -9,6 +11,7 @@ import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.naijaludo.LudoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +20,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor() : ViewModel() {
+class GameViewModel @Inject constructor(
+   val savedStateHandle: SavedStateHandle,
+   val ludoStateDomain: LudoStateDomain
+) : ViewModel() {
 
     val game = LudoGame()
     private val _gameUiState = MutableStateFlow(GameUiState())
@@ -47,12 +53,13 @@ class GameViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onYouAndComputer() {
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
 
+        viewModelScope.launch(Dispatchers.Default) {
 
-        viewModelScope.launch {
-            _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
             delay(300)
             game.start(onGameFinish = this@GameViewModel::onGameFinish)
+
         }
     }
 
@@ -88,6 +95,13 @@ class GameViewModel @Inject constructor() : ViewModel() {
 
     fun onPause() {
        game.pause()
+
+    }
+
+    fun onDispose(){
+        viewModelScope.launch (Dispatchers.IO){
+            ludoStateDomain.insertLudo(game.gameState.value)
+        }
     }
 
     private fun onGameFinish() {
