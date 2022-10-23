@@ -25,7 +25,8 @@ class LudoStateDomain @Inject constructor(
         var realId: Long? = id
 
         if (realId == null) {
-            val ludoEntity = LudoEntity()
+            //remove always use 1 as id
+            val ludoEntity = LudoEntity(id = 1)
             ludoDao.upsert(ludoEntity)
             realId = ludoDao.getLatestGameId().first()
         }
