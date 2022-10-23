@@ -108,8 +108,13 @@ class LudoGame {
 
         }
 
-        val pawns = getDefaultGameState().listOfPawn
-
+        val pawns = getGameState().listOfPawn.toMutableList()
+        if(pawns.all { it.isOut() }){
+            (0 until pawns.size).forEach {
+                val pawn= pawns[it]
+                pawns[it]=pawn.copy(currentPos =pawn.id*-1 )
+            }
+        }
 
 
         val state = defaultState.copy(listOfPlayer = mutableList, listOfPawn = pawns)

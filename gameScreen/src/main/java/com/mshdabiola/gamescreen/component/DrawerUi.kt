@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen.component
 
-import android.view.Gravity.isHorizontal
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
+import com.mshdabiola.gamescreen.isHorizontal
 import com.mshdabiola.gamescreen.state.DrawerUiState
 import com.mshdabiola.gamescreen.state.PawnUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
@@ -112,12 +112,32 @@ fun DrawerBoardPreview() {
     val board = Board()
     BoardUi(boardUiState = board.toBoardUiState()) {
 
+        val point = mapOf(
+            1 to intArrayOf(50,50,49),
+            2 to intArrayOf(12,11,10),
+            3 to intArrayOf(23,24,25),
+            4 to intArrayOf(36,37,38)
+        )
+        val i=1
+
         DrawerUi(
             drawerUiState = DrawerUiState(listOf(
-                PawnUiState(),
+                PawnUiState(currentPos = point[i]!![1]),
                 PawnUiState(color = GameColor.BLUE)
             )),
+
             getPositionIntOffset = board::getPositionIntPoint
         )
+
+        DrawerUi(
+            drawerUiState = DrawerUiState(listOf(
+                PawnUiState(currentPos = 9),
+                PawnUiState(color = GameColor.BLUE)
+            )),
+
+            getPositionIntOffset = board::getPositionIntPoint
+        )
+
+
     }
 }
