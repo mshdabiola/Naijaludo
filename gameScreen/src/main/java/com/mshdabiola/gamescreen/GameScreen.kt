@@ -22,6 +22,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
@@ -62,7 +63,7 @@ fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
         lifecycle.addObserver(observer)
 
         onDispose {
-            gameScreenViewModel.onDispose()
+
             lifecycle.removeObserver(observer)
         }
     }

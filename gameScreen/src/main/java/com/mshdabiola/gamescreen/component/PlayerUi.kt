@@ -36,9 +36,9 @@ fun PlayerUi(
 ) {
 
     val colorBrush = if (player.colors.size==1)
-        (1..2).map { player.colors[0].toHomeColor().copy(alpha = 0.5f)}
+        (1..2).map { player.colors[0].toHomeColor().copy(alpha = 0.9f)}
     else
-        player.colors.map { it.toHomeColor().copy(alpha = 0.5f) }
+        player.colors.map { it.toHomeColor().copy(alpha = 0.9f) }
 
 
     val image = @Composable {

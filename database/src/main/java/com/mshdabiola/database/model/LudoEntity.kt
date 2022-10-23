@@ -7,6 +7,6 @@ import java.util.Date
 @Entity(tableName = "ludo_table")
 data class LudoEntity(
     @PrimaryKey(autoGenerate = true)
-    val id : Int?=null,
+    val id : Long?=null,
     val date: Long=Date().time ,
     )

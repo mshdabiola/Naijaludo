@@ -1,7 +1,10 @@
 package com.mshdabiola.database.model
 
 import androidx.room.Entity
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.PlayerInteface
+import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 
 @Entity(tableName = "player_table", primaryKeys = ["id","gameId"])
 data class PlayerEntity(
@@ -10,8 +13,9 @@ data class PlayerEntity(
     val name: String,
     val win: Int,
     val isCurrent: Boolean,
+    val isHuman : Boolean
 )
 
-//fun PlayerEntity.toPlayer(colors : List<GameColor>)=Player(name, win, isCurrent, colors)
+fun PlayerEntity.toPlayer(colors : List<GameColor>)=if(isHuman)HumanPlayer(name, win, isCurrent, colors ) else RandomComputerPlayer(name, win, isCurrent, colors)
 
-fun PlayerInteface.toPlayerEntity(id:Int,gameId: Long)=PlayerEntity(id,gameId ,name, win, isCurrent)
+fun PlayerInteface.toPlayerEntity(id:Int,gameId: Long ,isHuman: Boolean)=PlayerEntity(id,gameId ,name, win, isCurrent,isHuman)

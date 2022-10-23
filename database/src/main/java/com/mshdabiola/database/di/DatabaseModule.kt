@@ -24,6 +24,8 @@ object DatabaseModule {
     ):LudoDatabase{
         return Room.databaseBuilder(context,LudoDatabase::class.java,"ludoDb.db")
             .build()
+//        return Room.inMemoryDatabaseBuilder(context,LudoDatabase::class.java,)
+//            .build()
     }
 
     @Provides
