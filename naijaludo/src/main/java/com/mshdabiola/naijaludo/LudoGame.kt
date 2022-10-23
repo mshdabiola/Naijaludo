@@ -27,6 +27,8 @@ class LudoGame {
 
     private lateinit var onGameFinish: () -> Unit
 
+    private  var onPlayerFinishPlaying : ()-> Unit = {}
+
     private val _gameState = MutableStateFlow(LudoGameState(board = Board(colors = emptyList())))
 
     val gameState = _gameState.asStateFlow()
@@ -47,7 +49,8 @@ class LudoGame {
 
             currentPlayerPawn.all { it.isOut() }
         },
-        onGameFinish: () -> Unit
+        onGameFinish: () -> Unit,
+        onPlayerFinishPlaying : ()->Unit ={}
     ) {
 
         log("start")
@@ -55,6 +58,7 @@ class LudoGame {
         defaultState = ludoGameState ?: getDefaultGameState()
         this.onGameFinish = onGameFinish
         this.isGameFinish = isGameFinish
+        this.onPlayerFinishPlaying=onPlayerFinishPlaying
 
         val isHumanPlayer = defaultState.listOfPlayer.single { it.isCurrent } is HumanPlayer
         val colors = defaultState.listOfPlayer.map { it.colors }.flatten()
@@ -100,16 +104,15 @@ class LudoGame {
         players.forEachIndexed { index, player ->
             val next = (index + 1) % size
             val nextPlayer = mutableList[next]
-//            val newNextPlayer = when () {
-//                is HumanPlayer -> nextPlayer.copy(colors = player.colors)
-//                is RandomComputerPlayer -> nextPlayer.copy(colors = player.colors)
-//            }
             mutableList[next] = nextPlayer.copyPlayer(colors = player.colors)
 
         }
 
+        val pawns = getDefaultGameState().listOfPawn
 
-        val state = defaultState.copy(listOfPlayer = mutableList)
+
+
+        val state = defaultState.copy(listOfPlayer = mutableList, listOfPawn = pawns)
         start(state, isGameFinish, onGameFinish)
 
     }
@@ -703,6 +706,8 @@ class LudoGame {
                 isHumanPlayer = isHuman
             )
         )
+
+        onPlayerFinishPlaying()
 
 
     }

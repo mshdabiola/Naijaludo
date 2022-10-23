@@ -38,7 +38,7 @@ import com.mshdabiola.naijaludo.LudoGame
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
+fun GameScreen(gameScreenViewModel: GameViewModel = hiltViewModel()) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
 
@@ -73,7 +73,7 @@ fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
 
         //   rotateF.snapTo(0f)
         if (gameUiState.ludoGameState.rotate)
-        rotateF.animateTo(360f, tween(4000))
+            rotateF.animateTo(360f, tween(4000))
         else
             rotateF.snapTo(0f)
 
@@ -86,11 +86,12 @@ fun GameScreen(gameScreenViewModel: GameViewModel= hiltViewModel()) {
         rotateF = rotateF.value,
         onYouAndComputer = gameScreenViewModel::onYouAndComputer,
         onTournament = gameScreenViewModel::onTournament,
+        onContinueClick = gameScreenViewModel::onContinueClick,
         onRestart = gameScreenViewModel::onRestart,
         onCounter = gameScreenViewModel::onCounter,
         onDice = gameScreenViewModel::onDice,
         onPawn = gameScreenViewModel::onPawn,
-        getPositionIntOffset=gameScreenViewModel::getPositionIntOffset
+        getPositionIntOffset = gameScreenViewModel::getPositionIntOffset
     )
 }
 
@@ -102,11 +103,12 @@ fun GameScreen(
     rotateF: Float = 0f,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
+    onContinueClick: () -> Unit = {},
     onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset : (Int,gameColor: GameColor)-> Point ={ _, _-> Point.zero}
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
 
 
@@ -124,13 +126,13 @@ fun GameScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            AnimatedVisibility (ludoGameState.listOfPlayer.isNotEmpty()) {
+            AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
                 PlayersUi(player = ludoGameState.listOfPlayer)
             }
             Spacer(modifier = Modifier.height(16.dp))
 
             AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-                BoardUi(modifier = Modifier.rotate(rotateF),board) {
+                BoardUi(modifier = Modifier.rotate(rotateF), board) {
 
                     //pawn
 
@@ -146,7 +148,7 @@ fun GameScreen(
 
                     //dice
 
-                    if (ludoGameState.listOfDice.isNotEmpty())   {
+                    if (ludoGameState.listOfDice.isNotEmpty()) {
                         DicesUi(
                             diceUiStateList = ludoGameState.listOfDice,
                             isHuman = isHuman,
@@ -185,8 +187,10 @@ fun GameScreen(
             }
             StartGameDialog(
                 show = gameUiState.isStartDialogOpen,
+                showContinueButton = gameUiState.showContinueButton,
                 onYouAndComputer = onYouAndComputer,
-                onTournament = onTournament
+                onTournament = onTournament,
+                onContinueButton = onContinueClick
             )
             RestartDialog(
                 show = gameUiState.isRestartDialogOpen,
@@ -202,7 +206,7 @@ fun GameScreenPreview() {
 
 
     val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(),isStartDialogOpen = false)
+    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint
@@ -212,11 +216,24 @@ fun GameScreenPreview() {
 @Composable
 fun StartGameDialog(
     show: Boolean = true,
+    showContinueButton: Boolean = false,
     onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {}
+    onTournament: () -> Unit = {},
+    onContinueButton: () -> Unit = {}
+
 ) {
     AnimatedVisibility(visible = show) {
         UnCancelableDialog(title = "Start Game") {
+
+            //if(showContinueButton){
+                Button(
+                    enabled=showContinueButton,
+                    onClick = onContinueButton
+                ) {
+                    Text(text = "Continue Game")
+                }
+           // }
+
             Button(onClick = onYouAndComputer) {
                 Text(text = "You & Computer")
             }
@@ -227,30 +244,30 @@ fun StartGameDialog(
     }
 }
 
-@Preview
-@Composable
-fun StartGameDialogPreview() {
-    StartGameDialog(show = true)
-}
+    @Preview
+    @Composable
+    fun StartGameDialogPreview() {
+        StartGameDialog(show = true)
+    }
 
-@Composable
-fun RestartDialog(
-    show: Boolean = true,
-    onRestart: () -> Unit = {}
-) {
-    AnimatedVisibility(visible = show) {
-        UnCancelableDialog(title = "Restart Game") {
-            Button(onClick = onRestart) {
-                Text(text = "Restart")
+    @Composable
+    fun RestartDialog(
+        show: Boolean = true,
+        onRestart: () -> Unit = {}
+    ) {
+        AnimatedVisibility(visible = show) {
+            UnCancelableDialog(title = "Restart Game") {
+                Button(onClick = onRestart) {
+                    Text(text = "Restart")
+                }
+
             }
-
         }
     }
-}
 
-@Preview
-@Composable
-fun RestartDialogPreview() {
+    @Preview
+    @Composable
+    fun RestartDialogPreview() {
 
-    RestartDialog(show = true)
-}
+        RestartDialog(show = true)
+    }

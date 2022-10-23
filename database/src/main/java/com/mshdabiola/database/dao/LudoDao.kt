@@ -27,8 +27,8 @@ interface LudoDao {
     @Query("SELECT * FROM ludo_table")
     fun getAll(): Flow<List<LudoEntity>>
 
-    @Query("SELECT * FROM ludo_table ORDER BY date DESC LIMIT 1 ")
-    fun getLatest():Flow<LudoEntity>
+    @Query("SELECT id FROM ludo_table ORDER BY date DESC LIMIT 1 ")
+    fun getLatestGameId():Flow<Long>
 
     @Transaction
     @Query("SELECT * FROM ludo_table WHERE id = :id")

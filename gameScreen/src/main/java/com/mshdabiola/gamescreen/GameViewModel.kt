@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
@@ -17,17 +18,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
-    val ludoStateDomain: LudoStateDomain
+    private val ludoStateDomain: LudoStateDomain
 ) : ViewModel() {
 
-    val game = LudoGame()
-    var gameId = savedStateHandle.get<Long>(GAMEID)
+    private val game = LudoGame()
+    private var gameId = savedStateHandle.get<Long>(GAMEID)
     private val showDialog = savedStateHandle.get<Boolean>(SHOWDIALOG)
 
     private val _gameUiState = MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
@@ -36,6 +38,10 @@ class GameViewModel @Inject constructor(
 //    val se =savedStateHandle.
 
     init {
+        viewModelScope.launch {
+            val id= ludoStateDomain.getLatestGameId().firstOrNull()
+            _gameUiState.value = gameUiState.value.copy(showContinueButton = id!= null)
+        }
 
         //react to ludoGame change
         viewModelScope.launch {
@@ -64,17 +70,20 @@ class GameViewModel @Inject constructor(
                     .getDefaultGameState()
                     .copy(listOfPlayer = other.first, listOfPawn = other.second)
 
-                game.start(
-                    ludoGameState = ludoState,
-                    onGameFinish = this@GameViewModel::onGameFinish
-                )
+                startGame(ludoState)
             }
         }
 
-        viewModelScope.launch {
-            val other = ludoStateDomain.getLudoAndOther(1).first()
-            log("ludo other is $other")
-        }
+    }
+
+    private suspend fun startGame(ludoGameState: LudoGameState?=null){
+
+            delay(300)
+            game.start(
+                ludoGameState = ludoGameState,
+                onGameFinish = this@GameViewModel::onGameFinish,
+                onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying
+            )
 
 
     }
@@ -85,16 +94,43 @@ class GameViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.Default) {
 
-            delay(300)
-            game.start(onGameFinish = this@GameViewModel::onGameFinish)
+         startGame()
+        }
+    }
 
+    fun onContinueClick(){
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+        savedStateHandle[SHOWDIALOG] = false
+
+        viewModelScope.launch(Dispatchers.Default) {
+
+            val id= ludoStateDomain.getLatestGameId().first()
+
+            gameId = id
+
+            val other = ludoStateDomain.getLudoAndOther(id).first()
+
+            val pawns= other.second.toMutableList()
+
+            if(pawns.all { it.isOut() }){
+                (0 until pawns.size).forEach {
+                    val pawn= pawns[it]
+                    pawns[it]=pawn.copy(currentPos =pawn.id*-1 )
+                }
+            }
+
+            val ludoState = LudoGame
+                .getDefaultGameState()
+                .copy(listOfPlayer = other.first, listOfPawn = pawns)
+
+            startGame(ludoState)
         }
     }
 
 
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val players = listOf(
                 RandomComputerPlayer(
                     colors = listOf(GameColor.values()[0])
@@ -109,11 +145,9 @@ class GameViewModel @Inject constructor(
                 ),
                 HumanPlayer(isCurrent = true, colors = listOf(GameColor.values()[3]))
             )
-            game.start(
-                LudoGame.getDefaultGameState().copy(listOfPlayer = players),
-                // isGameFinish = { pawns -> pawns.any { it.isOut() } },
-                onGameFinish = this@GameViewModel::onGameFinish
-            )
+            val ludoGameState = LudoGame.getDefaultGameState().copy(listOfPlayer = players)
+
+            startGame(ludoGameState)
         }
     }
 
@@ -123,13 +157,14 @@ class GameViewModel @Inject constructor(
 
     fun onPause() {
         game.pause()
-        saveData()
     }
 
 
     private fun onGameFinish() {
         game.stop()
         _gameUiState.value = gameUiState.value.copy(isRestartDialogOpen = true)
+
+        saveData()
     }
 
     fun onRestart() {
@@ -145,7 +180,6 @@ class GameViewModel @Inject constructor(
     fun onDice() {
         viewModelScope.launch {
             game.onDice()
-            saveData()
         }
 
     }
@@ -162,7 +196,7 @@ class GameViewModel @Inject constructor(
         return game.getPositionIntOffset(id, gameColor)
     }
 
-    fun saveData() {
+    private fun saveData() {
         viewModelScope.launch(Dispatchers.IO) {
             log("on game dispose")
             viewModelScope.launch(Dispatchers.IO) {
@@ -176,6 +210,10 @@ class GameViewModel @Inject constructor(
 
             }
         }
+    }
+
+    private fun onPlayerFinishPlaying(){
+        saveData()
     }
 
 
