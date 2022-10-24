@@ -20,29 +20,26 @@ class LudoStateDomain @Inject constructor(
     private val pawnDao: PawnDao,
     private val playerDao: PlayerDao
 ) {
-    suspend fun insertLudo(ludoGameState: LudoGameState, id: Long? = null): Long {
+    suspend fun insertLudo(ludoGameState: LudoGameState, id: Long ){
 
-        var realId: Long? = id
 
-        if (realId == null) {
-            //remove always use 1 as id
-            val ludoEntity = LudoEntity(id = 1)
+
+            val ludoEntity = LudoEntity(id = id)
             ludoDao.upsert(ludoEntity)
-            realId = ludoDao.getLatestGameId().first()
-        }
+
 
 
         val playerList = ludoGameState.listOfPlayer
         val listPawnEntity = ludoGameState.listOfPawn.map { pawn ->
             val playerId = playerList.indexOfFirst { pawn.color in it.colors }
 
-            pawn.toPawnEntity(playerId = playerId, gameId = realId)
+            pawn.toPawnEntity(playerId = playerId, gameId = id)
         }
         val playerEntity =
             playerList.mapIndexed { index, player ->
                 player.toPlayerEntity(
                     index,
-                    realId,
+                    id,
                     player is HumanPlayer
                 )
             }
@@ -51,25 +48,11 @@ class LudoStateDomain @Inject constructor(
         pawnDao.upsertMany(listPawnEntity)
         playerDao.upsertMany(playerEntity)
 
-
-        log("game id $realId")
-        return realId
     }
 
-    fun getLudoAndOther(id: Long) =
-        ludoDao.getLudoAndOther(id)
-            .map { ludoAndOthers ->
+    fun getLatestLudoAndOther() =
+        ludoDao.getLudoAndOther()
 
-                val pawns = ludoAndOthers.pawnEntity.map { it.toPawn() }
-                val playerColorsMap = ludoAndOthers.pawnEntity.groupBy(
-                    keySelector = { it.playerId },
-                    valueTransform = { it.toPawn().color })
-                val players = ludoAndOthers.playerEntity.mapIndexed { index, playerEntity ->
-                    playerEntity.toPlayer(playerColorsMap[index]!!.distinct())
-                }
 
-                Pair(players, pawns)
-            }
-
-    fun getLatestGameId() = ludoDao.getLatestGameId()
+   // fun getLatestGameId() = ludoDao.getLatestGameId()
 }
