@@ -45,7 +45,7 @@ import com.mshdabiola.naijaludo.LudoGame
 @Composable
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
-    deviceType: DEVICE_TYPE=DEVICE_TYPE.PHONE
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
@@ -90,19 +90,19 @@ fun GameScreen(
 
 
 
-        GameScreen(
-            gameUiState = gameUiState,
-            rotateF = rotateF.value,
-            deviceType=deviceType,
-            onYouAndComputer = gameScreenViewModel::onYouAndComputer,
-            onTournament = gameScreenViewModel::onTournament,
-            onContinueClick = gameScreenViewModel::onContinueClick,
-            onRestart = gameScreenViewModel::onRestart,
-            onCounter = gameScreenViewModel::onCounter,
-            onDice = gameScreenViewModel::onDice,
-            onPawn = gameScreenViewModel::onPawn,
-            getPositionIntOffset = gameScreenViewModel::getPositionIntOffset
-        )
+    GameScreen(
+        gameUiState = gameUiState,
+        rotateF = rotateF.value,
+        deviceType = deviceType,
+        onYouAndComputer = gameScreenViewModel::onYouAndComputer,
+        onTournament = gameScreenViewModel::onTournament,
+        onContinueClick = gameScreenViewModel::onContinueClick,
+        onRestart = gameScreenViewModel::onRestart,
+        onCounter = gameScreenViewModel::onCounter,
+        onDice = gameScreenViewModel::onDice,
+        onPawn = gameScreenViewModel::onPawn,
+        getPositionIntOffset = gameScreenViewModel::getPositionIntOffset
+    )
 
 }
 
@@ -112,7 +112,7 @@ fun GameScreen(
 fun GameScreen(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
-    deviceType: DEVICE_TYPE=DEVICE_TYPE.PHONE,
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
     onContinueClick: () -> Unit = {},
@@ -124,30 +124,41 @@ fun GameScreen(
 ) {
 
 
-
-   val configuration= LocalConfiguration.current
-    val isPortrait= remember(configuration) {
-        configuration.orientation==Configuration.ORIENTATION_PORTRAIT
+    val configuration = LocalConfiguration.current
+    val isPortrait = remember(configuration) {
+        configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     }
 
 
     Scaffold { paddingValues ->
-        when{
-            !isPortrait && deviceType==DEVICE_TYPE.PHONE-> GameScreenPhoneLand(
+        when {
+            !isPortrait && deviceType == DEVICE_TYPE.PHONE -> GameScreenPhoneLand(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
                 onDice, onCounter, onPawn, getPositionIntOffset
             )
-            (!isPortrait&& deviceType==DEVICE_TYPE.FOLD)
-                    || (!isPortrait&& deviceType==DEVICE_TYPE.TABLET)-> GameScreenLarge(gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
+            isPortrait && deviceType == DEVICE_TYPE.FOLD -> GameScreeFoldPortrait(
+                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset)
-            else->GameScreenPhonePortrait(gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
+                onDice, onCounter, onPawn, getPositionIntOffset
+            )
+
+            (!isPortrait && deviceType == DEVICE_TYPE.FOLD)
+                    || (!isPortrait && deviceType == DEVICE_TYPE.TABLET) -> GameScreenLarge(
+                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset)
+                onDice, onCounter, onPawn, getPositionIntOffset
+            )
+
+            else -> GameScreenPhonePortrait(
+                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
+                onContinueClick,
+                onRestart,
+                onDice, onCounter, onPawn, getPositionIntOffset
+            )
         }
 
     }
@@ -157,7 +168,7 @@ fun GameScreen(
 fun GameScreenPhonePortrait(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
-    paddingValues: PaddingValues=PaddingValues(),
+    paddingValues: PaddingValues = PaddingValues(),
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
     onContinueClick: () -> Unit = {},
@@ -254,18 +265,20 @@ fun GameScreenPhonePortrait(
         )
     }
 }
+
 @Composable
-fun GameScreenPhoneLand( gameUiState: GameUiState,
-                         rotateF: Float = 0f,
-                         paddingValues: PaddingValues=PaddingValues(),
-                         onYouAndComputer: () -> Unit = {},
-                         onTournament: () -> Unit = {},
-                         onContinueClick: () -> Unit = {},
-                         onRestart: () -> Unit = {},
-                         onDice: () -> Unit = {},
-                         onCounter: (Int) -> Unit = {},
-                         onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-                         getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+fun GameScreenPhoneLand(
+    gameUiState: GameUiState,
+    rotateF: Float = 0f,
+    paddingValues: PaddingValues = PaddingValues(),
+    onYouAndComputer: () -> Unit = {},
+    onTournament: () -> Unit = {},
+    onContinueClick: () -> Unit = {},
+    onRestart: () -> Unit = {},
+    onDice: () -> Unit = {},
+    onCounter: (Int) -> Unit = {},
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
     val ludoGameState = gameUiState.ludoGameState
     val board = ludoGameState.board
@@ -273,8 +286,7 @@ fun GameScreenPhoneLand( gameUiState: GameUiState,
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
-        ,
+            .padding(paddingValues),
 
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
@@ -361,13 +373,10 @@ fun GameScreenPhoneLand( gameUiState: GameUiState,
 }
 
 
-
-
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Preview(device = "spec:width=411dp,height=891dp")
 @Composable
 fun GameScreenPreview() {
-
 
 
     val game = LudoGame.getDefaultGameState()
@@ -380,17 +389,18 @@ fun GameScreenPreview() {
 
 
 @Composable
-fun GameScreenLarge( gameUiState: GameUiState,
-                     rotateF: Float = 0f,
-                     paddingValues: PaddingValues=PaddingValues(),
-                     onYouAndComputer: () -> Unit = {},
-                     onTournament: () -> Unit = {},
-                     onContinueClick: () -> Unit = {},
-                     onRestart: () -> Unit = {},
-                     onDice: () -> Unit = {},
-                     onCounter: (Int) -> Unit = {},
-                     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-                     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+fun GameScreeFoldPortrait(
+    gameUiState: GameUiState,
+    rotateF: Float = 0f,
+    paddingValues: PaddingValues = PaddingValues(),
+    onYouAndComputer: () -> Unit = {},
+    onTournament: () -> Unit = {},
+    onContinueClick: () -> Unit = {},
+    onRestart: () -> Unit = {},
+    onDice: () -> Unit = {},
+    onCounter: (Int) -> Unit = {},
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
     val ludoGameState = gameUiState.ludoGameState
     val board = ludoGameState.board
@@ -399,7 +409,115 @@ fun GameScreenLarge( gameUiState: GameUiState,
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
+
+
         ,
+
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+
+        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+            BoardUi(
+                modifier = Modifier
+                    .rotate(rotateF)
+                    .padding(horizontal = 64.dp)
+                    .fillMaxWidth(), board
+            ) {
+
+                //pawn
+
+                if (ludoGameState.listOfPawn.isNotEmpty()) {
+                    PawnsUi(
+                        pawnUiStateList = ludoGameState.listOfPawn,
+                        isHuman = isHuman,
+                        getPositionIntOffset = getPositionIntOffset,
+                        onClick = onPawn
+                    )
+                }
+
+
+                //dice
+
+                if (ludoGameState.listOfDice.isNotEmpty()) {
+                    DicesUi(
+                        diceUiStateList = ludoGameState.listOfDice,
+                        isHuman = isHuman,
+                        onClick = onDice
+                    )
+                }
+
+
+                //drawer
+                val drawer = ludoGameState.drawer
+                if (drawer != null) {
+                    DrawerUi(
+                        drawerUiState = drawer,
+                        getPositionIntOffset = getPositionIntOffset,
+                        onPawnDrawer = onPawn
+                    )
+
+                }
+
+
+            }
+        }
+        AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
+            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+                CounterGroupUi(
+                    modifier = Modifier,
+                    counterUiStateList = ludoGameState.listOfCounter,
+                    isHuman = isHuman,
+                    onCounterClick = onCounter
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
+                PlayersUiVertical(player = ludoGameState.listOfPlayer)
+            }
+
+        }
+        StartGameDialog(
+            show = gameUiState.isStartDialogOpen,
+            showContinueButton = gameUiState.showContinueButton,
+            onYouAndComputer = onYouAndComputer,
+            onTournament = onTournament,
+            onContinueButton = onContinueClick
+        )
+        RestartDialog(
+            show = gameUiState.isRestartDialogOpen,
+            onRestart = onRestart
+        )
+    }
+}
+
+@Composable
+fun GameScreenLarge(
+    gameUiState: GameUiState,
+    rotateF: Float = 0f,
+    paddingValues: PaddingValues = PaddingValues(),
+    onYouAndComputer: () -> Unit = {},
+    onTournament: () -> Unit = {},
+    onContinueClick: () -> Unit = {},
+    onRestart: () -> Unit = {},
+    onDice: () -> Unit = {},
+    onCounter: (Int) -> Unit = {},
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+) {
+    val ludoGameState = gameUiState.ludoGameState
+    val board = ludoGameState.board
+    val isHuman = gameUiState.ludoGameState.isHumanPlayer
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -411,7 +529,7 @@ fun GameScreenLarge( gameUiState: GameUiState,
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        Row(verticalAlignment = Alignment.CenterVertically){
+        Row(verticalAlignment = Alignment.CenterVertically) {
             AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
                 BoardUi(
                     modifier = Modifier
@@ -502,7 +620,7 @@ fun GameScreenFoldPreview() {
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=480")
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=portrait")
 @Composable
-fun GameScreenTabletPreview(){
+fun GameScreenTabletPreview() {
     val game = LudoGame.getDefaultGameState()
     val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
     GameScreen(
@@ -511,9 +629,9 @@ fun GameScreenTabletPreview(){
         deviceType = DEVICE_TYPE.TABLET
     )
 }
+
 @Composable
 fun GameScreenLargPreview() {
-
 
 
     val game = LudoGame.getDefaultGameState()
@@ -523,6 +641,7 @@ fun GameScreenLargPreview() {
         getPositionIntOffset = game.board::getPositionIntPoint
     )
 }
+
 @Composable
 fun StartGameDialog(
     show: Boolean = true,
@@ -536,13 +655,13 @@ fun StartGameDialog(
         UnCancelableDialog(title = "Start Game") {
 
             //if(showContinueButton){
-                Button(
-                    enabled=showContinueButton,
-                    onClick = onContinueButton
-                ) {
-                    Text(text = "Continue Game")
-                }
-           // }
+            Button(
+                enabled = showContinueButton,
+                onClick = onContinueButton
+            ) {
+                Text(text = "Continue Game")
+            }
+            // }
 
             Button(onClick = onYouAndComputer) {
                 Text(text = "You & Computer")
@@ -555,30 +674,30 @@ fun StartGameDialog(
 }
 
 
-    @Preview
-    @Composable
-    fun StartGameDialogPreview() {
-        StartGameDialog(show = true)
-    }
+@Preview
+@Composable
+fun StartGameDialogPreview() {
+    StartGameDialog(show = true)
+}
 
-    @Composable
-    fun RestartDialog(
-        show: Boolean = true,
-        onRestart: () -> Unit = {}
-    ) {
-        AnimatedVisibility(visible = show) {
-            UnCancelableDialog(title = "Restart Game") {
-                Button(onClick = onRestart) {
-                    Text(text = "Restart")
-                }
-
+@Composable
+fun RestartDialog(
+    show: Boolean = true,
+    onRestart: () -> Unit = {}
+) {
+    AnimatedVisibility(visible = show) {
+        UnCancelableDialog(title = "Restart Game") {
+            Button(onClick = onRestart) {
+                Text(text = "Restart")
             }
+
         }
     }
+}
 
-    @Preview
-    @Composable
-    fun RestartDialogPreview() {
+@Preview
+@Composable
+fun RestartDialogPreview() {
 
-        RestartDialog(show = true)
-    }
+    RestartDialog(show = true)
+}
