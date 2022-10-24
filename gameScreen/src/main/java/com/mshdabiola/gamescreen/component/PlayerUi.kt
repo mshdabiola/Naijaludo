@@ -35,21 +35,22 @@ fun PlayerUi(
     bottomEnd: Int = 0
 ) {
 
-    val colorBrush = if (player.colors.size==1)
-        (1..2).map { player.colors[0].toHomeColor().copy(alpha = 0.9f)}
+    val colorBrush = if (player.colors.size == 1)
+        (1..2).map { player.colors[0].toHomeColor().copy(alpha = 0.9f) }
     else
         player.colors.map { it.toHomeColor().copy(alpha = 0.9f) }
 
 
     val image = @Composable {
-       Box(modifier = Modifier
-           .border(
-               1.dp,
-               Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
-               CircleShape
-           )
-           .padding(2.dp)
-       ) {
+        Box(
+            modifier = Modifier
+                .border(
+                    1.dp,
+                    Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
+                    CircleShape
+                )
+                .padding(2.dp)
+        ) {
             Icon(
                 imageVector = Icons.Default.Person, contentDescription = ""
             )
@@ -58,18 +59,19 @@ fun PlayerUi(
 
     }
 
-    val currentColor =MaterialTheme.colorScheme.secondary
-    val notCurrentColor =MaterialTheme.colorScheme.secondaryContainer
+    val currentColor = MaterialTheme.colorScheme.secondary
+    val notCurrentColor = MaterialTheme.colorScheme.secondaryContainer
     val color = remember(player.isCurrent) {
-        if (player.isCurrent) currentColor  else notCurrentColor
+        if (player.isCurrent) currentColor else notCurrentColor
     }
 
     val score = @Composable {
         val contentColor = LocalContentColor.current
-       Box(
-           Modifier
-               .background(contentColor)
-               .padding(4.dp)) {
+        Box(
+            Modifier
+                .background(contentColor)
+                .padding(4.dp)
+        ) {
             Text(text = "${player.win}", color = color, fontWeight = FontWeight.Bold)
         }
     }
@@ -88,20 +90,33 @@ fun PlayerUi(
         Row(
             Modifier
                 .width(150.dp)
-                .padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                .padding(8.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
 
 
             if (isEven) {
                 image()
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(modifier = Modifier.weight(1f),text = player.name, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Clip)
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = player.name,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 score()
 
             } else {
                 score()
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(modifier = Modifier.weight(1f),text = player.name, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Clip)
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = player.name,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 image()
 
@@ -131,6 +146,7 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
                     PlayerUi(player = player[1], isEven = false, topEnd = 50, bottomEnd = 50)
                 }
             }
+
             3 -> {
                 Row() {
                     PlayerUi(player = player[0], isEven = true, topStart = 50)
@@ -142,6 +158,7 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
                     PlayerUi(player = player[2], isEven = true, bottomStart = 50, bottomEnd = 50)
                 }
             }
+
             else -> {
                 Row {
                     PlayerUi(player = player[0], isEven = true, topStart = 50)
@@ -160,15 +177,77 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
 
 }
 
+@Composable
+fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        when (player.size) {
+            2 -> {
+
+                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                Spacer(modifier = Modifier.height(4.dp))
+                PlayerUi(player = player[1], isEven = true, bottomStart = 50, bottomEnd = 50)
+
+            }
+
+            3 -> {
+
+                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                Spacer(modifier = Modifier.height(4.dp))
+                PlayerUi(player = player[1], isEven = true)
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                PlayerUi(player = player[2], isEven = true, bottomStart = 50, bottomEnd = 50)
+
+            }
+
+            else -> {
+
+                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                Spacer(modifier = Modifier.height(4.dp))
+                PlayerUi(player = player[1], isEven = true)
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                PlayerUi(player = player[2], isEven = true)
+                Spacer(modifier = Modifier.height(4.dp))
+                PlayerUi(player = player[3], isEven = true, bottomStart = 50, bottomEnd = 50)
+
+            }
+        }
+    }
+
+}
 
 @Preview
 @Composable
 fun PlayersPreview() {
     PlayersUi(
         player = listOf(
-            PlayerUiState(isCurrent = true, name = "abiolalawal moshood",colors = listOf(GameColor.GREEN,GameColor.RED)),
+
             PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(colors = listOf(GameColor.BLUE,GameColor.YELLOW), name = "abiola Moshood")
+            PlayerUiState(
+                colors = listOf(GameColor.BLUE, GameColor.YELLOW),
+                name = "abiola Moshood"
+            )
+        ).toImmutableList()
+    )
+}
+
+@Preview
+@Composable
+fun PlayersVerticalPreview() {
+    PlayersUiVertical(
+        player = listOf(
+            PlayerUiState(
+                isCurrent = true,
+                name = "abiolalawal moshood",
+                colors = listOf(GameColor.GREEN, GameColor.RED)
+            ),
+            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
+
         ).toImmutableList()
     )
 }

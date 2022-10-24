@@ -2,9 +2,12 @@ package com.mshdabiola.gamescreen.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -33,7 +36,7 @@ fun CounterUi(
 
     GameButton(
         modifier = modifier
-            .size(64.dp),
+            .requiredSize(64.dp),
         onClick = {
 
                 onCounterClick(counterUiState.id)
@@ -92,6 +95,42 @@ fun CounterGroupUi(
     }
 }
 
+@Composable
+fun CounterGroupUiVertical(
+    modifier: Modifier = Modifier,
+    counterUiStateList: ImmutableList<CounterUiState>,
+    isHuman: Boolean = true,
+    onCounterClick: (Int) -> Unit = {}
+
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(100),
+        color = MaterialTheme.colorScheme.primaryContainer
+
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+
+            counterUiStateList.forEachIndexed { index, counter ->
+                CounterUi(
+                    counterUiState = counter,
+                    isHuman = isHuman,
+                    onCounterClick = onCounterClick
+                )
+                if (index != counterUiStateList.lastIndex) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+
+        }
+    }
+}
+
 @Preview
 @Composable
 fun CounterUiPreview() {
@@ -105,6 +144,15 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
+        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
+
+}
+
+@Preview
+@Composable
+fun CounterUiGroupVerticalPreview() {
+
+    CounterGroupUiVertical(
         counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
 
 }

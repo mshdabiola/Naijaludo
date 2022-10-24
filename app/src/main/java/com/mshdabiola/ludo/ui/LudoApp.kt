@@ -15,6 +15,7 @@ fun LudoApp(
         LudoNavHost(
             modifier = Modifier,
             navController = appState.navHostController,
+            deviceType = appState.getDevietype(),
             onNavigate = appState::navigateTo,
             onBackClick = appState::onBackPressed,
         )

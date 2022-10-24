@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.mshdabiola.gamescreen.gameScreenGraph
+import com.mshdabiola.gamescreen.gameScreenLandGraph
+import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.ludo.model.navigation.LudoNavDestination
 import com.mshdabiola.mainscreen.mainScreenGraph
 
@@ -15,6 +17,7 @@ fun LudoNavHost(
     navController: NavHostController,
     onNavigate : (String)->Unit,
     onBackClick : ()->Unit,
+    deviceType: DEVICE_TYPE,
     startDestination: String=LudoNavDestination.MainNavDestination.route
     ) {
     NavHost(modifier = modifier,
@@ -22,7 +25,7 @@ fun LudoNavHost(
         startDestination =startDestination){
 
         mainScreenGraph(onNavigate)
-       gameScreenGraph()
+       gameScreenGraph(deviceType)
 
     }
 }
