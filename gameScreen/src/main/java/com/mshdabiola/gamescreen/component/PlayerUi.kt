@@ -183,27 +183,27 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
         when (player.size) {
             2 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                PlayerUi(player = player[0], isEven = true, topStart = 50)
                 Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true, bottomStart = 50, bottomEnd = 50)
+                PlayerUi(player = player[1], isEven = true, bottomStart = 50)
 
             }
 
             3 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                PlayerUi(player = player[0], isEven = true, topStart = 50)
                 Spacer(modifier = Modifier.height(4.dp))
                 PlayerUi(player = player[1], isEven = true)
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                PlayerUi(player = player[2], isEven = true, bottomStart = 50, bottomEnd = 50)
+                PlayerUi(player = player[2], isEven = true, bottomStart = 50)
 
             }
 
             else -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50, topEnd = 50)
+                PlayerUi(player = player[0], isEven = true, topStart = 50)
                 Spacer(modifier = Modifier.height(4.dp))
                 PlayerUi(player = player[1], isEven = true)
 
@@ -211,7 +211,7 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
 
                 PlayerUi(player = player[2], isEven = true)
                 Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[3], isEven = true, bottomStart = 50, bottomEnd = 50)
+                PlayerUi(player = player[3], isEven = true, bottomStart = 50)
 
             }
         }
