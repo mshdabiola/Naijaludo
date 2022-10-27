@@ -8,5 +8,5 @@ data class DrawerUiState(
     val listOfPawnUiState: List<PawnUiState> = emptyList()
 )
 
-fun Drawer.toDrawerUiState()
-=DrawerUiState(pawns.map { it.toPawnUiState() })
+fun Drawer.toDrawerUiState() =
+    DrawerUiState(pawns.map { it.toPawnUiState() })

@@ -7,4 +7,3 @@ data class Box(
     val isHome: Boolean = false
 
 )
-

@@ -23,11 +23,11 @@ interface PlayerDao {
     suspend fun deleteMany(vararg playerEntity: PlayerEntity)
 
     @Query("DELETE FROM player_table WHERE id = :id AND gameId = :gameId")
-    suspend fun deleteManyByIdAndGameId(id : Int , gameId : Int)
+    suspend fun deleteManyByIdAndGameId(id: Int, gameId: Int)
 
     @Query("SELECT * FROM player_table WHERE id = :id AND gameId = :gameId")
-    fun get(id: Int,gameId: Int):Flow<PlayerEntity>
+    fun get(id: Int, gameId: Int): Flow<PlayerEntity>
 
     @Query("SELECT * FROM player_table")
-    fun getAll():Flow<List<PlayerEntity>>
+    fun getAll(): Flow<List<PlayerEntity>>
 }

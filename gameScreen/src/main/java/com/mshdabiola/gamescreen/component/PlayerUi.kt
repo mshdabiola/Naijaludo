@@ -2,12 +2,22 @@ package com.mshdabiola.gamescreen.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,7 +34,6 @@ import com.mshdabiola.ludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-
 @Composable
 fun PlayerUi(
     player: PlayerUiState,
@@ -40,7 +49,6 @@ fun PlayerUi(
     else
         player.colors.map { it.toHomeColor().copy(alpha = 0.9f) }
 
-
     val image = @Composable {
         Box(
             modifier = Modifier
@@ -55,8 +63,6 @@ fun PlayerUi(
                 imageVector = Icons.Default.Person, contentDescription = ""
             )
         }
-
-
     }
 
     val currentColor = MaterialTheme.colorScheme.secondary
@@ -76,8 +82,6 @@ fun PlayerUi(
         }
     }
 
-
-
     Surface(
         color = color,
         shape = RoundedCornerShape(
@@ -90,9 +94,9 @@ fun PlayerUi(
         Row(
             Modifier
                 .width(150.dp)
-                .padding(8.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
 
             if (isEven) {
                 image()
@@ -106,7 +110,6 @@ fun PlayerUi(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 score()
-
             } else {
                 score()
                 Spacer(modifier = Modifier.width(4.dp))
@@ -119,14 +122,9 @@ fun PlayerUi(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 image()
-
             }
         }
-
-
     }
-
-
 }
 
 @Preview
@@ -174,7 +172,6 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
             }
         }
     }
-
 }
 
 @Composable
@@ -186,7 +183,6 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
                 PlayerUi(player = player[0], isEven = true, topStart = 50)
                 Spacer(modifier = Modifier.height(4.dp))
                 PlayerUi(player = player[1], isEven = true, bottomStart = 50)
-
             }
 
             3 -> {
@@ -198,7 +194,6 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 PlayerUi(player = player[2], isEven = true, bottomStart = 50)
-
             }
 
             else -> {
@@ -212,11 +207,9 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
                 PlayerUi(player = player[2], isEven = true)
                 Spacer(modifier = Modifier.height(4.dp))
                 PlayerUi(player = player[3], isEven = true, bottomStart = 50)
-
             }
         }
     }
-
 }
 
 @Preview

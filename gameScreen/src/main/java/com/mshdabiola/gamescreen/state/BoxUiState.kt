@@ -10,4 +10,4 @@ data class BoxUiState(
     val showColor: Boolean = false,
 )
 
-fun Box.toBoxUiState()=BoxUiState(point, color, showColor)
+fun Box.toBoxUiState() = BoxUiState(point, color, showColor)

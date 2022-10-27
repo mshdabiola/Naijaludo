@@ -7,5 +7,5 @@ data class GameUiState(
     val ludoGameState: LudoUiState = LudoUiState(board = BoardUiState()),
     val isStartDialogOpen: Boolean = true,
     val isRestartDialogOpen: Boolean = false,
-    val showContinueButton : Boolean = false
+    val showContinueButton: Boolean = false
 )

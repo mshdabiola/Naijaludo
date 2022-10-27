@@ -13,25 +13,24 @@ import kotlinx.coroutines.flow.Flow
 interface LudoDao {
 
     @Upsert
-    suspend fun upsert(ludoEntity: LudoEntity) : Long
+    suspend fun upsert(ludoEntity: LudoEntity): Long
 
     @Delete
-    suspend fun delete(ludoEntity: LudoEntity) :Int
+    suspend fun delete(ludoEntity: LudoEntity): Int
 
     @Query("DELETE FROM ludo_table WHERE id = :id")
     suspend fun deleteById(id: Int)
 
     @Query("SELECT * FROM ludo_table WHERE id = :id")
-    fun getOne(id : Int):Flow<LudoEntity>
+    fun getOne(id: Int): Flow<LudoEntity>
 
     @Query("SELECT * FROM ludo_table")
     fun getAll(): Flow<List<LudoEntity>>
 
     @Query("SELECT id FROM ludo_table ORDER BY date DESC LIMIT 1 ")
-    fun getLatestGameId():Flow<Long>
+    fun getLatestGameId(): Flow<Long>
 
     @Transaction
     @Query("SELECT * FROM ludo_table ORDER BY  date DESC LIMIT 1")
-    fun getLudoAndOther():Flow<LudoAndOthers?>
-
+    fun getLudoAndOther(): Flow<LudoAndOthers?>
 }

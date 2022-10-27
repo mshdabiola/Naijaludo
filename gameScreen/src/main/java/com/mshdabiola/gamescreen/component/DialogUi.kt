@@ -1,11 +1,27 @@
 package com.mshdabiola.gamescreen.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +32,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,10 +41,10 @@ import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun UnCancelableDialog(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     title: String,
-    containerColor: Color=MaterialTheme.colorScheme.primary,
-    properties :DialogProperties= DialogProperties(
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    properties: DialogProperties = DialogProperties(
         dismissOnBackPress = false,
         dismissOnClickOutside = true
     ),
@@ -38,7 +55,7 @@ fun UnCancelableDialog(
         onDismissRequest = { },
         title = { Text(text = title) },
         content = content,
-       containerColor = containerColor,
+        containerColor = containerColor,
         properties = properties
     )
 }
@@ -89,31 +106,28 @@ fun DialogUiPreview() {
             }
         },
         content = {
-            Button(onClick = {  }) {
+            Button(onClick = { }) {
                 Text(text = "Button1")
             }
-            Button(onClick = {  }) {
+            Button(onClick = { }) {
                 Text(text = "Button1")
             }
-            Button(onClick = {  }) {
+            Button(onClick = { }) {
                 Text(text = "Button1")
             }
         },
         buttons = {
-            Button(onClick = {  }) {
+            Button(onClick = { }) {
                 Text(text = "Buttons")
             }
             Button(onClick = { }) {
                 Text(text = "Buttons")
             }
-
         },
         containerColor = Color.Blue
 
-
     )
 }
-
 
 @Composable
 fun DialogContent(
@@ -145,7 +159,6 @@ fun DialogContent(
 
                         )
                     )
-
                 }
                 .sizeIn(minWidth = MinWidth, maxWidth = MaxWidth)
                 .padding(DialogPadding)
@@ -168,7 +181,6 @@ fun DialogContent(
                             title()
                         }
                     }
-
                 }
 
                 cancelIcon?.let {
@@ -179,10 +191,7 @@ fun DialogContent(
                     ) {
                         cancelIcon()
                     }
-
-
                 }
-
             }
 
             content?.let {
@@ -190,7 +199,6 @@ fun DialogContent(
                     Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(MaterialTheme.colorScheme.background)
-
                         .weight(1f, fill = false)
                         .padding(TextPadding)
                         .fillMaxWidth(),
@@ -213,13 +221,9 @@ fun DialogContent(
                     buttons()
                 }
             }
-
         }
-
     }
-
 }
-
 
 private val DialogPadding = PaddingValues(all = 24.dp)
 private val IconPadding = PaddingValues(bottom = 16.dp)

@@ -6,8 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mshdabiola.database.dao.LudoDao
 import com.mshdabiola.database.model.LudoEntity
-import com.mshdabiola.ludo.model.log
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -32,7 +30,6 @@ class LudoDaoTest {
     @After
     fun after() {
         db.close()
-
     }
 
     @Test
@@ -43,23 +40,21 @@ class LudoDaoTest {
         val size = ludoDao.getAll().first().size
 
         Assert.assertEquals(2, size)
-
     }
 
     @Test
     fun deleteTest() = runBlocking {
-        val ludoEntity=LudoEntity(1,3)
+        val ludoEntity = LudoEntity(1, 3)
         ludoDao.upsert(ludoEntity)
         ludoDao.delete(ludoEntity)
 
         val size = ludoDao.getAll().first().size
 
         Assert.assertEquals(0, size)
-
     }
-@Test
+    @Test
     fun deleteByIdTest() = runBlocking {
-        val ludoEntity=LudoEntity(1,3)
+        val ludoEntity = LudoEntity(1, 3)
         ludoDao.upsert(ludoEntity)
         ludoDao.deleteById(1)
 
@@ -72,9 +67,9 @@ class LudoDaoTest {
     fun getOneTest() = runBlocking {
 
         ludoDao.upsert(ludoEntity)
-       val ludo= ludoDao.getOne(1).first()
+        val ludo = ludoDao.getOne(1).first()
         println("ludo $ludo")
-        Assert.assertEquals(ludoEntity.copy(id = 1),ludo)
+        Assert.assertEquals(ludoEntity.copy(id = 1), ludo)
     }
 
     @Test
@@ -88,6 +83,4 @@ class LudoDaoTest {
 
         Assert.assertEquals(4, size)
     }
-
-
 }

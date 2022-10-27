@@ -25,7 +25,6 @@ import com.mshdabiola.gamescreen.state.CounterUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-
 @Composable
 fun CounterUi(
     modifier: Modifier = Modifier,
@@ -39,14 +38,13 @@ fun CounterUi(
             .requiredSize(64.dp),
         onClick = {
 
-                onCounterClick(counterUiState.id)
-
+            onCounterClick(counterUiState.id)
         },
         shape = CircleShape,
         border = BorderStroke(2.dp, Color.White.copy(alpha = 0.6f)),
         enabled = counterUiState.isEnable && isHuman
 
-        ) {
+    ) {
         Text(
             text = "${counterUiState.number}",
             style = MaterialTheme.typography.headlineSmall,
@@ -55,8 +53,6 @@ fun CounterUi(
             )
         )
     }
-
-
 }
 
 @Composable
@@ -90,7 +86,6 @@ fun CounterGroupUi(
                     Spacer(modifier = Modifier.width(8.dp))
                 }
             }
-
         }
     }
 }
@@ -126,7 +121,6 @@ fun CounterGroupUiVertical(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
         }
     }
 }
@@ -144,8 +138,11 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
-
+        counterUiStateList = (0..2).map {
+            if (it == 1)
+                CounterUiState(isEnable = true) else CounterUiState()
+        }.toImmutableList()
+    )
 }
 
 @Preview
@@ -153,6 +150,9 @@ fun CounterUiGroupPreview() {
 fun CounterUiGroupVerticalPreview() {
 
     CounterGroupUiVertical(
-        counterUiStateList = (0..2).map {if(it==1) CounterUiState(isEnable = true) else CounterUiState() }.toImmutableList())
-
+        counterUiStateList = (0..2).map {
+            if (it == 1)
+                CounterUiState(isEnable = true) else CounterUiState()
+        }.toImmutableList()
+    )
 }

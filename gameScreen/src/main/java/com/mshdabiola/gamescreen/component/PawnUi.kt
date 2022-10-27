@@ -14,8 +14,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -36,7 +39,6 @@ import com.mshdabiola.ludo.model.log
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-
 @Composable
 fun PawnUi(
     modifier: Modifier = Modifier,
@@ -50,7 +52,6 @@ fun PawnUi(
     Surface(
         modifier = modifier
             .size(unitDp * 1)
-
             .zIndex(pawnUiState.zIndex)
             .offset(unitDp * offset.x, unitDp * offset.y)
             .graphicsLayer {
@@ -60,13 +61,15 @@ fun PawnUi(
             .clickable(pawnUiState.isEnable && isEnableForPlayer) {
                 log("on Human click $pawnUiState")
                 onClick(pawnUiState.index, false)
-
             },
         shape = CircleShape,
         color = pawnUiState.color.toPawnColor(),
         border = BorderStroke(
             2.dp,
-            Brush.radialGradient(0.8f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.8f))
+            Brush.radialGradient(
+                0.8f to Color.Transparent,
+                1f to Color.Black.copy(alpha = 0.8f)
+            )
         ),
         tonalElevation = pawnUiState.zIndex.dp,
         shadowElevation = pawnUiState.zIndex.dp
@@ -87,9 +90,7 @@ fun PawnUi(
             }
         }
     }
-
 }
-
 
 @Composable
 fun MovablePawnUi(
@@ -110,7 +111,6 @@ fun MovablePawnUi(
         )
     }
 
-
     val scale = remember {
         Animatable(1f)
     }
@@ -127,7 +127,8 @@ fun MovablePawnUi(
 
                         1.2f atFraction 0.5f
                         1f atFraction 1f
-                    })
+                    }
+                )
             )
         } else {
             scale.snapTo(1f)
@@ -135,15 +136,12 @@ fun MovablePawnUi(
         // }
     })
 
-
-
     PawnUi(
         modifier = modifier,
         offset = intOffsetAnimatable,
         isEnableForPlayer = isHuman, scaleProvide = { scale.value },
         pawnUiState = pawnUiState, onClick = onClick
     )
-
 }
 
 @Composable
@@ -163,7 +161,6 @@ fun PawnsUi(
             )
         }
     }
-
 }
 
 @Preview
@@ -179,9 +176,8 @@ fun PawnsUiPreview() {
                 PawnUiState(color = GameColor.GREEN, isEnable = true),
                 PawnUiState(color = GameColor.BLUE),
                 PawnUiState(color = GameColor.YELLOW)
-            ).toImmutableList(), getPositionIntOffset = getOffset
+            ).toImmutableList(),
+            getPositionIntOffset = getOffset
         )
     }
 }
-
-

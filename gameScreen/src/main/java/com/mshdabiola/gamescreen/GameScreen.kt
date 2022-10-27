@@ -1,17 +1,30 @@
 package com.mshdabiola.gamescreen
 
-
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -24,10 +37,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mshdabiola.gamescreen.state.toLudoUiState
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
 import com.mshdabiola.gamescreen.component.CounterGroupUiVertical
@@ -37,9 +46,11 @@ import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
 import com.mshdabiola.gamescreen.component.UnCancelableDialog
+import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.naijaludo.LudoGame
-
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -78,17 +89,12 @@ fun GameScreen(
 
     LaunchedEffect(key1 = gameUiState.ludoGameState.rotate) {
 
-
         //   rotateF.snapTo(0f)
         if (gameUiState.ludoGameState.rotate)
             rotateF.animateTo(360f, tween(4000))
         else
             rotateF.snapTo(0f)
-
     }
-
-
-
 
     GameScreen(
         gameUiState = gameUiState,
@@ -103,9 +109,7 @@ fun GameScreen(
         onPawn = gameScreenViewModel::onPawn,
         getPositionIntOffset = gameScreenViewModel::getPositionIntOffset
     )
-
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,12 +127,10 @@ fun GameScreen(
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
 
-
     val configuration = LocalConfiguration.current
     val isPortrait = remember(configuration) {
         configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     }
-
 
     Scaffold { paddingValues ->
         when {
@@ -145,8 +147,8 @@ fun GameScreen(
                 onDice, onCounter, onPawn, getPositionIntOffset
             )
 
-            (!isPortrait && deviceType == DEVICE_TYPE.FOLD)
-                    || (!isPortrait && deviceType == DEVICE_TYPE.TABLET) -> GameScreenLarge(
+            (!isPortrait && deviceType == DEVICE_TYPE.FOLD) ||
+                (!isPortrait && deviceType == DEVICE_TYPE.TABLET) -> GameScreenLarge(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
@@ -160,7 +162,6 @@ fun GameScreen(
                 onDice, onCounter, onPawn, getPositionIntOffset
             )
         }
-
     }
 }
 
@@ -184,8 +185,7 @@ fun GameScreenPhonePortrait(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
-        ,
+            .padding(paddingValues),
 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -197,11 +197,14 @@ fun GameScreenPhonePortrait(
         Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-            BoardUi(modifier = Modifier
-                .rotate(rotateF)
-                .fillMaxWidth(), board) {
+            BoardUi(
+                modifier = Modifier
+                    .rotate(rotateF)
+                    .fillMaxWidth(),
+                board
+            ) {
 
-                //pawn
+                // pawn
 
                 if (ludoGameState.listOfPawn.isNotEmpty()) {
                     PawnsUi(
@@ -212,8 +215,7 @@ fun GameScreenPhonePortrait(
                     )
                 }
 
-
-                //dice
+                // dice
 
                 if (ludoGameState.listOfDice.isNotEmpty()) {
                     DicesUi(
@@ -223,8 +225,7 @@ fun GameScreenPhonePortrait(
                     )
                 }
 
-
-                //drawer
+                // drawer
                 val drawer = ludoGameState.drawer
                 if (drawer != null) {
                     DrawerUi(
@@ -232,10 +233,7 @@ fun GameScreenPhonePortrait(
                         getPositionIntOffset = getPositionIntOffset,
                         onPawnDrawer = onPawn
                     )
-
                 }
-
-
             }
         }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
@@ -297,15 +295,15 @@ fun GameScreenPhoneLand(
         }
         Spacer(modifier = Modifier.width(16.dp))
 
-
         AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
             BoardUi(
                 modifier = Modifier
                     .rotate(rotateF)
-                    .fillMaxHeight(), board
+                    .fillMaxHeight(),
+                board
             ) {
 
-                //pawn
+                // pawn
 
                 if (ludoGameState.listOfPawn.isNotEmpty()) {
                     PawnsUi(
@@ -316,8 +314,7 @@ fun GameScreenPhoneLand(
                     )
                 }
 
-
-                //dice
+                // dice
 
                 if (ludoGameState.listOfDice.isNotEmpty()) {
                     DicesUi(
@@ -327,8 +324,7 @@ fun GameScreenPhoneLand(
                     )
                 }
 
-
-                //drawer
+                // drawer
                 val drawer = ludoGameState.drawer
                 if (drawer != null) {
                     DrawerUi(
@@ -336,10 +332,7 @@ fun GameScreenPhoneLand(
                         getPositionIntOffset = getPositionIntOffset,
                         onPawnDrawer = onPawn
                     )
-
                 }
-
-
             }
         }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
@@ -369,15 +362,12 @@ fun GameScreenPhoneLand(
             onRestart = onRestart
         )
     }
-
 }
-
 
 @Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Preview(device = "spec:width=411dp,height=891dp")
 @Composable
 fun GameScreenPreview() {
-
 
     val game = LudoGame.getDefaultGameState()
     val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
@@ -386,7 +376,6 @@ fun GameScreenPreview() {
         getPositionIntOffset = game.board::getPositionIntPoint
     )
 }
-
 
 @Composable
 fun GameScreeFoldPortrait(
@@ -408,24 +397,21 @@ fun GameScreeFoldPortrait(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
-
-
-        ,
+            .padding(paddingValues),
 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
 
         AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
             BoardUi(
                 modifier = Modifier
                     .rotate(rotateF)
                     .padding(horizontal = 64.dp)
-                    .fillMaxWidth(), board
+                    .fillMaxWidth(),
+                board
             ) {
 
-                //pawn
+                // pawn
 
                 if (ludoGameState.listOfPawn.isNotEmpty()) {
                     PawnsUi(
@@ -436,8 +422,7 @@ fun GameScreeFoldPortrait(
                     )
                 }
 
-
-                //dice
+                // dice
 
                 if (ludoGameState.listOfDice.isNotEmpty()) {
                     DicesUi(
@@ -447,8 +432,7 @@ fun GameScreeFoldPortrait(
                     )
                 }
 
-
-                //drawer
+                // drawer
                 val drawer = ludoGameState.drawer
                 if (drawer != null) {
                     DrawerUi(
@@ -456,10 +440,7 @@ fun GameScreeFoldPortrait(
                         getPositionIntOffset = getPositionIntOffset,
                         onPawnDrawer = onPawn
                     )
-
                 }
-
-
             }
         }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
@@ -481,7 +462,6 @@ fun GameScreeFoldPortrait(
             AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
                 PlayersUiVertical(player = ludoGameState.listOfPlayer)
             }
-
         }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
@@ -528,16 +508,16 @@ fun GameScreenLarge(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-
         Row(verticalAlignment = Alignment.CenterVertically) {
             AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
                 BoardUi(
                     modifier = Modifier
                         .rotate(rotateF)
-                        .fillMaxHeight(), board
+                        .fillMaxHeight(),
+                    board
                 ) {
 
-                    //pawn
+                    // pawn
 
                     if (ludoGameState.listOfPawn.isNotEmpty()) {
                         PawnsUi(
@@ -548,8 +528,7 @@ fun GameScreenLarge(
                         )
                     }
 
-
-                    //dice
+                    // dice
 
                     if (ludoGameState.listOfDice.isNotEmpty()) {
                         DicesUi(
@@ -559,8 +538,7 @@ fun GameScreenLarge(
                         )
                     }
 
-
-                    //drawer
+                    // drawer
                     val drawer = ludoGameState.drawer
                     if (drawer != null) {
                         DrawerUi(
@@ -568,10 +546,7 @@ fun GameScreenLarge(
                             getPositionIntOffset = getPositionIntOffset,
                             onPawnDrawer = onPawn
                         )
-
                     }
-
-
                 }
             }
             AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
@@ -603,7 +578,6 @@ fun GameScreenLarge(
     }
 }
 
-
 @Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
 @Preview(device = "spec:width=673.5dp,height=841dp,dpi=480")
 @Composable
@@ -633,7 +607,6 @@ fun GameScreenTabletPreview() {
 @Composable
 fun GameScreenLargPreview() {
 
-
     val game = LudoGame.getDefaultGameState()
     val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
     GameScreen(
@@ -654,7 +627,7 @@ fun StartGameDialog(
     AnimatedVisibility(visible = show) {
         UnCancelableDialog(title = "Start Game") {
 
-            //if(showContinueButton){
+            // if(showContinueButton){
             Button(
                 enabled = showContinueButton,
                 onClick = onContinueButton
@@ -673,7 +646,6 @@ fun StartGameDialog(
     }
 }
 
-
 @Preview
 @Composable
 fun StartGameDialogPreview() {
@@ -690,7 +662,6 @@ fun RestartDialog(
             Button(onClick = onRestart) {
                 Text(text = "Restart")
             }
-
         }
     }
 }

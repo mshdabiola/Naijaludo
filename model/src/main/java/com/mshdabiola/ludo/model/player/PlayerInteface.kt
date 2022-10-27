@@ -5,18 +5,17 @@ import com.mshdabiola.ludo.model.LudoGameState
 
 interface PlayerInteface {
     val name: String
-    val win : Int
+    val win: Int
     val isCurrent: Boolean
     val colors: List<GameColor>
-
 
     fun chooseCounter(
         gameState: LudoGameState,
     ): Int
 
-    //check kill
-    //check if any can move out
-    //move pawn -- danger pawn first
+    // check kill
+    // check if any can move out
+    // move pawn -- danger pawn first
     /*
     movable pawn map
     Map<Pawn, list<Pair<PawnOut,Distance>> -distance for under attack
@@ -25,5 +24,10 @@ interface PlayerInteface {
 
     fun choosePawn(gameState: LudoGameState): Int
 
-    fun copyPlayer(name:String = this.name,win:Int=this.win,isCurrent:Boolean=this.isCurrent,colors:List<GameColor> = this.colors):PlayerInteface
+    fun copyPlayer(
+        name: String = this.name,
+        win: Int = this.win,
+        isCurrent: Boolean = this.isCurrent,
+        colors: List<GameColor> = this.colors
+    ): PlayerInteface
 }

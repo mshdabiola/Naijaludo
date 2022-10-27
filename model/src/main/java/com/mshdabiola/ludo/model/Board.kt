@@ -1,12 +1,11 @@
 package com.mshdabiola.ludo.model
 
-
 import kotlin.math.abs
 
 class Board(var colors: List<GameColor> = GameColor.values().toList()) {
 
     private
-    //Starting point <col,row>, and number of box
+    // Starting point <col,row>, and number of box
     val homeStartPoint = listOf(Point(0f, 0f), Point(9f, 0f), Point(9f, 9f), Point(0f, 9f))
     val paths = if (colors.isNotEmpty()) initPathBox() else emptyList()
     val safePath = if (colors.isNotEmpty()) initSafePath() else emptyList()
@@ -20,7 +19,6 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
         )
     }
     else emptyList()
-
 
     private fun initPathBox(): List<Box> {
         val list = ArrayList<Box>(52)
@@ -50,17 +48,14 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
         list.addAll(boxs)
         list.add(Box(Point(0f, 7f)))
 
-        //setHome
+        // setHome
 
         list[1] = list[1].copy(isHome = true, showColor = true, color = colors[0])
         list[14] = list[14].copy(isHome = true, showColor = true, color = colors[1])
         list[27] = list[27].copy(isHome = true, showColor = true, color = colors[2])
         list[40] = list[40].copy(isHome = true, showColor = true, color = colors[3])
 
-
-
         return list
-
     }
 
     private fun initSafePath(): List<Box> {
@@ -107,7 +102,6 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
         list.addAll(boxs)
 
         return list
-
     }
 
     private fun initSmallBoxes(): List<Box> {
@@ -131,22 +125,19 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
             }
         }
         return listOfPath
-
     }
 
-
     fun getBoxByIndex(index: Int, color: GameColor): Box {
-        //home -1 to -4
+        // home -1 to -4
 
-        //start point 0
+        // start point 0
 
         // path 1 to 50
 
-        //safe path 51 to 55
+        // safe path 51 to 55
 
-        //out 56
+        // out 56
         return when (index) {
-
 
             0 -> getStartBox(color)
             in 1..50 -> {
@@ -162,9 +153,8 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
             }
 
             56 -> getLastBox()
-            else -> getHomeBox(abs(index + 1), color) //because home is -1 to -4
+            else -> getHomeBox(abs(index + 1), color) // because home is -1 to -4
         }
-
     }
 
     public fun getPositionIntPoint(currentPos: Int, color: GameColor): Point {
@@ -191,13 +181,11 @@ class Board(var colors: List<GameColor> = GameColor.values().toList()) {
     fun specificToGeneral(index: Int, color: GameColor): Int {
         val homeOfColor = getCurrentIndex(getStartBox(color))
 
-
         return if (index > (51 - homeOfColor)) homeOfColor + index - 52 else index + homeOfColor
     }
 
     private fun getCurrentIndex(box: Box): Int {
 
         return paths.indexOfFirst { it == box }
-
     }
 }

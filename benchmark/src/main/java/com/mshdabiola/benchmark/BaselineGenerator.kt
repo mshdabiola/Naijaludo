@@ -12,7 +12,7 @@ class BaselineGenerator {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun startUp()=baselineProfileRule.collectBaselineProfile(
+    fun startUp() = baselineProfileRule.collectBaselineProfile(
         packageName = "com.mshdabiola.ludo",
         profileBlock = {
             startActivityAndWait()

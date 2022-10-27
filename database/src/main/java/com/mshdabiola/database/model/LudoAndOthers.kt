@@ -11,7 +11,7 @@ data class LudoAndOthers(
         parentColumn = "id",
         entityColumn = "gameId"
     )
-    val pawnEntity:List <PawnEntity>,
+    val pawnEntity: List <PawnEntity>,
     @Relation(
         parentColumn = "id",
         entityColumn = "gameId"
@@ -20,14 +20,15 @@ data class LudoAndOthers(
 
 )
 
-fun LudoAndOthers.toPair():Pair<List<PlayerInteface>,List<Pawn>>{
+fun LudoAndOthers.toPair(): Pair<List<PlayerInteface>, List<Pawn>> {
     val pawns = pawnEntity.map { it.toPawn() }
     val playerColorsMap = pawnEntity.groupBy(
         keySelector = { it.playerId },
-        valueTransform = { it.toPawn().color })
+        valueTransform = { it.toPawn().color }
+    )
     val players = playerEntity.mapIndexed { index, playerEntity ->
         playerEntity.toPlayer(playerColorsMap[index]!!.distinct())
     }
 
-   return Pair(players, pawns)
+    return Pair(players, pawns)
 }

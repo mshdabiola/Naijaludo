@@ -4,10 +4,10 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -46,7 +45,6 @@ private val LightColors = lightColorScheme(
     inversePrimary = md_theme_light_inversePrimary,
     surfaceTint = md_theme_light_surfaceTint,
 )
-
 
 private val DarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -80,9 +78,9 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun LudoAppTheme(
-  useDarkTheme: Boolean = isSystemInDarkTheme(),
-  dynamicColor :Boolean =false,
-  content: @Composable () -> Unit
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
 ) {
 
     val colorScheme = when {
@@ -101,19 +99,17 @@ fun LudoAppTheme(
             activity.window.apply {
                 statusBarColor = colorScheme.background.toArgb()
                 navigationBarColor = Color.Transparent.toArgb()
-
             }
 
             WindowCompat.getInsetsController(activity.window, view).apply {
                 isAppearanceLightStatusBars = !useDarkTheme
                 isAppearanceLightNavigationBars = !useDarkTheme
             }
-
         }
     }
-  MaterialTheme(
-    colorScheme = colorScheme,
-      typography = LudoTypography,
-    content = content
-  )
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = LudoTypography,
+        content = content
+    )
 }

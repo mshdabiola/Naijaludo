@@ -9,4 +9,4 @@ data class DiceUiState(
     val number: Int = 1
 )
 
-fun Dice.toDiceUiState()=DiceUiState(id, isEnable, animate, number)
+fun Dice.toDiceUiState() = DiceUiState(id, isEnable, animate, number)

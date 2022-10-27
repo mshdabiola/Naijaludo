@@ -4,18 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
-import com.mshdabiola.database.model.LudoAndOthers
 import com.mshdabiola.database.model.toPair
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
-import com.mshdabiola.ludo.model.Pawn
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.PlayerInteface
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.naijaludo.LudoGame
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -25,10 +23,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -42,14 +37,12 @@ class GameViewModel @Inject constructor(
     private val _gameUiState = MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
     val gameUiState = _gameUiState.asStateFlow()
 
-    var gameId : Long?=null
-
+    var gameId: Long? = null
 
     init {
-        //react to ludoGame change
+        // react to ludoGame change
         viewModelScope.launch {
             game
-
                 .gameState
                 .distinctUntilChanged { old, new -> old == new }
                 .collect { ludoGameState ->
@@ -58,41 +51,35 @@ class GameViewModel @Inject constructor(
                 }
         }
 
-
-        //react to gameuistate change
+        // react to gameuistate change
         viewModelScope.launch {
             game.onStateChange()
         }
 
-
         viewModelScope.launch {
-            val ludoAndOthers= async{ ludoStateDomain.getLatestLudoAndOther().firstOrNull() }
+            val ludoAndOthers = async { ludoStateDomain.getLatestLudoAndOther().firstOrNull() }
 
-            if(gameUiState.value.isStartDialogOpen&&ludoAndOthers.await()!=null){
-                _gameUiState.value=gameUiState.value.copy(showContinueButton = true)
+            if (gameUiState.value.isStartDialogOpen && ludoAndOthers.await() != null) {
+                _gameUiState.value = gameUiState.value.copy(showContinueButton = true)
             }
         }
 
         viewModelScope.launch {
 
-                if(!gameUiState.value.isStartDialogOpen){
-                    loadGame()
-                }
-
+            if (!gameUiState.value.isStartDialogOpen) {
+                loadGame()
+            }
         }
-
     }
 
-    private suspend fun startGame(ludoGameState: LudoGameState?=null){
+    private suspend fun startGame(ludoGameState: LudoGameState? = null) {
 
-            delay(300)
-            game.start(
-                ludoGameState = ludoGameState,
-                onGameFinish = this@GameViewModel::onGameFinish,
-                onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying
-            )
-
-
+        delay(300)
+        game.start(
+            ludoGameState = ludoGameState,
+            onGameFinish = this@GameViewModel::onGameFinish,
+            onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying
+        )
     }
 
     fun onYouAndComputer() {
@@ -101,26 +88,26 @@ class GameViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.Default) {
 
-         startGame()
+            startGame()
         }
     }
 
-    fun onContinueClick(){
+    fun onContinueClick() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         savedStateHandle[SHOWDIALOG] = false
         loadGame()
     }
 
-    private fun loadGame(){
+    private fun loadGame() {
         viewModelScope.launch() {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
-            gameId=ludoAndOthers?.ludoEntity?.id
+            gameId = ludoAndOthers?.ludoEntity?.id
 
-            val pair =ludoAndOthers?.toPair()
-            val pawns= pair?.second?.toMutableList()
+            val pair = ludoAndOthers?.toPair()
+            val pawns = pair?.second?.toMutableList()
             val players = pair?.first
 
-            if(players!=null && pawns!=null) {
+            if (players != null && pawns != null) {
 
                 if (pawns.all { it.isOut() }) {
                     (0 until pawns.size).forEach {
@@ -137,7 +124,6 @@ class GameViewModel @Inject constructor(
             }
         }
     }
-
 
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
@@ -170,7 +156,6 @@ class GameViewModel @Inject constructor(
         game.pause()
     }
 
-
     private fun onGameFinish() {
         game.stop()
         _gameUiState.value = gameUiState.value.copy(isRestartDialogOpen = true)
@@ -187,12 +172,10 @@ class GameViewModel @Inject constructor(
         }
     }
 
-
     fun onDice() {
         viewModelScope.launch {
             game.onDice()
         }
-
     }
 
     fun onCounter(counterId: Int) {
@@ -211,21 +194,18 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             log("on game dispose")
             viewModelScope.launch(Dispatchers.IO) {
-              val id=  gameId ?:1
+                val id = gameId ?: 1
 
                 ludoStateDomain.insertLudo(game.gameState.value, id)
-
             }
         }
     }
 
-    private fun onPlayerFinishPlaying(){
+    private fun onPlayerFinishPlaying() {
         saveData()
     }
-
 
     companion object {
         const val SHOWDIALOG = "show_dialog"
     }
-
 }

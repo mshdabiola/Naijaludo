@@ -10,7 +10,8 @@ data class LudoUiState(
     val listOfPlayer: ImmutableList<PlayerUiState> = emptyList<PlayerUiState>().toImmutableList(),
     val listOfDice: ImmutableList<DiceUiState> = emptyList<DiceUiState>().toImmutableList(),
     val listOfPawn: ImmutableList<PawnUiState> = emptyList<PawnUiState>().toImmutableList(),
-    val listOfCounter: ImmutableList<CounterUiState> = emptyList<CounterUiState>().toImmutableList(),
+    val listOfCounter: ImmutableList<CounterUiState> =
+        emptyList<CounterUiState>().toImmutableList(),
     val drawer: DrawerUiState? = null,
     val board: BoardUiState,
     val isHumanPlayer: Boolean = false,

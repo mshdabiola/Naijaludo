@@ -20,9 +20,9 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun databaseProvider(
-        @ApplicationContext context :Context
-    ):LudoDatabase{
-        return Room.databaseBuilder(context,LudoDatabase::class.java,"ludoDb.db")
+        @ApplicationContext context: Context
+    ): LudoDatabase {
+        return Room.databaseBuilder(context, LudoDatabase::class.java, "ludoDb.db")
             .build()
 //        return Room.inMemoryDatabaseBuilder(context,LudoDatabase::class.java,)
 //            .build()
@@ -30,21 +30,19 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun playerDaoProvider(ludoDatabase: LudoDatabase):PlayerDao{
+    fun playerDaoProvider(ludoDatabase: LudoDatabase): PlayerDao {
         return ludoDatabase.getPlayerDao()
     }
 
     @Provides
     @Singleton
-    fun pawnDaoProvider(ludoDatabase: LudoDatabase):PawnDao{
-       return ludoDatabase.getPawnDao()
+    fun pawnDaoProvider(ludoDatabase: LudoDatabase): PawnDao {
+        return ludoDatabase.getPawnDao()
     }
 
     @Provides
     @Singleton
-    fun ludoDaoProvider(ludoDatabase: LudoDatabase):LudoDao{
+    fun ludoDaoProvider(ludoDatabase: LudoDatabase): LudoDao {
         return ludoDatabase.getLudoDao()
     }
-
-
 }

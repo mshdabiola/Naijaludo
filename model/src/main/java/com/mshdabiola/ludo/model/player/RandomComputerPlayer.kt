@@ -12,7 +12,7 @@ data class RandomComputerPlayer(
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor>
-) :PlayerInteface{
+) : PlayerInteface {
 
     override fun chooseCounter(
         gameState: LudoGameState,
@@ -36,10 +36,11 @@ data class RandomComputerPlayer(
         colors: List<GameColor>
     ): PlayerInteface {
         return copy(
-            name=name,
-            win=win,
-            isCurrent=isCurrent,
-            colors = colors)
+            name = name,
+            win = win,
+            isCurrent = isCurrent,
+            colors = colors
+        )
     }
 
     private fun counterLogic(ludoGameState: LudoGameState): Int {
@@ -51,15 +52,13 @@ data class RandomComputerPlayer(
             .toIntArray()
 
         val playerPawn = ludoGameState.listOfPawn
-
             .filter { it.color in colors && !it.isOut() }
 
-
-        //kill
+        // kill
         enableCounter.forEach { counter ->
             playerPawn
                 .map {
-                    //is home and have six
+                    // is home and have six
                     if (it.isHome() && counter.number == 6)
                         ludoGameState.board.specificToGeneral(0, it.color)
                     else
@@ -76,7 +75,7 @@ data class RandomComputerPlayer(
                 }
         }
 
-        //move out
+        // move out
 
         enableCounter.forEach {
             if (it.number == 6) {
@@ -84,10 +83,9 @@ data class RandomComputerPlayer(
             }
         }
 
-        //random
+        // random
 
         return enableCounter.first().id
-
     }
 
     private fun pawnLogic(ludoGameState: LudoGameState): Int {
@@ -103,7 +101,6 @@ data class RandomComputerPlayer(
         val number = ludoGameState.currentDiceNumber
         val totalDiceNumber = ludoGameState.listOfDice[1].number
 
-
         val oppPawn2 = allOppPawns
             .filter { it.isOnPath() }
 
@@ -112,7 +109,7 @@ data class RandomComputerPlayer(
             .map { it.color }
             .distinctBy { it }
 
-        //kill
+        // kill
 
         enablePawn.forEach {
 
@@ -126,7 +123,7 @@ data class RandomComputerPlayer(
             }
         }
 
-        //come out
+        // come out
         if (number == 6 && enablePawn.any { it.isHome() }) {
             val sortedHomePawn = enablePawn
                 .filter { it.isHome() }
@@ -150,8 +147,7 @@ data class RandomComputerPlayer(
             return sortedHomePawn.first().first.index
         }
 
-
-        //test point
+        // test point
         val sortedMap = enablePawn
             .shuffled()
             .map {
@@ -169,11 +165,15 @@ data class RandomComputerPlayer(
                 )
             }
             .sortedBy { -it.second }
-        log("sorted by risk ${sortedMap.joinToString { "${it.first.id}-${it.first.color}  ${it.second}" }}")
+        log(
+            "sorted by risk ${sortedMap.joinToString {
+                "${it.first.id}-${it.first.color}" +
+                    "  ${it.second}"
+            }}"
+        )
 
-        //move
+        // move
         return sortedMap.first().first.index
-
     }
 
     private fun getOpponentPawns(ludoGameState: LudoGameState): List<Pawn> {
@@ -181,22 +181,21 @@ data class RandomComputerPlayer(
         return ludoGameState.listOfPawn.filter { it.color !in colors }
     }
 
-
     private fun getPoint(distance: Int): Float {
         log("get point on distance $distance")
         return when (distance) {
             in 1..12 -> getProbability(distance)
             in 13..24 -> getProbability(12) * getProbability(distance - 12)
-            in 25..36 -> getProbability(12, 2) * getProbability(distance - 24)
+            in 25..36 ->
+                getProbability(12, 2) * getProbability(distance - 24)
             else -> getProbability(12, 3) * getProbability(distance - 36)
         }
-
     }
 
     private fun getProbability(number: Int, pow: Int = 1): Float {
         val result = if (number < 7) (number + 1) / 36f
         else (12 - number + 1) / 36f
-        //log("number $number probability $result2")
+        // log("number $number probability $result2")
         return result.toDouble().pow(pow.toDouble()).toFloat()
     }
 
@@ -208,7 +207,6 @@ data class RandomComputerPlayer(
         newPos: Int,
         totalDiceNumber: Int
     ): Float {
-
 
         return when {
             pawn.currentPos > 51 -> -100f
@@ -228,16 +226,20 @@ data class RandomComputerPlayer(
 
                     val distanceBtwOppAndPawn = 52 - distanceBtwPawnAndOpp
 
-                    log("distance from ${pawn.color} ${pawn.id} and ${it.color} ${it.id} $distanceBtwPawnAndOpp ")
+                    log(
+                        "distance from ${pawn.color} ${pawn.id} and ${it.color} ${it.id}" +
+                            " $distanceBtwPawnAndOpp "
+                    )
 
                     point += getPoint(distanceBtwPawnAndOpp)
 
                     if ((it.getDistanceRemain() - 6) > distanceBtwOppAndPawn) {
-                        log("distance from ${it.color} ${it.id} and ${pawn.color} ${pawn.id} $distanceBtwOppAndPawn ")
+                        log(
+                            "distance from ${it.color} ${it.id} and" +
+                                " ${pawn.color} ${pawn.id} $distanceBtwOppAndPawn "
+                        )
                         point -= getPoint(distanceBtwOppAndPawn)
                     }
-
-
                 }
                 oppColorPawnAtHome.forEach {
                     val homePos = board.specificToGeneral(0, it)
@@ -252,31 +254,23 @@ data class RandomComputerPlayer(
 
                         getRiskyArea(generalNewPos, homePos) -> {
                             log("total number is $totalDiceNumber")
-                            if(totalDiceNumber>10&&getSafeArea(position,homePos)){
-                                point=0f
-                            }else{
+                            if (totalDiceNumber > 10 && getSafeArea(position, homePos)) {
+                                point = 0f
+                            } else {
                                 point -= 100f
                             }
-
                         }
                     }
                 }
 
-
-
-
                 point
-
             }
         }
-
-
     }
 
     private fun getRiskyArea(pos: Int, homeId: Int): Boolean {
 
         return pos in homeId..(homeId + 5)
-
     }
 
     private fun getSafeArea(pos: Int, homeId: Int): Boolean {
@@ -285,7 +279,5 @@ data class RandomComputerPlayer(
         } else {
             pos in (homeId - 1) downTo (homeId - 3)
         }
-
     }
-
 }

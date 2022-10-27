@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface PawnDao {
 
     @Upsert
-    suspend fun upsert(pawnEntity: PawnEntity):Long
+    suspend fun upsert(pawnEntity: PawnEntity): Long
 
     @Upsert
     suspend fun upsertMany(pawns: List<PawnEntity>)
@@ -23,10 +23,8 @@ interface PawnDao {
     suspend fun deleteMany(vararg pawnEntity: PawnEntity)
 
     @Query("SELECT * FROM pawn_table WHERE id = :id AND gameId = :gameId")
-    fun getOne(id : Int,gameId : Int):Flow<PawnEntity>
+    fun getOne(id: Int, gameId: Int): Flow<PawnEntity>
 
     @Query("SELECT * FROM pawn_table")
-    fun getAll():Flow<List<PawnEntity>>
-
-
+    fun getAll(): Flow<List<PawnEntity>>
 }

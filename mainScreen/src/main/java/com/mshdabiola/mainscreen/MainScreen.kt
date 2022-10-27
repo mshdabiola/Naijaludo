@@ -27,14 +27,15 @@ import com.mshdabiola.gamescreen.component.GameButton
 import com.mshdabiola.ludo.model.navigation.LudoNavDestination
 
 @Composable
-fun MainScreen(navigateTo : (String)->Unit) {
+fun MainScreen(navigateTo: (String) -> Unit) {
     val activity = LocalContext.current as Activity
 
-    MainScreen(onPlay = {
-       // navController.popBackStack()
-      //  navController.navigate("game")
-                        navigateTo(LudoNavDestination.GameNavDestination.route)
-    },
+    MainScreen(
+        onPlay = {
+            // navController.popBackStack()
+            //  navController.navigate("game")
+            navigateTo(LudoNavDestination.GameNavDestination.route)
+        },
         onCloseApp = {
             activity.finish()
         }
@@ -48,7 +49,6 @@ fun MainScreen(
     onCloseApp: () -> Unit = {}
 
 ) {
-
 
     Scaffold(
 
@@ -64,10 +64,10 @@ fun MainScreen(
                         contentDescription = "cancel",
                         Modifier.rotate(45f)
                     )
-
                 }
             }, title = {})
-        }) {
+        }
+    ) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -88,12 +88,8 @@ fun MainScreen(
                     modifier = Modifier.size(64.dp)
                 )
             }
-
-
         }
     }
-
-
 }
 
 @Preview

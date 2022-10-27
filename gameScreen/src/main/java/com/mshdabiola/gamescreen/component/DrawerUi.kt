@@ -27,83 +27,72 @@ import com.mshdabiola.ludo.model.Point
 
 @Composable
 fun DrawerUi(
-    modifier: Modifier=Modifier.zIndex(60f)
-    , drawerUiState: DrawerUiState = DrawerUiState(),
-    onPawnDrawer: (Int,Boolean)->Unit={_,_->},
-    getPositionIntOffset: (Int, GameColor) -> Point = { _, _-> Point.zero}
-             ) {
+    modifier: Modifier = Modifier.zIndex(60f),
+    drawerUiState: DrawerUiState = DrawerUiState(),
+    onPawnDrawer: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset: (Int, GameColor) -> Point = { _, _ -> Point.zero }
+) {
 
     val pawn = drawerUiState.listOfPawnUiState.first()
-    val offset = getPositionIntOffset(pawn.currentPos,pawn.color)
+    val offset = getPositionIntOffset(pawn.currentPos, pawn.color)
     val oneDp = LocalUnitDP.current
-    val padding = oneDp*0.1f
+    val padding = oneDp * 0.1f
 
-
-
-
-        if (isHorizontal(offset.x.toInt())){
-            val x = (oneDp * offset.x) -padding
-            val y = (oneDp * offset.y) -(oneDp/2+padding)
-            Column(modifier = modifier
-                .offset(x,y)
+    if (isHorizontal(offset.x.toInt())) {
+        val x = (oneDp * offset.x) - padding
+        val y = (oneDp * offset.y) - (oneDp / 2 + padding)
+        Column(
+            modifier = modifier
+                .offset(x, y)
                 .clip(RoundedCornerShape(100))
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
                 .padding(padding)
 
-            ) {
+        ) {
 
-                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
+            drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
 
-                    PawnUi(
-                        modifier = Modifier.size(oneDp),
-                        offset = IntOffset.Zero,
-                        pawnUiState = pawn,
-                        isEnableForPlayer = true,
-                        onClick = {_,_-> onPawnDrawer(index,true)}
-                    )
+                PawnUi(
+                    modifier = Modifier.size(oneDp),
+                    offset = IntOffset.Zero,
+                    pawnUiState = pawn,
+                    isEnableForPlayer = true,
+                    onClick = { _, _ -> onPawnDrawer(index, true) }
+                )
 
-                    if (index!=drawerUiState.listOfPawnUiState.lastIndex){
-                        Spacer(modifier = Modifier.height(padding))
-                    }
-
+                if (index != drawerUiState.listOfPawnUiState.lastIndex) {
+                    Spacer(modifier = Modifier.height(padding))
                 }
-
-
             }
-        }else{
-            val x = (oneDp * offset.x) -(oneDp/2+padding)
-            val y = (oneDp * offset.y) -padding
-            Row(modifier = modifier
-                .offset(x,y)
+        }
+    } else {
+        val x = (oneDp * offset.x) - (oneDp / 2 + padding)
+        val y = (oneDp * offset.y) - padding
+        Row(
+            modifier = modifier
+                .offset(x, y)
                 .clip(RoundedCornerShape(100))
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
                 .padding(padding)
 
-            ) {
+        ) {
 
-                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
+            drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
 
-                    PawnUi(
-                        modifier = Modifier.size(oneDp),
-                        offset = IntOffset.Zero,
-                        pawnUiState = pawn,
-                        isEnableForPlayer = true,
-                        onClick = {_,_-> onPawnDrawer(index,true)}
-                    )
+                PawnUi(
+                    modifier = Modifier.size(oneDp),
+                    offset = IntOffset.Zero,
+                    pawnUiState = pawn,
+                    isEnableForPlayer = true,
+                    onClick = { _, _ -> onPawnDrawer(index, true) }
+                )
 
-                    if (index!=drawerUiState.listOfPawnUiState.lastIndex){
-                        Spacer(modifier = Modifier.width(padding))
-                    }
-
+                if (index != drawerUiState.listOfPawnUiState.lastIndex) {
+                    Spacer(modifier = Modifier.width(padding))
                 }
-
-
             }
         }
-
-
-
-
+    }
 }
 
 @Preview
@@ -113,31 +102,33 @@ fun DrawerBoardPreview() {
     BoardUi(boardUiState = board.toBoardUiState()) {
 
         val point = mapOf(
-            1 to intArrayOf(50,50,49),
-            2 to intArrayOf(12,11,10),
-            3 to intArrayOf(23,24,25),
-            4 to intArrayOf(36,37,38)
+            1 to intArrayOf(50, 50, 49),
+            2 to intArrayOf(12, 11, 10),
+            3 to intArrayOf(23, 24, 25),
+            4 to intArrayOf(36, 37, 38)
         )
-        val i=1
+        val i = 1
 
         DrawerUi(
-            drawerUiState = DrawerUiState(listOf(
-                PawnUiState(currentPos = point[i]!![1]),
-                PawnUiState(color = GameColor.BLUE)
-            )),
+            drawerUiState = DrawerUiState(
+                listOf(
+                    PawnUiState(currentPos = point[i]!![1]),
+                    PawnUiState(color = GameColor.BLUE)
+                )
+            ),
 
             getPositionIntOffset = board::getPositionIntPoint
         )
 
         DrawerUi(
-            drawerUiState = DrawerUiState(listOf(
-                PawnUiState(currentPos = 9),
-                PawnUiState(color = GameColor.BLUE)
-            )),
+            drawerUiState = DrawerUiState(
+                listOf(
+                    PawnUiState(currentPos = 9),
+                    PawnUiState(color = GameColor.BLUE)
+                )
+            ),
 
             getPositionIntOffset = board::getPositionIntPoint
         )
-
-
     }
 }

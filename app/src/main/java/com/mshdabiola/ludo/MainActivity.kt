@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-     //   val gameViewModel = viewModels<GameViewModel>().value
+        //   val gameViewModel = viewModels<GameViewModel>().value
         super.onCreate(savedInstanceState)
         setContent {
 //            NaijaLudoTheme {
@@ -21,9 +21,9 @@ class MainActivity : ComponentActivity() {
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
 //                ) {
-                    //WindowCompat.setDecorFitsSystemWindows(window,false)
-                    LudoApp(windowSizeClass = calculateWindowSizeClass(activity = this))
-                   // MyNavigationGraph(gameScreenViewModel = gameViewModel)
+            // WindowCompat.setDecorFitsSystemWindows(window,false)
+            LudoApp(windowSizeClass = calculateWindowSizeClass(activity = this))
+            // MyNavigationGraph(gameScreenViewModel = gameViewModel)
 //                }
 //            }
         }

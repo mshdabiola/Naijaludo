@@ -32,15 +32,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon.ArrowIcon
 import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
-import com.mshdabiola.designsystem.theme.blue
-import com.mshdabiola.designsystem.theme.green
-import com.mshdabiola.designsystem.theme.red
 import com.mshdabiola.designsystem.theme.toHomeColor
-import com.mshdabiola.designsystem.theme.yellow
 import com.mshdabiola.gamescreen.state.BoxUiState
-import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
-
 
 @Composable
 fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {
@@ -48,11 +42,20 @@ fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {
     Surface(
         modifier = Modifier
             .size(oneUnit * sizeScale)
-            .offset(oneUnit * box.point.x, oneUnit * box.point.y),
-        color = if (box.showColor) box.color.toHomeColor() else Color.Transparent,
-        border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
+            .offset(
+                oneUnit * box.point.x,
+                oneUnit * box.point.y
+            ),
+        color = if (box.showColor)
+            box.color.toHomeColor()
+        else Color.Transparent,
+        border = BorderStroke(
+            (0.3f).dp,
+            MaterialTheme.colorScheme
+                .onSecondaryContainer
+                .copy(alpha = 0.4f)
+        )
     ) {}
-
 }
 
 @Composable
@@ -61,22 +64,29 @@ fun SafeBoxUi(box: BoxUiState) {
     Surface(
         modifier = Modifier
             .size(oneUnit)
-            .offset(oneUnit * box.point.x, oneUnit * box.point.y),
-        color = if (box.showColor) box.color.toHomeColor() else Color.Transparent,
-        border = BorderStroke((0.3f).dp, MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f))
+            .offset(
+                oneUnit * box.point.x,
+                oneUnit * box.point.y
+            ),
+        color = if (box.showColor)
+            box.color.toHomeColor()
+        else Color.Transparent,
+        border = BorderStroke(
+            (0.3f).dp,
+            MaterialTheme.colorScheme
+                .onSecondaryContainer
+                .copy(alpha = 0.4f)
+        )
     ) {
         Box(
             modifier = Modifier
                 .padding(2.dp)
                 .fillMaxWidth()
-
                 .clip(CircleShape)
                 .background(Color.White)
                 .border(1.dp, Color.Black, CircleShape)
         )
-
     }
-
 }
 
 @Composable
@@ -85,45 +95,64 @@ fun HomeBoxUi(box: BoxUiState) {
     Box(
         modifier = Modifier
             .size(oneUnit * 6)
-            .offset(oneUnit * box.point.x, oneUnit * box.point.y)
-            .innerShadow(box.color.toHomeColor())
+            .offset(
+                oneUnit * box.point.x,
+                oneUnit * box.point.y
+            )
+            .innerShadow(
+                box
+                    .color.toHomeColor()
+            )
 
     )
-
 }
 
 @Composable
-fun ImageBoxUi(box: BoxUiState, @DrawableRes drawableRes: Int = BoardImage[1]) {
+fun ImageBoxUi(
+    box: BoxUiState,
+    @DrawableRes
+    drawableRes: Int = BoardImage[1]
+) {
     val oneUnit = LocalUnitDP.current
     Box(
         modifier = Modifier
             .size(oneUnit * 6)
-            .offset(oneUnit * box.point.x, oneUnit * box.point.y)
-
+            .offset(
+                oneUnit * box.point.x,
+                oneUnit * box.point.y
+            )
 
     ) {
         Image(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxSize(),
-            painter = painterResource(id = drawableRes),
+            painter = painterResource(
+                id =
+                drawableRes
+            ),
             contentDescription = ""
         )
     }
-
 }
 
 @Preview
 @Composable
 fun HomeBoxUiPreview() {
 
-    CompositionLocalProvider(LocalUnitDP provides 100.dp) {
+    CompositionLocalProvider(
+        LocalUnitDP provides 100.dp
+    ) {
 
-        ImageBoxUi(box = BoxUiState(point = Point.zero, showColor = true))
+        ImageBoxUi(
+            box = BoxUiState(
+                point =
+                Point.zero,
+                showColor = true
+            )
+        )
     }
-
 }
-
 
 @Composable
 fun ArrowBox(modifier: Modifier) {
@@ -133,22 +162,21 @@ fun ArrowBox(modifier: Modifier) {
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = ArrowIcon),
             contentDescription = "",
-            tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f)
+            tint = MaterialTheme
+                .colorScheme
+                .onSecondaryContainer
+                .copy(alpha = 0.4f)
         )
     }
 }
-
-
 
 fun Modifier.innerShadow(
     foreGroundColor: Color = Color.Red,
     shadowColor: Color = Color.Black
 ) = composed(
     inspectorInfo = {
-
     },
     factory = {
-
 
         val paint = remember() {
             Paint()
@@ -167,19 +195,18 @@ fun Modifier.innerShadow(
         Modifier.drawWithContent {
             this.drawIntoCanvas {
 
-
                 val radius = 4.dp.toPx()
 
-                frameworkPaint.color = Color.Transparent.toArgb()
+                frameworkPaint.color = Color
+                    .Transparent.toArgb()
 
-                //frameworkPaint.
+                // frameworkPaint.
                 frameworkPaint.setShadowLayer(
                     radius,
                     0f,
                     0f,
                     foreGroundColor.copy(alpha = 0.7f).toArgb()
                 )
-
 
                 it.drawRoundRect(
                     left = 0f,
@@ -201,17 +228,11 @@ fun Modifier.innerShadow(
                     paint = paint
                 )
 
-
                 drawContent()
-
             }
         }
     }
 )
 //
-//fun Point.toOffset() = Offset(x, y)
+// fun Point.toOffset() = Offset(x, y)
 fun Point.toIntOffset() = IntOffset(x.toInt(), y.toInt())
-
-
-
-

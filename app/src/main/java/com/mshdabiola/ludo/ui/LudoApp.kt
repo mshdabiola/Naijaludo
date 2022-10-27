@@ -19,7 +19,6 @@ fun LudoApp(
             onNavigate = appState::navigateTo,
             onBackClick = appState::onBackPressed,
         )
-        //change display here
+        // change display here
     }
-
 }
