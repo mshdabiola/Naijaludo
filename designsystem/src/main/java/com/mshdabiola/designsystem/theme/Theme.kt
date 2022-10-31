@@ -95,9 +95,9 @@ fun LudoAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val activity = view.context as Activity
-            // WindowCompat.setDecorFitsSystemWindows(activity.window, false)
+            WindowCompat.setDecorFitsSystemWindows(activity.window, false)
             activity.window.apply {
-                statusBarColor = colorScheme.background.toArgb()
+                statusBarColor = Color.Transparent.toArgb()
                 navigationBarColor = Color.Transparent.toArgb()
             }
 

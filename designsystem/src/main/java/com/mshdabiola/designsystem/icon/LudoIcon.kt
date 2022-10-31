@@ -25,4 +25,8 @@ object LudoIcon {
     val DiceRollImage = R.drawable.dice_roll
 
     val PlayIcon = R.drawable.ic_baseline_play_arrow_24
+
+    val logo = R.drawable.logo
+
+    val bg = R.drawable.bg
 }
