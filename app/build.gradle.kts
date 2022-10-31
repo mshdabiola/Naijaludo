@@ -1,8 +1,11 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -73,6 +76,8 @@ dependencies {
     implementation(libs.bundles.compose.bundle)
 
     implementation (project(":model"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.3.1")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.2.0")
 
     kapt (libs.hilt.compiler)
 

@@ -31,6 +31,10 @@ androidxTracing = "1.1.0"
 androidxUiAutomator = "2.2.0"
 androidxWork = "2.7.1"
 coil = "2.2.1"
+firebaseAnalytics="21.2.0"
+firebaseCrashlyticsKts="18.3.1"
+googleServicePlugin = "4.3.14"
+firebaseCrashylyticsPlugins ="2.9.0"
 hilt = "2.44"
 hiltExt = "1.0.0"
 jacoco = "0.8.7"
@@ -99,6 +103,8 @@ androidx-work-testing = { group = "androidx.work", name = "work-testing", versio
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+firebase-analytics-kts={group="com.google.firebase",name="firebase-analytics-ktx",version.ref="firebaseAnalytics"}
+firebase-crashlytics={group="com.google.firebase",name="firebase-crashlytics",version.ref="firebaseCrashlyticsKts"}
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
@@ -168,6 +174,8 @@ room-bundle=["room-runtime","room-ktx"]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServicePlugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashylyticsPlugins" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
