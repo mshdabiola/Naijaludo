@@ -93,14 +93,14 @@ fun DiceUiPreview() {
 
 @Composable
 fun DicesUi(
-    diceUiStateListProvider:()-> ImmutableList<DiceUiState>,
-    isHumanProvider:()-> Boolean = { true },
+    diceUiStateListProvider: () -> ImmutableList<DiceUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onClick: () -> Unit = {}
 ) {
-    val diceUiStateList=diceUiStateListProvider()
+    val diceUiStateList = diceUiStateListProvider()
     val isHuman = isHumanProvider()
     // val oneDp = LocalUnitDP.current
-   AnimatedVisibility(visible = diceUiStateList.isNotEmpty()) {
+    AnimatedVisibility(visible = diceUiStateList.isNotEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
             diceUiStateList.forEach {
                 // if (!it.isTotal) {

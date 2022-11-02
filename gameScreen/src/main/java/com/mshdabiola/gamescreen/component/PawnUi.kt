@@ -147,12 +147,12 @@ fun MovablePawnUi(
 
 @Composable
 fun PawnsUi(
-    pawnUiStateListProvider:()-> ImmutableList<PawnUiState>,
-    isHumanProvider:()-> Boolean = { true },
+    pawnUiStateListProvider: () -> ImmutableList<PawnUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onClick: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, GameColor) -> Point,
 ) {
-    AnimatedVisibility(visible = pawnUiStateListProvider().isNotEmpty()){
+    AnimatedVisibility(visible = pawnUiStateListProvider().isNotEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
             pawnUiStateListProvider().forEach {
                 MovablePawnUi(

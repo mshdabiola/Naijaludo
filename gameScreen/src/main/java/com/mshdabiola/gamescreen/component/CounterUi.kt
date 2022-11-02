@@ -59,13 +59,13 @@ fun CounterUi(
 @Composable
 fun CounterGroupUi(
     modifier: Modifier = Modifier,
-    counterUiStateListProvider: ()->ImmutableList<CounterUiState>,
-    isHumanProvider:()-> Boolean = { true },
+    counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    val counterUiStateList=counterUiStateListProvider()
-    val isHuman=isHumanProvider()
+    val counterUiStateList = counterUiStateListProvider()
+    val isHuman = isHumanProvider()
     AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
         Surface(
 
@@ -98,13 +98,13 @@ fun CounterGroupUi(
 @Composable
 fun CounterGroupUiVertical(
     modifier: Modifier = Modifier,
-    counterUiStateListProvider: ()->ImmutableList<CounterUiState>,
-    isHumanProvider:()-> Boolean = { true },
+    counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    val counterUiStateList=counterUiStateListProvider()
-    val isHuman=isHumanProvider()
+    val counterUiStateList = counterUiStateListProvider()
+    val isHuman = isHumanProvider()
 
     AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
         Surface(

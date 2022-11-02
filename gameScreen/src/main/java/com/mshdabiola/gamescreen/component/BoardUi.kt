@@ -28,10 +28,10 @@ import com.mshdabiola.ludo.model.GameColor
 @Composable
 fun BoardUi(
     modifier: Modifier = Modifier,
-    boardUiStateProvider:()-> BoardUiState,
+    boardUiStateProvider: () -> BoardUiState,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    val boardUiState=boardUiStateProvider()
+    val boardUiState = boardUiStateProvider()
     AnimatedVisibility(
         modifier = modifier.aspectRatio(1f),
         visible = boardUiState.pathBoxes.isNotEmpty()

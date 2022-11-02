@@ -28,12 +28,12 @@ import com.mshdabiola.ludo.model.Point
 @Composable
 fun DrawerUi(
     modifier: Modifier = Modifier.zIndex(60f),
-    drawerUiStateProvider:()-> DrawerUiState? = { DrawerUiState() },
+    drawerUiStateProvider: () -> DrawerUiState? = { DrawerUiState() },
     onPawnDrawer: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, GameColor) -> Point = { _, _ -> Point.zero }
 ) {
-    val drawerUiState= drawerUiStateProvider()
-    if(drawerUiState!=null){
+    val drawerUiState = drawerUiStateProvider()
+    if (drawerUiState != null) {
         val pawn = drawerUiState.listOfPawnUiState.first()
         val offset = getPositionIntOffset(pawn.currentPos, pawn.color)
         val oneDp = LocalUnitDP.current

@@ -135,9 +135,9 @@ fun PlayerUiPreview() {
 }
 
 @Composable
-fun PlayersUi(modifier: Modifier = Modifier, playerProvider:()-> ImmutableList<PlayerUiState>) {
+fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList<PlayerUiState>) {
 
-    val player=playerProvider()
+    val player = playerProvider()
     AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (player.size) {
@@ -185,8 +185,11 @@ fun PlayersUi(modifier: Modifier = Modifier, playerProvider:()-> ImmutableList<P
 }
 
 @Composable
-fun PlayersUiVertical(modifier: Modifier = Modifier, playerProvider: ()->ImmutableList<PlayerUiState>) {
-    val player=playerProvider()
+fun PlayersUiVertical(
+    modifier: Modifier = Modifier,
+    playerProvider: () -> ImmutableList<PlayerUiState>
+) {
+    val player = playerProvider()
     AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (player.size) {
