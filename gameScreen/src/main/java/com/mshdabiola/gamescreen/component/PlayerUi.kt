@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -134,40 +135,47 @@ fun PlayerUiPreview() {
 }
 
 @Composable
-fun PlayersUi(player: ImmutableList<PlayerUiState>) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        when (player.size) {
-            2 -> {
-                Row {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50, bottomStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50, bottomEnd = 50)
+fun PlayersUi(modifier: Modifier=Modifier,player: ImmutableList<PlayerUiState>) {
+   AnimatedVisibility(visible = player.isNotEmpty()) {
+        Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+            when (player.size) {
+                2 -> {
+                    Row {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50, bottomStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50, bottomEnd = 50)
+                    }
                 }
-            }
 
-            3 -> {
-                Row() {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                3 -> {
+                    Row() {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row() {
+                        PlayerUi(
+                            player = player[2],
+                            isEven = true,
+                            bottomStart = 50,
+                            bottomEnd = 50
+                        )
+                    }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row() {
-                    PlayerUi(player = player[2], isEven = true, bottomStart = 50, bottomEnd = 50)
-                }
-            }
 
-            else -> {
-                Row {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50)
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    PlayerUi(player = player[3], isEven = true, bottomStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[2], isEven = false, bottomEnd = 50)
+                else -> {
+                    Row {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row {
+                        PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[2], isEven = false, bottomEnd = 50)
+                    }
                 }
             }
         }
@@ -176,37 +184,39 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
 
 @Composable
 fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        when (player.size) {
-            2 -> {
+    AnimatedVisibility(visible = player.isNotEmpty()) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            when (player.size) {
+                2 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true, bottomStart = 50)
-            }
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true, bottomStart = 50)
+                }
 
-            3 -> {
+                3 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true)
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true)
 
-                Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
-                PlayerUi(player = player[2], isEven = true, bottomStart = 50)
-            }
+                    PlayerUi(player = player[2], isEven = true, bottomStart = 50)
+                }
 
-            else -> {
+                else -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true)
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true)
 
-                Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
-                PlayerUi(player = player[2], isEven = true)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                    PlayerUi(player = player[2], isEven = true)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                }
             }
         }
     }

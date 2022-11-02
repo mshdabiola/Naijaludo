@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -63,27 +64,29 @@ fun CounterGroupUi(
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(100),
-        color = MaterialTheme.colorScheme.primaryContainer
+    AnimatedVisibility(visible = counterUiStateList.isNotEmpty()){
+        Surface(
+            modifier = modifier,
+            shape = RoundedCornerShape(100),
+            color = MaterialTheme.colorScheme.primaryContainer
 
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-            counterUiStateList.forEachIndexed { index, counter ->
-                CounterUi(
-                    counterUiState = counter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounterClick
-                )
-                if (index != counterUiStateList.lastIndex) {
-                    Spacer(modifier = Modifier.width(8.dp))
+                counterUiStateList.forEachIndexed { index, counter ->
+                    CounterUi(
+                        counterUiState = counter,
+                        isHuman = isHuman,
+                        onCounterClick = onCounterClick
+                    )
+                    if (index != counterUiStateList.lastIndex) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
                 }
             }
         }
@@ -98,27 +101,30 @@ fun CounterGroupUiVertical(
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(100),
-        color = MaterialTheme.colorScheme.primaryContainer
 
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+    AnimatedVisibility(visible = counterUiStateList.isNotEmpty()) {
+        Surface(
+            modifier = modifier,
+            shape = RoundedCornerShape(100),
+            color = MaterialTheme.colorScheme.primaryContainer
+
         ) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-            counterUiStateList.forEachIndexed { index, counter ->
-                CounterUi(
-                    counterUiState = counter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounterClick
-                )
-                if (index != counterUiStateList.lastIndex) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                counterUiStateList.forEachIndexed { index, counter ->
+                    CounterUi(
+                        counterUiState = counter,
+                        isHuman = isHuman,
+                        onCounterClick = onCounterClick
+                    )
+                    if (index != counterUiStateList.lastIndex) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }

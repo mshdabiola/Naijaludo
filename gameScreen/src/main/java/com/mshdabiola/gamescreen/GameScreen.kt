@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -56,7 +57,7 @@ import com.mshdabiola.naijaludo.LudoGame
 @Composable
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
@@ -116,7 +117,7 @@ fun GameScreen(
 fun GameScreen(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE,
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
     onContinueClick: () -> Unit = {},
@@ -127,28 +128,28 @@ fun GameScreen(
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
 
-    val configuration = LocalConfiguration.current
-    val isPortrait = remember(configuration) {
-        configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-    }
+//    val configuration = LocalConfiguration.current
+//    val isPortrait = remember(configuration) {
+//        configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+//    }
 
     Scaffold { paddingValues ->
         when {
-            !isPortrait && deviceType == DEVICE_TYPE.PHONE -> GameScreenPhoneLand(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
-            )
-            isPortrait && deviceType == DEVICE_TYPE.FOLD -> GameScreeFoldPortrait(
+            deviceType == DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
                 onDice, onCounter, onPawn, getPositionIntOffset
             )
 
-            (!isPortrait && deviceType == DEVICE_TYPE.FOLD) ||
-                (!isPortrait && deviceType == DEVICE_TYPE.TABLET) -> GameScreenLarge(
+            deviceType == DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
+                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
+                onContinueClick,
+                onRestart,
+                onDice, onCounter, onPawn, getPositionIntOffset
+            )
+
+            deviceType == DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
@@ -191,12 +192,12 @@ fun GameScreenPhonePortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
+        //AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
             PlayersUi(player = ludoGameState.listOfPlayer)
-        }
+        //}
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+        //AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
             BoardUi(
                 modifier = Modifier
                     .rotate(rotateF)
@@ -235,21 +236,21 @@ fun GameScreenPhonePortrait(
                     )
                 }
             }
-        }
+       // }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+        //AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
             CounterGroupUi(
                 modifier = Modifier,
                 counterUiStateList = ludoGameState.listOfCounter,
                 isHuman = isHuman,
                 onCounterClick = onCounter
             )
-        }
+       // }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
@@ -290,12 +291,12 @@ fun GameScreenPhoneLand(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
+        //AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
             PlayersUiVertical(player = ludoGameState.listOfPlayer)
-        }
+        //}
         Spacer(modifier = Modifier.width(16.dp))
 
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+       // AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
             BoardUi(
                 modifier = Modifier
                     .rotate(rotateF)
@@ -334,21 +335,21 @@ fun GameScreenPhoneLand(
                     )
                 }
             }
-        }
+       // }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+        //AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
             CounterGroupUiVertical(
                 modifier = Modifier,
                 counterUiStateList = ludoGameState.listOfCounter,
                 isHuman = isHuman,
                 onCounterClick = onCounter
             )
-        }
+       // }
 
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
@@ -402,7 +403,7 @@ fun GameScreeFoldPortrait(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+        //AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
             BoardUi(
                 modifier = Modifier
                     .rotate(rotateF)
@@ -442,7 +443,7 @@ fun GameScreeFoldPortrait(
                     )
                 }
             }
-        }
+       // }
         AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
@@ -450,18 +451,18 @@ fun GameScreeFoldPortrait(
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+            //AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
                 CounterGroupUi(
                     modifier = Modifier,
                     counterUiStateList = ludoGameState.listOfCounter,
                     isHuman = isHuman,
                     onCounterClick = onCounter
                 )
-            }
+            //}
             Spacer(modifier = Modifier.width(16.dp))
-            AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
+           // AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
                 PlayersUiVertical(player = ludoGameState.listOfPlayer)
-            }
+            //}
         }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
@@ -498,18 +499,15 @@ fun GameScreenLarge(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
-
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
+        //AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
             PlayersUi(player = ludoGameState.listOfPlayer)
-        }
+       // }
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
+           // AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
                 BoardUi(
                     modifier = Modifier
                         .rotate(rotateF)
@@ -548,21 +546,21 @@ fun GameScreenLarge(
                         )
                     }
                 }
-            }
+            //}
             AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
                 Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
             }
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+          //  AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
                 CounterGroupUiVertical(
                     modifier = Modifier,
                     counterUiStateList = ludoGameState.listOfCounter,
                     isHuman = isHuman,
                     onCounterClick = onCounter
                 )
-            }
+            //}
         }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
@@ -587,7 +585,7 @@ fun GameScreenFoldPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
-        deviceType = DEVICE_TYPE.FOLD
+        deviceType = DEVICE_TYPE.PHONE_LAND
     )
 }
 
@@ -600,7 +598,7 @@ fun GameScreenTabletPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
-        deviceType = DEVICE_TYPE.TABLET
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
 
@@ -611,9 +609,11 @@ fun GameScreenLargPreview() {
     val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
+        getPositionIntOffset = game.board::getPositionIntPoint,
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
+
 
 @Composable
 fun StartGameDialog(

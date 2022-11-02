@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -30,18 +31,19 @@ fun BoardUi(
     boardUiState: BoardUiState,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
+    AnimatedVisibility(visible = boardUiState.pathBoxes.isNotEmpty())  {
+        BoxWithConstraints(
+            modifier = modifier
+                .aspectRatio(1f)
+                .background(Color.White)
+        ) {
 
-    BoxWithConstraints(
-        modifier = modifier
-            .aspectRatio(1f)
-            .background(Color.White)
-    ) {
+            val oneUnit = maxHeight / 15
 
-        val oneUnit = maxHeight / 15
-
-        CompositionLocalProvider(LocalUnitDP provides oneUnit) {
-            BoardBoxUi(boardUiState = boardUiState)
-            content()
+            CompositionLocalProvider(LocalUnitDP provides oneUnit) {
+                BoardBoxUi(boardUiState = boardUiState)
+                content()
+            }
         }
     }
 }

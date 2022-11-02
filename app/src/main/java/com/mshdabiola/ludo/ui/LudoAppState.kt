@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mshdabiola.gamescreen.log
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 
 class LudoAppState(
@@ -18,22 +19,35 @@ class LudoAppState(
 
     fun onBackPressed() = navHostController.popBackStack()
 
-    private fun isPhone() =
-        windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact &&
-            windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
+    private fun isPhonePort() =
+            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
-    private fun isFold() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium &&
-        windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium
+    private fun isPhoneLand()=windowSizeClass.heightSizeClass== WindowHeightSizeClass.Compact
 
-    fun isTablet() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded &&
-        windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded
+    private fun isFondPort()=
+        windowSizeClass.heightSizeClass==WindowHeightSizeClass.Medium
+                &&windowSizeClass.widthSizeClass==WindowWidthSizeClass.Medium
 
-    fun getDevietype() = when {
-        isFold() -> DEVICE_TYPE.FOLD
-        isPhone() -> DEVICE_TYPE.PHONE
-        else -> DEVICE_TYPE.TABLET
+
+    private fun isFondLandAndTabletPort()=
+        windowSizeClass.heightSizeClass==WindowHeightSizeClass.Medium
+                &&windowSizeClass.widthSizeClass==WindowWidthSizeClass.Expanded
+
+    private fun isTabletPort()=windowSizeClass.heightSizeClass==WindowHeightSizeClass.Expanded
+
+
+    fun getDevietype() :DEVICE_TYPE {
+       val dev= when {
+           isPhonePort()->DEVICE_TYPE.PHONE_PORT
+            isPhoneLand() -> DEVICE_TYPE.PHONE_LAND
+            isFondPort() -> DEVICE_TYPE.FOLD_PORT
+            isFondLandAndTabletPort() -> DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
+           isTabletPort() -> DEVICE_TYPE.TABLET_PORT
+            else -> DEVICE_TYPE.DEFAULT
+        }
+       // log("device $dev height- ${windowSizeClass.heightSizeClass}, width- ${windowSizeClass.widthSizeClass}")
+        return dev
     }
-
     // fun isFoldLand()=          windowSizeClass.
 }
 

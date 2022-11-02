@@ -9,6 +9,7 @@ androidxComposeRuntimeTracing = "1.0.0-alpha01"
 androidxComposeCompiler = "1.3.2"
 androidxComposeMaterial3 = "1.0.0-rc01"
 androidxCore = "1.9.0"
+androidxConstraintLayout="1.0.1"
 androidxCoreSplashscreen = "1.0.0"
 androidxCustomView = "1.0.0"
 androidxDataStore = "1.0.0"
@@ -77,6 +78,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "androidxCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-Constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidxConstraintLayout" }
 androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidxCustomView" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
