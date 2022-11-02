@@ -59,12 +59,14 @@ fun CounterUi(
 @Composable
 fun CounterGroupUi(
     modifier: Modifier = Modifier,
-    counterUiStateList: ImmutableList<CounterUiState>,
-    isHuman: Boolean = true,
+    counterUiStateListProvider: ()->ImmutableList<CounterUiState>,
+    isHumanProvider:()-> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    AnimatedVisibility(modifier = modifier,visible = counterUiStateList.isNotEmpty()) {
+    val counterUiStateList=counterUiStateListProvider()
+    val isHuman=isHumanProvider()
+    AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
         Surface(
 
             shape = RoundedCornerShape(100),
@@ -96,15 +98,17 @@ fun CounterGroupUi(
 @Composable
 fun CounterGroupUiVertical(
     modifier: Modifier = Modifier,
-    counterUiStateList: ImmutableList<CounterUiState>,
-    isHuman: Boolean = true,
+    counterUiStateListProvider: ()->ImmutableList<CounterUiState>,
+    isHumanProvider:()-> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
+    val counterUiStateList=counterUiStateListProvider()
+    val isHuman=isHumanProvider()
 
-    AnimatedVisibility( modifier = modifier,visible = counterUiStateList.isNotEmpty()) {
+    AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
         Surface(
-           // modifier = modifier,
+            // modifier = modifier,
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer
 
@@ -144,10 +148,12 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counterUiStateList = (0..2).map {
-            if (it == 1)
-                CounterUiState(isEnable = true) else CounterUiState()
-        }.toImmutableList()
+        counterUiStateListProvider = {
+            (0..2).map {
+                if (it == 1)
+                    CounterUiState(isEnable = true) else CounterUiState()
+            }.toImmutableList()
+        }
     )
 }
 
@@ -156,9 +162,11 @@ fun CounterUiGroupPreview() {
 fun CounterUiGroupVerticalPreview() {
 
     CounterGroupUiVertical(
-        counterUiStateList = (0..2).map {
-            if (it == 1)
-                CounterUiState(isEnable = true) else CounterUiState()
-        }.toImmutableList()
+        counterUiStateListProvider = {
+            (0..2).map {
+                if (it == 1)
+                    CounterUiState(isEnable = true) else CounterUiState()
+            }.toImmutableList()
+        }
     )
 }

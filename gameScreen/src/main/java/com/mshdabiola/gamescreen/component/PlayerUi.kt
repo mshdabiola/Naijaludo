@@ -135,9 +135,11 @@ fun PlayerUiPreview() {
 }
 
 @Composable
-fun PlayersUi(modifier: Modifier = Modifier, player: ImmutableList<PlayerUiState>) {
-    AnimatedVisibility(modifier=modifier,visible = player.isNotEmpty()) {
-        Column( horizontalAlignment = Alignment.CenterHorizontally) {
+fun PlayersUi(modifier: Modifier = Modifier, playerProvider:()-> ImmutableList<PlayerUiState>) {
+
+    val player=playerProvider()
+    AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (player.size) {
                 2 -> {
                     Row {
@@ -183,8 +185,9 @@ fun PlayersUi(modifier: Modifier = Modifier, player: ImmutableList<PlayerUiState
 }
 
 @Composable
-fun PlayersUiVertical(modifier: Modifier=Modifier,player: ImmutableList<PlayerUiState>) {
-    AnimatedVisibility(modifier=modifier,visible = player.isNotEmpty()) {
+fun PlayersUiVertical(modifier: Modifier = Modifier, playerProvider: ()->ImmutableList<PlayerUiState>) {
+    val player=playerProvider()
+    AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             when (player.size) {
                 2 -> {
@@ -226,14 +229,16 @@ fun PlayersUiVertical(modifier: Modifier=Modifier,player: ImmutableList<PlayerUi
 @Composable
 fun PlayersPreview() {
     PlayersUi(
-        player = listOf(
+        playerProvider = {
+            listOf(
 
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(
-                colors = listOf(GameColor.BLUE, GameColor.YELLOW),
-                name = "abiola Moshood"
-            )
-        ).toImmutableList()
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(
+                    colors = listOf(GameColor.BLUE, GameColor.YELLOW),
+                    name = "abiola Moshood"
+                )
+            ).toImmutableList()
+        }
     )
 }
 
@@ -241,16 +246,18 @@ fun PlayersPreview() {
 @Composable
 fun PlayersVerticalPreview() {
     PlayersUiVertical(
-        player = listOf(
-            PlayerUiState(
-                isCurrent = true,
-                name = "abiolalawal moshood",
-                colors = listOf(GameColor.GREEN, GameColor.RED)
-            ),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
+        playerProvider = {
+            listOf(
+                PlayerUiState(
+                    isCurrent = true,
+                    name = "abiolalawal moshood",
+                    colors = listOf(GameColor.GREEN, GameColor.RED)
+                ),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
 
-        ).toImmutableList()
+            ).toImmutableList()
+        }
     )
 }

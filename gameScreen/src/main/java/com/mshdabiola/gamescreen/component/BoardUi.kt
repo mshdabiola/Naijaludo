@@ -28,14 +28,16 @@ import com.mshdabiola.ludo.model.GameColor
 @Composable
 fun BoardUi(
     modifier: Modifier = Modifier,
-    boardUiState: BoardUiState,
+    boardUiStateProvider:()-> BoardUiState,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    AnimatedVisibility(modifier=modifier.aspectRatio(1f),
-        visible = boardUiState.pathBoxes.isNotEmpty()) {
+    val boardUiState=boardUiStateProvider()
+    AnimatedVisibility(
+        modifier = modifier.aspectRatio(1f),
+        visible = boardUiState.pathBoxes.isNotEmpty()
+    ) {
         BoxWithConstraints(
             modifier = modifier
-
                 .background(Color.White)
         ) {
 
@@ -133,7 +135,7 @@ fun BoardPreview() {
             GameColor.RED
         )
     ).toBoardUiState()
-    BoardUi(boardUiState = board) {
+    BoardUi(boardUiStateProvider = { board }) {
     }
 }
 

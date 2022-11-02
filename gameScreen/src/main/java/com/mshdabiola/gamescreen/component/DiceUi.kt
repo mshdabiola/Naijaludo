@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -79,34 +80,40 @@ fun DiceUiPreview() {
     val ludoGameState = LudoGame.getDefaultGameState()
     val board = ludoGameState.board.toBoardUiState()
 
-    BoardUi(boardUiState = board) {
+    BoardUi(boardUiStateProvider = { board }) {
         DicesUi(
-            diceUiStateList = ludoGameState.listOfDice.map {
-                it.toDiceUiState()
-            }.toImmutableList()
+            diceUiStateListProvider = {
+                ludoGameState.listOfDice.map {
+                    it.toDiceUiState()
+                }.toImmutableList()
+            }
         )
     }
 }
 
 @Composable
 fun DicesUi(
-    diceUiStateList: ImmutableList<DiceUiState>,
-    isHuman: Boolean = true,
+    diceUiStateListProvider:()-> ImmutableList<DiceUiState>,
+    isHumanProvider:()-> Boolean = { true },
     onClick: () -> Unit = {}
 ) {
+    val diceUiStateList=diceUiStateListProvider()
+    val isHuman = isHumanProvider()
     // val oneDp = LocalUnitDP.current
-    Box(modifier = Modifier.fillMaxSize()) {
-        diceUiStateList.forEach {
-            // if (!it.isTotal) {
+   AnimatedVisibility(visible = diceUiStateList.isNotEmpty()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            diceUiStateList.forEach {
+                // if (!it.isTotal) {
 
-            AnimateDiceUi(
-                diceUiState = it,
-                isHuman = isHuman,
-                onClick = onClick,
-                numberOfDice = diceUiStateList.size
+                AnimateDiceUi(
+                    diceUiState = it,
+                    isHuman = isHuman,
+                    onClick = onClick,
+                    numberOfDice = diceUiStateList.size
 
-            )
-            //  }
+                )
+                //  }
+            }
         }
     }
 }
