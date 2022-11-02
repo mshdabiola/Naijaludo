@@ -31,10 +31,11 @@ fun BoardUi(
     boardUiState: BoardUiState,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    AnimatedVisibility(visible = boardUiState.pathBoxes.isNotEmpty())  {
+    AnimatedVisibility(modifier=modifier.aspectRatio(1f),
+        visible = boardUiState.pathBoxes.isNotEmpty()) {
         BoxWithConstraints(
             modifier = modifier
-                .aspectRatio(1f)
+
                 .background(Color.White)
         ) {
 

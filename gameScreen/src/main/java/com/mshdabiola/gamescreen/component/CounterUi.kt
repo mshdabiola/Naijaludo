@@ -64,9 +64,9 @@ fun CounterGroupUi(
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    AnimatedVisibility(visible = counterUiStateList.isNotEmpty()){
+    AnimatedVisibility(modifier = modifier,visible = counterUiStateList.isNotEmpty()) {
         Surface(
-            modifier = modifier,
+
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer
 
@@ -102,9 +102,9 @@ fun CounterGroupUiVertical(
 
 ) {
 
-    AnimatedVisibility(visible = counterUiStateList.isNotEmpty()) {
+    AnimatedVisibility( modifier = modifier,visible = counterUiStateList.isNotEmpty()) {
         Surface(
-            modifier = modifier,
+           // modifier = modifier,
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer
 
