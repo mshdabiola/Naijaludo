@@ -53,7 +53,7 @@ fun UnCancelableDialog(
     DialogUi(
         modifier = modifier,
         onDismissRequest = { },
-        title = { Text(text = title) },
+        title = { Text(text = title, color = MaterialTheme.colorScheme.onPrimary) },
         content = content,
         containerColor = containerColor,
         properties = properties
@@ -95,7 +95,7 @@ fun DialogUi(
 fun DialogUiPreview() {
     DialogUi(
         onDismissRequest = { /*TODO*/ },
-        title = { Text(text = "Title") },
+        title = { Text(text = "Title", color = MaterialTheme.colorScheme.onPrimary) },
         cancelIcon = {
             FilledIconButton(onClick = { }) {
                 Icon(
@@ -153,8 +153,8 @@ fun DialogContent(
                     drawRect(Color.White)
                     drawRect(
                         Brush.verticalGradient(
-                            0.0f to containerColor.copy(alpha = 0.6f),
-                            size.height * 0.5f to containerColor,
+                            0.0f to containerColor,
+                            size.height * 0.5f to containerColor.copy(alpha = 0.6f),
                             tileMode = TileMode.Mirror
 
                         )

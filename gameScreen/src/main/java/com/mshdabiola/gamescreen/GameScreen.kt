@@ -295,7 +295,8 @@ fun GameScreenPhoneLand(
         PlayersUiVertical(
             modifier = Modifier
                 .constrainAs(playerRef) {
-                    end.linkTo(boardRef.start, margin = 16.dp)
+                    //end.linkTo(boardRef.start, margin = 16.dp)
+                    linkTo(parent.start,boardRef.start)
                     centerVerticallyTo(boardRef)
                 },
             playerProvider = { gameUiState.ludoGameState.listOfPlayer }
@@ -305,7 +306,7 @@ fun GameScreenPhoneLand(
             modifier = Modifier
                 .rotate(rotateF)
                 .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
+                    linkTo(playerRef.end, counterRef.start)
                     linkTo(parent.top, parent.bottom)
                     height = Dimension.fillToConstraints
                 },
@@ -355,7 +356,8 @@ fun GameScreenPhoneLand(
         CounterGroupUiVertical(
             modifier = Modifier
                 .constrainAs(counterRef) {
-                    start.linkTo(boardRef.end, margin = 16.dp)
+                    linkTo(boardRef.end,parent.end)
+                   // start.linkTo(boardRef.end, margin = 16.dp)
                     centerVerticallyTo(boardRef)
                 },
             counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
@@ -605,7 +607,7 @@ fun GameScreenLarge(
     }
 }
 
-@Preview(device = "spec:width=411dp,height=891dp")
+@Preview(device = "id:Nexus 4")
 @Composable
 fun GameScreenPreview() {
 
@@ -617,7 +619,7 @@ fun GameScreenPreview() {
     )
 }
 
-@Preview(device = "spec:parent=Nexus 4,orientation=landscape")
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Composable
 fun GameScreenLandPreview() {
 
