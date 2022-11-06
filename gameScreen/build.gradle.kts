@@ -46,6 +46,7 @@ dependencies {
     implementation (project( ":model"))
 
     implementation(libs.bundles.common.bundle)
+    implementation(libs.androidx.constraintlayout)
 
     kapt (libs.hilt.compiler)
 

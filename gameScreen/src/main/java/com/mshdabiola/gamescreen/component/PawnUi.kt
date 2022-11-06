@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
@@ -146,19 +147,21 @@ fun MovablePawnUi(
 
 @Composable
 fun PawnsUi(
-    pawnUiStateList: ImmutableList<PawnUiState>,
-    isHuman: Boolean = true,
+    pawnUiStateListProvider: () -> ImmutableList<PawnUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onClick: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, GameColor) -> Point,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        pawnUiStateList.forEach {
-            MovablePawnUi(
-                pawnUiState = it,
-                getPositionIntOffset = getPositionIntOffset,
-                isHuman = isHuman,
-                onClick = onClick
-            )
+    AnimatedVisibility(visible = pawnUiStateListProvider().isNotEmpty()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            pawnUiStateListProvider().forEach {
+                MovablePawnUi(
+                    pawnUiState = it,
+                    getPositionIntOffset = getPositionIntOffset,
+                    isHuman = isHumanProvider(),
+                    onClick = onClick
+                )
+            }
         }
     }
 }
@@ -169,14 +172,16 @@ fun PawnsUiPreview() {
 
     val board = Board()
     val getOffset = board::getPositionIntPoint
-    BoardUi(boardUiState = board.toBoardUiState()) {
+    BoardUi(boardUiStateProvider = { board.toBoardUiState() }) {
         PawnsUi(
-            pawnUiStateList = listOf(
-                PawnUiState(currentPos = -4),
-                PawnUiState(color = GameColor.GREEN, isEnable = true),
-                PawnUiState(color = GameColor.BLUE),
-                PawnUiState(color = GameColor.YELLOW)
-            ).toImmutableList(),
+            pawnUiStateListProvider = {
+                listOf(
+                    PawnUiState(currentPos = -4),
+                    PawnUiState(color = GameColor.GREEN, isEnable = true),
+                    PawnUiState(color = GameColor.BLUE),
+                    PawnUiState(color = GameColor.YELLOW)
+                ).toImmutableList()
+            },
             getPositionIntOffset = getOffset
         )
     }

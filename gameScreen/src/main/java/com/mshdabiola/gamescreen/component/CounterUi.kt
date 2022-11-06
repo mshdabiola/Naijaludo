@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -58,32 +59,36 @@ fun CounterUi(
 @Composable
 fun CounterGroupUi(
     modifier: Modifier = Modifier,
-    counterUiStateList: ImmutableList<CounterUiState>,
-    isHuman: Boolean = true,
+    counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(100),
-        color = MaterialTheme.colorScheme.primaryContainer
+    val counterUiStateList = counterUiStateListProvider()
+    val isHuman = isHumanProvider()
+    AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
+        Surface(
 
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+            shape = RoundedCornerShape(100),
+            color = MaterialTheme.colorScheme.primaryContainer
+
         ) {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-            counterUiStateList.forEachIndexed { index, counter ->
-                CounterUi(
-                    counterUiState = counter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounterClick
-                )
-                if (index != counterUiStateList.lastIndex) {
-                    Spacer(modifier = Modifier.width(8.dp))
+                counterUiStateList.forEachIndexed { index, counter ->
+                    CounterUi(
+                        counterUiState = counter,
+                        isHuman = isHuman,
+                        onCounterClick = onCounterClick
+                    )
+                    if (index != counterUiStateList.lastIndex) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
                 }
             }
         }
@@ -93,32 +98,37 @@ fun CounterGroupUi(
 @Composable
 fun CounterGroupUiVertical(
     modifier: Modifier = Modifier,
-    counterUiStateList: ImmutableList<CounterUiState>,
-    isHuman: Boolean = true,
+    counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
+    isHumanProvider: () -> Boolean = { true },
     onCounterClick: (Int) -> Unit = {}
 
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(100),
-        color = MaterialTheme.colorScheme.primaryContainer
+    val counterUiStateList = counterUiStateListProvider()
+    val isHuman = isHumanProvider()
 
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+    AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
+        Surface(
+            // modifier = modifier,
+            shape = RoundedCornerShape(100),
+            color = MaterialTheme.colorScheme.primaryContainer
+
         ) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-            counterUiStateList.forEachIndexed { index, counter ->
-                CounterUi(
-                    counterUiState = counter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounterClick
-                )
-                if (index != counterUiStateList.lastIndex) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                counterUiStateList.forEachIndexed { index, counter ->
+                    CounterUi(
+                        counterUiState = counter,
+                        isHuman = isHuman,
+                        onCounterClick = onCounterClick
+                    )
+                    if (index != counterUiStateList.lastIndex) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
@@ -138,10 +148,12 @@ fun CounterUiPreview() {
 fun CounterUiGroupPreview() {
 
     CounterGroupUi(
-        counterUiStateList = (0..2).map {
-            if (it == 1)
-                CounterUiState(isEnable = true) else CounterUiState()
-        }.toImmutableList()
+        counterUiStateListProvider = {
+            (0..2).map {
+                if (it == 1)
+                    CounterUiState(isEnable = true) else CounterUiState()
+            }.toImmutableList()
+        }
     )
 }
 
@@ -150,9 +162,11 @@ fun CounterUiGroupPreview() {
 fun CounterUiGroupVerticalPreview() {
 
     CounterGroupUiVertical(
-        counterUiStateList = (0..2).map {
-            if (it == 1)
-                CounterUiState(isEnable = true) else CounterUiState()
-        }.toImmutableList()
+        counterUiStateListProvider = {
+            (0..2).map {
+                if (it == 1)
+                    CounterUiState(isEnable = true) else CounterUiState()
+            }.toImmutableList()
+        }
     )
 }

@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -27,21 +28,25 @@ import com.mshdabiola.ludo.model.GameColor
 @Composable
 fun BoardUi(
     modifier: Modifier = Modifier,
-    boardUiState: BoardUiState,
+    boardUiStateProvider: () -> BoardUiState,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-
-    BoxWithConstraints(
-        modifier = modifier
-            .aspectRatio(1f)
-            .background(Color.White)
+    val boardUiState = boardUiStateProvider()
+    AnimatedVisibility(
+        modifier = modifier.aspectRatio(1f),
+        visible = boardUiState.pathBoxes.isNotEmpty()
     ) {
+        BoxWithConstraints(
+            modifier = modifier
+                .background(Color.White)
+        ) {
 
-        val oneUnit = maxHeight / 15
+            val oneUnit = maxHeight / 15
 
-        CompositionLocalProvider(LocalUnitDP provides oneUnit) {
-            BoardBoxUi(boardUiState = boardUiState)
-            content()
+            CompositionLocalProvider(LocalUnitDP provides oneUnit) {
+                BoardBoxUi(boardUiState = boardUiState)
+                content()
+            }
         }
     }
 }
@@ -130,7 +135,7 @@ fun BoardPreview() {
             GameColor.RED
         )
     ).toBoardUiState()
-    BoardUi(boardUiState = board) {
+    BoardUi(boardUiStateProvider = { board }) {
     }
 }
 

@@ -45,7 +45,7 @@ import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.ludo.model.navigation.LudoNavDestination
 
 @Composable
-fun MainScreen(navigateTo: (String) -> Unit, deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE) {
+fun MainScreen(navigateTo: (String) -> Unit, deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT) {
     val activity = LocalContext.current as Activity
 
     MainScreen(

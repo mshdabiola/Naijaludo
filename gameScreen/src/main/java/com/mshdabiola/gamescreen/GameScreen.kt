@@ -1,17 +1,10 @@
 package com.mshdabiola.gamescreen
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,15 +16,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -56,7 +50,7 @@ import com.mshdabiola.naijaludo.LudoGame
 @Composable
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
@@ -116,7 +110,7 @@ fun GameScreen(
 fun GameScreen(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE,
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
     onContinueClick: () -> Unit = {},
@@ -127,28 +121,23 @@ fun GameScreen(
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
 
-    val configuration = LocalConfiguration.current
-    val isPortrait = remember(configuration) {
-        configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-    }
-
     Scaffold { paddingValues ->
         when {
-            !isPortrait && deviceType == DEVICE_TYPE.PHONE -> GameScreenPhoneLand(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
-            )
-            isPortrait && deviceType == DEVICE_TYPE.FOLD -> GameScreeFoldPortrait(
+            deviceType == DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
                 onDice, onCounter, onPawn, getPositionIntOffset
             )
 
-            (!isPortrait && deviceType == DEVICE_TYPE.FOLD) ||
-                (!isPortrait && deviceType == DEVICE_TYPE.TABLET) -> GameScreenLarge(
+            deviceType == DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
+                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
+                onContinueClick,
+                onRestart,
+                onDice, onCounter, onPawn, getPositionIntOffset
+            )
+
+            deviceType == DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
@@ -179,77 +168,90 @@ fun GameScreenPhonePortrait(
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
-    val ludoGameState = gameUiState.ludoGameState
-    val board = ludoGameState.board
-    val isHuman = gameUiState.ludoGameState.isHumanPlayer
-    Column(
+
+    val showText by remember(gameUiState.ludoGameState.board) {
+        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    }
+
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues),
-
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(paddingValues)
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
-            PlayersUi(player = ludoGameState.listOfPlayer)
+        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+
+        PlayersUi(
+            modifier = Modifier
+                .constrainAs(playerRef) {
+                    bottom.linkTo(boardRef.top, margin = 16.dp)
+                    centerHorizontallyTo(boardRef)
+                },
+            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+        )
+
+        BoardUi(
+            modifier = Modifier
+                .rotate(rotateF)
+                .constrainAs(boardRef) {
+                    linkTo(parent.start, parent.end)
+                    linkTo(parent.top, parent.bottom)
+                    width = Dimension.fillToConstraints
+                },
+            boardUiStateProvider = { gameUiState.ludoGameState.board }
+        ) {
+
+            // pawn
+
+            // if (ludoGameState.listOfPawn.isNotEmpty()) {
+            PawnsUi(
+                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                getPositionIntOffset = getPositionIntOffset,
+                onClick = onPawn
+            )
+            // }
+
+            // dice
+
+            // if (ludoGameState.listOfDice.isNotEmpty()) {
+            DicesUi(
+                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                onClick = onDice
+            )
+            // }
+
+            // drawer
+
+            DrawerUi(
+                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                getPositionIntOffset = getPositionIntOffset,
+                onPawnDrawer = onPawn
+            )
         }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-            BoardUi(
-                modifier = Modifier
-                    .rotate(rotateF)
-                    .fillMaxWidth(),
-                board
-            ) {
-
-                // pawn
-
-                if (ludoGameState.listOfPawn.isNotEmpty()) {
-                    PawnsUi(
-                        pawnUiStateList = ludoGameState.listOfPawn,
-                        isHuman = isHuman,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onClick = onPawn
-                    )
-                }
-
-                // dice
-
-                if (ludoGameState.listOfDice.isNotEmpty()) {
-                    DicesUi(
-                        diceUiStateList = ludoGameState.listOfDice,
-                        isHuman = isHuman,
-                        onClick = onDice
-                    )
-                }
-
-                // drawer
-                val drawer = ludoGameState.drawer
-                if (drawer != null) {
-                    DrawerUi(
-                        drawerUiState = drawer,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onPawnDrawer = onPawn
-                    )
-                }
-            }
-        }
-        AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
+        // }
+        AnimatedVisibility(
+            modifier = Modifier.constrainAs(textRef) {
+                linkTo(parent.start, parent.end)
+                linkTo(parent.top, parent.bottom)
+            },
+            visible = showText
+        ) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        CounterGroupUi(
+            modifier = Modifier
+                .constrainAs(counterRef) {
+                    top.linkTo(boardRef.bottom, margin = 16.dp)
+                    centerHorizontallyTo(boardRef)
+                },
+            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
+            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            onCounterClick = onCounter
+        )
 
-        AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
-            CounterGroupUi(
-                modifier = Modifier,
-                counterUiStateList = ludoGameState.listOfCounter,
-                isHuman = isHuman,
-                onCounterClick = onCounter
-            )
-        }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
@@ -278,77 +280,90 @@ fun GameScreenPhoneLand(
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
-    val ludoGameState = gameUiState.ludoGameState
-    val board = ludoGameState.board
-    val isHuman = gameUiState.ludoGameState.isHumanPlayer
-    Row(
+    val showText by remember(gameUiState.ludoGameState.board) {
+        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    }
+
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues),
-
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+            .padding(paddingValues)
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
-            PlayersUiVertical(player = ludoGameState.listOfPlayer)
+        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+
+        PlayersUiVertical(
+            modifier = Modifier
+                .constrainAs(playerRef) {
+                    // end.linkTo(boardRef.start, margin = 16.dp)
+                    linkTo(parent.start, boardRef.start)
+                    centerVerticallyTo(boardRef)
+                },
+            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+        )
+
+        BoardUi(
+            modifier = Modifier
+                .rotate(rotateF)
+                .constrainAs(boardRef) {
+                    linkTo(playerRef.end, counterRef.start)
+                    linkTo(parent.top, parent.bottom)
+                    height = Dimension.fillToConstraints
+                },
+            { gameUiState.ludoGameState.board }
+        ) {
+
+            // pawn
+
+            // if (ludoGameState.listOfPawn.isNotEmpty()) {
+            PawnsUi(
+                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                getPositionIntOffset = getPositionIntOffset,
+                onClick = onPawn
+            )
+            // }
+
+            // dice
+
+            // if (ludoGameState.listOfDice.isNotEmpty()) {
+            DicesUi(
+                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                onClick = onDice
+            )
+            // }
+
+            // drawer
+
+            DrawerUi(
+                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                getPositionIntOffset = getPositionIntOffset,
+                onPawnDrawer = onPawn
+            )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-            BoardUi(
-                modifier = Modifier
-                    .rotate(rotateF)
-                    .fillMaxHeight(),
-                board
-            ) {
-
-                // pawn
-
-                if (ludoGameState.listOfPawn.isNotEmpty()) {
-                    PawnsUi(
-                        pawnUiStateList = ludoGameState.listOfPawn,
-                        isHuman = isHuman,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onClick = onPawn
-                    )
-                }
-
-                // dice
-
-                if (ludoGameState.listOfDice.isNotEmpty()) {
-                    DicesUi(
-                        diceUiStateList = ludoGameState.listOfDice,
-                        isHuman = isHuman,
-                        onClick = onDice
-                    )
-                }
-
-                // drawer
-                val drawer = ludoGameState.drawer
-                if (drawer != null) {
-                    DrawerUi(
-                        drawerUiState = drawer,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onPawnDrawer = onPawn
-                    )
-                }
-            }
-        }
-        AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
+        // }
+        AnimatedVisibility(
+            modifier = Modifier.constrainAs(textRef) {
+                linkTo(parent.start, parent.end)
+                linkTo(parent.top, parent.bottom)
+            },
+            visible = showText
+        ) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
 
-        Spacer(modifier = Modifier.width(16.dp))
-
-        AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
-            CounterGroupUiVertical(
-                modifier = Modifier,
-                counterUiStateList = ludoGameState.listOfCounter,
-                isHuman = isHuman,
-                onCounterClick = onCounter
-            )
-        }
+        CounterGroupUiVertical(
+            modifier = Modifier
+                .constrainAs(counterRef) {
+                    linkTo(boardRef.end, parent.end)
+                    // start.linkTo(boardRef.end, margin = 16.dp)
+                    centerVerticallyTo(boardRef)
+                },
+            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
+            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            onCounterClick = onCounter
+        )
 
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
@@ -362,19 +377,6 @@ fun GameScreenPhoneLand(
             onRestart = onRestart
         )
     }
-}
-
-@Preview(device = "spec:parent=pixel_5,orientation=landscape")
-@Preview(device = "spec:width=411dp,height=891dp")
-@Composable
-fun GameScreenPreview() {
-
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
-    GameScreen(
-        gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
-    )
 }
 
 @Composable
@@ -391,78 +393,88 @@ fun GameScreeFoldPortrait(
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
-    val ludoGameState = gameUiState.ludoGameState
-    val board = ludoGameState.board
-    val isHuman = gameUiState.ludoGameState.isHumanPlayer
-    Column(
+    val showText by remember {
+        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    }
+
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
 
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+        createHorizontalChain(counterRef, playerRef)
+        val barrier = createTopBarrier(counterRef, playerRef)
 
-        AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-            BoardUi(
-                modifier = Modifier
-                    .rotate(rotateF)
-                    .padding(horizontal = 64.dp)
-                    .fillMaxWidth(),
-                board
-            ) {
+        BoardUi(
+            modifier = Modifier
+                .rotate(rotateF)
+                .constrainAs(boardRef) {
 
-                // pawn
+                    linkTo(parent.start, parent.end)
+                    linkTo(parent.top, barrier)
+                    height = Dimension.fillToConstraints
+                },
+            { gameUiState.ludoGameState.board }
+        ) {
 
-                if (ludoGameState.listOfPawn.isNotEmpty()) {
-                    PawnsUi(
-                        pawnUiStateList = ludoGameState.listOfPawn,
-                        isHuman = isHuman,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onClick = onPawn
-                    )
-                }
+            // pawn
 
-                // dice
+            // if (ludoGameState.listOfPawn.isNotEmpty()) {
+            PawnsUi(
+                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                getPositionIntOffset = getPositionIntOffset,
+                onClick = onPawn
+            )
+            // }
 
-                if (ludoGameState.listOfDice.isNotEmpty()) {
-                    DicesUi(
-                        diceUiStateList = ludoGameState.listOfDice,
-                        isHuman = isHuman,
-                        onClick = onDice
-                    )
-                }
+            // dice
 
-                // drawer
-                val drawer = ludoGameState.drawer
-                if (drawer != null) {
-                    DrawerUi(
-                        drawerUiState = drawer,
-                        getPositionIntOffset = getPositionIntOffset,
-                        onPawnDrawer = onPawn
-                    )
-                }
-            }
+            // if (ludoGameState.listOfDice.isNotEmpty()) {
+            DicesUi(
+                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                onClick = onDice
+            )
+            // }
+
+            // drawer
+
+            DrawerUi(
+                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                getPositionIntOffset = getPositionIntOffset,
+                onPawnDrawer = onPawn
+            )
         }
-        AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
+
+        AnimatedVisibility(
+            modifier = Modifier.constrainAs(textRef) {
+                linkTo(parent.start, parent.end)
+                linkTo(parent.top, parent.bottom)
+            },
+            visible = showText
+        ) {
             Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        CounterGroupUi(
+            modifier = Modifier.constrainAs(counterRef) {
+                linkTo(barrier, parent.bottom)
+            },
+            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
+            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            onCounterClick = onCounter
+        )
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
-                CounterGroupUi(
-                    modifier = Modifier,
-                    counterUiStateList = ludoGameState.listOfCounter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounter
-                )
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
-                PlayersUiVertical(player = ludoGameState.listOfPlayer)
-            }
-        }
+        PlayersUiVertical(
+            modifier = Modifier.constrainAs(playerRef) {
+                linkTo(barrier, parent.bottom)
+            },
+            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+        )
+
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
@@ -491,79 +503,96 @@ fun GameScreenLarge(
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
     getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
 ) {
-    val ludoGameState = gameUiState.ludoGameState
-    val board = ludoGameState.board
-    val isHuman = gameUiState.ludoGameState.isHumanPlayer
-    Column(
+    val showText by remember {
+        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    }
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
-
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AnimatedVisibility(ludoGameState.listOfPlayer.isNotEmpty()) {
-            PlayersUi(player = ludoGameState.listOfPlayer)
+        val (playerRef, boardRef, counterRef, textRef) = createRefs()
+
+        PlayersUi(
+            modifier = Modifier
+                .constrainAs(playerRef) {
+                    top.linkTo(parent.top, 16.dp)
+                    bottom.linkTo(boardRef.top, 16.dp)
+                    start.linkTo(boardRef.start)
+                    end.linkTo(boardRef.end)
+                },
+            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+        )
+
+        BoardUi(
+            modifier = Modifier
+                .rotate(rotateF)
+                .constrainAs(boardRef) {
+                    linkTo(parent.start, parent.end)
+                    bottom.linkTo(parent.bottom)
+                    top.linkTo(playerRef.bottom)
+                    height = Dimension.fillToConstraints
+                },
+            { gameUiState.ludoGameState.board }
+        ) {
+
+            // pawn
+
+            // if (ludoGameState.listOfPawn.isNotEmpty()) {
+            PawnsUi(
+                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                getPositionIntOffset = getPositionIntOffset,
+                onClick = onPawn
+            )
+            // }
+
+            // dice
+
+            //  if (ludoGameState.listOfDice.isNotEmpty()) {
+            DicesUi(
+                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
+                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                onClick = onDice
+            )
+            // }
+
+            // drawer
+
+            DrawerUi(
+                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                getPositionIntOffset = getPositionIntOffset,
+                onPawnDrawer = onPawn
+            )
         }
-        Spacer(modifier = Modifier.height(16.dp))
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            AnimatedVisibility(visible = board.pathBoxes.isNotEmpty()) {
-                BoardUi(
-                    modifier = Modifier
-                        .rotate(rotateF)
-                        .fillMaxHeight(),
-                    board
-                ) {
-
-                    // pawn
-
-                    if (ludoGameState.listOfPawn.isNotEmpty()) {
-                        PawnsUi(
-                            pawnUiStateList = ludoGameState.listOfPawn,
-                            isHuman = isHuman,
-                            getPositionIntOffset = getPositionIntOffset,
-                            onClick = onPawn
-                        )
-                    }
-
-                    // dice
-
-                    if (ludoGameState.listOfDice.isNotEmpty()) {
-                        DicesUi(
-                            diceUiStateList = ludoGameState.listOfDice,
-                            isHuman = isHuman,
-                            onClick = onDice
-                        )
-                    }
-
-                    // drawer
-                    val drawer = ludoGameState.drawer
-                    if (drawer != null) {
-                        DrawerUi(
-                            drawerUiState = drawer,
-                            getPositionIntOffset = getPositionIntOffset,
-                            onPawnDrawer = onPawn
-                        )
-                    }
-                }
-            }
-            AnimatedVisibility(visible = board.pathBoxes.isEmpty()) {
-                Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
-                CounterGroupUiVertical(
-                    modifier = Modifier,
-                    counterUiStateList = ludoGameState.listOfCounter,
-                    isHuman = isHuman,
-                    onCounterClick = onCounter
-                )
-            }
+        AnimatedVisibility(
+            modifier = Modifier.constrainAs(textRef) {
+                linkTo(parent.start, parent.end)
+                linkTo(parent.top, parent.bottom)
+            },
+            visible = showText
+        ) {
+            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
         }
+
+        // Spacer(modifier = Modifier.width(16.dp))
+
+        //  AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
+        CounterGroupUiVertical(
+            modifier = Modifier
+                .constrainAs(counterRef) {
+
+                    centerVerticallyTo(boardRef)
+                    linkTo(boardRef.end, parent.end, bias = 0.1f)
+                },
+            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
+            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            onCounterClick = onCounter
+        )
+        // }
+        // }
         StartGameDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
@@ -578,7 +607,32 @@ fun GameScreenLarge(
     }
 }
 
-@Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
+@Preview(device = "id:Nexus 4")
+@Composable
+fun GameScreenPreview() {
+
+    val game = LudoGame.getDefaultGameState()
+    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = game.board::getPositionIntPoint
+    )
+}
+
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
+@Composable
+fun GameScreenLandPreview() {
+
+    val game = LudoGame.getDefaultGameState()
+    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = game.board::getPositionIntPoint,
+        deviceType = DEVICE_TYPE.PHONE_LAND
+
+    )
+}
+
 @Preview(device = "spec:width=673.5dp,height=841dp,dpi=480")
 @Composable
 fun GameScreenFoldPreview() {
@@ -587,11 +641,22 @@ fun GameScreenFoldPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
-        deviceType = DEVICE_TYPE.FOLD
+        deviceType = DEVICE_TYPE.FOLD_PORT
     )
 }
 
-@Preview(device = "spec:width=1280dp,height=800dp,dpi=480")
+@Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
+@Composable
+fun GameScreenFoldLandPreview() {
+    val game = LudoGame.getDefaultGameState()
+    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = game.board::getPositionIntPoint,
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
+    )
+}
+
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=portrait")
 @Composable
 fun GameScreenTabletPreview() {
@@ -600,18 +665,19 @@ fun GameScreenTabletPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
-        deviceType = DEVICE_TYPE.TABLET
+        deviceType = DEVICE_TYPE.TABLET_PORT
     )
 }
 
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=landscape")
 @Composable
-fun GameScreenLargPreview() {
-
+fun GameScreenTabletLandPreview() {
     val game = LudoGame.getDefaultGameState()
     val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
+        getPositionIntOffset = game.board::getPositionIntPoint,
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
 

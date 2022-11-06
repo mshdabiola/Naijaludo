@@ -1,5 +1,6 @@
 package com.mshdabiola.gamescreen.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -134,40 +135,49 @@ fun PlayerUiPreview() {
 }
 
 @Composable
-fun PlayersUi(player: ImmutableList<PlayerUiState>) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        when (player.size) {
-            2 -> {
-                Row {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50, bottomStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50, bottomEnd = 50)
-                }
-            }
+fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList<PlayerUiState>) {
 
-            3 -> {
-                Row() {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50)
+    val player = playerProvider()
+    AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            when (player.size) {
+                2 -> {
+                    Row {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50, bottomStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50, bottomEnd = 50)
+                    }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row() {
-                    PlayerUi(player = player[2], isEven = true, bottomStart = 50, bottomEnd = 50)
-                }
-            }
 
-            else -> {
-                Row {
-                    PlayerUi(player = player[0], isEven = true, topStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                3 -> {
+                    Row() {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row() {
+                        PlayerUi(
+                            player = player[2],
+                            isEven = true,
+                            bottomStart = 50,
+                            bottomEnd = 50
+                        )
+                    }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    PlayerUi(player = player[3], isEven = true, bottomStart = 50)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    PlayerUi(player = player[2], isEven = false, bottomEnd = 50)
+
+                else -> {
+                    Row {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row {
+                        PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        PlayerUi(player = player[2], isEven = false, bottomEnd = 50)
+                    }
                 }
             }
         }
@@ -175,38 +185,44 @@ fun PlayersUi(player: ImmutableList<PlayerUiState>) {
 }
 
 @Composable
-fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        when (player.size) {
-            2 -> {
+fun PlayersUiVertical(
+    modifier: Modifier = Modifier,
+    playerProvider: () -> ImmutableList<PlayerUiState>
+) {
+    val player = playerProvider()
+    AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            when (player.size) {
+                2 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true, bottomStart = 50)
-            }
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true, bottomStart = 50)
+                }
 
-            3 -> {
+                3 -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true)
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true)
 
-                Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
-                PlayerUi(player = player[2], isEven = true, bottomStart = 50)
-            }
+                    PlayerUi(player = player[2], isEven = true, bottomStart = 50)
+                }
 
-            else -> {
+                else -> {
 
-                PlayerUi(player = player[0], isEven = true, topStart = 50)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[1], isEven = true)
+                    PlayerUi(player = player[0], isEven = true, topStart = 50)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[1], isEven = true)
 
-                Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
-                PlayerUi(player = player[2], isEven = true)
-                Spacer(modifier = Modifier.height(4.dp))
-                PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                    PlayerUi(player = player[2], isEven = true)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                }
             }
         }
     }
@@ -216,14 +232,16 @@ fun PlayersUiVertical(player: ImmutableList<PlayerUiState>) {
 @Composable
 fun PlayersPreview() {
     PlayersUi(
-        player = listOf(
+        playerProvider = {
+            listOf(
 
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(
-                colors = listOf(GameColor.BLUE, GameColor.YELLOW),
-                name = "abiola Moshood"
-            )
-        ).toImmutableList()
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(
+                    colors = listOf(GameColor.BLUE, GameColor.YELLOW),
+                    name = "abiola Moshood"
+                )
+            ).toImmutableList()
+        }
     )
 }
 
@@ -231,16 +249,18 @@ fun PlayersPreview() {
 @Composable
 fun PlayersVerticalPreview() {
     PlayersUiVertical(
-        player = listOf(
-            PlayerUiState(
-                isCurrent = true,
-                name = "abiolalawal moshood",
-                colors = listOf(GameColor.GREEN, GameColor.RED)
-            ),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
-            PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
+        playerProvider = {
+            listOf(
+                PlayerUiState(
+                    isCurrent = true,
+                    name = "abiolalawal moshood",
+                    colors = listOf(GameColor.GREEN, GameColor.RED)
+                ),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
 
-        ).toImmutableList()
+            ).toImmutableList()
+        }
     )
 }
