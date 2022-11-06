@@ -295,8 +295,8 @@ fun GameScreenPhoneLand(
         PlayersUiVertical(
             modifier = Modifier
                 .constrainAs(playerRef) {
-                    //end.linkTo(boardRef.start, margin = 16.dp)
-                    linkTo(parent.start,boardRef.start)
+                    // end.linkTo(boardRef.start, margin = 16.dp)
+                    linkTo(parent.start, boardRef.start)
                     centerVerticallyTo(boardRef)
                 },
             playerProvider = { gameUiState.ludoGameState.listOfPlayer }
@@ -356,8 +356,8 @@ fun GameScreenPhoneLand(
         CounterGroupUiVertical(
             modifier = Modifier
                 .constrainAs(counterRef) {
-                    linkTo(boardRef.end,parent.end)
-                   // start.linkTo(boardRef.end, margin = 16.dp)
+                    linkTo(boardRef.end, parent.end)
+                    // start.linkTo(boardRef.end, margin = 16.dp)
                     centerVerticallyTo(boardRef)
                 },
             counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
