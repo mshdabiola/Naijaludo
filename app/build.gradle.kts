@@ -39,7 +39,7 @@ android {
 
            initWith(getByName("release"))
            signingConfig = signingConfigs.getByName("debug")
-           matchingFallbacks.add("release")
+           matchingFallbacks += listOf("release")
            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                "proguard-benchmark-rules.pro")
            isDebuggable = false

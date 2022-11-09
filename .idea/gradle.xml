@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/database" />
+            <option value="$PROJECT_DIR$/datastore" />
             <option value="$PROJECT_DIR$/designsystem" />
             <option value="$PROJECT_DIR$/gameScreen" />
             <option value="$PROJECT_DIR$/mainScreen" />

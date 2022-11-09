@@ -1,12 +1,12 @@
 plugins {
-    id ("com.android.library")
-    id ("org.jetbrains.kotlin.android")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
 }
 
 android {
-    namespace = "com.mshdabiola.mainscreen"
+    namespace = "com.mshdabiola.settingscreen"
     compileSdk = 33
 
     defaultConfig {
@@ -14,14 +14,16 @@ android {
         targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        // consumerProguardFiles = "consumer-rules.pro"
-
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName ("release") {
-            isMinifyEnabled = true
-            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -41,15 +43,15 @@ android {
 
 dependencies {
     implementation (project( ":designsystem"))
-    implementation (project( ":model"))
     implementation (project( ":datastore"))
+
 
     implementation(libs.bundles.common.bundle)
     implementation(libs.androidx.constraintlayout)
+
     kapt (libs.hilt.compiler)
 
     testImplementation (libs.junit4)
     androidTestImplementation (libs.bundles.android.test.bundle)
     debugImplementation (libs.bundles.compose.debug.bundle)
-
 }

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "com.mshdabiola.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+    int32 language = 1;
+    int32 gameLevel = 2;
+    bool directCount = 3;
+    bool assistant = 4;
+
+    bool sound = 5;
+    bool music = 6;
+
+    int32 boardType = 7;
+    int32 boardStyle = 8;
+    int32 pawnNumber = 9;
+    bool rotate = 10;
+
+    string playerName = 11;
+    string comName1 = 12;
+    string comName2 = 13;
+    string comName3 = 14;
+}
