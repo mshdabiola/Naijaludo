@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 
-class LudoGame {
+class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     private lateinit var defaultState: LudoGameState
 
@@ -32,7 +32,7 @@ class LudoGame {
 
     val gameState = _gameState.asStateFlow()
 
-    val computerDelay = 500L
+    private val computerDelay = 500L
 
     private fun setGameState(gameState: LudoGameState) {
         _gameState.value = gameState
@@ -242,6 +242,7 @@ class LudoGame {
     suspend fun onDice() {
         if (getGameState().isOnResume && getGameState().start) {
             log("on dice")
+            soundInterface?.onToss()
             // disable dice and set toss number
             val listDice = gameState.value.listOfDice.toMutableList()
             repeat(listDice.size) {
@@ -323,6 +324,9 @@ class LudoGame {
     fun onCounter(counterId: Int) {
         if (getGameState().isOnResume && getGameState().start) {
 
+            if (getGameState().isHumanPlayer) {
+                soundInterface?.onSelect()
+            }
             // disable all counter
             val listOfCounterMutable = getGameState().listOfCounter.toMutableList()
             val counter = listOfCounterMutable[counterId]
@@ -474,6 +478,9 @@ class LudoGame {
             val numberOnDice = getGameState().currentDiceNumber
 
             if (pawn.isHome()) {
+
+                soundInterface?.onMoveOut()
+
                 pawn = pawn.copy(currentPos = 0, zIndex = 9f)
 
                 listPawn[pawnIndex] = pawn
@@ -481,6 +488,7 @@ class LudoGame {
             } else {
                 // repeat(numberOnDice) {
 
+                soundInterface?.onMoving()
                 pawn = pawn.copy(currentPos = pawn.currentPos + numberOnDice, zIndex = 9f)
 
                 listPawn[pawnIndex] = pawn
@@ -667,6 +675,7 @@ class LudoGame {
     }
 
     private fun kill(originalPawn: Pawn, pawn: Pawn) {
+        soundInterface?.onKill()
         val pawnList = getGameState().listOfPawn.toMutableList()
 
         val originalIndex = pawnList.indexOf(originalPawn)

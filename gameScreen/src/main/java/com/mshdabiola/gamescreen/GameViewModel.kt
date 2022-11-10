@@ -12,6 +12,7 @@ import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.naijaludo.LudoGame
+import com.mshdabiola.naijaludo.SoundInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -28,10 +29,11 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
-    private val ludoStateDomain: LudoStateDomain
+    private val ludoStateDomain: LudoStateDomain,
+    soundInterface: SoundInterface
 ) : ViewModel() {
 
-    private val game = LudoGame()
+    private val game = LudoGame(soundInterface)
     private val showDialog = savedStateHandle.get<Boolean>(SHOWDIALOG)
 
     private val _gameUiState = MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
