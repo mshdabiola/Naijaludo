@@ -26,15 +26,12 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +41,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import java.util.Locale
 
 @Composable
 fun SettingScreen(
@@ -56,7 +52,7 @@ fun SettingScreen(
     soundSettingChange: (Sound) -> Unit = {},
     profileSettingChange: (Profile) -> Unit = {},
     boardSettingChange: (Board) -> Unit = {},
-    setLanguage : (Int)->Unit={}
+    setLanguage: (Int) -> Unit = {}
 ) {
     val scroll = rememberScrollState()
 
@@ -194,8 +190,6 @@ fun SettingScreen(
             }
         }
     }
-
-
 }
 
 @Composable
@@ -210,7 +204,7 @@ fun SettingDialog(
     soundSettingChange: (Sound) -> Unit = {},
     profileSettingChange: (Profile) -> Unit = {},
     boardSettingChange: (Board) -> Unit = {},
-    setLanguage: (Int) -> Unit={}
+    setLanguage: (Int) -> Unit = {}
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -232,7 +226,7 @@ fun SettingDialog(
                     soundSettingChange = soundSettingChange,
                     profileSettingChange = profileSettingChange,
                     boardSettingChange = boardSettingChange,
-                    setLanguage=setLanguage
+                    setLanguage = setLanguage
                 )
             },
             properties = DialogProperties()

@@ -47,12 +47,12 @@ class GameViewModel @Inject constructor(
 
     var gameId: Long? = null
 
-    //setting class
+    // setting class
 
-    private var profilePref: ProfilePref= ProfilePref()
-    private var boardPref: BoardPref= BoardPref()
-    private var soundPref: SoundPref= SoundPref()
-    private var basicPref: BasicPref= BasicPref()
+    private var profilePref: ProfilePref = ProfilePref()
+    private var boardPref: BoardPref = BoardPref()
+    private var soundPref: SoundPref = SoundPref()
+    private var basicPref: BasicPref = BasicPref()
 
     init {
         // react to ludoGame change
@@ -87,10 +87,10 @@ class GameViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-           basicPref= userPreferenceDataSource.getBasicSetting().first()
-            soundPref= userPreferenceDataSource.getSoundSetting().first()
-            boardPref= userPreferenceDataSource.getBoardSetting().first()
-            profilePref= userPreferenceDataSource.getProfileSetting().first()
+            basicPref = userPreferenceDataSource.getBasicSetting().first()
+            soundPref = userPreferenceDataSource.getSoundSetting().first()
+            boardPref = userPreferenceDataSource.getBoardSetting().first()
+            profilePref = userPreferenceDataSource.getProfileSetting().first()
         }
     }
 
@@ -114,7 +114,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun getDefaultLudoState():LudoGameState{
+    private fun getDefaultLudoState(): LudoGameState {
         return LudoGame.getDefaultGameState(numberOfPawn = boardPref.pawnNumber)
     }
 

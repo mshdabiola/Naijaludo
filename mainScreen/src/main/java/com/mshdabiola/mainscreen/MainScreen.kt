@@ -123,7 +123,7 @@ fun MainScreen(
     val painter = rememberVectorPainter(image = vector)
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
-    val coroutine= rememberCoroutineScope()
+    val coroutine = rememberCoroutineScope()
     val activity = context as Activity
     val isPortrait by remember(configuration) {
         derivedStateOf { configuration.orientation == Configuration.ORIENTATION_PORTRAIT }
@@ -146,7 +146,7 @@ fun MainScreen(
                         onClick = onCloseApp,
                         colors = MaterialTheme.colorScheme.secondaryContainer,
 
-                        ) {
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "cancel",
@@ -238,18 +238,15 @@ fun MainScreen(
             basicSettingChange, soundSettingChange, profileSettingChange, boardSettingChange,
             setLanguage = {
                 coroutine.launch(Dispatchers.IO) {
-                    ShareUtil.setLanguage(context,it)
-                    withContext(Dispatchers.Main){
+                    ShareUtil.setLanguage(context, it)
+                    withContext(Dispatchers.Main) {
                         activity.recreate()
                     }
-
                 }
-
             }
         )
     }
 }
-
 
 @Preview()
 @Composable

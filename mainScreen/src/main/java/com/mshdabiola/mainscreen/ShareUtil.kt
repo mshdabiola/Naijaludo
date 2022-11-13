@@ -10,7 +10,6 @@ object ShareUtil {
             .edit()
             .putInt("land", land)
             .apply()
-
     }
 
     fun getLand(context: Context): String {

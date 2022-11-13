@@ -37,12 +37,10 @@ class MainActivity : ComponentActivity() {
     }
     override fun attachBaseContext(base: Context) {
 
-            super.attachBaseContext(updateBaseContextLocale(base))
-
+        super.attachBaseContext(updateBaseContextLocale(base))
     }
 
-    private  fun updateBaseContextLocale(context: Context): Context? {
-
+    private fun updateBaseContextLocale(context: Context): Context? {
 
 //        val language: String =
 //            SharedPrefUtils.getSavedLanguage() // Helper method to get saved language from SharedPreferences
@@ -67,5 +65,4 @@ class MainActivity : ComponentActivity() {
         resources.updateConfiguration(configuration, resources.displayMetrics)
         return context
     }
-
 }

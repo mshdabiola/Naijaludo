@@ -744,7 +744,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         private const val numberOfDice = 3
         private const val totalIndex = numberOfDice / 2
 
-        fun getDefaultGameState(numberOfPawn : Int = 4): LudoGameState {
+        fun getDefaultGameState(numberOfPawn: Int = 4): LudoGameState {
 
             val listPawns = ArrayList<Pawn>()
 
