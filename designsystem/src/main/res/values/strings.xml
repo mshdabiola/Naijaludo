@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="language">Language</string>
+    <string name="level">Game Level</string>
+    <string name="count">Direct Count</string>
+    <string name="assistant">Assistant</string>
+    <string name="sound">Sound</string>
+    <string name="music" >Music</string>
+    <string name="player_name">Player Name</string>
+    <string name="robot_one">Robot One</string>
+    <string name="robot_two">Robot Two</string>
+    <string name="robot_three">Robot Three</string>
+    <string name="style" translatable="false">Board Style</string>
+    <string name="type" translatable="false">Board Type</string>
+    <string name="pawn_num" translatable="false">Pawn Number</string>
+    <string name="rotate" translatable="false">Rotate</string>
+</resources>

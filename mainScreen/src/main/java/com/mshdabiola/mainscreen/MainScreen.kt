@@ -29,6 +29,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,6 +53,9 @@ import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.ludo.model.navigation.LudoNavDestination
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -118,6 +122,9 @@ fun MainScreen(
 
     val painter = rememberVectorPainter(image = vector)
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+    val coroutine= rememberCoroutineScope()
+    val activity = context as Activity
     val isPortrait by remember(configuration) {
         derivedStateOf { configuration.orientation == Configuration.ORIENTATION_PORTRAIT }
     }
@@ -139,7 +146,7 @@ fun MainScreen(
                         onClick = onCloseApp,
                         colors = MaterialTheme.colorScheme.secondaryContainer,
 
-                    ) {
+                        ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "cancel",
@@ -151,16 +158,19 @@ fun MainScreen(
                 colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
                 actions = {
                     IconButton(onClick = { showDialog = true }) {
-                        Icon(imageVector = Icons.Default.Settings, contentDescription = "setting")
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "setting"
+                        )
                     }
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
         ) {
 
             if (isPortrait) {
@@ -225,10 +235,21 @@ fun MainScreen(
             profile = profile,
             board = board,
             onDismissRequest = { showDialog = false },
-            basicSettingChange, soundSettingChange, profileSettingChange, boardSettingChange
+            basicSettingChange, soundSettingChange, profileSettingChange, boardSettingChange,
+            setLanguage = {
+                coroutine.launch(Dispatchers.IO) {
+                    ShareUtil.setLanguage(context,it)
+                    withContext(Dispatchers.Main){
+                        activity.recreate()
+                    }
+
+                }
+
+            }
         )
     }
 }
+
 
 @Preview()
 @Composable

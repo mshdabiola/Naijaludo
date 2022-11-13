@@ -1,8 +1,8 @@
 package com.mshdabiola.datastore
 
 import androidx.datastore.core.DataStore
-import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class UserPreferenceDataSource
 @Inject constructor(

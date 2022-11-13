@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Ede</string>
+    <string name="level">"Epele "</string>
+    <string name="count">Bami ka</string>
+    <string name="assistant">Irelowo</string>
+    <string name="sound">Doun</string>
+    <string name="music">Ori</string>
+    <string name="player_name">"Oruko "</string>
+    <string name="robot_one">Ero Akoko</string>
+    <string name="robot_two">Ero Ekeji</string>
+    <string name="robot_three">Ero Eketa</string>
+</resources>

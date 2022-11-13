@@ -744,12 +744,12 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         private const val numberOfDice = 3
         private const val totalIndex = numberOfDice / 2
 
-        fun getDefaultGameState(): LudoGameState {
+        fun getDefaultGameState(numberOfPawn : Int = 4): LudoGameState {
 
             val listPawns = ArrayList<Pawn>()
 
             GameColor.values().forEach { gameColor ->
-                (1..4).forEach { id ->
+                (1..numberOfPawn).forEach { id ->
                     listPawns.add(Pawn(id = id, color = gameColor))
                 }
             }
