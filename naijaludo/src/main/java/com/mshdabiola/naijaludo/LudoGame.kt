@@ -11,6 +11,7 @@ import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.log
 import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
+import java.util.Collections
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +35,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     private val computerDelay = 500L
 
+    private var ludoSetting: LudoSetting = LudoSetting()
+
     private fun setGameState(gameState: LudoGameState) {
         _gameState.value = gameState
     }
@@ -48,7 +51,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             currentPlayerPawn.all { it.isOut() }
         },
         onGameFinish: () -> Unit,
-        onPlayerFinishPlaying: () -> Unit = {}
+        onPlayerFinishPlaying: () -> Unit = {},
+        ludoSetting: LudoSetting = LudoSetting()
     ) {
 
         log("start")
@@ -58,8 +62,19 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         this.isGameFinish = isGameFinish
         this.onPlayerFinishPlaying = onPlayerFinishPlaying
 
+        this.ludoSetting = ludoSetting
+
         val isHumanPlayer = defaultState.listOfPlayer.single { it.isCurrent } is HumanPlayer
-        val colors = defaultState.listOfPlayer.map { it.colors }.flatten()
+        val colors = defaultState.listOfPlayer.map { it.colors }.flatten().toMutableList()
+        if (defaultState.listOfPlayer.size == 2) {
+            if (ludoSetting.style == 2) {
+                Collections.swap(colors, 1, 2)
+            }
+
+            if (ludoSetting.style == 1) {
+                Collections.swap(colors, 1, 3)
+            }
+        }
 
         val pawnss = getGameState().listOfPawn.ifEmpty { getInitGameState().listOfPawn }
 
@@ -363,22 +378,35 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
             val allPawnsMutableList = getGameState().listOfPawn.toMutableList()
 
-            repeat(allPawnsMutableList.size) {
-                val pawn = allPawnsMutableList[it]
-                if (pawn in allMovablePawns) {
-                    allPawnsMutableList[it] = pawn.copy(isEnable = true)
-                } else {
-                    allPawnsMutableList[it] = pawn.copy(isEnable = false)
-                }
-            }
-
-            setGameState(
-                getGameState().copy(
-                    listOfCounter = listOfCounterMutable,
-                    listOfPawn = allPawnsMutableList,
-                    pressedCounterId = counterId
+            if (ludoSetting.assist && allMovablePawns.size == 1) {
+                setGameState(
+                    getGameState().copy(
+                        listOfCounter = listOfCounterMutable,
+                        pressedCounterId = counterId
+                    )
                 )
-            )
+                val pawn = allPawnsMutableList.first { it == allMovablePawns.first() }
+                log("assist $pawn ${pawn.id}")
+                onPawnNormal(pawn.index)
+            } else {
+
+                repeat(allPawnsMutableList.size) {
+                    val pawn = allPawnsMutableList[it]
+                    if (pawn in allMovablePawns) {
+                        allPawnsMutableList[it] = pawn.copy(isEnable = true)
+                    } else {
+                        allPawnsMutableList[it] = pawn.copy(isEnable = false)
+                    }
+                }
+
+                setGameState(
+                    getGameState().copy(
+                        listOfCounter = listOfCounterMutable,
+                        listOfPawn = allPawnsMutableList,
+                        pressedCounterId = counterId
+                    )
+                )
+            }
         } else {
             log("Counter $counterId pause")
         }
@@ -401,9 +429,13 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     // on pawn 1
     fun onPawn(index: Int, isDrawer: Boolean) {
+
         if (isDrawer) {
             onPawnDrawer(index)
         } else {
+            if (getGameState().drawer != null) {
+                setGameState(getGameState().copy(drawer = null))
+            }
             onPawnNormal(index)
         }
     }
@@ -723,7 +755,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     private fun getDiceNumber(): Int {
 
-        return intArrayOf(1, 2, 6, 6, 6, 6, 4, 5, 3).random()
+        return getDiceBox(ludoSetting.level).random()
     }
 
     private fun getCurrentPlayerPawns(): List<Pawn> {
@@ -783,6 +815,12 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 listOfPawn = listPawns,
                 listOfCounter = listOfCounter
             )
+        }
+
+        fun getDiceBox(level: Int) = when (level) {
+            0 -> intArrayOf(1, 2, 3, 4, 5, 6)
+            1 -> intArrayOf(1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6)
+            else -> intArrayOf(1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6)
         }
     }
 }

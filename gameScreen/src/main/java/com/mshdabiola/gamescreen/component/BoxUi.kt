@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -104,7 +103,7 @@ fun HomeBoxUi(box: BoxUiState) {
                     .color.toHomeColor()
             )
 
-    ){
+    ) {
         Image(
             modifier = Modifier
                 .padding(16.dp)
@@ -117,8 +116,6 @@ fun HomeBoxUi(box: BoxUiState) {
         )
     }
 }
-
-
 
 @Preview
 @Composable

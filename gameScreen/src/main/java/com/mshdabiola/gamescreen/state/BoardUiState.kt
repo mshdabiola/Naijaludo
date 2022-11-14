@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
 
-//ToDo("change it to immutable list")
+// ToDo("change it to immutable list")
 @Immutable
 data class BoardUiState(
     val colors: List<GameColor> = emptyList(),

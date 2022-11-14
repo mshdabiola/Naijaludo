@@ -5,6 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.database.model.toPair
+import com.mshdabiola.datastore.BasicPref
+import com.mshdabiola.datastore.BoardPref
+import com.mshdabiola.datastore.ProfilePref
+import com.mshdabiola.datastore.SoundPref
+import com.mshdabiola.datastore.UserPreferenceDataSource
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
@@ -28,16 +33,23 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
-    private val ludoStateDomain: LudoStateDomain
+    private val ludoStateDomain: LudoStateDomain,
+    private val userPreferenceDataSource: UserPreferenceDataSource
 ) : ViewModel() {
 
     private val game = LudoGame()
     private val showDialog = savedStateHandle.get<Boolean>(SHOWDIALOG)
 
-    private val _gameUiState = MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
+    private val _gameUiState =
+        MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
     val gameUiState = _gameUiState.asStateFlow()
 
     var gameId: Long? = null
+
+    lateinit var basicPref: BasicPref
+    lateinit var soundPref: SoundPref
+    lateinit var boardPref: BoardPref
+    lateinit var profilePref: ProfilePref
 
     init {
         // react to ludoGame change
@@ -69,6 +81,12 @@ class GameViewModel @Inject constructor(
             if (!gameUiState.value.isStartDialogOpen) {
                 loadGame()
             }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            basicPref = userPreferenceDataSource.getBasicSetting().first()
+            soundPref = userPreferenceDataSource.getSoundSetting().first()
+            profilePref = userPreferenceDataSource.getProfileSetting().first()
+            boardPref = userPreferenceDataSource.getBoardSetting().first()
         }
     }
 
