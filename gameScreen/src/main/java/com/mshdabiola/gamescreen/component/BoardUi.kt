@@ -62,16 +62,6 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
         boardUiState.homeBoxes.forEach {
             HomeBoxUi(box = it)
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .rotate(redIndex)
-        ) {
-            boardUiState.homeBoxes.forEachIndexed { index, box ->
-                ImageBoxUi(box = box, BoardImage[index])
-            }
-        }
-
         boardUiState.pathBoxes.forEach {
             BoxUi(box = it)
         }

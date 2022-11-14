@@ -104,37 +104,21 @@ fun HomeBoxUi(box: BoxUiState) {
                     .color.toHomeColor()
             )
 
-    )
-}
-
-@Composable
-fun ImageBoxUi(
-    box: BoxUiState,
-    @DrawableRes
-    drawableRes: Int = BoardImage[1]
-) {
-    val oneUnit = LocalUnitDP.current
-    Box(
-        modifier = Modifier
-            .size(oneUnit * 6)
-            .offset(
-                oneUnit * box.point.x,
-                oneUnit * box.point.y
-            )
-
-    ) {
+    ){
         Image(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxSize(),
             painter = painterResource(
-                id =
-                drawableRes
+                id = BoardImage[box.color.ordinal]
+
             ),
             contentDescription = ""
         )
     }
 }
+
+
 
 @Preview
 @Composable
@@ -144,7 +128,7 @@ fun HomeBoxUiPreview() {
         LocalUnitDP provides 100.dp
     ) {
 
-        ImageBoxUi(
+        HomeBoxUi(
             box = BoxUiState(
                 point =
                 Point.zero,
