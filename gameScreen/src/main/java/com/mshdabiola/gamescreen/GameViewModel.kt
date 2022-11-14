@@ -10,13 +10,13 @@ import com.mshdabiola.datastore.BoardPref
 import com.mshdabiola.datastore.ProfilePref
 import com.mshdabiola.datastore.SoundPref
 import com.mshdabiola.datastore.UserPreferenceDataSource
+import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.Point
-import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.naijaludo.LudoGame
+import com.mshdabiola.naijaludo.LudoSetting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +50,8 @@ class GameViewModel @Inject constructor(
     lateinit var soundPref: SoundPref
     lateinit var boardPref: BoardPref
     lateinit var profilePref: ProfilePref
+    lateinit var profName: Array<String>
+    lateinit var ludoSetting: LudoSetting
 
     init {
         // react to ludoGame change
@@ -87,14 +89,27 @@ class GameViewModel @Inject constructor(
             soundPref = userPreferenceDataSource.getSoundSetting().first()
             profilePref = userPreferenceDataSource.getProfileSetting().first()
             boardPref = userPreferenceDataSource.getBoardSetting().first()
+
+            val defaultNames = ProfilePref().toList()
+            profName = Array(defaultNames.size) {
+                val str = profilePref.toList()[it]
+                str.ifBlank { defaultNames[it] }
+            }
+
+            ludoSetting = LudoSetting(
+                level = basicPref.gameLevel,
+                assist = basicPref.assistant,
+                style = boardPref.boardStyle
+            )
         }
     }
 
-    private suspend fun startGame(ludoGameState: LudoGameState? = null) {
+    private suspend fun startGame(ludoGameState: LudoGameState) {
 
         delay(300)
         game.start(
             ludoGameState = ludoGameState,
+            ludoSetting = ludoSetting,
             onGameFinish = this@GameViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying
         )
@@ -106,7 +121,13 @@ class GameViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.Default) {
 
-            startGame()
+            startGame(
+                LudoGame
+                    .getDefaultGameState(
+                        numberOfPawn = boardPref.pawnNumber,
+                        playerNames = profName
+                    )
+            )
         }
     }
 
@@ -146,23 +167,14 @@ class GameViewModel @Inject constructor(
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
-            val players = listOf(
-                RandomComputerPlayer(
-                    colors = listOf(GameColor.values()[0])
-                ),
-                RandomComputerPlayer(
-
-                    colors = listOf(GameColor.values()[1])
-                ),
-                RandomComputerPlayer(
-
-                    colors = listOf(GameColor.values()[2])
-                ),
-                HumanPlayer(isCurrent = true, colors = listOf(GameColor.values()[3]))
+            startGame(
+                LudoGame
+                    .getDefaultGameState(
+                        numberOfPlayer = 4,
+                        numberOfPawn = boardPref.pawnNumber,
+                        playerNames = profName
+                    )
             )
-            val ludoGameState = LudoGame.getDefaultGameState().copy(listOfPlayer = players)
-
-            startGame(ludoGameState)
         }
     }
 
