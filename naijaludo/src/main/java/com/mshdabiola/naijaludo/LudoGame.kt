@@ -828,7 +828,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         ): LudoGameState {
 
             val listPawns = ArrayList<Pawn>()
-            val numberOfPawn2 =if (numberOfPawn<2)4 else numberOfPawn
+            val numberOfPawn2 = if (numberOfPawn < 2)4 else numberOfPawn
 
             GameColor.values().forEach { gameColor ->
                 (1..4).forEach { id ->

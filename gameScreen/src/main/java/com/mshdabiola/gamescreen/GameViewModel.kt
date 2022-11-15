@@ -116,7 +116,6 @@ class GameViewModel @Inject constructor(
 
     private suspend fun startGame(ludoGameState: LudoGameState) {
 
-
         delay(300)
         game.start(
             ludoGameState = ludoGameState,

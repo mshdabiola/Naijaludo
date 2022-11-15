@@ -17,7 +17,7 @@ class SoundSystem
     private var soundPool: SoundPool? = null
     private val soundIds = IntArray(6)
     var playSound: Boolean = true
-    var streamId : Int?=null
+    var streamId: Int? = null
 
     init {
         val audioAttributes = AudioAttributes
@@ -61,27 +61,26 @@ class SoundSystem
         play(4)
     }
 
-
     override fun onSelect() {
         play(5)
     }
 
-    fun playMusic(){
+    fun playMusic() {
 
-       if (streamId==null || streamId==0) {
+        if (streamId == null || streamId == 0) {
 
-           streamId = soundPool?.play(soundIds[0], 1f, 1f, 1, -1, 1f)
-           log("Play music id $streamId")
-       } }
+            streamId = soundPool?.play(soundIds[0], 1f, 1f, 1, -1, 1f)
+            log("Play music id $streamId")
+        }
+    }
 
     fun stopMusic() {
 
         streamId?.let {
             log("Stop music")
             soundPool?.stop(it)
-            streamId=null
+            streamId = null
         }
-
     }
     fun close() {
 
