@@ -99,7 +99,8 @@ class GameViewModel @Inject constructor(
             ludoSetting = LudoSetting(
                 level = basicPref.gameLevel,
                 assist = basicPref.assistant,
-                style = boardPref.boardStyle
+                style = boardPref.boardStyle,
+                numberOfPawn = boardPref.pawnNumber
             )
         }
     }

@@ -119,13 +119,13 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             mutableList[next] = nextPlayer.copyPlayer(colors = player.colors)
         }
 
-        val pawns = getGameState().listOfPawn.toMutableList()
-        if (pawns.all { it.isOut() }) {
-            (0 until pawns.size).forEach {
-                val pawn = pawns[it]
-                pawns[it] = pawn.copy(currentPos = pawn.id * -1)
-            }
-        }
+        val pawns = getDefaultGameState(numberOfPawn = ludoSetting.numberOfPawn).listOfPawn
+//        if (pawns.all { it.isOut() }) {
+//            (0 until pawns.size).forEach {
+//                val pawn = pawns[it]
+//                pawns[it] = pawn.copy(currentPos = pawn.id * -1)
+//            }
+//        }
 
         val state = defaultState.copy(listOfPlayer = mutableList, listOfPawn = pawns)
         start(state, ludoSetting, isGameFinish, onGameFinish)

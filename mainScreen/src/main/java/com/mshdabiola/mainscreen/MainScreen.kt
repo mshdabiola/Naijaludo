@@ -115,7 +115,7 @@ fun MainScreen(
 ) {
 
     var showDialog by rememberSaveable {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
 
     val vector = ImageVector.vectorResource(id = LudoIcon.bg)
