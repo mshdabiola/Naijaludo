@@ -35,7 +35,7 @@ class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val ludoStateDomain: LudoStateDomain,
     private val userPreferenceDataSource: UserPreferenceDataSource,
-    soundSystem: SoundSystem
+    private val soundSystem: SoundSystem
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -108,9 +108,14 @@ class GameViewModel @Inject constructor(
 
             soundSystem.playSound = soundPref.sound
         }
+        viewModelScope.launch {
+            delay(6000)
+            soundSystem.playMusic()
+        }
     }
 
     private suspend fun startGame(ludoGameState: LudoGameState) {
+
 
         delay(300)
         game.start(
@@ -185,10 +190,12 @@ class GameViewModel @Inject constructor(
     }
 
     fun onResume() {
+        soundSystem.playMusic()
         game.resume()
     }
 
     fun onPause() {
+        soundSystem.stopMusic()
         game.pause()
     }
 
@@ -239,6 +246,11 @@ class GameViewModel @Inject constructor(
 
     private fun onPlayerFinishPlaying() {
         saveData()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        soundSystem.close()
     }
 
     companion object {
