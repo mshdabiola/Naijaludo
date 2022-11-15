@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -89,7 +90,7 @@ fun SafeBoxUi(box: BoxUiState) {
 }
 
 @Composable
-fun HomeBoxUi(box: BoxUiState) {
+fun HomeBoxUi(box: BoxUiState, colorIndex: Int = 0, boardType: Int = 0) {
     val oneUnit = LocalUnitDP.current
     Box(
         modifier = Modifier
@@ -106,10 +107,11 @@ fun HomeBoxUi(box: BoxUiState) {
     ) {
         Image(
             modifier = Modifier
+                .rotate(colorIndex * 90f)
                 .padding(16.dp)
                 .fillMaxSize(),
             painter = painterResource(
-                id = BoardImage[box.color.ordinal]
+                id = BoardImage[boardType][box.color.ordinal]
 
             ),
             contentDescription = ""

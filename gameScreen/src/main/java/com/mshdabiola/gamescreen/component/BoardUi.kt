@@ -58,8 +58,8 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
     }
 
     Box(modifier = Modifier) {
-        boardUiState.homeBoxes.forEach {
-            HomeBoxUi(box = it)
+        boardUiState.homeBoxes.forEachIndexed { index, box ->
+            HomeBoxUi(box = box, colorIndex = index, boardType = boardUiState.boardType)
         }
         boardUiState.pathBoxes.forEach {
             BoxUi(box = it)

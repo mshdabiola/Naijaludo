@@ -2,7 +2,7 @@ package com.mshdabiola.ludo.model
 
 import kotlin.math.abs
 
-class Board(var colors: List<GameColor> = GameColor.values().toList()) {
+class Board(val colors: List<GameColor> = GameColor.values().toList(), val boardType: Int = 0) {
 
     private
     // Starting point <col,row>, and number of box

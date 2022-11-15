@@ -6,12 +6,20 @@ object LudoIcon {
 
     val ArrowIcon = R.drawable.arrow
 
-    val BoardImage = intArrayOf(
+    private val defaultBoardType = intArrayOf(
         R.drawable.red,
         R.drawable.green,
         R.drawable.yellow,
         R.drawable.blue
     )
+    private val defaultBoardType2 = intArrayOf(
+        R.drawable.green,
+        R.drawable.green,
+        R.drawable.green,
+        R.drawable.green
+    )
+
+    val BoardImage = arrayOf(defaultBoardType, defaultBoardType2)
 
     val DiceImage = intArrayOf(
         R.drawable.dice_1,

@@ -34,10 +34,11 @@ import kotlinx.coroutines.launch
 class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val ludoStateDomain: LudoStateDomain,
-    private val userPreferenceDataSource: UserPreferenceDataSource
+    private val userPreferenceDataSource: UserPreferenceDataSource,
+    soundSystem: SoundSystem
 ) : ViewModel() {
 
-    private val game = LudoGame()
+    private val game = LudoGame(soundSystem)
     private val showDialog = savedStateHandle.get<Boolean>(SHOWDIALOG)
 
     private val _gameUiState =
@@ -100,8 +101,12 @@ class GameViewModel @Inject constructor(
                 level = basicPref.gameLevel,
                 assist = basicPref.assistant,
                 style = boardPref.boardStyle,
-                numberOfPawn = boardPref.pawnNumber
+                numberOfPawn = boardPref.pawnNumber,
+                rotateBoard = boardPref.rotate,
+                boardType = boardPref.boardType
             )
+
+            soundSystem.playSound = soundPref.sound
         }
     }
 

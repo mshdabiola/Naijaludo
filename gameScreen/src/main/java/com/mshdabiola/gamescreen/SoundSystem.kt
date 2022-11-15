@@ -14,6 +14,7 @@ class SoundSystem
 ) : SoundInterface {
     private var soundPool: SoundPool? = null
     private val soundIds = IntArray(5)
+    var playSound: Boolean = true
 
     init {
         val audioAttributes = AudioAttributes
@@ -37,7 +38,9 @@ class SoundSystem
     }
 
     private fun play(res: Int) {
-        soundPool?.play(soundIds[res], 1f, 1f, 1, 0, 1f)
+        if (playSound) {
+            soundPool?.play(soundIds[res], 1f, 1f, 1, 0, 1f)
+        }
     }
 
     override fun onToss() {

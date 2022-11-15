@@ -6,11 +6,11 @@ option java_multiple_files = true;
 message UserPreferences {
     int32 language = 1;
     int32 gameLevel = 2;
-    bool directCount = 3;
-    bool assistant = 4;
+    bool assistant = 3;
 
-    bool sound = 5;
-    bool music = 6;
+    bool sound = 4;
+    bool music = 5;
+    int32 musicType =6;
 
     int32 boardType = 7;
     int32 boardStyle = 8;

@@ -85,11 +85,11 @@ fun SettingScreen(
                     stringArrayRes = R.array.level
                 )
             }
-            SettingItem(title = R.string.count) { modifier ->
-                Switch(modifier = modifier, checked = basic.directCount, onCheckedChange = {
-                    basicSettingChange(basic.copy(directCount = it))
-                })
-            }
+//            SettingItem(title = R.string.count) { modifier ->
+//                Switch(modifier = modifier, checked = basic.directCount, onCheckedChange = {
+//                    basicSettingChange(basic.copy(directCount = it))
+//                })
+//            }
             SettingItem(title = R.string.assistant) { modifier ->
                 Switch(modifier = modifier, checked = basic.assistant, onCheckedChange = {
                     basicSettingChange(basic.copy(assistant = it))

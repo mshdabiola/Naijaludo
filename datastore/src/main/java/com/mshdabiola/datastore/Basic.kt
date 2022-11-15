@@ -3,19 +3,19 @@ package com.mshdabiola.datastore
 data class BasicPref(
     val language: Int = 1,
     val gameLevel: Int = 1,
-    val directCount: Boolean = false,
     val assistant: Boolean = false,
 )
 
-fun UserPreferences.toBasicPref() = BasicPref(language, gameLevel, directCount, assistant)
+fun UserPreferences.toBasicPref() = BasicPref(language, gameLevel, assistant)
 
 data class SoundPref(
     val sound: Boolean = false,
-    val music: Boolean = false
+    val music: Boolean = false,
+    val musicType: Int = 0
 
 )
 
-fun UserPreferences.toSoundPref() = SoundPref(sound, music)
+fun UserPreferences.toSoundPref() = SoundPref(sound, music, musicType = musicType)
 
 data class BoardPref(
     val boardType: Int = 1,

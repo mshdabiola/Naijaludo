@@ -84,9 +84,9 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 listOfCounter = defaultState.listOfCounter,
                 listOfPawn = pawnss,
                 listOfDice = defaultState.listOfDice,
-                rotate = true,
+                rotate = ludoSetting.rotateBoard,
                 isHumanPlayer = isHumanPlayer,
-                board = Board(colors = colors)
+                board = Board(colors = colors, boardType = ludoSetting.boardType)
 
             )
         )

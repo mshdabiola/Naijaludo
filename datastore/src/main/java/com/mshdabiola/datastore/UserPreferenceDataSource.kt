@@ -19,7 +19,7 @@ class UserPreferenceDataSource
             it.copy {
                 language = basic.language
                 gameLevel = basic.gameLevel
-                directCount = basic.directCount
+
                 assistant = basic.assistant
             }
         }
@@ -35,6 +35,7 @@ class UserPreferenceDataSource
             it.copy {
                 this.sound = sound.sound
                 music = sound.music
+                musicType = sound.musicType
             }
         }
     }

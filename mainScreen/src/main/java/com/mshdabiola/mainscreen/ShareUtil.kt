@@ -17,7 +17,7 @@ object ShareUtil {
 //             return local_lang as String
 //         }
         val land = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE)
-            .getInt("land", 1)
+            .getInt("land", 0)
         val lands =
             context.resources.getStringArray(com.mshdabiola.designsystem.R.array.language_locale)
 
