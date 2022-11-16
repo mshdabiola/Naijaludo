@@ -5,10 +5,11 @@ import android.media.AudioAttributes
 import android.media.SoundPool
 import com.mshdabiola.naijaludo.SoundInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+@ViewModelScoped
 class SoundSystem
 @Inject constructor(
     @ApplicationContext context: Context
@@ -17,7 +18,8 @@ class SoundSystem
     private var soundPool: SoundPool? = null
     private val soundIds = IntArray(6)
     var playSound: Boolean = true
-    var streamId: Int? = null
+    var playMusic: Boolean =false
+    private var streamId: Int? = null
 
     init {
         val audioAttributes = AudioAttributes
@@ -50,9 +52,11 @@ class SoundSystem
     override fun onToss() {
         play(1)
     }
+
     override fun onKill() {
         play(2)
     }
+
     override fun onMoving() {
         play(3)
     }
@@ -65,25 +69,37 @@ class SoundSystem
         play(5)
     }
 
-    fun playMusic() {
+    fun play() {
 
-        if (streamId == null || streamId == 0) {
+        if(playMusic){
+            if (streamId == null || streamId == 0) {
 
-            streamId = soundPool?.play(soundIds[0], 1f, 1f, 1, -1, 1f)
-            log("Play music id $streamId")
+                streamId = soundPool?.play(soundIds[0], 1f, 1f, 2, -1, 1f)
+                log("Play music id $streamId")
+            } else {
+                soundPool?.resume(streamId!!)
+                log("resume music id $streamId")
+            }
         }
     }
 
-    fun stopMusic() {
+    fun stop() {
 
+       if(playMusic) {
+            streamId?.let {
+                log("pause music")
+                soundPool?.pause(it)
+
+            }
+        }
+    }
+
+    fun close() {
         streamId?.let {
             log("Stop music")
-            soundPool?.stop(it)
+            soundPool?.pause(it)
             streamId = null
         }
-    }
-    fun close() {
-
         soundPool?.release()
         soundPool = null
     }

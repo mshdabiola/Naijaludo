@@ -47,10 +47,6 @@ class GameViewModel @Inject constructor(
 
     var gameId: Long? = null
 
-    lateinit var basicPref: BasicPref
-    lateinit var soundPref: SoundPref
-    lateinit var boardPref: BoardPref
-    lateinit var profilePref: ProfilePref
     lateinit var profName: Array<String>
     lateinit var ludoSetting: LudoSetting
 
@@ -86,10 +82,10 @@ class GameViewModel @Inject constructor(
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            basicPref = userPreferenceDataSource.getBasicSetting().first()
-            soundPref = userPreferenceDataSource.getSoundSetting().first()
-            profilePref = userPreferenceDataSource.getProfileSetting().first()
-            boardPref = userPreferenceDataSource.getBoardSetting().first()
+            val basicPref = userPreferenceDataSource.getBasicSetting().first()
+            val soundPref = userPreferenceDataSource.getSoundSetting().first()
+            val profilePref = userPreferenceDataSource.getProfileSetting().first()
+            val boardPref = userPreferenceDataSource.getBoardSetting().first()
 
             val defaultNames = ProfilePref().toList()
             profName = Array(defaultNames.size) {
@@ -107,10 +103,11 @@ class GameViewModel @Inject constructor(
             )
 
             soundSystem.playSound = soundPref.sound
+            soundSystem.playMusic = soundPref.music
         }
         viewModelScope.launch {
             delay(6000)
-            soundSystem.playMusic()
+            soundSystem.play()
         }
     }
 
@@ -134,7 +131,7 @@ class GameViewModel @Inject constructor(
             startGame(
                 LudoGame
                     .getDefaultGameState(
-                        numberOfPawn = boardPref.pawnNumber,
+                        numberOfPawn = ludoSetting.numberOfPawn,
                         playerNames = profName
                     )
             )
@@ -155,6 +152,8 @@ class GameViewModel @Inject constructor(
             val pair = ludoAndOthers?.toPair()
             val pawns = pair?.second?.toMutableList()
             val players = pair?.first
+
+
 
             if (players != null && pawns != null) {
 
@@ -181,7 +180,7 @@ class GameViewModel @Inject constructor(
                 LudoGame
                     .getDefaultGameState(
                         numberOfPlayer = 4,
-                        numberOfPawn = boardPref.pawnNumber,
+                        numberOfPawn = ludoSetting.numberOfPawn,
                         playerNames = profName
                     )
             )
@@ -189,12 +188,12 @@ class GameViewModel @Inject constructor(
     }
 
     fun onResume() {
-        soundSystem.playMusic()
+        soundSystem.play()
         game.resume()
     }
 
     fun onPause() {
-        soundSystem.stopMusic()
+        soundSystem.stop()
         game.pause()
     }
 
