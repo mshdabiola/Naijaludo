@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -90,7 +90,7 @@ fun SafeBoxUi(box: BoxUiState) {
 }
 
 @Composable
-fun HomeBoxUi(box: BoxUiState) {
+fun HomeBoxUi(box: BoxUiState, colorIndex: Int = 0, boardType: Int = 0) {
     val oneUnit = LocalUnitDP.current
     Box(
         modifier = Modifier
@@ -104,32 +104,15 @@ fun HomeBoxUi(box: BoxUiState) {
                     .color.toHomeColor()
             )
 
-    )
-}
-
-@Composable
-fun ImageBoxUi(
-    box: BoxUiState,
-    @DrawableRes
-    drawableRes: Int = BoardImage[1]
-) {
-    val oneUnit = LocalUnitDP.current
-    Box(
-        modifier = Modifier
-            .size(oneUnit * 6)
-            .offset(
-                oneUnit * box.point.x,
-                oneUnit * box.point.y
-            )
-
     ) {
         Image(
             modifier = Modifier
+                .rotate(colorIndex * 90f)
                 .padding(16.dp)
                 .fillMaxSize(),
             painter = painterResource(
-                id =
-                drawableRes
+                id = BoardImage[boardType][box.color.ordinal]
+
             ),
             contentDescription = ""
         )
@@ -144,7 +127,7 @@ fun HomeBoxUiPreview() {
         LocalUnitDP provides 100.dp
     ) {
 
-        ImageBoxUi(
+        HomeBoxUi(
             box = BoxUiState(
                 point =
                 Point.zero,

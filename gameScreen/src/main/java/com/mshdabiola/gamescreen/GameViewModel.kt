@@ -5,14 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.database.model.toPair
+import com.mshdabiola.datastore.ProfilePref
+import com.mshdabiola.datastore.UserPreferenceDataSource
+import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.Point
-import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.SoundInterface
+import com.mshdabiola.naijaludo.LudoSetting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -30,16 +31,21 @@ import kotlinx.coroutines.launch
 class GameViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     private val ludoStateDomain: LudoStateDomain,
-    soundInterface: SoundInterface
+    private val userPreferenceDataSource: UserPreferenceDataSource,
+    private val soundSystem: SoundSystem
 ) : ViewModel() {
 
-    private val game = LudoGame(soundInterface)
+    private val game = LudoGame(soundSystem)
     private val showDialog = savedStateHandle.get<Boolean>(SHOWDIALOG)
 
-    private val _gameUiState = MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
+    private val _gameUiState =
+        MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
     val gameUiState = _gameUiState.asStateFlow()
 
     var gameId: Long? = null
+
+    lateinit var profName: Array<String>
+    lateinit var ludoSetting: LudoSetting
 
     init {
         // react to ludoGame change
@@ -72,13 +78,42 @@ class GameViewModel @Inject constructor(
                 loadGame()
             }
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            val basicPref = userPreferenceDataSource.getBasicSetting().first()
+            val soundPref = userPreferenceDataSource.getSoundSetting().first()
+            val profilePref = userPreferenceDataSource.getProfileSetting().first()
+            val boardPref = userPreferenceDataSource.getBoardSetting().first()
+
+            val defaultNames = ProfilePref().toList()
+            profName = Array(defaultNames.size) {
+                val str = profilePref.toList()[it]
+                str.ifBlank { defaultNames[it] }
+            }
+
+            ludoSetting = LudoSetting(
+                level = basicPref.gameLevel,
+                assist = basicPref.assistant,
+                style = boardPref.boardStyle,
+                numberOfPawn = boardPref.pawnNumber,
+                rotateBoard = boardPref.rotate,
+                boardType = boardPref.boardType
+            )
+
+            soundSystem.playSound = soundPref.sound
+            soundSystem.playMusic = soundPref.music
+        }
+        viewModelScope.launch {
+            delay(6000)
+            soundSystem.play()
+        }
     }
 
-    private suspend fun startGame(ludoGameState: LudoGameState? = null) {
+    private suspend fun startGame(ludoGameState: LudoGameState) {
 
         delay(300)
         game.start(
             ludoGameState = ludoGameState,
+            ludoSetting = ludoSetting,
             onGameFinish = this@GameViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying
         )
@@ -90,7 +125,13 @@ class GameViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.Default) {
 
-            startGame()
+            startGame(
+                LudoGame
+                    .getDefaultGameState(
+                        numberOfPawn = ludoSetting.numberOfPawn,
+                        playerNames = profName
+                    )
+            )
         }
     }
 
@@ -130,31 +171,24 @@ class GameViewModel @Inject constructor(
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
-            val players = listOf(
-                RandomComputerPlayer(
-                    colors = listOf(GameColor.values()[0])
-                ),
-                RandomComputerPlayer(
-
-                    colors = listOf(GameColor.values()[1])
-                ),
-                RandomComputerPlayer(
-
-                    colors = listOf(GameColor.values()[2])
-                ),
-                HumanPlayer(isCurrent = true, colors = listOf(GameColor.values()[3]))
+            startGame(
+                LudoGame
+                    .getDefaultGameState(
+                        numberOfPlayer = 4,
+                        numberOfPawn = ludoSetting.numberOfPawn,
+                        playerNames = profName
+                    )
             )
-            val ludoGameState = LudoGame.getDefaultGameState().copy(listOfPlayer = players)
-
-            startGame(ludoGameState)
         }
     }
 
     fun onResume() {
+        soundSystem.play()
         game.resume()
     }
 
     fun onPause() {
+        soundSystem.stop()
         game.pause()
     }
 
@@ -205,6 +239,11 @@ class GameViewModel @Inject constructor(
 
     private fun onPlayerFinishPlaying() {
         saveData()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        soundSystem.close()
     }
 
     companion object {

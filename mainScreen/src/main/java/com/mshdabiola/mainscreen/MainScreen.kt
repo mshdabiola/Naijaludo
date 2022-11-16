@@ -15,16 +15,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -38,15 +45,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.gamescreen.component.GameButton
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.ludo.model.navigation.LudoNavDestination
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun MainScreen(navigateTo: (String) -> Unit, deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT) {
+fun MainScreen(
+    mainViewModel: MainViewModel = hiltViewModel(),
+    navigateTo: (String) -> Unit,
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT
+) {
     val activity = LocalContext.current as Activity
+
+    val basic by mainViewModel.basic.collectAsStateWithLifecycle()
+    val sound by mainViewModel.sound.collectAsStateWithLifecycle()
+    val board by mainViewModel.board.collectAsStateWithLifecycle()
+    val profile =
+        mainViewModel.profileState.value // by mainViewModel.profile.collectAsStateWithLifecycle()
+
+    LaunchedEffect(
+        key1 = profile,
+        block = {
+            mainViewModel.uploadProfile()
+        }
+    )
 
     MainScreen(
         onPlay = {
@@ -56,7 +87,15 @@ fun MainScreen(navigateTo: (String) -> Unit, deviceType: DEVICE_TYPE = DEVICE_TY
         },
         onCloseApp = {
             activity.finish()
-        }
+        },
+        basic = basic,
+        sound = sound,
+        board = board,
+        profile = profile,
+        basicSettingChange = mainViewModel::setBasic,
+        soundSettingChange = mainViewModel::setSound,
+        boardSettingChange = mainViewModel::setBoard,
+        profileSettingChange = mainViewModel::setProfile
     )
 }
 
@@ -64,14 +103,28 @@ fun MainScreen(navigateTo: (String) -> Unit, deviceType: DEVICE_TYPE = DEVICE_TY
 @Composable
 fun MainScreen(
     onPlay: () -> Unit = {},
-    onCloseApp: () -> Unit = {}
-
+    onCloseApp: () -> Unit = {},
+    basic: Basic = Basic(),
+    sound: Sound = Sound(),
+    profile: Profile = Profile(),
+    board: Board = Board(),
+    basicSettingChange: (Basic) -> Unit = {},
+    soundSettingChange: (Sound) -> Unit = {},
+    profileSettingChange: (Profile) -> Unit = {},
+    boardSettingChange: (Board) -> Unit = {}
 ) {
+
+    var showDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     val vector = ImageVector.vectorResource(id = LudoIcon.bg)
 
     val painter = rememberVectorPainter(image = vector)
     val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+    val coroutine = rememberCoroutineScope()
+    val activity = context as Activity
     val isPortrait by remember(configuration) {
         derivedStateOf { configuration.orientation == Configuration.ORIENTATION_PORTRAIT }
     }
@@ -102,14 +155,22 @@ fun MainScreen(
                     }
                 },
                 title = {},
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
+                actions = {
+                    IconButton(onClick = { showDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "setting"
+                        )
+                    }
+                }
             )
         }
-    ) {
+    ) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
         ) {
 
             if (isPortrait) {
@@ -167,10 +228,27 @@ fun MainScreen(
                 }
             }
         }
+        SettingDialog(
+            show = showDialog,
+            basic = basic,
+            sound = sound,
+            profile = profile,
+            board = board,
+            onDismissRequest = { showDialog = false },
+            basicSettingChange, soundSettingChange, profileSettingChange, boardSettingChange,
+            setLanguage = {
+                coroutine.launch(Dispatchers.IO) {
+                    ShareUtil.setLanguage(context, it)
+                    withContext(Dispatchers.Main) {
+                        activity.recreate()
+                    }
+                }
+            }
+        )
     }
 }
 
-@Preview(device = "spec:parent=pixel_5,orientation=landscape")
+@Preview()
 @Composable
 fun MainScreenPreview() {
     LudoAppTheme() {

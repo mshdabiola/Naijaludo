@@ -47,6 +47,7 @@ dependencies {
 
     implementation(libs.bundles.common.bundle)
     implementation(libs.androidx.constraintlayout)
+    implementation(project(mapOf("path" to ":datastore")))
 
     kapt (libs.hilt.compiler)
 

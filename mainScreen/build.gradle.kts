@@ -42,9 +42,10 @@ android {
 dependencies {
     implementation (project( ":designsystem"))
     implementation (project( ":model"))
+    implementation (project( ":datastore"))
 
     implementation(libs.bundles.common.bundle)
-
+    implementation(libs.androidx.constraintlayout)
     kapt (libs.hilt.compiler)
 
     testImplementation (libs.junit4)

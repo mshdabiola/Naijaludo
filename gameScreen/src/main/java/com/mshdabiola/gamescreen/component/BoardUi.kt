@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
 import com.mshdabiola.gamescreen.state.BoardUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.ludo.model.Board
@@ -59,19 +58,9 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
     }
 
     Box(modifier = Modifier) {
-        boardUiState.homeBoxes.forEach {
-            HomeBoxUi(box = it)
+        boardUiState.homeBoxes.forEachIndexed { index, box ->
+            HomeBoxUi(box = box, colorIndex = index, boardType = boardUiState.boardType)
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .rotate(redIndex)
-        ) {
-            boardUiState.homeBoxes.forEachIndexed { index, box ->
-                ImageBoxUi(box = box, BoardImage[index])
-            }
-        }
-
         boardUiState.pathBoxes.forEach {
             BoxUi(box = it)
         }

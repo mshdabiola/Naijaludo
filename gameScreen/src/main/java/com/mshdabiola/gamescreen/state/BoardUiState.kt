@@ -4,8 +4,11 @@ import androidx.compose.runtime.Immutable
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
 
+// ToDo("change it to immutable list")
 @Immutable
 data class BoardUiState(
+//    val rotate: Boolean ,
+    val boardType: Int = 0,
     val colors: List<GameColor> = emptyList(),
     val homeBoxes: List<BoxUiState> = emptyList(),
     val pathBoxes: List<BoxUiState> = emptyList(),
@@ -13,6 +16,7 @@ data class BoardUiState(
 )
 
 fun Board.toBoardUiState() = BoardUiState(
+    boardType = boardType,
     colors = colors,
     homeBoxes = bigHomeBoxes.map { it.toBoxUiState() },
     pathBoxes = paths.map { it.toBoxUiState() },
