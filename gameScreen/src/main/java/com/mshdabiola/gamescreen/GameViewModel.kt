@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.database.model.toPair
-import com.mshdabiola.datastore.BasicPref
-import com.mshdabiola.datastore.BoardPref
 import com.mshdabiola.datastore.ProfilePref
-import com.mshdabiola.datastore.SoundPref
 import com.mshdabiola.datastore.UserPreferenceDataSource
 import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.toLudoUiState
@@ -152,8 +149,6 @@ class GameViewModel @Inject constructor(
             val pair = ludoAndOthers?.toPair()
             val pawns = pair?.second?.toMutableList()
             val players = pair?.first
-
-
 
             if (players != null && pawns != null) {
 

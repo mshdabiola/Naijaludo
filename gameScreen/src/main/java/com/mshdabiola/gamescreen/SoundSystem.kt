@@ -7,7 +7,6 @@ import com.mshdabiola.naijaludo.SoundInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @ViewModelScoped
 class SoundSystem
@@ -18,7 +17,7 @@ class SoundSystem
     private var soundPool: SoundPool? = null
     private val soundIds = IntArray(6)
     var playSound: Boolean = true
-    var playMusic: Boolean =false
+    var playMusic: Boolean = false
     private var streamId: Int? = null
 
     init {
@@ -71,7 +70,7 @@ class SoundSystem
 
     fun play() {
 
-        if(playMusic){
+        if (playMusic) {
             if (streamId == null || streamId == 0) {
 
                 streamId = soundPool?.play(soundIds[0], 1f, 1f, 2, -1, 1f)
@@ -85,11 +84,10 @@ class SoundSystem
 
     fun stop() {
 
-       if(playMusic) {
+        if (playMusic) {
             streamId?.let {
                 log("pause music")
                 soundPool?.pause(it)
-
             }
         }
     }
