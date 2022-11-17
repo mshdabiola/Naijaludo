@@ -10,6 +10,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.mainscreen.ShareUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         //   val gameViewModel = viewModels<GameViewModel>().value
+
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContent {
 //            NaijaLudoTheme {
 //                // A surface container using the 'background' color from the theme
@@ -28,7 +32,7 @@ class MainActivity : ComponentActivity() {
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
 //                ) {
-            // WindowCompat.setDecorFitsSystemWindows(window,false)
+             WindowCompat.setDecorFitsSystemWindows(window,false)
             LudoApp(windowSizeClass = calculateWindowSizeClass(activity = this))
             // MyNavigationGraph(gameScreenViewModel = gameViewModel)
 //                }

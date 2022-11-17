@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.NaijaLudo" parent="android:Theme.Material.Light.NoActionBar" />
+<!--    <style name="Theme.NaijaLudo" parent="android:Theme.Material.Light.NoActionBar" />-->
+
+    <style name="NightAdjusted.Theme.NaijaLudo" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" >true</item>
+    </style>
+
+    <!-- Allows us to override platform level specific attributes in their
+         respective values-vXX folder. -->
+    <style name="PlatformAdjusted.Theme.NaijaLudo" parent="NightAdjusted.Theme.NaijaLudo">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- The final theme we use -->
+    <style name="Theme.NaijaLudo" parent="PlatformAdjusted.Theme.NaijaLudo" />
+
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+<!--        <item name="android:windowLightStatusBar" >true</item>-->
+    </style>
+
+    <style name="Theme.NaijaLudo.Splash" parent="NightAdjusted.Theme.Splash">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenBackground">@color/purple_700</item>
+         <item name="postSplashScreenTheme">@style/Theme.NaijaLudo</item>
+    </style>
 </resources>

@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.bundles.hilt.bundle)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.kotlinx.collection.immutable)
+    implementation(libs.androidx.core.splashscreen)
 
 
     testImplementation (libs.junit4)

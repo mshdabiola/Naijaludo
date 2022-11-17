@@ -91,22 +91,22 @@ fun LudoAppTheme(
         useDarkTheme -> DarkColors
         else -> LightColors
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val activity = view.context as Activity
-            WindowCompat.setDecorFitsSystemWindows(activity.window, false)
-            activity.window.apply {
-                statusBarColor = Color.Transparent.toArgb()
-                navigationBarColor = Color.Transparent.toArgb()
-            }
-
-            WindowCompat.getInsetsController(activity.window, view).apply {
-                isAppearanceLightStatusBars = !useDarkTheme
-                isAppearanceLightNavigationBars = !useDarkTheme
-            }
-        }
-    }
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val activity = view.context as Activity
+         //   WindowCompat.setDecorFitsSystemWindows(activity.window, false)
+//            activity.window.apply {
+//                statusBarColor = Color.Transparent.toArgb()
+//                navigationBarColor = Color.Transparent.toArgb()
+//            }
+//
+//            WindowCompat.getInsetsController(activity.window, view).apply {
+//                isAppearanceLightStatusBars = !useDarkTheme
+//                isAppearanceLightNavigationBars = !useDarkTheme
+//            }
+//        }
+//    }
     MaterialTheme(
         colorScheme = colorScheme,
         typography = LudoTypography,
