@@ -22,7 +22,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -140,6 +139,7 @@ class GameViewModel @Inject constructor(
                     )
             )
         }
+        deleteData()
     }
 
     fun onContinueClick() {
@@ -148,7 +148,6 @@ class GameViewModel @Inject constructor(
         loadGame()
     }
 
-    // Todo("fix incorrect load pawn, number of pawn to load")
     private fun loadGame() {
         viewModelScope.launch() {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
@@ -188,6 +187,7 @@ class GameViewModel @Inject constructor(
                     )
             )
         }
+        deleteData()
     }
 
     fun onResume() {
@@ -242,6 +242,12 @@ class GameViewModel @Inject constructor(
 
                 ludoStateDomain.insertLudo(game.gameState.value, id)
             }
+        }
+    }
+
+    private fun deleteData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            ludoStateDomain.deleteGame(1)
         }
     }
 

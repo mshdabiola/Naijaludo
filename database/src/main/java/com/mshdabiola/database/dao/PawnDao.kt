@@ -16,8 +16,8 @@ interface PawnDao {
     @Upsert
     suspend fun upsertMany(pawns: List<PawnEntity>)
 
-    @Delete
-    suspend fun delete(pawnEntity: PawnEntity)
+    @Query("DELETE FROM pawn_table WHERE gameId = :gameId")
+    suspend fun deleteByID(gameId: Long)
 
     @Delete
     suspend fun deleteMany(vararg pawnEntity: PawnEntity)
