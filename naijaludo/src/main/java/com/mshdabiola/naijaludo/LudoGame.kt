@@ -130,6 +130,23 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         val state = defaultState.copy(listOfPlayer = mutableList, listOfPawn = pawns)
         start(state, ludoSetting, isGameFinish, onGameFinish)
     }
+    suspend fun resign() {
+        log("resign")
+        // swap color
+        val players = getGameState().listOfPlayer
+
+        val mutableList = players.toMutableList()
+        players.forEachIndexed { index, player ->
+
+            val noOfWin = if (player is HumanPlayer) player.win else player.win.inc()
+            mutableList[index] = player.copyPlayer(win = noOfWin)
+        }
+
+        val pawns = getDefaultGameState(numberOfPawn = ludoSetting.numberOfPawn).listOfPawn
+
+        val state = defaultState.copy(listOfPlayer = mutableList, listOfPawn = pawns)
+        start(state, ludoSetting, isGameFinish, onGameFinish)
+    }
 
     fun resume() {
         log("resume")

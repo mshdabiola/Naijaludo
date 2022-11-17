@@ -148,6 +148,7 @@ class GameViewModel @Inject constructor(
         loadGame()
     }
 
+    // Todo("fix incorrect load pawn, number of pawn to load")
     private fun loadGame() {
         viewModelScope.launch() {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
@@ -258,6 +259,10 @@ class GameViewModel @Inject constructor(
     }
 
     fun restartGame() {
+
+        viewModelScope.launch {
+            game.resign()
+        }
     }
 
     private fun onPlayerFinishPlaying() {

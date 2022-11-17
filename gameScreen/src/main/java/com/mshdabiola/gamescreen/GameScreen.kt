@@ -802,7 +802,7 @@ fun Show(
         }
         DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
             DropdownMenuItem(
-                text = { Text(text = "Resign") },
+                text = { Text(text = "Give up") },
                 onClick = { show = false; onResign() }
             )
             DropdownMenuItem(text = { Text(text = "Home") }, onClick = { show = false; onBack() })
