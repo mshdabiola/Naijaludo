@@ -31,9 +31,9 @@ fun UserPreferences.toBoardPref() =
 
 data class ProfilePref(
     val playerName: String = "Human",
-    val computer1: String = "Comp1",
-    val computer2: String = "Comp2",
-    val computer3: String = "Comp3"
+    val computer1: String = "Amaka",
+    val computer2: String = "Hammed",
+    val computer3: String = "Alabi"
 )
 
 fun ProfilePref.toList() = arrayOf(playerName, computer1, computer2, computer3)

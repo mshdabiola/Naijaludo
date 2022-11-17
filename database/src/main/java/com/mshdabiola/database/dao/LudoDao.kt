@@ -19,7 +19,7 @@ interface LudoDao {
     suspend fun delete(ludoEntity: LudoEntity): Int
 
     @Query("DELETE FROM ludo_table WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: Long)
 
     @Query("SELECT * FROM ludo_table WHERE id = :id")
     fun getOne(id: Int): Flow<LudoEntity>

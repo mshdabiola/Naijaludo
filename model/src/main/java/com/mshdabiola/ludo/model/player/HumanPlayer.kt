@@ -8,7 +8,7 @@ data class HumanPlayer(
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor> = emptyList()
-) : PlayerInteface {
+) : Player {
     override fun chooseCounter(gameState: LudoGameState): Int {
         TODO("Not yet implemented")
     }
@@ -22,7 +22,7 @@ data class HumanPlayer(
         win: Int,
         isCurrent: Boolean,
         colors: List<GameColor>
-    ): PlayerInteface {
+    ): Player {
         return copy(
             name = name,
             win = win,

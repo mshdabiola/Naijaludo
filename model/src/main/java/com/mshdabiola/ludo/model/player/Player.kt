@@ -3,7 +3,7 @@ package com.mshdabiola.ludo.model.player
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 
-interface PlayerInteface {
+interface Player {
     val name: String
     val win: Int
     val isCurrent: Boolean
@@ -29,5 +29,5 @@ interface PlayerInteface {
         win: Int = this.win,
         isCurrent: Boolean = this.isCurrent,
         colors: List<GameColor> = this.colors
-    ): PlayerInteface
+    ): Player
 }

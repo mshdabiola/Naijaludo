@@ -16,8 +16,8 @@ interface PlayerDao {
     @Upsert
     suspend fun upsertMany(players: List< PlayerEntity>)
 
-    @Delete
-    suspend fun delete(playerEntity: PlayerEntity)
+    @Query("DELETE FROM player_table WHERE gameId = :gameId")
+    suspend fun deleteById(gameId: Long)
 
     @Delete
     suspend fun deleteMany(vararg playerEntity: PlayerEntity)

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.database.model.toPair
 import com.mshdabiola.datastore.ProfilePref
+import com.mshdabiola.datastore.SoundPref
 import com.mshdabiola.datastore.UserPreferenceDataSource
 import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.toLudoUiState
@@ -21,7 +22,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -80,7 +81,7 @@ class GameViewModel @Inject constructor(
         }
         viewModelScope.launch(Dispatchers.IO) {
             val basicPref = userPreferenceDataSource.getBasicSetting().first()
-            val soundPref = userPreferenceDataSource.getSoundSetting().first()
+            // val soundPref = userPreferenceDataSource.getSoundSetting().first()
             val profilePref = userPreferenceDataSource.getProfileSetting().first()
             val boardPref = userPreferenceDataSource.getBoardSetting().first()
 
@@ -98,9 +99,14 @@ class GameViewModel @Inject constructor(
                 rotateBoard = boardPref.rotate,
                 boardType = boardPref.boardType
             )
-
-            soundSystem.playSound = soundPref.sound
-            soundSystem.playMusic = soundPref.music
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferenceDataSource
+                .getSoundSetting().collectLatest {
+                    soundSystem.playSound = it.sound
+                    soundSystem.playMusic = it.music
+                    _gameUiState.value = gameUiState.value.copy(music = it.music, sound = it.sound)
+                }
         }
         viewModelScope.launch {
             delay(6000)
@@ -133,6 +139,7 @@ class GameViewModel @Inject constructor(
                     )
             )
         }
+        deleteData()
     }
 
     fun onContinueClick() {
@@ -180,6 +187,7 @@ class GameViewModel @Inject constructor(
                     )
             )
         }
+        deleteData()
     }
 
     fun onResume() {
@@ -234,6 +242,32 @@ class GameViewModel @Inject constructor(
 
                 ludoStateDomain.insertLudo(game.gameState.value, id)
             }
+        }
+    }
+
+    private fun deleteData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            ludoStateDomain.deleteGame(1)
+        }
+    }
+
+    fun setMusic(value: Boolean) {
+        viewModelScope.launch {
+            userPreferenceDataSource
+                .setSoundSetting(SoundPref(sound = gameUiState.value.sound, music = value))
+        }
+    }
+    fun setSound(value: Boolean) {
+        viewModelScope.launch {
+            userPreferenceDataSource
+                .setSoundSetting(SoundPref(music = gameUiState.value.music, sound = value))
+        }
+    }
+
+    fun restartGame() {
+
+        viewModelScope.launch {
+            game.resign()
         }
     }
 

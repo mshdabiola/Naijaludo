@@ -40,6 +40,12 @@ class LudoStateDomain @Inject constructor(
         playerDao.upsertMany(playerEntity)
     }
 
+    suspend fun deleteGame(id: Long) {
+        ludoDao.deleteById(id)
+        pawnDao.deleteByID(id)
+        playerDao.deleteById(id)
+    }
+
     fun getLatestLudoAndOther() =
         ludoDao.getLudoAndOther()
 
