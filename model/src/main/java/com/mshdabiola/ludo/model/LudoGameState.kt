@@ -1,9 +1,9 @@
 package com.mshdabiola.ludo.model
 
-import com.mshdabiola.ludo.model.player.PlayerInteface
+import com.mshdabiola.ludo.model.player.Player
 
 data class LudoGameState(
-    val listOfPlayer: List<PlayerInteface> = emptyList(),
+    val listOfPlayer: List<Player> = emptyList(),
     val listOfDice: List<Dice> = emptyList(),
     val listOfPawn: List<Pawn> = emptyList(),
     val listOfCounter: List<Counter> = emptyList(),

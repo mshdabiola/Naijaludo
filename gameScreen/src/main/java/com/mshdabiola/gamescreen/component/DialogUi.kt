@@ -1,234 +1,188 @@
 package com.mshdabiola.gamescreen.component
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.semantics.Role.Companion.Button
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.mshdabiola.designsystem.component.DialogUi
+import com.mshdabiola.gamescreen.state.PlayerUiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun UnCancelableDialog(
-    modifier: Modifier = Modifier,
-    title: String,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    properties: DialogProperties = DialogProperties(
-        dismissOnBackPress = false,
-        dismissOnClickOutside = true
-    ),
-    content: @Composable ColumnScope.() -> Unit
+fun StartDialog(
+    show: Boolean = true,
+    onBackPress: () -> Unit = {},
+    showContinueButton: Boolean = true,
+    onYouAndComputer: () -> Unit = {},
+    onTournament: () -> Unit = {},
+    onContinueButton: () -> Unit = {}
 ) {
-    DialogUi(
-        modifier = modifier,
-        onDismissRequest = { },
-        title = { Text(text = title, color = MaterialTheme.colorScheme.onPrimary) },
-        content = content,
-        containerColor = containerColor,
-        properties = properties
-    )
-}
+    AnimatedVisibility(visible = show) {
+        DialogUi(
+            title = { Text(text = "Start Game") },
+            onDismissRequest = { /*TODO*/ },
+            content = {
 
-@Composable
-fun DialogUi(
-    onDismissRequest: () -> Unit,
-    buttons: (@Composable RowScope.() -> Unit)? = null,
-    modifier: Modifier = Modifier,
-    cancelIcon: (@Composable () -> Unit)? = null,
-    title: @Composable (RowScope.() -> Unit)? = null,
-    content: (@Composable ColumnScope.() -> Unit)? = null,
-    shape: Shape = AlertDialogDefaults.shape,
-    containerColor: Color = AlertDialogDefaults.containerColor,
-    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
-    properties: DialogProperties = DialogProperties()
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = properties
-    ) {
-        DialogContent(
-            buttons = buttons,
-            modifier = modifier,
-            cancelIcon = cancelIcon,
-            title = title,
-            content = content,
-            shape = shape,
-            containerColor = containerColor,
-            tonalElevation = tonalElevation,
+                Row(Modifier.fillMaxWidth()) {
+
+                    GameCard(
+                        Modifier.weight(1f),
+                        title = "Resume Game",
+                        buttonText = "Continue",
+                        buttonEnable = showContinueButton,
+                        onButtonClick = onContinueButton
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    GameCard(
+                        Modifier.weight(1f),
+                        title = "Vs Robot",
+                        onButtonClick = onYouAndComputer
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(Modifier.fillMaxWidth()) {
+                    GameCard(
+                        Modifier.weight(1f),
+                        title = "Vs 3 Robots",
+                        onButtonClick = onTournament
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(Modifier.weight(1f))
+                }
+            },
+            buttons = {
+                TextButton(onClick = onBackPress) {
+                    Text(text = "Back")
+                }
+            },
+            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
         )
     }
 }
 
 @Preview
 @Composable
-fun DialogUiPreview() {
-    DialogUi(
-        onDismissRequest = { /*TODO*/ },
-        title = { Text(text = "Title", color = MaterialTheme.colorScheme.onPrimary) },
-        cancelIcon = {
-            FilledIconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "add",
-                    modifier = Modifier.rotate(45f)
-                )
-            }
-        },
-        content = {
-            Button(onClick = { }) {
-                Text(text = "Button1")
-            }
-            Button(onClick = { }) {
-                Text(text = "Button1")
-            }
-            Button(onClick = { }) {
-                Text(text = "Button1")
-            }
-        },
-        buttons = {
-            Button(onClick = { }) {
-                Text(text = "Buttons")
-            }
-            Button(onClick = { }) {
-                Text(text = "Buttons")
-            }
-        },
-        containerColor = Color.Blue
+fun StartDialogPreview() {
+    StartDialog()
+}
 
+@Composable
+fun GameOverDialog(
+    show: Boolean = true,
+    players: ImmutableList<PlayerUiState>,
+    onRestart: () -> Unit = {},
+    onHome: () -> Unit = {}
+) {
+    val humanWin by remember(players) {
+        derivedStateOf { players.indexOfFirst { it.isCurrent } == players.lastIndex }
+    }
+    AnimatedVisibility(visible = show) {
+        DialogUi(
+            onDismissRequest = { /*TODO*/ },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            ),
+            content = {
+                players.forEach {
+                    PlayerUi(player = it)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                if (humanWin) {
+                    Text(text = "Hurray!! You win the game")
+                } else {
+                    Text(text = "0ppps!! You loss, try again")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            },
+            buttons = {
+                IconButton(onClick = onHome) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = "")
+                }
+                IconButton(onClick = { }) {
+                    Icon(imageVector = Icons.Default.Share, contentDescription = "")
+                }
+                Button(onClick = onRestart) {
+                    Icon(imageVector = Icons.Default.Refresh, contentDescription = "")
+                    Text(text = "Play Again")
+                }
+            },
+            title = { Text(text = "Game Over") }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun GameOverPreview() {
+    GameOverDialog(
+        players = listOf(
+            PlayerUiState(),
+            PlayerUiState(),
+            PlayerUiState(isCurrent = true)
+        ).toImmutableList()
     )
 }
 
 @Composable
-fun DialogContent(
-    buttons: (@Composable RowScope.() -> Unit)?,
+fun GameCard(
     modifier: Modifier = Modifier,
-    cancelIcon: (@Composable () -> Unit)?,
-    title: (@Composable RowScope.() -> Unit)?,
-    content: (@Composable ColumnScope.() -> Unit)?,
-    shape: Shape,
-    containerColor: Color,
-    tonalElevation: Dp,
+    imageVector: ImageVector = Icons.Default.Settings,
+    title: String = "Vs Computer",
+    buttonText: String = "Play",
+    buttonEnable: Boolean = true,
+    onButtonClick: () -> Unit = {}
 ) {
-
-    Surface(
-        modifier = modifier,
-        shape = shape,
-        color = Color.Transparent,
-        tonalElevation = tonalElevation
-    ) {
-        Column(
-            modifier = Modifier
-                .drawBehind {
-                    drawRect(Color.White)
-                    drawRect(
-                        Brush.verticalGradient(
-                            0.0f to containerColor,
-                            size.height * 0.5f to containerColor.copy(alpha = 0.6f),
-                            tileMode = TileMode.Mirror
-
-                        )
-                    )
-                }
-                .sizeIn(minWidth = MinWidth, maxWidth = MaxWidth)
-                .padding(DialogPadding)
-        ) {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                title?.let {
-
-                    val textStyle = MaterialTheme.typography.headlineSmall
-                    ProvideTextStyle(textStyle) {
-                        Row(
-                            // Align the title to the center when an icon is present.
-                            Modifier
-                                .padding(TitlePadding)
-                                .weight(1f, fill = true),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            title()
-                        }
-                    }
-                }
-
-                cancelIcon?.let {
-                    Box(
-                        modifier = Modifier
-                            .padding(IconPadding)
-                            .align(Alignment.CenterVertically)
-                    ) {
-                        cancelIcon()
-                    }
-                }
-            }
-
-            content?.let {
-                Column(
-                    Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.background)
-                        .weight(1f, fill = false)
-                        .padding(TextPadding)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-
-                ) {
-                    content()
-                }
-            }
-
-            buttons?.let {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceAround
-
-                ) {
-                    buttons()
+    Card(modifier = modifier) {
+        Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                modifier = Modifier
+                    .aspectRatio(1f),
+                imageVector = imageVector, contentDescription = "null"
+            )
+            Text(text = title, style = MaterialTheme.typography.titleMedium)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Button(onClick = onButtonClick, enabled = buttonEnable) {
+                    Text(text = buttonText)
                 }
             }
         }
     }
 }
 
-private val DialogPadding = PaddingValues(all = 24.dp)
-private val IconPadding = PaddingValues(bottom = 16.dp)
-private val TitlePadding = PaddingValues(bottom = 16.dp)
-private val TextPadding = PaddingValues(all = 24.dp)
-
-private val MinWidth = 280.dp
-private val MaxWidth = 560.dp
+@Preview
+@Composable
+fun GameCardPreview() {
+    GameCard()
+}

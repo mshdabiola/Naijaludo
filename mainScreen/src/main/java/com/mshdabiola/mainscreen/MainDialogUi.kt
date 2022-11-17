@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.DropdownMenuItem
@@ -30,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -41,156 +38,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-
-@Composable
-fun SettingScreen(
-    basic: Basic,
-    sound: Sound,
-    profile: Profile,
-    board: Board,
-    basicSettingChange: (Basic) -> Unit = {},
-    soundSettingChange: (Sound) -> Unit = {},
-    profileSettingChange: (Profile) -> Unit = {},
-    boardSettingChange: (Board) -> Unit = {},
-    setLanguage: (Int) -> Unit = {}
-) {
-    val scroll = rememberScrollState()
-
-    Column(
-        modifier = Modifier
-            .verticalScroll(scroll)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Title(title = "Basic")
-        SettingContainer {
-            SettingItem(title = R.string.language) { modi ->
-                ExposeBox(
-                    modifier = modi, current = basic.language,
-                    onValueChange = {
-                        basicSettingChange(basic.copy(language = it))
-                        setLanguage(it)
-                    },
-                    stringArrayRes = R.array.language
-                )
-            }
-            SettingItem(title = R.string.level) { modifier ->
-                ExposeBox(
-                    modifier = modifier,
-                    current = basic.gameLevel,
-                    onValueChange = {
-
-                        basicSettingChange(basic.copy(gameLevel = it))
-                    },
-                    stringArrayRes = R.array.level
-                )
-            }
-//            SettingItem(title = R.string.count) { modifier ->
-//                Switch(modifier = modifier, checked = basic.directCount, onCheckedChange = {
-//                    basicSettingChange(basic.copy(directCount = it))
-//                })
-//            }
-            SettingItem(title = R.string.assistant) { modifier ->
-                Switch(modifier = modifier, checked = basic.assistant, onCheckedChange = {
-                    basicSettingChange(basic.copy(assistant = it))
-                })
-            }
-        }
-        Title(title = "Sound")
-        SettingContainer {
-            SettingItem(title = R.string.sound) { modifier ->
-                Switch(modifier = modifier, checked = sound.sound, onCheckedChange = {
-                    soundSettingChange(sound.copy(sound = it))
-                })
-            }
-            SettingItem(title = R.string.music) { modifier ->
-                Switch(modifier = modifier, checked = sound.music, onCheckedChange = {
-                    soundSettingChange(sound.copy(music = it))
-                })
-            }
-        }
-        Title(title = "Profile")
-        SettingContainer {
-            SettingItem(title = R.string.player_name) { modifier ->
-                MyTextField(
-                    modifier = modifier,
-                    current = profile.playerName,
-                    onValueChange = {
-                        profileSettingChange(profile.copy(playerName = it))
-                    }
-                )
-            }
-            SettingItem(title = R.string.robot_one) { modifier ->
-                MyTextField(
-                    modifier = modifier,
-                    current = profile.computer1,
-                    onValueChange = {
-                        profileSettingChange(profile.copy(computer1 = it))
-                    }
-                )
-            }
-            SettingItem(title = R.string.robot_two) { modifier ->
-                MyTextField(
-                    modifier = modifier,
-                    current = profile.computer2,
-                    onValueChange = {
-                        profileSettingChange(profile.copy(computer2 = it))
-                    }
-                )
-            }
-            SettingItem(title = R.string.robot_three) { modifier ->
-                MyTextField(
-                    modifier = modifier,
-                    current = profile.computer3,
-                    onValueChange = {
-                        profileSettingChange(profile.copy(computer3 = it))
-                    }
-                )
-            }
-        }
-        Title(title = "Board")
-        SettingContainer {
-            SettingItem(title = R.string.style) { modi ->
-                ExposeBox(
-                    modifier = modi, current = board.boardStyle,
-                    onValueChange = {
-
-                        boardSettingChange(board.copy(boardStyle = it))
-                    },
-                    stringArrayRes = R.array.board_style
-                )
-            }
-            SettingItem(title = R.string.type) { modi ->
-                ExposeBox(
-                    modifier = modi, current = board.boardType,
-                    onValueChange = {
-
-                        boardSettingChange(board.copy(boardType = it))
-                    },
-                    stringArrayRes = R.array.board_type
-                )
-            }
-            SettingItem(title = R.string.pawn_num) { modi ->
-
-                Slider(
-                    value = board.pawnNumber.toFloat(),
-                    onValueChange = {
-                        boardSettingChange(board.copy(pawnNumber = it.toInt()))
-                    },
-                    modifier = modi.widthIn(50.dp, 120.dp),
-                    valueRange = 2f..4f,
-                    steps = 1
-                )
-//
-            }
-            SettingItem(title = R.string.rotate) { modifier ->
-                Switch(modifier = modifier, checked = board.rotate, onCheckedChange = {
-                    boardSettingChange(board.copy(rotate = it))
-                })
-            }
-        }
-    }
-}
 
 @Composable
 fun SettingDialog(
@@ -217,32 +64,137 @@ fun SettingDialog(
                 }
             },
             content = {
-                SettingScreen(
-                    basic = basic,
-                    sound = sound,
-                    profile = profile,
-                    board = board,
-                    basicSettingChange = basicSettingChange,
-                    soundSettingChange = soundSettingChange,
-                    profileSettingChange = profileSettingChange,
-                    boardSettingChange = boardSettingChange,
-                    setLanguage = setLanguage
-                )
+                Title(title = "Basic")
+                SettingContainer {
+                    SettingItem(title = R.string.language) { modi ->
+                        ExposeBox(
+                            modifier = modi, current = basic.language,
+                            onValueChange = {
+                                basicSettingChange(basic.copy(language = it))
+                                setLanguage(it)
+                            },
+                            stringArrayRes = R.array.language
+                        )
+                    }
+                    SettingItem(title = R.string.level) { modifier ->
+                        ExposeBox(
+                            modifier = modifier,
+                            current = basic.gameLevel,
+                            onValueChange = {
+
+                                basicSettingChange(basic.copy(gameLevel = it))
+                            },
+                            stringArrayRes = R.array.level
+                        )
+                    }
+//            SettingItem(title = R.string.count) { modifier ->
+//                Switch(modifier = modifier, checked = basic.directCount, onCheckedChange = {
+//                    basicSettingChange(basic.copy(directCount = it))
+//                })
+//            }
+                    SettingItem(title = R.string.assistant) { modifier ->
+                        Switch(modifier = modifier, checked = basic.assistant, onCheckedChange = {
+                            basicSettingChange(basic.copy(assistant = it))
+                        })
+                    }
+                }
+                Title(title = "Sound")
+                SettingContainer {
+                    SettingItem(title = R.string.sound) { modifier ->
+                        Switch(modifier = modifier, checked = sound.sound, onCheckedChange = {
+                            soundSettingChange(sound.copy(sound = it))
+                        })
+                    }
+                    SettingItem(title = R.string.music) { modifier ->
+                        Switch(modifier = modifier, checked = sound.music, onCheckedChange = {
+                            soundSettingChange(sound.copy(music = it))
+                        })
+                    }
+                }
+                Title(title = "Profile")
+                SettingContainer {
+                    SettingItem(title = R.string.player_name) { modifier ->
+                        MyTextField(
+                            modifier = modifier,
+                            current = profile.playerName,
+                            onValueChange = {
+                                profileSettingChange(profile.copy(playerName = it))
+                            }
+                        )
+                    }
+                    SettingItem(title = R.string.robot_one) { modifier ->
+                        MyTextField(
+                            modifier = modifier,
+                            current = profile.computer1,
+                            onValueChange = {
+                                profileSettingChange(profile.copy(computer1 = it))
+                            }
+                        )
+                    }
+                    SettingItem(title = R.string.robot_two) { modifier ->
+                        MyTextField(
+                            modifier = modifier,
+                            current = profile.computer2,
+                            onValueChange = {
+                                profileSettingChange(profile.copy(computer2 = it))
+                            }
+                        )
+                    }
+                    SettingItem(title = R.string.robot_three) { modifier ->
+                        MyTextField(
+                            modifier = modifier,
+                            current = profile.computer3,
+                            onValueChange = {
+                                profileSettingChange(profile.copy(computer3 = it))
+                            }
+                        )
+                    }
+                }
+                Title(title = "Board")
+                SettingContainer {
+                    SettingItem(title = R.string.style) { modi ->
+                        ExposeBox(
+                            modifier = modi, current = board.boardStyle,
+                            onValueChange = {
+
+                                boardSettingChange(board.copy(boardStyle = it))
+                            },
+                            stringArrayRes = R.array.board_style
+                        )
+                    }
+                    SettingItem(title = R.string.type) { modi ->
+                        ExposeBox(
+                            modifier = modi, current = board.boardType,
+                            onValueChange = {
+
+                                boardSettingChange(board.copy(boardType = it))
+                            },
+                            stringArrayRes = R.array.board_type
+                        )
+                    }
+                    SettingItem(title = R.string.pawn_num) { modi ->
+
+                        Slider(
+                            value = board.pawnNumber.toFloat(),
+                            onValueChange = {
+                                boardSettingChange(board.copy(pawnNumber = it.toInt()))
+                            },
+                            modifier = modi.widthIn(50.dp, 120.dp),
+                            valueRange = 2f..4f,
+                            steps = 1
+                        )
+//
+                    }
+                    SettingItem(title = R.string.rotate) { modifier ->
+                        Switch(modifier = modifier, checked = board.rotate, onCheckedChange = {
+                            boardSettingChange(board.copy(rotate = it))
+                        })
+                    }
+                }
             },
             properties = DialogProperties()
         )
     }
-}
-
-@Preview()
-@Composable
-fun SettScreenPreview() {
-    SettingScreen(
-        basic = Basic(),
-        sound = Sound(),
-        profile = Profile(),
-        board = Board()
-    )
 }
 
 @Preview()
@@ -400,12 +352,13 @@ fun MyTextField(
     TextField(
         modifier = modifier.widthIn(50.dp, 120.dp),
         value = current,
-        onValueChange = onValueChange
+        onValueChange = onValueChange,
+        singleLine = true
     )
 }
 
 @Preview
 @Composable
 fun MyTextFieldPreview() {
-    MyTextField(current = "Abiola", onValueChange = {})
+    MyTextField(current = "Abiola slsldi sldi", onValueChange = {})
 }

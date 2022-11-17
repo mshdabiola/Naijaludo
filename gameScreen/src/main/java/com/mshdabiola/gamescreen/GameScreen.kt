@@ -3,22 +3,30 @@ package com.mshdabiola.gamescreen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -31,15 +39,17 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
 import com.mshdabiola.gamescreen.component.CounterGroupUiVertical
 import com.mshdabiola.gamescreen.component.DicesUi
 import com.mshdabiola.gamescreen.component.DrawerUi
+import com.mshdabiola.gamescreen.component.GameOverDialog
 import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
-import com.mshdabiola.gamescreen.component.UnCancelableDialog
+import com.mshdabiola.gamescreen.component.StartDialog
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
@@ -50,7 +60,8 @@ import com.mshdabiola.naijaludo.LudoGame
 @Composable
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
+    onBack: () -> Unit = {}
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
@@ -101,7 +112,11 @@ fun GameScreen(
         onCounter = gameScreenViewModel::onCounter,
         onDice = gameScreenViewModel::onDice,
         onPawn = gameScreenViewModel::onPawn,
-        getPositionIntOffset = gameScreenViewModel::getPositionIntOffset
+        getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
+        onBack = onBack,
+        onSetMusic = gameScreenViewModel::setMusic,
+        onSetSound = gameScreenViewModel::setSound,
+        onForceRestart = gameScreenViewModel::restartGame
     )
 }
 
@@ -118,37 +133,45 @@ fun GameScreen(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
 ) {
 
     Scaffold { paddingValues ->
-        when {
-            deviceType == DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
+        when (deviceType) {
+            DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
+                onDice, onCounter, onPawn, getPositionIntOffset,
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
-            deviceType == DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
+            DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
+                onDice, onCounter, onPawn, getPositionIntOffset,
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
-            deviceType == DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
+            DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
+                onDice, onCounter, onPawn, getPositionIntOffset,
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
             else -> GameScreenPhonePortrait(
                 gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
                 onContinueClick,
                 onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset
+                onDice, onCounter, onPawn, getPositionIntOffset,
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
         }
     }
@@ -166,7 +189,11 @@ fun GameScreenPhonePortrait(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
 ) {
 
     val showText by remember(gameUiState.ludoGameState.board) {
@@ -179,8 +206,21 @@ fun GameScreenPhonePortrait(
             .padding(paddingValues)
     ) {
 
-        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
 
+        Show(
+            modifier = Modifier.constrainAs(iconRef) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            },
+            onBack = onBack,
+            onResign = onForceRestart,
+            music = gameUiState.music,
+            sound = gameUiState.sound,
+            onSetSound = onSetSound,
+            onSetMusic = onSetMusic
+
+        )
         PlayersUi(
             modifier = Modifier
                 .constrainAs(playerRef) {
@@ -252,16 +292,19 @@ fun GameScreenPhonePortrait(
             onCounterClick = onCounter
         )
 
-        StartGameDialog(
+        StartDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
             onYouAndComputer = onYouAndComputer,
             onTournament = onTournament,
-            onContinueButton = onContinueClick
+            onContinueButton = onContinueClick,
+            onBackPress = onBack
         )
-        RestartDialog(
+        GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart
+            onRestart = onRestart,
+            players = gameUiState.ludoGameState.listOfPlayer,
+            onHome = onBack
         )
     }
 }
@@ -278,7 +321,11 @@ fun GameScreenPhoneLand(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
 ) {
     val showText by remember(gameUiState.ludoGameState.board) {
         derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
@@ -290,7 +337,20 @@ fun GameScreenPhoneLand(
             .padding(paddingValues)
     ) {
 
-        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
+        Show(
+            modifier = Modifier.constrainAs(iconRef) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            },
+            onBack = onBack,
+            onResign = onForceRestart,
+            music = gameUiState.music,
+            sound = gameUiState.sound,
+            onSetSound = onSetSound,
+            onSetMusic = onSetMusic
+
+        )
 
         PlayersUiVertical(
             modifier = Modifier
@@ -365,16 +425,19 @@ fun GameScreenPhoneLand(
             onCounterClick = onCounter
         )
 
-        StartGameDialog(
+        StartDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
             onYouAndComputer = onYouAndComputer,
             onTournament = onTournament,
-            onContinueButton = onContinueClick
+            onContinueButton = onContinueClick,
+            onBackPress = onBack
         )
-        RestartDialog(
+        GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart
+            onRestart = onRestart,
+            players = gameUiState.ludoGameState.listOfPlayer,
+            onHome = onBack
         )
     }
 }
@@ -391,7 +454,11 @@ fun GameScreeFoldPortrait(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
 ) {
     val showText by remember {
         derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
@@ -403,10 +470,22 @@ fun GameScreeFoldPortrait(
             .padding(paddingValues),
 
     ) {
-        val (boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
+        Show(
+            modifier = Modifier.constrainAs(iconRef) {
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+            },
+            onBack = onBack,
+            onResign = onForceRestart,
+            music = gameUiState.music,
+            sound = gameUiState.sound,
+            onSetSound = onSetSound,
+            onSetMusic = onSetMusic
 
+        )
         BoardUi(
             modifier = Modifier
                 .rotate(rotateF)
@@ -475,16 +554,19 @@ fun GameScreeFoldPortrait(
             playerProvider = { gameUiState.ludoGameState.listOfPlayer }
         )
 
-        StartGameDialog(
+        StartDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
             onYouAndComputer = onYouAndComputer,
             onTournament = onTournament,
-            onContinueButton = onContinueClick
+            onContinueButton = onContinueClick,
+            onBackPress = onBack
         )
-        RestartDialog(
+        GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart
+            onRestart = onRestart,
+            players = gameUiState.ludoGameState.listOfPlayer,
+            onHome = onBack
         )
     }
 }
@@ -501,7 +583,11 @@ fun GameScreenLarge(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
 ) {
     val showText by remember {
         derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
@@ -512,8 +598,21 @@ fun GameScreenLarge(
             .padding(paddingValues),
     ) {
 
-        val (playerRef, boardRef, counterRef, textRef) = createRefs()
+        val (iconRef, playerRef, boardRef, counterRef, textRef) = createRefs()
 
+        Show(
+            modifier = Modifier.constrainAs(iconRef) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            },
+            onBack = onBack,
+            onResign = onForceRestart,
+            music = gameUiState.music,
+            sound = gameUiState.sound,
+            onSetSound = onSetSound,
+            onSetMusic = onSetMusic
+
+        )
         PlayersUi(
             modifier = Modifier
                 .constrainAs(playerRef) {
@@ -593,16 +692,19 @@ fun GameScreenLarge(
         )
         // }
         // }
-        StartGameDialog(
+        StartDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
             onYouAndComputer = onYouAndComputer,
             onTournament = onTournament,
-            onContinueButton = onContinueClick
+            onContinueButton = onContinueClick,
+            onBackPress = onBack
         )
-        RestartDialog(
+        GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart
+            onRestart = onRestart,
+            players = gameUiState.ludoGameState.listOfPlayer,
+            onHome = onBack
         )
     }
 }
@@ -682,59 +784,44 @@ fun GameScreenTabletLandPreview() {
 }
 
 @Composable
-fun StartGameDialog(
-    show: Boolean = true,
-    showContinueButton: Boolean = false,
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueButton: () -> Unit = {}
-
+fun Show(
+    modifier: Modifier = Modifier,
+    onResign: () -> Unit = {},
+    onBack: () -> Unit = {},
+    music: Boolean = false,
+    sound: Boolean = false,
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {}
 ) {
-    AnimatedVisibility(visible = show) {
-        UnCancelableDialog(title = "Start Game") {
-
-            // if(showContinueButton){
-            Button(
-                enabled = showContinueButton,
-                onClick = onContinueButton
-            ) {
-                Text(text = "Continue Game")
-            }
-            // }
-
-            Button(onClick = onYouAndComputer) {
-                Text(text = "You & Computer")
-            }
-            Button(onClick = onTournament) {
-                Text(text = "Tournament")
-            }
+    var show by rememberSaveable {
+        mutableStateOf(false)
+    }
+    Box(modifier) {
+        IconButton(onClick = { show = true }) {
+            Icon(imageVector = Icons.Default.Menu, contentDescription = "menu")
+        }
+        DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
+            DropdownMenuItem(
+                text = { Text(text = "Resign") },
+                onClick = { show = false; onResign() }
+            )
+            DropdownMenuItem(text = { Text(text = "Home") }, onClick = { show = false; onBack() })
+            DropdownMenuItem(
+                text = { Text(text = "Music") }, onClick = { },
+                trailingIcon = { Switch(checked = music, onCheckedChange = onSetMusic) }
+            )
+            DropdownMenuItem(
+                text = { Text(text = "Sound") }, onClick = { },
+                trailingIcon = { Switch(checked = sound, onCheckedChange = onSetSound) }
+            )
         }
     }
 }
 
 @Preview
 @Composable
-fun StartGameDialogPreview() {
-    StartGameDialog(show = true)
-}
-
-@Composable
-fun RestartDialog(
-    show: Boolean = true,
-    onRestart: () -> Unit = {}
-) {
-    AnimatedVisibility(visible = show) {
-        UnCancelableDialog(title = "Restart Game") {
-            Button(onClick = onRestart) {
-                Text(text = "Restart")
-            }
-        }
+fun ShowPreview() {
+    LudoAppTheme {
+        Show()
     }
-}
-
-@Preview
-@Composable
-fun RestartDialogPreview() {
-
-    RestartDialog(show = true)
 }

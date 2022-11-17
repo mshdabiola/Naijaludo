@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialogDefaults
@@ -37,27 +39,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-
-@Composable
-fun UnCancelableDialog(
-    modifier: Modifier = Modifier,
-    title: String,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    properties: DialogProperties = DialogProperties(
-        dismissOnBackPress = false,
-        dismissOnClickOutside = true
-    ),
-    content: @Composable ColumnScope.() -> Unit
-) {
-    DialogUi(
-        modifier = modifier,
-        onDismissRequest = { },
-        title = { Text(text = title, color = MaterialTheme.colorScheme.onPrimary) },
-        content = content,
-        containerColor = containerColor,
-        properties = properties
-    )
-}
 
 @Composable
 fun DialogUi(
@@ -93,7 +74,7 @@ fun DialogUi(
 @Composable
 fun DialogUiPreview() {
     DialogUi(
-        onDismissRequest = { /*TODO*/ },
+        onDismissRequest = { },
         title = { Text(text = "Title", color = MaterialTheme.colorScheme.onPrimary) },
         cancelIcon = {
             FilledIconButton(onClick = { }) {
@@ -199,6 +180,7 @@ fun DialogContent(
                         .clip(RoundedCornerShape(16.dp))
                         .background(MaterialTheme.colorScheme.background)
                         .weight(1f, fill = false)
+                        .verticalScroll(state = rememberScrollState())
                         // /  .padding(TextPadding)
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -227,7 +209,7 @@ fun DialogContent(
 private val DialogPadding = PaddingValues(all = 24.dp)
 private val IconPadding = PaddingValues(bottom = 16.dp)
 private val TitlePadding = PaddingValues(bottom = 16.dp)
-private val TextPadding = PaddingValues(all = 24.dp)
+// private val TextPadding = PaddingValues(all = 24.dp)
 
 private val MinWidth = 280.dp
 private val MaxWidth = 560.dp
