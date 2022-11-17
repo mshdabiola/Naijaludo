@@ -30,9 +30,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -60,14 +62,16 @@ fun StartDialog(
                         title = "Resume Game",
                         buttonText = "Continue",
                         buttonEnable = showContinueButton,
-                        onButtonClick = onContinueButton
+                        onButtonClick = onContinueButton,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.resource_continue)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
                     GameCard(
                         Modifier.weight(1f),
                         title = "Vs Robot",
-                        onButtonClick = onYouAndComputer
+                        onButtonClick = onYouAndComputer,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.robot)
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -75,7 +79,8 @@ fun StartDialog(
                     GameCard(
                         Modifier.weight(1f),
                         title = "Vs 3 Robots",
-                        onButtonClick = onTournament
+                        onButtonClick = onTournament,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.robot)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Box(Modifier.weight(1f))
