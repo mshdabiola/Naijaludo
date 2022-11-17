@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 //                    modifier = Modifier.fillMaxSize(),
 //                    color = MaterialTheme.colorScheme.background
 //                ) {
-             WindowCompat.setDecorFitsSystemWindows(window,false)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
             LudoApp(windowSizeClass = calculateWindowSizeClass(activity = this))
             // MyNavigationGraph(gameScreenViewModel = gameViewModel)
 //                }
