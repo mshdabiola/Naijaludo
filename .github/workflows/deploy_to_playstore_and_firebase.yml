@@ -54,7 +54,6 @@ jobs:
           userFraction: 0.50
           status: inProgress
           inAppUpdatePriority: 2
-          changesNotSentForReview: true
           mappingFile: mapping.txt
 
   deploy-firebase:
