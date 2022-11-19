@@ -4,6 +4,8 @@ import androidx.annotation.ArrayRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,13 +30,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -55,18 +58,21 @@ fun SettingDialog(
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.base_2)),
             onDismissRequest = onDismissRequest,
-            title = { Text(text = "Settings") },
+            title = { Text(text = stringResource(id = R.string.game_setting)) },
             cancelIcon = {
                 IconButton(onClick = onDismissRequest) {
-                    Icon(imageVector = Icons.Default.Clear, contentDescription = "cancel")
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(id = R.string.close)
+                    )
                 }
             },
             content = {
-                Title(title = "Basic")
+                Title(title = stringResource(id = R.string.basic_setting))
                 SettingContainer {
-                    SettingItem(title = R.string.language) { modi ->
+                    SettingItem2(title = R.string.language) { modi ->
                         ExposeBox(
                             modifier = modi, current = basic.language,
                             onValueChange = {
@@ -76,7 +82,7 @@ fun SettingDialog(
                             stringArrayRes = R.array.language
                         )
                     }
-                    SettingItem(title = R.string.level) { modifier ->
+                    SettingItem2(title = R.string.level) { modifier ->
                         ExposeBox(
                             modifier = modifier,
                             current = basic.gameLevel,
@@ -98,7 +104,7 @@ fun SettingDialog(
                         })
                     }
                 }
-                Title(title = "Sound")
+                Title(title = stringResource(id = R.string.sound_setting))
                 SettingContainer {
                     SettingItem(title = R.string.sound) { modifier ->
                         Switch(modifier = modifier, checked = sound.sound, onCheckedChange = {
@@ -111,9 +117,9 @@ fun SettingDialog(
                         })
                     }
                 }
-                Title(title = "Profile")
+                Title(title = stringResource(id = R.string.profile_setting))
                 SettingContainer {
-                    SettingItem(title = R.string.player_name) { modifier ->
+                    SettingItem2(title = R.string.player_name) { modifier ->
                         MyTextField(
                             modifier = modifier,
                             current = profile.playerName,
@@ -122,7 +128,7 @@ fun SettingDialog(
                             }
                         )
                     }
-                    SettingItem(title = R.string.robot_one) { modifier ->
+                    SettingItem2(title = R.string.robot_one) { modifier ->
                         MyTextField(
                             modifier = modifier,
                             current = profile.computer1,
@@ -131,7 +137,7 @@ fun SettingDialog(
                             }
                         )
                     }
-                    SettingItem(title = R.string.robot_two) { modifier ->
+                    SettingItem2(title = R.string.robot_two) { modifier ->
                         MyTextField(
                             modifier = modifier,
                             current = profile.computer2,
@@ -140,7 +146,7 @@ fun SettingDialog(
                             }
                         )
                     }
-                    SettingItem(title = R.string.robot_three) { modifier ->
+                    SettingItem2(title = R.string.robot_three) { modifier ->
                         MyTextField(
                             modifier = modifier,
                             current = profile.computer3,
@@ -150,9 +156,9 @@ fun SettingDialog(
                         )
                     }
                 }
-                Title(title = "Board")
+                Title(title = stringResource(id = R.string.board_setting))
                 SettingContainer {
-                    SettingItem(title = R.string.style) { modi ->
+                    SettingItem2(title = R.string.style) { modi ->
                         ExposeBox(
                             modifier = modi, current = board.boardStyle,
                             onValueChange = {
@@ -162,7 +168,7 @@ fun SettingDialog(
                             stringArrayRes = R.array.board_style
                         )
                     }
-                    SettingItem(title = R.string.type) { modi ->
+                    SettingItem2(title = R.string.type) { modi ->
                         ExposeBox(
                             modifier = modi, current = board.boardType,
                             onValueChange = {
@@ -197,7 +203,7 @@ fun SettingDialog(
     }
 }
 
-@Preview()
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=480")
 @Composable
 fun DialogSettingPreview() {
     LudoAppTheme {
@@ -234,7 +240,7 @@ fun TitlePreview() {
 fun SettingContainer(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
 
     OutlinedCard(modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(dimensionResource(id = R.dimen.base_2))) {
             content()
         }
     }
@@ -253,24 +259,24 @@ fun SettingContainerPreview() {
 }
 
 @Composable
-fun SettingItem(title: Int, content: @Composable (Modifier) -> Unit) {
-    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-        val (titleRef, contentRef) = createRefs()
+fun SettingItem(title: Int, content: @Composable RowScope.(Modifier) -> Unit) {
 
+    Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-            modifier = Modifier.constrainAs(titleRef) {
-                linkTo(parent.top, parent.bottom)
-                start.linkTo(parent.start)
-            },
+            modifier = Modifier.weight(1f),
             text = stringResource(id = title)
         )
 
         content(
-            Modifier.constrainAs(contentRef) {
-                linkTo(parent.top, parent.bottom)
-                end.linkTo(parent.end)
-            }
+            Modifier
         )
+    }
+}
+@Composable
+fun SettingItem2(title: Int, content: @Composable RowScope.(Modifier) -> Unit) {
+
+    SettingItem(title = title) {
+        content(Modifier.weight(0.9f))
     }
 }
 
@@ -298,7 +304,7 @@ fun ExposeBox(
     val curr = if (current >= options.size) options.lastIndex else current
 
     ExposedDropdownMenuBox(
-        modifier = modifier.widthIn(50.dp, 130.dp),
+        modifier = modifier,
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
@@ -333,7 +339,8 @@ fun ExposeBox(
 @Composable
 fun ExposeBoxPreview() {
 // Column(modifier=Modifier.fillMaxSize()) {
-    val options = (1..6).map { " Item $it" }
+    // val options = (1..6).map { " Item $it" }
+
     var curr by remember {
         mutableStateOf(1)
     }
@@ -350,7 +357,7 @@ fun MyTextField(
 ) {
 
     TextField(
-        modifier = modifier.widthIn(50.dp, 120.dp),
+        modifier = modifier,
         value = current,
         onValueChange = onValueChange,
         singleLine = true

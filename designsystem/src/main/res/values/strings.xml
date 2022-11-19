@@ -15,4 +15,13 @@
     <string name="type" translatable="false">Board Type</string>
     <string name="pawn_num" translatable="false">Pawn Number</string>
     <string name="rotate" translatable="false">Rotate</string>
+    <string name="close">close</string>
+    <string name="setting">Setting</string>
+    <string name="logo">Naija Ludo logo</string>
+    <string name="play">play</string>
+    <string name="game_setting">Game Settings</string>
+    <string name="basic_setting">Basic</string>
+    <string name="sound_setting">Sound</string>
+    <string name="profile_setting">Profile</string>
+    <string name="board_setting" />
 </resources>

@@ -174,7 +174,7 @@ fun GameCard(
             Icon(
                 modifier = Modifier
                     .aspectRatio(1f),
-                imageVector = imageVector, contentDescription = "null"
+                imageVector = imageVector, contentDescription = null
             )
             Text(text = title, style = MaterialTheme.typography.titleMedium)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

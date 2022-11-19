@@ -24,7 +24,7 @@ fun LudoNavHost(
         startDestination = startDestination
     ) {
 
-        mainScreenGraph(onNavigate)
+        mainScreenGraph(onNavigate, deviceType)
         gameScreenGraph(deviceType, onBackClick)
     }
 }
