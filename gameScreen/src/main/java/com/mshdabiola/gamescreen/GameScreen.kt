@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -39,6 +40,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
@@ -802,16 +804,19 @@ fun Show(
         }
         DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
             DropdownMenuItem(
-                text = { Text(text = "Give up") },
+                text = { Text(text = stringResource(id = R.string.give_up)) },
                 onClick = { show = false; onResign() }
             )
-            DropdownMenuItem(text = { Text(text = "Home") }, onClick = { show = false; onBack() })
             DropdownMenuItem(
-                text = { Text(text = "Music") }, onClick = { },
+                text = { Text(text = stringResource(id = R.string.home)) },
+                onClick = { show = false; onBack() }
+            )
+            DropdownMenuItem(
+                text = { Text(text = stringResource(id = R.string.music)) }, onClick = { },
                 trailingIcon = { Switch(checked = music, onCheckedChange = onSetMusic) }
             )
             DropdownMenuItem(
-                text = { Text(text = "Sound") }, onClick = { },
+                text = { Text(text = stringResource(id = R.string.sound)) }, onClick = { },
                 trailingIcon = { Switch(checked = sound, onCheckedChange = onSetSound) }
             )
         }

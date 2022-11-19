@@ -23,7 +23,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        resourceConfigurations += listOf("en","yo")
+        resourceConfigurations += listOf("en")
 
     }
 

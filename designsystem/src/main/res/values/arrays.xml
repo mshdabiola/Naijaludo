@@ -2,15 +2,15 @@
 <resources>
     <string-array name="language">
         <item>English</item>
-        <item>Yoruba</item>
-        <item>Igbo</item>
-        <item>Hausa</item>
+<!--        <item>Yoruba</item>-->
+<!--        <item>Igbo</item>-->
+<!--        <item>Hausa</item>-->
     </string-array>
     <string-array name="language_locale">
         <item>en</item>
-        <item>yo</item>
-        <item>ig</item>
-        <item>ha</item>
+<!--        <item>yo</item>-->
+<!--        <item>ig</item>-->
+<!--        <item>ha</item>-->
     </string-array>
 
     <string-array name="level">
@@ -25,9 +25,9 @@
     </string-array>
 
     <string-array name="board_type">
-        <item>Bird</item>
-        <item>Club</item>
-        <item>Tribe</item>
+        <item>Shape</item>
+<!--        <item>Club</item>-->
+<!--        <item>Tribe</item>-->
     </string-array>
 
 </resources>
