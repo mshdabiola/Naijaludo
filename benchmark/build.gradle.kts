@@ -19,6 +19,9 @@ android {
 
         testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         // This benchmark buildType is used for benchmarking, and should function like your
@@ -46,7 +49,7 @@ dependencies {
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macro)
-    implementation(libs.androidx.profileinstaller)
+//    implementation(libs.androidx.profileinstaller)
 }
 
 androidComponents {
