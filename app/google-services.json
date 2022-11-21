@@ -62,6 +62,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176586652338:android:c725b417366ed2940867ab",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.ludo.benchmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGcQnUzRhBjkGMR1JYgu7PvGLCoYx_VUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

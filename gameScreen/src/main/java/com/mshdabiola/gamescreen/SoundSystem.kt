@@ -17,7 +17,8 @@ class SoundSystem
     private var soundPool: SoundPool? = null
     private val soundIds = IntArray(6)
     var playSound: Boolean = true
-    var playMusic: Boolean = false
+    private var playMusic: Boolean = false
+
     private var streamId: Int? = null
 
     init {
@@ -68,16 +69,28 @@ class SoundSystem
         play(5)
     }
 
+    fun setPlayMusic(value: Boolean) {
+        playMusic = value
+        if (value) resume() else stop()
+    }
     fun play() {
 
-        if (playMusic) {
-            if (streamId == null || streamId == 0) {
+        if (streamId == null || streamId == 0) {
 
-                streamId = soundPool?.play(soundIds[0], 1f, 1f, 2, -1, 1f)
-                log("Play music id $streamId")
-            } else {
-                soundPool?.resume(streamId!!)
-                log("resume music id $streamId")
+            streamId = soundPool?.play(soundIds[0], 1f, 1f, 2, -1, 1f)
+
+            log("Play music id $streamId")
+            if (!playMusic) {
+                streamId?.let { soundPool?.pause(it) }
+            }
+        }
+    }
+
+    fun resume() {
+        if (playMusic) {
+            streamId?.let {
+                log("resume music")
+                soundPool?.resume(it)
             }
         }
     }

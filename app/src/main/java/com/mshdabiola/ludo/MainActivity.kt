@@ -12,6 +12,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.google.android.gms.ads.MobileAds
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.mainscreen.ShareUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
+        MobileAds.initialize(this)
         setContent {
 //            NaijaLudoTheme {
 //                // A surface container using the 'background' color from the theme
