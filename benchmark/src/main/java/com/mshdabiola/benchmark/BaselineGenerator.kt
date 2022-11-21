@@ -1,12 +1,12 @@
 package com.mshdabiola.benchmark
 
-//import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
+// import androidx.benchmark.macro.ExperimentalBaselineProfilesApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.UiSelector
 import org.junit.Rule
 import org.junit.Test
 
-//@OptIn(ExperimentalBaselineProfilesApi::class)
+// @OptIn(ExperimentalBaselineProfilesApi::class)
 class BaselineGenerator {
 
     @get:Rule

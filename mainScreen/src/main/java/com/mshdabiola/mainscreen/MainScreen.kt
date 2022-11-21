@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.R
+import com.mshdabiola.designsystem.component.BannerAdmob
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -188,6 +189,7 @@ fun MainScreen(
                         modifier = Modifier.size(dimensionResource(id = R.dimen.base_4))
                     )
                 }
+                BannerAdmob(Modifier.align(Alignment.BottomCenter))
             } else {
                 Row(
                     modifier = Modifier.align(Alignment.Center),
@@ -219,6 +221,7 @@ fun MainScreen(
                         )
                     }
                 }
+                BannerAdmob(Modifier.align(Alignment.BottomEnd))
             }
         }
         SettingDialog(

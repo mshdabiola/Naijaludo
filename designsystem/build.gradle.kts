@@ -1,6 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id ("com.android.library")
     id ("org.jetbrains.kotlin.android")
+    //alias(libs.plugins.google.services)
 }
 
 android {
@@ -43,7 +45,7 @@ dependencies {
     implementation (project( ":model"))
 
     testImplementation (libs.junit4)
-
+    implementation(libs.admob.service)
     implementation(libs.bundles.compose.bundle)
 
     androidTestImplementation(libs.bundles.android.test.bundle)

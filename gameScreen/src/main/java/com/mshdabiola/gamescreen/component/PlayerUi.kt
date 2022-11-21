@@ -187,7 +187,8 @@ fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList
 @Composable
 fun PlayersUiVertical(
     modifier: Modifier = Modifier,
-    playerProvider: () -> ImmutableList<PlayerUiState>
+    playerProvider: () -> ImmutableList<PlayerUiState>,
+    isFold: Boolean = false
 ) {
     val player = playerProvider()
     AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
@@ -213,15 +214,29 @@ fun PlayersUiVertical(
 
                 else -> {
 
-                    PlayerUi(player = player[0], isEven = true, topStart = 50)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    PlayerUi(player = player[1], isEven = true)
+                    if (isFold) {
+                        Row {
+                            PlayerUi(player = player[0], isEven = true, topStart = 50)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            PlayerUi(player = player[1], isEven = false, topEnd = 50)
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            PlayerUi(player = player[2], isEven = false, bottomEnd = 50)
+                        }
+                    } else {
+                        PlayerUi(player = player[0], isEven = true, topStart = 50)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PlayerUi(player = player[1], isEven = true)
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
 
-                    PlayerUi(player = player[2], isEven = true)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                        PlayerUi(player = player[2], isEven = true)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        PlayerUi(player = player[3], isEven = true, bottomStart = 50)
+                    }
                 }
             }
         }
@@ -261,6 +276,7 @@ fun PlayersVerticalPreview() {
                 PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood")
 
             ).toImmutableList()
-        }
+        },
+        isFold = true
     )
 }
