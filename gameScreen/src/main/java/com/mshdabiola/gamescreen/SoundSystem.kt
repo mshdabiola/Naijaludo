@@ -71,7 +71,7 @@ class SoundSystem
 
     fun setPlayMusic(value: Boolean) {
         playMusic = value
-        if (value) resume() else stop()
+        if (value) resume() else pause()
     }
     fun play() {
 
@@ -95,13 +95,11 @@ class SoundSystem
         }
     }
 
-    fun stop() {
+    fun pause() {
 
-        if (playMusic) {
-            streamId?.let {
-                log("pause music")
-                soundPool?.pause(it)
-            }
+        streamId?.let {
+            log("pause music")
+            soundPool?.pause(it)
         }
     }
 

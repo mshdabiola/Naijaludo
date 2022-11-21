@@ -197,7 +197,7 @@ class GameViewModel @Inject constructor(
     }
 
     fun onPause() {
-        soundSystem.stop()
+        soundSystem.pause()
         game.pause()
     }
 
