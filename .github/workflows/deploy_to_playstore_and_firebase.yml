@@ -26,12 +26,12 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: release_bundle
-          path: app/release/app-release.aab
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       - uses: actions/upload-artifact@v3
         with:
           name: mapping
-          path: app/release/mapping.txt
+          path: app/build/outputs/mapping/release/mapping.txt
 
       - uses: actions/upload-artifact@v3
         with:
