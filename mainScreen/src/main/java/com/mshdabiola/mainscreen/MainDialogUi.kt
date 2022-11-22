@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.DropdownMenuItem
@@ -21,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -36,7 +34,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
@@ -179,16 +176,16 @@ fun SettingDialog(
                         )
                     }
                     SettingItem(title = R.string.pawn_num) { modi ->
-
-                        Slider(
-                            value = board.pawnNumber.toFloat(),
+                        val value = stringArrayResource(id = R.array.pawn_number)
+                        ExposeBox(
+                            modifier = modi.weight(0.5f), current = board.boardType,
                             onValueChange = {
-                                boardSettingChange(board.copy(pawnNumber = it.toInt()))
+
+                                boardSettingChange(board.copy(pawnNumber = value[it].toInt()))
                             },
-                            modifier = modi.widthIn(50.dp, 120.dp),
-                            valueRange = 2f..4f,
-                            steps = 1
+                            stringArrayRes = R.array.pawn_number
                         )
+
 //
                     }
                     SettingItem(title = R.string.rotate) { modifier ->

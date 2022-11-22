@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macro)
-//    implementation(libs.androidx.profileinstaller)
+   implementation(libs.androidx.profileinstaller)
 }
 
 androidComponents {

@@ -54,6 +54,7 @@ android {
             //  FIXME enabling minification breaks access to demo backend.
             isMinifyEnabled = false
             applicationIdSuffix = ".benchmark"
+            versionNameSuffix="-benchmark"
         }
     }
     compileOptions {
