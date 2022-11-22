@@ -61,7 +61,7 @@ jobs:
           status: inProgress
           inAppUpdatePriority: 2
           mappingFile: mapping.txt
-          whatsNewDirectory: distribution/whatsnew
+          whatsNewDirectory: whatsnew
 
   deploy-firebase:
     # 1
@@ -88,4 +88,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_CREDENTIALS_FILE_CONTENT }}
           groups: QA
           file: app-release.aab
-          releaseNotesFile: distribution/whatsnew/whatsnew-en-US
+          releaseNotesFile: whatsnew/whatsnew-en-US
