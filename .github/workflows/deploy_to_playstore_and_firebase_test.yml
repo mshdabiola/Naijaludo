@@ -2,7 +2,7 @@ name: Deploy to Play Store and Firebase
 
 on:
   push:
-    branches: [ "test" ]
+    branches: [ "develop" ]
 
 jobs:
   build:
