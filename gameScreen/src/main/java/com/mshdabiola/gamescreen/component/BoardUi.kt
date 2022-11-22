@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -53,9 +52,9 @@ fun BoardUi(
 @Composable
 fun BoardBoxUi(boardUiState: BoardUiState) {
 
-    val redIndex = remember(boardUiState.colors) {
-        boardUiState.colors.indexOf(GameColor.RED) * 90f
-    }
+//    val redIndex = remember(boardUiState.colors) {
+//        boardUiState.colors.indexOf(GameColor.RED) * 90f
+//    }
 
     Box(modifier = Modifier) {
         boardUiState.homeBoxes.forEachIndexed { index, box ->

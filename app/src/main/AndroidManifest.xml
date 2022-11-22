@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,11 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".LudoApplication"
+        android:appCategory="game"
         android:theme="@style/Theme.NaijaLudo.Splash"
         tools:targetApi="31">
         <profileable
             android:shell="true"
-            tools:targetApi="29" />
+            tools:targetApi="33" />
+
+                <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+                <meta-data
+                    android:name="com.google.android.gms.ads.APPLICATION_ID"
+                    android:value="ca-app-pub-6629038423064076~6073617084"/>
+
 
         <activity
             android:name=".MainActivity"

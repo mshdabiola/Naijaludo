@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +52,7 @@ fun StartDialog(
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
-            title = { Text(text = "Start Game") },
+            title = { Text(text = stringResource(id = R.string.start_game_dialog_title)) },
             onDismissRequest = { /*TODO*/ },
             content = {
 
@@ -59,17 +60,18 @@ fun StartDialog(
 
                     GameCard(
                         Modifier.weight(1f),
-                        title = "Resume Game",
-                        buttonText = "Continue",
+                        title = stringResource(id = R.string.continue_detail),
+                        buttonText = stringResource(id = R.string.continue_btn),
                         buttonEnable = showContinueButton,
                         onButtonClick = onContinueButton,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.resource_continue)
+                        imageVector = ImageVector
+                            .vectorResource(id = R.drawable.resource_continue)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
                     GameCard(
                         Modifier.weight(1f),
-                        title = "Vs Robot",
+                        title = stringResource(id = R.string.vs_one_comp_detail),
                         onButtonClick = onYouAndComputer,
                         imageVector = ImageVector.vectorResource(id = R.drawable.robot)
                     )
@@ -78,7 +80,7 @@ fun StartDialog(
                 Row(Modifier.fillMaxWidth()) {
                     GameCard(
                         Modifier.weight(1f),
-                        title = "Vs 3 Robots",
+                        title = stringResource(id = R.string.vs_many_comp_detail),
                         onButtonClick = onTournament,
                         imageVector = ImageVector.vectorResource(id = R.drawable.robot)
                     )
@@ -88,7 +90,7 @@ fun StartDialog(
             },
             buttons = {
                 TextButton(onClick = onBackPress) {
-                    Text(text = "Back")
+                    Text(text = stringResource(id = R.string.back_btn))
                 }
             },
             properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
@@ -125,25 +127,28 @@ fun GameOverDialog(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 if (humanWin) {
-                    Text(text = "Hurray!! You win the game")
+                    Text(text = stringResource(id = R.string.player_win_msg))
                 } else {
-                    Text(text = "0ppps!! You loss, try again")
+                    Text(text = stringResource(id = R.string.player_loss_msg))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             },
             buttons = {
                 IconButton(onClick = onHome) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "")
+                    Icon(imageVector = Icons.Default.Home, contentDescription = "home")
                 }
                 IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Default.Share, contentDescription = "")
+                    Icon(imageVector = Icons.Default.Share, contentDescription = "share")
                 }
                 Button(onClick = onRestart) {
-                    Icon(imageVector = Icons.Default.Refresh, contentDescription = "")
-                    Text(text = "Play Again")
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = stringResource(id = R.string.play_again_btn)
+                    )
+                    Text(text = stringResource(id = R.string.play_again_btn))
                 }
             },
-            title = { Text(text = "Game Over") }
+            title = { Text(text = stringResource(id = R.string.game_over_dialog_title)) }
         )
     }
 }
@@ -165,7 +170,7 @@ fun GameCard(
     modifier: Modifier = Modifier,
     imageVector: ImageVector = Icons.Default.Settings,
     title: String = "Vs Computer",
-    buttonText: String = "Play",
+    buttonText: String = stringResource(id = R.string.play),
     buttonEnable: Boolean = true,
     onButtonClick: () -> Unit = {}
 ) {
@@ -174,7 +179,7 @@ fun GameCard(
             Icon(
                 modifier = Modifier
                     .aspectRatio(1f),
-                imageVector = imageVector, contentDescription = "null"
+                imageVector = imageVector, contentDescription = null
             )
             Text(text = title, style = MaterialTheme.typography.titleMedium)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

@@ -68,7 +68,7 @@ fun DiceUi(
                 onDiceClick()
             },
         painter = painterResource(id = res),
-        contentDescription = ""
+        contentDescription = "dice"
 
     )
 }

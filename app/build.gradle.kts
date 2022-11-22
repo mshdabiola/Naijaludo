@@ -1,3 +1,4 @@
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id ("com.android.application")
@@ -6,6 +7,7 @@ plugins {
     id ("dagger.hilt.android.plugin")
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+
 }
 
 android {
@@ -16,34 +18,43 @@ android {
         applicationId ="com.mshdabiola.ludo"
         minSdk = 24
         targetSdk = 33
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-        resourceConfigurations += listOf("en","yo")
+        resourceConfigurations += listOf("en")
 
     }
 
     buildTypes {
-       getByName ("release") {
-            isMinifyEnabled = true
-            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        getByName ("debug") {
+        val debug by getting {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix="-debug"
         }
-       create ("benchmark") {
+        val release by getting {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
-           initWith(getByName("release"))
-           signingConfig = signingConfigs.getByName("debug")
-           matchingFallbacks += listOf("release")
-           proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-               "proguard-benchmark-rules.pro")
-           isDebuggable = false
+            // To publish on the Play store a private signing key is required, but to allow anyone
+            // who clones the code to sign and run the release variant, use the debug signing key.
+            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        val benchmark by creating {
+            // Enable all the optimizations from release build through initWith(release).
+            initWith(release)
+            matchingFallbacks.add("release")
+            // Debug key signing is available to everyone.
+            signingConfig = signingConfigs.getByName("debug")
+            // Only use benchmark proguard rules
+            proguardFiles("benchmark-rules.pro")
+            //  FIXME enabling minification breaks access to demo backend.
+            isMinifyEnabled = false
+            applicationIdSuffix = ".benchmark"
+            versionNameSuffix="-benchmark"
         }
     }
     compileOptions {
@@ -77,8 +88,9 @@ dependencies {
     implementation(libs.bundles.compose.bundle)
 
     implementation (project(":model"))
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.3.1")
-    implementation("com.google.firebase:firebase-analytics-ktx:21.2.0")
+    implementation(libs.firebase.crashlytics.kts)
+    implementation(libs.firebase.analytics.kts)
+    implementation(libs.admob.service)
 
     kapt (libs.hilt.compiler)
 

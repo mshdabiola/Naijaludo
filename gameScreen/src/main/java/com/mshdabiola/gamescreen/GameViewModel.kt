@@ -104,7 +104,8 @@ class GameViewModel @Inject constructor(
             userPreferenceDataSource
                 .getSoundSetting().collectLatest {
                     soundSystem.playSound = it.sound
-                    soundSystem.playMusic = it.music
+                    soundSystem.setPlayMusic(it.music)
+
                     _gameUiState.value = gameUiState.value.copy(music = it.music, sound = it.sound)
                 }
         }
@@ -191,12 +192,12 @@ class GameViewModel @Inject constructor(
     }
 
     fun onResume() {
-        soundSystem.play()
+        soundSystem.resume()
         game.resume()
     }
 
     fun onPause() {
-        soundSystem.stop()
+        soundSystem.pause()
         game.pause()
     }
 

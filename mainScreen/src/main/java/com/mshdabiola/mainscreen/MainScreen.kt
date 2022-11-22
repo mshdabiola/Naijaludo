@@ -1,7 +1,6 @@
 package com.mshdabiola.mainscreen
 
 import android.app.Activity
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,16 +18,12 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -41,13 +36,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.R
+import com.mshdabiola.designsystem.component.BannerAdmob
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -95,7 +93,8 @@ fun MainScreen(
         basicSettingChange = mainViewModel::setBasic,
         soundSettingChange = mainViewModel::setSound,
         boardSettingChange = mainViewModel::setBoard,
-        profileSettingChange = mainViewModel::setProfile
+        profileSettingChange = mainViewModel::setProfile,
+        deviceType = deviceType
     )
 }
 
@@ -111,7 +110,8 @@ fun MainScreen(
     basicSettingChange: (Basic) -> Unit = {},
     soundSettingChange: (Sound) -> Unit = {},
     profileSettingChange: (Profile) -> Unit = {},
-    boardSettingChange: (Board) -> Unit = {}
+    boardSettingChange: (Board) -> Unit = {},
+    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE_PORT
 ) {
 
     var showDialog by rememberSaveable {
@@ -125,9 +125,6 @@ fun MainScreen(
     val context = LocalContext.current
     val coroutine = rememberCoroutineScope()
     val activity = context as Activity
-    val isPortrait by remember(configuration) {
-        derivedStateOf { configuration.orientation == Configuration.ORIENTATION_PORTRAIT }
-    }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -138,67 +135,61 @@ fun MainScreen(
                     draw(size)
                 }
             },
-        topBar = {
 
-            TopAppBar(
-                navigationIcon = {
-                    GameButton(
-                        onClick = onCloseApp,
-                        colors = MaterialTheme.colorScheme.secondaryContainer,
-
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "cancel",
-                            Modifier.rotate(45f)
-                        )
-                    }
-                },
-                title = {},
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent),
-                actions = {
-                    IconButton(onClick = { showDialog = true }) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "setting"
-                        )
-                    }
-                }
-            )
-        }
     ) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            IconButton(
+                modifier = Modifier.align(Alignment.TopStart),
+                onClick = onCloseApp,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(id = R.string.close),
+                    Modifier.rotate(45f)
+                )
+            }
+            IconButton(
+                modifier = Modifier.align(Alignment.TopEnd),
+                onClick = { showDialog = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = stringResource(id = R.string.setting)
+                )
+            }
+            if (deviceType == DEVICE_TYPE.PHONE_PORT || deviceType == DEVICE_TYPE.TABLET_PORT) {
 
-            if (isPortrait) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(64.dp))
+                Column(Modifier.align(Alignment.TopCenter)) {
+
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.base_4)))
                     Image(
-                        modifier = Modifier.width(200.dp),
-                        painter = painterResource(id = LudoIcon.logo),
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.height(64.dp))
-                    GameButton(
-                        onClick = onPlay,
                         modifier = Modifier
-                            .size(96.dp),
-                        shape = RoundedCornerShape(16.dp)
-
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
-                            contentDescription = "Play",
-                            modifier = Modifier.size(64.dp)
-                        )
-                    }
+                            .width(dimensionResource(id = R.dimen.logo_size)),
+                        painter = painterResource(id = LudoIcon.logo),
+                        contentDescription = stringResource(id = R.string.logo)
+                    )
                 }
+
+                GameButton(
+                    onClick = onPlay,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(dimensionResource(id = R.dimen.play_button_size)),
+                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.base_2)),
+                    elevation = dimensionResource(id = R.dimen.base)
+
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
+                        contentDescription = stringResource(id = R.string.play),
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.base_4))
+                    )
+                }
+                BannerAdmob(Modifier.align(Alignment.BottomCenter))
             } else {
                 Row(
                     modifier = Modifier.align(Alignment.Center),
@@ -207,25 +198,30 @@ fun MainScreen(
                 ) {
 
                     Image(
-                        modifier = Modifier.width(200.dp),
+                        modifier = Modifier.width(dimensionResource(id = R.dimen.logo_size)),
                         painter = painterResource(id = LudoIcon.logo),
-                        contentDescription = ""
+                        contentDescription = stringResource(id = R.string.logo)
                     )
-                    Spacer(modifier = Modifier.width(128.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .width(dimensionResource(id = R.dimen.logo_button_space))
+                    )
                     GameButton(
                         onClick = onPlay,
                         modifier = Modifier
-                            .size(96.dp),
-                        shape = RoundedCornerShape(16.dp)
+                            .size(dimensionResource(id = R.dimen.play_button_size)),
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.base_2)),
+                        elevation = dimensionResource(id = R.dimen.base)
 
                     ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
-                            contentDescription = "Play",
-                            modifier = Modifier.size(64.dp)
+                            contentDescription = stringResource(id = R.string.play),
+                            modifier = Modifier.size(dimensionResource(id = R.dimen.base_4))
                         )
                     }
                 }
+                BannerAdmob(Modifier.align(Alignment.BottomEnd))
             }
         }
         SettingDialog(
@@ -248,9 +244,14 @@ fun MainScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview()
 @Composable
 fun MainScreenPreview() {
+//    val config= LocalConfiguration.current
+//    val size = DpSize(config.screenWidthDp.dp,config.screenHeightDp.dp)
+//    val windowSize =WindowSizeClass.calculateFromSize(size)
+
     LudoAppTheme() {
         MainScreen()
     }

@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -39,6 +40,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.R
+import com.mshdabiola.designsystem.component.BannerAdmob
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
@@ -206,7 +209,7 @@ fun GameScreenPhonePortrait(
             .padding(paddingValues)
     ) {
 
-        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -306,6 +309,13 @@ fun GameScreenPhonePortrait(
             players = gameUiState.ludoGameState.listOfPlayer,
             onHome = onBack
         )
+
+        BannerAdmob(
+            Modifier.constrainAs(adRef) {
+                linkTo(parent.start, parent.end)
+                bottom.linkTo(parent.bottom)
+            }
+        )
     }
 }
 
@@ -337,7 +347,7 @@ fun GameScreenPhoneLand(
             .padding(paddingValues)
     ) {
 
-        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
         Show(
             modifier = Modifier.constrainAs(iconRef) {
                 top.linkTo(parent.top)
@@ -439,6 +449,12 @@ fun GameScreenPhoneLand(
             players = gameUiState.ludoGameState.listOfPlayer,
             onHome = onBack
         )
+        BannerAdmob(
+            Modifier.constrainAs(adRef) {
+                linkTo(parent.top, parent.bottom)
+                linkTo(counterRef.end, parent.end)
+            }.rotate(90f)
+        )
     }
 }
 
@@ -460,7 +476,7 @@ fun GameScreeFoldPortrait(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember {
+    val showText by remember(gameUiState.ludoGameState.board.pathBoxes) {
         derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
     }
 
@@ -470,7 +486,7 @@ fun GameScreeFoldPortrait(
             .padding(paddingValues),
 
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, textRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
         Show(
@@ -540,7 +556,7 @@ fun GameScreeFoldPortrait(
 
         CounterGroupUi(
             modifier = Modifier.constrainAs(counterRef) {
-                linkTo(barrier, parent.bottom)
+                linkTo(barrier, adRef.top)
             },
             counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
             isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
@@ -549,9 +565,10 @@ fun GameScreeFoldPortrait(
 
         PlayersUiVertical(
             modifier = Modifier.constrainAs(playerRef) {
-                linkTo(barrier, parent.bottom)
+                linkTo(barrier, adRef.top)
             },
-            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+            playerProvider = { gameUiState.ludoGameState.listOfPlayer },
+            isFold = true
         )
 
         StartDialog(
@@ -567,6 +584,12 @@ fun GameScreeFoldPortrait(
             onRestart = onRestart,
             players = gameUiState.ludoGameState.listOfPlayer,
             onHome = onBack
+        )
+        BannerAdmob(
+            Modifier.constrainAs(adRef) {
+                linkTo(parent.start, parent.end)
+                bottom.linkTo(parent.bottom)
+            }
         )
     }
 }
@@ -589,7 +612,7 @@ fun GameScreenLarge(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember {
+    val showText by remember(gameUiState.ludoGameState.board.pathBoxes) {
         derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
     }
     ConstraintLayout(
@@ -598,7 +621,7 @@ fun GameScreenLarge(
             .padding(paddingValues),
     ) {
 
-        val (iconRef, playerRef, boardRef, counterRef, textRef) = createRefs()
+        val (iconRef, playerRef, boardRef, counterRef, textRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -706,6 +729,12 @@ fun GameScreenLarge(
             players = gameUiState.ludoGameState.listOfPlayer,
             onHome = onBack
         )
+        BannerAdmob(
+            Modifier.constrainAs(adRef) {
+                linkTo(parent.top, parent.bottom)
+                centerHorizontallyTo(iconRef)
+            }.rotate(270f)
+        )
     }
 }
 
@@ -802,16 +831,19 @@ fun Show(
         }
         DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
             DropdownMenuItem(
-                text = { Text(text = "Give up") },
+                text = { Text(text = stringResource(id = R.string.give_up)) },
                 onClick = { show = false; onResign() }
             )
-            DropdownMenuItem(text = { Text(text = "Home") }, onClick = { show = false; onBack() })
             DropdownMenuItem(
-                text = { Text(text = "Music") }, onClick = { },
+                text = { Text(text = stringResource(id = R.string.home)) },
+                onClick = { show = false; onBack() }
+            )
+            DropdownMenuItem(
+                text = { Text(text = stringResource(id = R.string.music)) }, onClick = { },
                 trailingIcon = { Switch(checked = music, onCheckedChange = onSetMusic) }
             )
             DropdownMenuItem(
-                text = { Text(text = "Sound") }, onClick = { },
+                text = { Text(text = stringResource(id = R.string.sound)) }, onClick = { },
                 trailingIcon = { Switch(checked = sound, onCheckedChange = onSetSound) }
             )
         }

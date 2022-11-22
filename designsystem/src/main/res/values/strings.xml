@@ -15,4 +15,27 @@
     <string name="type" translatable="false">Board Type</string>
     <string name="pawn_num" translatable="false">Pawn Number</string>
     <string name="rotate" translatable="false">Rotate</string>
+    <string name="close">close</string>
+    <string name="setting">Setting</string>
+    <string name="logo">Naija Ludo logo</string>
+    <string name="play">play</string>
+    <string name="game_setting">Game Settings</string>
+    <string name="basic_setting">Basic</string>
+    <string name="sound_setting">Sound</string>
+    <string name="profile_setting">Profile</string>
+    <string name="board_setting" >Board</string>
+    <string name="continue_detail">Resume Game</string>
+    <string name="continue_btn">Continue</string>
+    <string name="vs_one_comp_detail">Vs Robot</string>
+    <string name="vs_many_comp_detail">Vs 3 Robots</string>
+    <string name="back_btn">Back</string>
+    <string name="start_game_dialog_title">Start Game</string>
+    <string name="game_over_dialog_title">Game Over</string>
+    <string name="play_again_btn" >"Play Again"</string>
+    <string name="player_loss_msg">Oppps, You lost try again</string>
+    <string name="player_win_msg">Hurray!!, You win the game</string>
+    <string name="home">Home</string>
+    <string name="give_up">Give Up</string>
+    <string name="ad_banner">ca-app-pub-6629038423064076/7757114284</string>
+    <string name="ad_test_id" >ca-app-pub-3940256099942544/6300978111</string>
 </resources>
