@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="language">
+        <item>English</item>
+<!--        <item>Yoruba</item>-->
+<!--        <item>Igbo</item>-->
+<!--        <item>Hausa</item>-->
+    </string-array>
+    <string-array name="language_locale">
+        <item>en</item>
+<!--        <item>yo</item>-->
+<!--        <item>ig</item>-->
+<!--        <item>ha</item>-->
+    </string-array>
+
+    <string-array name="level">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+    <string-array name="board_style">
+        <item>Horizontal</item>
+        <item>Vertical</item>
+        <item>Diagonal</item>
+    </string-array>
+
+    <string-array name="board_type">
+        <item>Shape</item>
+<!--        <item>Club</item>-->
+<!--        <item>Tribe</item>-->
+    </string-array>
+
+    <string-array name="pawn_number">
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

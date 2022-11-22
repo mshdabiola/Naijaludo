@@ -1,0 +1,76 @@
+name: Deploy to Play Store and Firebase
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Generate Release Bundle
+        run: ./gradlew bundleRelease
+      - name: Sign Bundle
+        uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: release_bundle
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping
+          path: app/build/outputs/mapping/release/mapping.txt
+
+  deploy-play-store:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      # 1
+      - uses: actions/download-artifact@master
+        with:
+          name: release_bundle
+      - uses: actions/download-artifact@master
+        with:
+          name: mapping
+      # 2
+      - name: Publish to Play Store internal test track
+        uses: r0adkll/upload-google-play@v1.0.18
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          # 3
+          packageName: com.mshdabiola.ludo
+          releaseFiles: app-release.aab
+          track: internal
+          userFraction: 0.50
+          status: inProgress
+          inAppUpdatePriority: 2
+          mappingFile: mapping.txt
+
+  deploy-firebase:
+    # 1
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      # 2
+      - uses: actions/download-artifact@master
+        with:
+          name: release_bundle
+      #3
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_CREDENTIALS_FILE_CONTENT }}
+          groups: QA
+          file: app-release.aab
