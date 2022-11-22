@@ -1,7 +1,6 @@
 package com.mshdabiola.ludo
 
 import android.annotation.TargetApi
-import android.app.GameManager
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
