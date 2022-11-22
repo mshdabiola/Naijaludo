@@ -2,7 +2,8 @@ name: Deploy to Play Store and Firebase
 
 on:
   push:
-    branches: [ "test" ]
+    tags:
+      - '*'
 
 jobs:
   build:
