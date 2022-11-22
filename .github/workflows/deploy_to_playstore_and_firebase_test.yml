@@ -2,7 +2,7 @@ name: Deploy to Play Store and Firebase
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "test" ]
 
 jobs:
   build:
@@ -30,6 +30,10 @@ jobs:
         with:
           name: mapping
           path: app/build/outputs/mapping/release/mapping.txt
+      - uses: actions/upload-artifact@master
+        with:
+          name: distribution
+          path: distribution
 
   deploy-play-store:
     needs: [build]
@@ -42,6 +46,9 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: mapping
+      - uses: actions/download-artifact@master
+        with:
+          name: distribution
       # 2
       - name: Publish to Play Store internal test track
         uses: r0adkll/upload-google-play@v1.0.18
@@ -55,5 +62,26 @@ jobs:
           status: inProgress
           inAppUpdatePriority: 2
           mappingFile: mapping.txt
-          whatsNewDirectory: ./distribution/whatsnew
+          whatsNewDirectory: distribution/whatsnew
 
+  deploy-firebase:
+    # 1
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      # 2
+      - uses: actions/download-artifact@master
+        with:
+          name: release_bundle
+      - uses: actions/download-artifact@master
+        with:
+          name: distribution
+      #3
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_CREDENTIALS_FILE_CONTENT }}
+          groups: QA
+          file: app-release.aab
+          releaseNotesFile: distribution/whatsnew/whatsnew-en-US
