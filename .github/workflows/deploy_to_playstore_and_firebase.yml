@@ -2,8 +2,7 @@ name: Deploy to Play Store and Firebase
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "develop" ]
 
 jobs:
   build:
@@ -23,26 +22,46 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-      - uses: actions/upload-artifact@master
+
+      - uses: actions/upload-artifact@v3
         with:
           name: release_bundle
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
-      - uses: actions/upload-artifact@master
+          path: app/release/app-release.aab
+
+      - uses: actions/upload-artifact@v3
         with:
           name: mapping
-          path: app/build/outputs/mapping/release/mapping.txt
+          path: app/release/mapping.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: distribution
+          path: distribution
 
   deploy-play-store:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
       # 1
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: release_bundle
-      - uses: actions/download-artifact@master
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: actions/download-artifact@v3
         with:
           name: mapping
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: distribution
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
       # 2
       - name: Publish to Play Store internal test track
         uses: r0adkll/upload-google-play@v1.0.18
@@ -56,7 +75,7 @@ jobs:
           status: inProgress
           inAppUpdatePriority: 2
           mappingFile: mapping.txt
-          whatsNewDirectory: distribution/whatsnew
+          whatsNewDirectory: whatsnew
 
   deploy-firebase:
     # 1
@@ -64,9 +83,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 2
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: release_bundle
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: distribution
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
       #3
       - name: upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -75,4 +102,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_CREDENTIALS_FILE_CONTENT }}
           groups: QA
           file: app-release.aab
-          releaseNotesFile: ./distribution/whatsnew/whatsnew-en-US
+          releaseNotesFile: whatsnew/whatsnew-en-US

@@ -2,7 +2,7 @@ name: Deploy to Play Store and Firebase
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "test" ]
 
 jobs:
   build:
@@ -14,10 +14,12 @@ jobs:
         with:
           name: release_bundle
           path: app/release/app-release.aab
+
       - uses: actions/upload-artifact@v3
         with:
           name: mapping
           path: app/release/mapping.txt
+
       - uses: actions/upload-artifact@v3
         with:
           name: distribution
