@@ -793,50 +793,50 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         private const val numberOfDice = 3
         private const val totalIndex = numberOfDice / 2
 
-        fun getDefaultGameState(numberOfPawn: Int = 4): LudoGameState {
-
-            val listPawns = ArrayList<Pawn>()
-
-            GameColor.values().forEach { gameColor ->
-                (1..4).forEach { id ->
-                    val pawn = if (id <= numberOfPawn)
-                        Pawn(id = id, color = gameColor)
-                    else
-                        Pawn(id = id, color = gameColor, currentPos = 56)
-                    listPawns.add(pawn)
-                }
-            }
-
-            val listOfPlayers = listOf(
-                RandomComputerPlayer(
-                    isCurrent = true,
-                    colors = listOf(GameColor.values()[0], GameColor.values()[1])
-                ),
-                HumanPlayer(colors = listOf(GameColor.values()[2], GameColor.values()[3]))
-            )
-
-            val listOfCounter =
-                (0 until numberOfDice).map {
-                    if (it == totalIndex) Counter(
-                        isTotal = true,
-                        id = it
-                    ) else Counter(id = it)
-                }
-            val listOfDices =
-                (0 until numberOfDice).map {
-                    if (it == totalIndex) Dice(isTotal = true, id = it) else Dice(
-                        isEnable = true,
-                        id = it
-                    )
-                }
-
-            return LudoGameState(
-                listOfPlayer = listOfPlayers,
-                listOfDice = listOfDices,
-                listOfPawn = listPawns,
-                listOfCounter = listOfCounter
-            )
-        }
+//        fun getDefaultGameState(numberOfPawn: Int = 4): LudoGameState {
+//
+//            val listPawns = ArrayList<Pawn>()
+//
+//            GameColor.values().forEach { gameColor ->
+//                (1..4).forEach { id ->
+//                    val pawn = if (id <= numberOfPawn)
+//                        Pawn(id = id, color = gameColor)
+//                    else
+//                        Pawn(id = id, color = gameColor, currentPos = 56)
+//                    listPawns.add(pawn)
+//                }
+//            }
+//
+//            val listOfPlayers = listOf(
+//                RandomComputerPlayer(
+//                    isCurrent = true,
+//                    colors = listOf(GameColor.values()[0], GameColor.values()[1])
+//                ),
+//                HumanPlayer(colors = listOf(GameColor.values()[2], GameColor.values()[3]))
+//            )
+//
+//            val listOfCounter =
+//                (0 until numberOfDice).map {
+//                    if (it == totalIndex) Counter(
+//                        isTotal = true,
+//                        id = it
+//                    ) else Counter(id = it)
+//                }
+//            val listOfDices =
+//                (0 until numberOfDice).map {
+//                    if (it == totalIndex) Dice(isTotal = true, id = it) else Dice(
+//                        isEnable = true,
+//                        id = it
+//                    )
+//                }
+//
+//            return LudoGameState(
+//                listOfPlayer = listOfPlayers,
+//                listOfDice = listOfDices,
+//                listOfPawn = listPawns,
+//                listOfCounter = listOfCounter
+//            )
+//        }
 
         fun getDefaultGameState(
             numberOfPlayer: Int = 2,
