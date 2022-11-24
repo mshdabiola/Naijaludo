@@ -7,4 +7,8 @@ interface SoundInterface {
     fun onMoveOut()
     fun onKill()
     fun onSelect()
+
+    fun onLost()
+
+    fun onWin()
 }

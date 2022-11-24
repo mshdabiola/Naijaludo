@@ -43,6 +43,7 @@ dependencies {
     implementation (project( ":designsystem"))
     implementation (project( ":model"))
     implementation (project( ":datastore"))
+    implementation (project( ":soundsystem"))
 
     implementation(libs.bundles.common.bundle)
     implementation(libs.androidx.constraintlayout)

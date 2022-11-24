@@ -110,10 +110,10 @@ class GameViewModel @Inject constructor(
                     _gameUiState.value = gameUiState.value.copy(music = it.music, sound = it.sound)
                 }
         }
-        viewModelScope.launch {
-            delay(6000)
-            soundSystem.play()
-        }
+//        viewModelScope.launch {
+//            delay(6000)
+//            soundSystem.play()
+//        }
     }
 
     private suspend fun startGame(ludoGameState: LudoGameState) {
@@ -275,11 +275,6 @@ class GameViewModel @Inject constructor(
 
     private fun onPlayerFinishPlaying() {
         saveData()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        soundSystem.close()
     }
 
     companion object {

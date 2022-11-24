@@ -618,6 +618,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             // if (players[indexOfPlayer] is HumanPlayer) {
             val p = players[indexOfPlayer]
             players[indexOfPlayer] = p.copyPlayer(win = p.win + 1)
+            if (p is HumanPlayer) soundInterface?.onWin() else soundInterface?.onLost()
 
             setGameState(
                 getGameState().copy(
