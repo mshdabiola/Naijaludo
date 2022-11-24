@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,12 +37,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.R
@@ -76,6 +80,26 @@ fun MainScreen(
             mainViewModel.uploadProfile()
         }
     )
+
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+    val listener = object : DefaultLifecycleObserver {
+        override fun onPause(owner: LifecycleOwner) {
+            super.onPause(owner)
+            mainViewModel.onPause()
+        }
+
+        override fun onResume(owner: LifecycleOwner) {
+            super.onResume(owner)
+            mainViewModel.onResume()
+        }
+    }
+    DisposableEffect(key1 = lifecycle, effect = {
+        lifecycle.addObserver(listener)
+        onDispose {
+            lifecycle.removeObserver(listener)
+        }
+    })
 
     MainScreen(
         onPlay = {
