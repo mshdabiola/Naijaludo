@@ -16,9 +16,9 @@ data class PlayerEntity(
     val isHuman: Boolean
 )
 
-fun PlayerEntity.toPlayer(colors: List<GameColor>) =
-    if (isHuman) HumanPlayer(name, win, isCurrent, colors)
-    else RandomComputerPlayer(name, win, isCurrent, colors)
+fun PlayerEntity.toPlayer(colors: List<GameColor>, iconIndex: Int) =
+    if (isHuman) HumanPlayer(name, win, isCurrent, colors, 6)
+    else RandomComputerPlayer(name, win, isCurrent, colors, iconIndex)
 
 fun Player.toPlayerEntity(id: Int, gameId: Long, isHuman: Boolean) =
     PlayerEntity(

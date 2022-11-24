@@ -53,7 +53,7 @@ fun StartDialog(
     AnimatedVisibility(visible = show) {
         DialogUi(
             title = { Text(text = stringResource(id = R.string.start_game_dialog_title)) },
-            onDismissRequest = { /*TODO*/ },
+            onDismissRequest = { },
             content = {
 
                 Row(Modifier.fillMaxWidth()) {
@@ -73,7 +73,7 @@ fun StartDialog(
                         Modifier.weight(1f),
                         title = stringResource(id = R.string.vs_one_comp_detail),
                         onButtonClick = onYouAndComputer,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.robot)
+                        imageVector = ImageVector.vectorResource(id = R.drawable.computer)
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -82,7 +82,7 @@ fun StartDialog(
                         Modifier.weight(1f),
                         title = stringResource(id = R.string.vs_many_comp_detail),
                         onButtonClick = onTournament,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.robot)
+                        imageVector = ImageVector.vectorResource(id = R.drawable.computers)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Box(Modifier.weight(1f))
@@ -181,7 +181,7 @@ fun GameCard(
                     .aspectRatio(1f),
                 imageVector = imageVector, contentDescription = null
             )
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
+            Text(text = title, style = MaterialTheme.typography.titleSmall)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Button(onClick = onButtonClick, enabled = buttonEnable) {
                     Text(text = buttonText)

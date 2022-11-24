@@ -18,6 +18,16 @@ object LudoIcon {
         R.drawable.green,
         R.drawable.green
     )
+    val robotIcon = intArrayOf(
+        R.drawable.icon_4,
+        R.drawable.icon_2,
+        R.drawable.icon_3,
+        R.drawable.icon_6,
+        R.drawable.icon_5,
+        R.drawable.icon_1,
+        R.drawable.human
+    )
+    private val robotIcon2 = intArrayOf()
 
     val BoardImage = arrayOf(defaultBoardType, defaultBoardType2)
 

@@ -8,6 +8,7 @@ interface Player {
     val win: Int
     val isCurrent: Boolean
     val colors: List<GameColor>
+    val iconIndex: Int
 
     fun chooseCounter(
         gameState: LudoGameState,

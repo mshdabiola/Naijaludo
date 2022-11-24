@@ -158,6 +158,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(isOnResume = false))
     }
 
+    // Todo("remove this function")
     private fun getInitGameState(): LudoGameState {
 
         val listPawns = ArrayList<Pawn>()
@@ -171,9 +172,16 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         val listOfPlayers = listOf(
             HumanPlayer(
                 isCurrent = true,
-                colors = listOf(GameColor.values()[0], GameColor.values()[1])
+                colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                iconIndex = 6
             ),
-            RandomComputerPlayer(colors = listOf(GameColor.values()[2], GameColor.values()[3]))
+            RandomComputerPlayer(
+                colors = listOf(
+                    GameColor.values()[2],
+                    GameColor.values()[3]
+                ),
+                iconIndex = 0
+            )
         )
 
         val listOfCounter =
@@ -620,7 +628,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 //              val p=  players[indexOfPlayer] as RandomComputerPlayer
 //                players[indexOfPlayer]=p.copy(win = p.win+1)
 //
-//                setGameState(getGameState().copy(listOfPlayer = players, listOfPawn = getInitGameState().listOfPawn))
+//                setGameState(getGameState().copy(listOfPlayer = players,
+//                listOfPawn = getInitGameState().listOfPawn))
 //            }
 
             onGameFinish()
@@ -861,31 +870,37 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 listOf(
                     RandomComputerPlayer(
                         name = playerNames[1],
-                        colors = listOf(GameColor.values()[0], GameColor.values()[1])
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                        iconIndex = 0
                     ),
                     HumanPlayer(
                         name = playerNames[0],
                         isCurrent = true,
-                        colors = listOf(GameColor.values()[2], GameColor.values()[3])
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                        iconIndex = 6
                     )
                 )
             } else {
                 listOf(
                     RandomComputerPlayer(
                         name = playerNames[1],
-                        colors = listOf(GameColor.values()[0])
+                        colors = listOf(GameColor.values()[0]),
+                        iconIndex = 0
                     ),
                     RandomComputerPlayer(
                         name = playerNames[2],
-                        colors = listOf(GameColor.values()[1])
+                        colors = listOf(GameColor.values()[1]),
+                        iconIndex = 1
                     ),
                     RandomComputerPlayer(
                         name = playerNames[3],
-                        colors = listOf(GameColor.values()[2])
+                        colors = listOf(GameColor.values()[2]),
+                        iconIndex = 2
                     ),
                     HumanPlayer(
                         name = playerNames[0],
-                        isCurrent = true, colors = listOf(GameColor.values()[3])
+                        isCurrent = true, colors = listOf(GameColor.values()[3]),
+                        iconIndex = 6
                     )
                 )
             }

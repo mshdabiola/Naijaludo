@@ -11,7 +11,8 @@ data class RandomComputerPlayer(
     override val name: String = "C. Player",
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
-    override val colors: List<GameColor>
+    override val colors: List<GameColor>,
+    override val iconIndex: Int
 ) : Player {
 
     override fun chooseCounter(
