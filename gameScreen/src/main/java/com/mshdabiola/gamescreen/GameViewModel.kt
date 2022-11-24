@@ -12,9 +12,10 @@ import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
+import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.naijaludo.LudoGame
-import com.mshdabiola.naijaludo.LudoSetting
+import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val ludoStateDomain: LudoStateDomain,
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem

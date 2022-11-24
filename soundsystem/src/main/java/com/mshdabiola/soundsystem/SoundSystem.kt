@@ -1,9 +1,10 @@
-package com.mshdabiola.gamescreen
+package com.mshdabiola.soundsystem
 
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
-import com.mshdabiola.naijaludo.SoundInterface
+import com.mshdabiola.ludo.model.SoundInterface
+import com.mshdabiola.ludo.model.log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject

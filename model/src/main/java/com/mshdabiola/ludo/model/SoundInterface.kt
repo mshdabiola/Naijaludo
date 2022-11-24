@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo
+package com.mshdabiola.ludo.model
 
 interface SoundInterface {
 

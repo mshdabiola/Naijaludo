@@ -1,7 +1,7 @@
-package com.mshdabiola.gamescreen.di
+package com.mshdabiola.soundsystem.di
 
-import com.mshdabiola.gamescreen.SoundSystem
-import com.mshdabiola.naijaludo.SoundInterface
+import com.mshdabiola.ludo.model.SoundInterface
+import com.mshdabiola.soundsystem.SoundSystem
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
