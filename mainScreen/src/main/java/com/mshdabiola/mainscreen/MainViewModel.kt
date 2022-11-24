@@ -75,6 +75,24 @@ class MainViewModel @Inject constructor(
             delay(6000)
             soundSystem.play()
         }
+
+        viewModelScope.launch {
+            if (!userPreferenceDataSource.isFirstTime()) {
+                userPreferenceDataSource.setBasicSetting(
+                    basic.value
+                        .copy(assistant = true).toBasicPref()
+                )
+                userPreferenceDataSource.setBoardSetting(
+                    board.value
+                        .copy(pawnNumber = 4, rotate = true).toBoardPref()
+                )
+                userPreferenceDataSource.setSoundSetting(
+                    sound.value
+                        .copy(sound = true).toSoundPref()
+                )
+                userPreferenceDataSource.setIsFirstTime()
+            }
+        }
     }
 
     fun setBasic(basic: Basic) {
