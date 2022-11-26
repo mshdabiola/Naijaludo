@@ -16,4 +16,9 @@ data class Pawn(
     fun isHome() = currentPos < 0
     val index
         get() = color.ordinal * 4 + id - 1
+
+    fun isInSavePath() = currentPos > 50
+    override fun toString(): String {
+        return "$color - $id"
+    }
 }

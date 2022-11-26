@@ -2,6 +2,7 @@ package com.mshdabiola.datastore
 
 import androidx.datastore.core.DataStore
 import javax.inject.Inject
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class UserPreferenceDataSource
@@ -68,6 +69,21 @@ class UserPreferenceDataSource
                 comName1 = profile.computer1
                 comName2 = profile.computer2
                 comName3 = profile.computer3
+            }
+        }
+    }
+
+    suspend fun isFirstTime() =
+        userPreferences
+            .data
+            .map {
+                it.isFirstTime
+            }
+            .first()
+    suspend fun setIsFirstTime() {
+        userPreferences.updateData {
+            it.copy {
+                this.isFirstTime = true
             }
         }
     }

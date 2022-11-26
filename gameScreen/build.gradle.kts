@@ -1,8 +1,8 @@
 plugins {
     id ("com.android.library")
     id ("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -44,6 +44,7 @@ dependencies {
     implementation (project( ":database"))
     implementation (project( ":naijaludo"))
     implementation (project( ":model"))
+    implementation (project( ":soundsystem"))
 
     implementation(libs.bundles.common.bundle)
     implementation(libs.androidx.constraintlayout)

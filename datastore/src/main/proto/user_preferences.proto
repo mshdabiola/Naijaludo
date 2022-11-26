@@ -21,4 +21,6 @@ message UserPreferences {
     string comName1 = 12;
     string comName2 = 13;
     string comName3 = 14;
+
+    bool isFirstTime = 15;
 }

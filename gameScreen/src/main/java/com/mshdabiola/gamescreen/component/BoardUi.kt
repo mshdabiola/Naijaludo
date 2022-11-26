@@ -22,6 +22,7 @@ import com.mshdabiola.gamescreen.state.BoardUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.Point
 
 @Composable
 fun BoardUi(
@@ -57,6 +58,7 @@ fun BoardBoxUi(boardUiState: BoardUiState) {
 //    }
 
     Box(modifier = Modifier) {
+        CenterGraphic(point = Point(6f, 6f))
         boardUiState.homeBoxes.forEachIndexed { index, box ->
             HomeBoxUi(box = box, colorIndex = index, boardType = boardUiState.boardType)
         }

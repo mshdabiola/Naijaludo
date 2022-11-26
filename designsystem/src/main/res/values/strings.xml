@@ -24,10 +24,10 @@
     <string name="sound_setting">Sound</string>
     <string name="profile_setting">Profile</string>
     <string name="board_setting" >Board</string>
-    <string name="continue_detail">Resume Game</string>
+    <string name="continue_detail">Last game</string>
     <string name="continue_btn">Continue</string>
-    <string name="vs_one_comp_detail">Vs Robot</string>
-    <string name="vs_many_comp_detail">Vs 3 Robots</string>
+    <string name="vs_one_comp_detail">Vs 1 computer</string>
+    <string name="vs_many_comp_detail">Vs 3 computers</string>
     <string name="back_btn">Back</string>
     <string name="start_game_dialog_title">Start Game</string>
     <string name="game_over_dialog_title">Game Over</string>

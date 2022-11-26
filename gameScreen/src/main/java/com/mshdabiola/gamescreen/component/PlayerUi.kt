@@ -1,6 +1,7 @@
 package com.mshdabiola.gamescreen.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -9,10 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -28,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.R
+import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toHomeColor
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import com.mshdabiola.ludo.model.GameColor
@@ -60,8 +61,10 @@ fun PlayerUi(
                 )
                 .padding(2.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.robot_head), contentDescription = ""
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = LudoIcon.robotIcon[player.iconIndex]),
+                contentDescription = "player Icon"
             )
         }
     }

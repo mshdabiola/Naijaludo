@@ -7,7 +7,8 @@ data class HumanPlayer(
     override val name: String = "Human",
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
-    override val colors: List<GameColor> = emptyList()
+    override val colors: List<GameColor> = emptyList(),
+    override val iconIndex: Int
 ) : Player {
     override fun chooseCounter(gameState: LudoGameState): Int {
         TODO("Not yet implemented")

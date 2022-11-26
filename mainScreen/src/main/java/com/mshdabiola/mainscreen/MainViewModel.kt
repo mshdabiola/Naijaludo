@@ -5,9 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.datastore.UserPreferenceDataSource
+import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -15,7 +19,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val userPreferenceDataSource: UserPreferenceDataSource
+    private val userPreferenceDataSource: UserPreferenceDataSource,
+    private val soundSystem: SoundSystem
 ) : ViewModel() {
 
     val basic = userPreferenceDataSource
@@ -59,6 +64,35 @@ class MainViewModel @Inject constructor(
             val p = userPreferenceDataSource.getProfileSetting().first()
             _profileState.value = p.toProfile()
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferenceDataSource
+                .getSoundSetting().collectLatest {
+                    soundSystem.playSound = it.sound
+                    soundSystem.setPlayMusic(it.music)
+                }
+        }
+        viewModelScope.launch {
+            delay(6000)
+            soundSystem.play()
+        }
+
+        viewModelScope.launch {
+            if (!userPreferenceDataSource.isFirstTime()) {
+                userPreferenceDataSource.setBasicSetting(
+                    basic.value
+                        .copy(assistant = true).toBasicPref()
+                )
+                userPreferenceDataSource.setBoardSetting(
+                    board.value
+                        .copy(pawnNumber = 4, rotate = true).toBoardPref()
+                )
+                userPreferenceDataSource.setSoundSetting(
+                    sound.value
+                        .copy(sound = true).toSoundPref()
+                )
+                userPreferenceDataSource.setIsFirstTime()
+            }
+        }
     }
 
     fun setBasic(basic: Basic) {
@@ -84,9 +118,21 @@ class MainViewModel @Inject constructor(
         _profileState.value = profile
     }
 
+    fun onPause() {
+        soundSystem.pause()
+    }
+    fun onResume() {
+        soundSystem.resume()
+    }
+
     fun setBoard(board: Board) {
         viewModelScope.launch {
             userPreferenceDataSource.setBoardSetting(board.toBoardPref())
         }
+    }
+    override fun onCleared() {
+        super.onCleared()
+
+        soundSystem.close()
     }
 }

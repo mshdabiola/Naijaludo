@@ -11,21 +11,19 @@ data class RandomComputerPlayer(
     override val name: String = "C. Player",
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
-    override val colors: List<GameColor>
+    override val colors: List<GameColor>,
+    override val iconIndex: Int
 ) : Player {
 
     override fun chooseCounter(
         gameState: LudoGameState,
     ): Int {
-//        val clickableCounter = gameState.listOfCounter.filter { it.isEnable }
-//        //Todo(bug is here)
-//        return clickableCounter.random()
+
         return counterLogic(gameState)
     }
 
     override fun choosePawn(gameState: LudoGameState): Int {
-        // val listOfPawn = gameState.listOfPawn.filter { it.isEnable && it.color in colors }
-        // return listOfPawn.random()
+
         return pawnLogic(gameState)
     }
 
@@ -43,23 +41,27 @@ data class RandomComputerPlayer(
         )
     }
 
-    private fun counterLogic(ludoGameState: LudoGameState): Int {
+    fun counterLogic(ludoGameState: LudoGameState): Int {
         val enableCounter =
-            ludoGameState.listOfCounter.filter { it.isEnable }.sortedBy { it.id }
+            ludoGameState
+                .listOfCounter
+                .filter { it.isEnable }
+                .sortedBy { it.id }
+
         val oppPawn = getOpponentPawns(ludoGameState)
             .filter { it.isOnPath() }
             .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
 
         val playerPawn = ludoGameState.listOfPawn
-            .filter { it.color in colors && !it.isOut() }
+            .filter { it.color in colors && !it.isOut() && !it.isInSavePath() }
 
-        // kill
-        enableCounter.forEach { counter ->
+        // kill //bug
+        enableCounter.forEachIndexed { index, counter ->
             playerPawn
                 .map {
                     // is home and have six
-                    if (it.isHome() && counter.number == 6)
+                    if (it.isHome() && counter.number == 6 && index != 1)
                         ludoGameState.board.specificToGeneral(0, it.color)
                     else
                     // is move
@@ -77,9 +79,10 @@ data class RandomComputerPlayer(
 
         // move out
 
-        enableCounter.forEach {
-            if (it.number == 6) {
-                return it.id
+        // Todo("bug total ")
+        enableCounter.forEachIndexed { index, counter ->
+            if (counter.number == 6 && index != 1) {
+                return counter.id
             }
         }
 
@@ -88,20 +91,20 @@ data class RandomComputerPlayer(
         return enableCounter.first().id
     }
 
-    private fun pawnLogic(ludoGameState: LudoGameState): Int {
+    fun pawnLogic(ludoGameState: LudoGameState): Int {
 
         val enablePawn = ludoGameState.listOfPawn.filter { it.isEnable && it.color in colors }
         val allOppPawns = getOpponentPawns(ludoGameState)
 
-        val oppPawn = allOppPawns
+        val pawnIntArray = allOppPawns
             .filter { it.isOnPath() }
             .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
 
-        val number = ludoGameState.currentDiceNumber
+        val currentDiceNumber = ludoGameState.currentDiceNumber
         val totalDiceNumber = ludoGameState.listOfDice[1].number
 
-        val oppPawn2 = allOppPawns
+        val oppPawnOnPath = allOppPawns
             .filter { it.isOnPath() }
 
         val oppColorAtHome = allOppPawns
@@ -109,22 +112,26 @@ data class RandomComputerPlayer(
             .map { it.color }
             .distinctBy { it }
 
-        // kill
-
         enablePawn.forEach {
 
-            val pos = if (it.isHome() && number == 6) ludoGameState.board.specificToGeneral(
-                0,
-                it.color
-            ) else ludoGameState.board.specificToGeneral(it.currentPos + number, it.color)
+            val currentPawnPoss =
+                if (it.isHome() && currentDiceNumber == 6)
+                    ludoGameState.board.specificToGeneral(0, it.color)
+                else
+                    ludoGameState.board.specificToGeneral(
+                        it.currentPos + currentDiceNumber,
+                        it.color
+                    )
 
-            if (pos in oppPawn) {
+            if (currentPawnPoss in pawnIntArray) {
+
                 return it.index
             }
         }
 
         // come out
-        if (number == 6 && enablePawn.any { it.isHome() }) {
+        if (currentDiceNumber == 6 && enablePawn.any { it.isHome() }) {
+
             val sortedHomePawn = enablePawn
                 .filter { it.isHome() }
                 .shuffled()
@@ -134,10 +141,10 @@ data class RandomComputerPlayer(
                         it,
                         getPawnPoint(
                             it,
-                            oppPawn2,
+                            oppPawnOnPath,
                             oppColorAtHome,
                             ludoGameState.board,
-                            newPos = number + it.currentPos,
+                            currentDiceNumb = currentDiceNumber,
                             totalDiceNumber
                         )
                     )
@@ -147,7 +154,6 @@ data class RandomComputerPlayer(
             return sortedHomePawn.first().first.index
         }
 
-        // test point
         val sortedMap = enablePawn
             .shuffled()
             .map {
@@ -156,24 +162,75 @@ data class RandomComputerPlayer(
                     it,
                     getPawnPoint(
                         it,
-                        oppPawn2,
+                        oppPawnOnPath,
                         oppColorAtHome,
                         ludoGameState.board,
-                        newPos = number + it.currentPos,
+                        currentDiceNumb = currentDiceNumber,
                         totalDiceNumber
                     )
                 )
             }
             .sortedBy { -it.second }
         log(
-            "sorted by risk ${sortedMap.joinToString {
+            "sorted by risk ${
+            sortedMap.joinToString {
                 "${it.first.id}-${it.first.color}" +
                     "  ${it.second}"
-            }}"
+            }
+            }"
         )
 
         // move
         return sortedMap.first().first.index
+    }
+
+    private fun getPawnPoint(
+        currentPawn: Pawn,
+        oppPawnOnPath: List<Pawn>,
+        oppColorPawnAtHome: List<GameColor>,
+        board: Board,
+        currentDiceNumb: Int,
+        totalDiceNumber: Int
+    ): Float {
+
+        val newPosition = if (currentPawn.isHome()) 0 else currentPawn.currentPos + currentDiceNumb
+        val projectPawn = currentPawn.copy(currentPos = newPosition)
+        val oppHome = oppColorPawnAtHome
+            .map { board.specificToGeneral(0, it) }
+            .toIntArray()
+        val actualProjectPos = board.specificToGeneral(projectPawn.currentPos, projectPawn.color)
+        val actualCurrentPos = board.specificToGeneral(currentPawn.currentPos, currentPawn.color)
+
+        return when {
+            currentPawn.isInSavePath() -> getPoint(50)
+            projectPawn.isInSavePath() -> getPoint(6) // about to go inside
+            isAtRisk(actualCurrentPos, oppHome) -> 1f // at danger area
+            isAtRisk(actualProjectPos, oppHome) -> {
+                if (isAtSafeArea(actualCurrentPos, oppHome) && totalDiceNumber > 10) {
+                    getPoint(4)
+                } else {
+                    -1f
+                }
+            }
+
+            else -> {
+                var tThreat = 0f
+                oppPawnOnPath.forEach { oppoPawn ->
+                    val dist = distanceTo(projectPawn, oppoPawn, board)
+
+                    // if the project distance is not moving over the pawn
+                    // increase the chance of move
+                    if (dist > 0) {
+                        tThreat += getPoint(dist)
+                    } else {
+                        // else reduce it
+
+                        tThreat -= getPoint(6)
+                    }
+                }
+                tThreat
+            }
+        }
     }
 
     private fun getOpponentPawns(ludoGameState: LudoGameState): List<Pawn> {
@@ -182,95 +239,61 @@ data class RandomComputerPlayer(
     }
 
     private fun getPoint(distance: Int): Float {
-        log("get point on distance $distance")
+
         return when (distance) {
+            0 -> 0f
             in 1..12 -> getProbability(distance)
             in 13..24 -> getProbability(12) * getProbability(distance - 12)
             in 25..36 ->
                 getProbability(12, 2) * getProbability(distance - 24)
-            else -> getProbability(12, 3) * getProbability(distance - 36)
+
+            in 37..48 ->
+                getProbability(12, 3) * getProbability(distance - 36)
+
+            else -> getProbability(12, 4) * getProbability(distance - 48)
         }
     }
 
     private fun getProbability(number: Int, pow: Int = 1): Float {
+
         val result = if (number < 7) (number + 1) / 36f
         else (12 - number + 1) / 36f
-        // log("number $number probability $result2")
+        //  log("number $number probability $result")
         return result.toDouble().pow(pow.toDouble()).toFloat()
     }
 
-    private fun getPawnPoint(
-        pawn: Pawn,
-        oppPawnOnPath: List<Pawn>,
-        oppColorPawnAtHome: List<GameColor>,
-        board: Board,
-        newPos: Int,
-        totalDiceNumber: Int
-    ): Float {
+    // pawn1 moving toward pawn2
+    private fun distanceTo(pawn1: Pawn, pawn2: Pawn, board: Board): Int {
+        // check is over pawn1 home
+        if (!pawn1.isOnPath() || !pawn2.isOnPath())
+            return -1
 
-        return when {
-            pawn.currentPos > 51 -> -100f
-            newPos > 51 -> 100f
-            else -> {
-                var point = 0f
-                val generalNewPos = board.specificToGeneral(newPos, pawn.color)
+        val distance1 = board.specificToGeneral(pawn1.currentPos, pawn1.color)
+        val distance2 = board.specificToGeneral(pawn2.currentPos, pawn2.color)
 
-                oppPawnOnPath.forEach {
-                    val generalOppoPawnPos = board.specificToGeneral(it.currentPos, it.color)
-                    log("pos of pawn is $generalNewPos opp pos $generalOppoPawnPos")
-                    var distanceBtwPawnAndOpp = generalOppoPawnPos - generalNewPos
-
-                    if (distanceBtwPawnAndOpp < 0) {
-                        distanceBtwPawnAndOpp += 52
-                    }
-
-                    val distanceBtwOppAndPawn = 52 - distanceBtwPawnAndOpp
-
-                    log(
-                        "distance from ${pawn.color} ${pawn.id} and ${it.color} ${it.id}" +
-                            " $distanceBtwPawnAndOpp "
-                    )
-
-                    point += getPoint(distanceBtwPawnAndOpp)
-
-                    if ((it.getDistanceRemain() - 6) > distanceBtwOppAndPawn) {
-                        log(
-                            "distance from ${it.color} ${it.id} and" +
-                                " ${pawn.color} ${pawn.id} $distanceBtwOppAndPawn "
-                        )
-                        point -= getPoint(distanceBtwOppAndPawn)
-                    }
-                }
-                oppColorPawnAtHome.forEach {
-                    val homePos = board.specificToGeneral(0, it)
-
-                    val position = board.specificToGeneral(pawn.currentPos, pawn.color)
-
-                    when {
-                        getRiskyArea(position, homePos) -> {
-                            log("is in risk area $pawn")
-                            point += 100f
-                        }
-
-                        getRiskyArea(generalNewPos, homePos) -> {
-                            log("total number is $totalDiceNumber")
-                            if (totalDiceNumber > 10 && getSafeArea(position, homePos)) {
-                                point = 0f
-                            } else {
-                                point -= 100f
-                            }
-                        }
-                    }
-                }
-
-                point
-            }
-        }
+        val distance = distance2 - distance1
+        return if (distance < 0) -1 else distance
     }
 
-    private fun getRiskyArea(pos: Int, homeId: Int): Boolean {
+    private fun isAtRisk(pos: Int, oppHomePos: IntArray): Boolean {
 
-        return pos in homeId..(homeId + 5)
+        oppHomePos.forEach {
+            if (pos in it..(it + 5)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun isAtSafeArea(pos: Int, oppHomePos: IntArray): Boolean {
+        oppHomePos.forEach {
+            if (getSafeArea(pos, it)) {
+                return true
+            }
+        }
+
+        return false
     }
 
     private fun getSafeArea(pos: Int, homeId: Int): Boolean {

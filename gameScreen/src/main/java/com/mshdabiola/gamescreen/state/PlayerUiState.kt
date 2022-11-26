@@ -9,10 +9,11 @@ data class PlayerUiState(
     val name: String = "Player",
     val win: Int = 9,
     val isCurrent: Boolean = false,
-    val colors: List<GameColor> = listOf(GameColor.RED, GameColor.BLUE)
+    val colors: List<GameColor> = listOf(GameColor.RED, GameColor.BLUE),
+    val iconIndex: Int = 0
 )
 
 fun Player.toPlayerUiState() =
     PlayerUiState(
-        name, win, isCurrent, colors
+        name, win, isCurrent, colors, iconIndex = iconIndex
     )
