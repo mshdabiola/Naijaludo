@@ -1,21 +1,21 @@
-package com.mshdabiola.gamescreen
+package com.mshdabiola.soundsystem
 
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
-import com.mshdabiola.naijaludo.SoundInterface
+import com.mshdabiola.ludo.model.SoundInterface
+import com.mshdabiola.ludo.model.log
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ViewModelScoped
+@Singleton
 class SoundSystem
 @Inject constructor(
     @ApplicationContext context: Context
-
 ) : SoundInterface {
     private var soundPool: SoundPool? = null
-    private val soundIds = IntArray(6)
+    private val soundIds = IntArray(8)
     var playSound: Boolean = true
     private var playMusic: Boolean = false
 
@@ -39,7 +39,8 @@ class SoundSystem
         soundIds[3] = soundPool?.load(context, R.raw.moving, 1)!!
         soundIds[4] = soundPool?.load(context, R.raw.moveout, 1)!!
         soundIds[5] = soundPool?.load(context, R.raw.select, 1)!!
-
+        soundIds[6] = soundPool?.load(context, R.raw.win, 1)!!
+        soundIds[7] = soundPool?.load(context, R.raw.lost, 1)!!
         // context setVolumeControlSystem
     }
 
@@ -67,6 +68,14 @@ class SoundSystem
 
     override fun onSelect() {
         play(5)
+    }
+
+    override fun onLost() {
+        play(7)
+    }
+
+    override fun onWin() {
+        play(6)
     }
 
     fun setPlayMusic(value: Boolean) {

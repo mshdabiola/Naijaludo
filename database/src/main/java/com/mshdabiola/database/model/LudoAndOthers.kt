@@ -30,7 +30,8 @@ fun LudoAndOthers.toPair(): Pair<List<Player>, List<Pawn>> {
         playerEntity
             .toPlayer(
                 playerColorsMap[index]
-                !!.distinct()
+                !!.distinct(),
+                index
             )
     }
 

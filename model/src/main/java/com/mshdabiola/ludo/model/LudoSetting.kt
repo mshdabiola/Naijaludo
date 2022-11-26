@@ -1,4 +1,4 @@
-package com.mshdabiola.naijaludo
+package com.mshdabiola.ludo.model
 
 data class LudoSetting(
     val level: Int = 2,

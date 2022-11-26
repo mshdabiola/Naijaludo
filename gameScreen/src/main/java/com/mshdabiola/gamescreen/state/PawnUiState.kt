@@ -13,3 +13,5 @@ data class PawnUiState(
 
 fun Pawn.toPawnUiState() =
     PawnUiState(index, currentPos, color, isEnable, zIndex)
+
+fun PawnUiState.showText() = zIndex.toInt() > 1 && currentPos < 56

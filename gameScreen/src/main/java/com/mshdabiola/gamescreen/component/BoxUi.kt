@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.icon.LudoIcon.ArrowIcon
 import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
 import com.mshdabiola.designsystem.theme.toHomeColor
@@ -56,6 +57,18 @@ fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {
                 .copy(alpha = 0.4f)
         )
     ) {}
+}
+
+@Composable
+fun CenterGraphic(point: Point) {
+    val oneUnit = LocalUnitDP.current
+    Image(
+        modifier = Modifier
+            .size(oneUnit * 3)
+            .offset(oneUnit * point.x, oneUnit * point.y),
+        painter = painterResource(id = R.drawable.middle),
+        contentDescription = "center graphics"
+    )
 }
 
 @Composable
@@ -107,14 +120,14 @@ fun HomeBoxUi(box: BoxUiState, colorIndex: Int = 0, boardType: Int = 0) {
     ) {
         Image(
             modifier = Modifier
-                .rotate(colorIndex * 90f)
+                .rotate((colorIndex * 90f) - 180f)
                 .padding(16.dp)
                 .fillMaxSize(),
             painter = painterResource(
                 id = BoardImage[boardType][box.color.ordinal]
 
             ),
-            contentDescription = ""
+            contentDescription = "home icon ${box.color.name}"
         )
     }
 }
