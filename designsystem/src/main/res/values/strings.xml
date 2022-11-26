@@ -24,7 +24,7 @@
     <string name="sound_setting">Sound</string>
     <string name="profile_setting">Profile</string>
     <string name="board_setting" >Board</string>
-    <string name="continue_detail">Resume last game</string>
+    <string name="continue_detail">Last game</string>
     <string name="continue_btn">Continue</string>
     <string name="vs_one_comp_detail">Vs 1 computer</string>
     <string name="vs_many_comp_detail">Vs 3 computers</string>

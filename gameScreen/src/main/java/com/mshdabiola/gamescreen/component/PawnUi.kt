@@ -32,6 +32,7 @@ import androidx.compose.ui.zIndex
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.designsystem.theme.toPawnTextColor
 import com.mshdabiola.gamescreen.state.PawnUiState
+import com.mshdabiola.gamescreen.state.showText
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
@@ -72,15 +73,15 @@ fun PawnUi(
                 1f to Color.Black.copy(alpha = 0.8f)
             )
         ),
-        tonalElevation = pawnUiState.zIndex.dp,
-        shadowElevation = pawnUiState.zIndex.dp
+        tonalElevation = if (pawnUiState.showText())pawnUiState.zIndex.dp else 1.dp,
+        shadowElevation = if (pawnUiState.showText())pawnUiState.zIndex.dp else 1.dp
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
 
         ) {
-            if (pawnUiState.zIndex.toInt() > 1) {
+            if (pawnUiState.showText()) {
                 Text(
                     text = "${pawnUiState.zIndex.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
@@ -178,7 +179,7 @@ fun PawnsUiPreview() {
                 listOf(
                     PawnUiState(currentPos = -4),
                     PawnUiState(color = GameColor.GREEN, isEnable = true),
-                    PawnUiState(color = GameColor.BLUE),
+                    PawnUiState(color = GameColor.BLUE, currentPos = 56),
                     PawnUiState(color = GameColor.YELLOW)
                 ).toImmutableList()
             },
