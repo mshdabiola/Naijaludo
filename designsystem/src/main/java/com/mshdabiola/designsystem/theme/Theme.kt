@@ -70,6 +70,8 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
+private val NewLightColor = LightColors.copy(secondaryContainer = LightColors.background)
+private val NewDarkColor = DarkColors.copy(secondaryContainer = DarkColors.background)
 @Composable
 fun LudoAppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
@@ -101,6 +103,28 @@ fun LudoAppTheme(
 //            }
 //        }
 //    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = LudoTypography,
+        content = content
+    )
+}
+@Composable
+fun FinishTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
+) {
+
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+        useDarkTheme -> NewDarkColor
+        else -> NewLightColor
+    }
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = LudoTypography,

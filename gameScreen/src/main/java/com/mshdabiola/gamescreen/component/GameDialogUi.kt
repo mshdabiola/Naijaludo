@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
+import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -122,16 +123,18 @@ fun GameOverDialog(
                 dismissOnClickOutside = false
             ),
             content = {
-                players.forEach {
-                    PlayerUi(player = it)
+                FinishTheme {
+                    players.forEach {
+                        PlayerUi(player = it)
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    if (humanWin) {
+                        Text(text = stringResource(id = R.string.player_win_msg))
+                    } else {
+                        Text(text = stringResource(id = R.string.player_loss_msg))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (humanWin) {
-                    Text(text = stringResource(id = R.string.player_win_msg))
-                } else {
-                    Text(text = stringResource(id = R.string.player_loss_msg))
-                }
-                Spacer(modifier = Modifier.height(8.dp))
             },
             buttons = {
                 IconButton(onClick = onHome) {
