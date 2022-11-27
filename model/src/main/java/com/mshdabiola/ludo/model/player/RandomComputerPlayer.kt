@@ -18,8 +18,9 @@ data class RandomComputerPlayer(
     override fun chooseCounter(
         gameState: LudoGameState,
     ): Int {
-
-        return counterLogic(gameState)
+        val selected = counterLogic(gameState)
+        log("selected is counter id $selected")
+        return selected
     }
 
     override fun choosePawn(gameState: LudoGameState): Int {
@@ -47,6 +48,7 @@ data class RandomComputerPlayer(
                 .listOfCounter
                 .filter { it.isEnable }
                 .sortedBy { it.id }
+        log("enabled counter is $enableCounter")
 
         val oppPawn = getOpponentPawns(ludoGameState)
             .filter { it.isOnPath() }
@@ -57,11 +59,11 @@ data class RandomComputerPlayer(
             .filter { it.color in colors && !it.isOut() && !it.isInSavePath() }
 
         // kill //bug
-        enableCounter.forEachIndexed { index, counter ->
+        enableCounter.forEach { counter ->
             playerPawn
                 .map {
                     // is home and have six
-                    if (it.isHome() && counter.number == 6 && index != 1)
+                    if (it.isHome() && counter.number == 6 && counter.id != 1)
                         ludoGameState.board.specificToGeneral(0, it.color)
                     else
                     // is move
@@ -80,8 +82,8 @@ data class RandomComputerPlayer(
         // move out
 
         // Todo("bug total ")
-        enableCounter.forEachIndexed { index, counter ->
-            if (counter.number == 6 && index != 1) {
+        enableCounter.forEach { counter ->
+            if (counter.number == 6 && counter.id != 1) {
                 return counter.id
             }
         }
@@ -93,7 +95,11 @@ data class RandomComputerPlayer(
 
     fun pawnLogic(ludoGameState: LudoGameState): Int {
 
-        val enablePawn = ludoGameState.listOfPawn.filter { it.isEnable && it.color in colors }
+        val enablePawn = ludoGameState
+            .listOfPawn
+            .filter {
+                it.isEnable // && it.color in colors
+            }
         val allOppPawns = getOpponentPawns(ludoGameState)
 
         val pawnIntArray = allOppPawns
