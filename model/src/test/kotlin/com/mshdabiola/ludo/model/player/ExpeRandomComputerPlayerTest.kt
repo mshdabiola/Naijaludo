@@ -118,4 +118,11 @@ internal class ExpeRandomComputerPlayerTest {
 
         assertEquals(index, 1)
     }
+
+    @Test
+    fun printAllPath() {
+        repeat(52) {
+            println("$it is ${ludoGameState.board.getBoxByIndex(it,GameColor.RED)}")
+        }
+    }
 }
