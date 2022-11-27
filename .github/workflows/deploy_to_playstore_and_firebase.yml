@@ -72,7 +72,6 @@ jobs:
           packageName: com.mshdabiola.ludo
           releaseFiles: app-release.aab
           track: internal
-          userFraction: 0.80
           status: completed
           inAppUpdatePriority: 2
           mappingFile: mapping.txt

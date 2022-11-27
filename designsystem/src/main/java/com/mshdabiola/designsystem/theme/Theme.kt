@@ -70,8 +70,8 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
-private val NewLightColor = LightColors.copy(secondaryContainer = LightColors.background)
-private val NewDarkColor = DarkColors.copy(secondaryContainer = DarkColors.background)
+private val NewLightColor = LightColors.copy(secondaryContainer = LightColors.surface)
+private val NewDarkColor = DarkColors.copy(secondaryContainer = DarkColors.surface)
 @Composable
 fun LudoAppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
