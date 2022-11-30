@@ -1,7 +1,6 @@
 package com.mshdabiola.designsystem.theme
 
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -70,11 +69,22 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
-private val NewLightColor = LightColors.copy(secondaryContainer = LightColors.surface)
-private val NewDarkColor = DarkColors.copy(secondaryContainer = DarkColors.surface)
+private val NewLightColor = LightColors.copy(
+    secondaryContainer = LightColors.surface,
+    onSecondaryContainer = LightColors.onSurface,
+    secondary = LightColors.tertiary,
+    onSecondary = LightColors.onTertiary
+)
+private val NewDarkColor = DarkColors.copy(
+    secondaryContainer = DarkColors.surface,
+    onSecondaryContainer = DarkColors.onSurface,
+    secondary = DarkColors.tertiary,
+    onSecondary = DarkColors.onTertiary
+)
+
 @Composable
 fun LudoAppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDarkTheme: Boolean = false, // isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -111,7 +121,7 @@ fun LudoAppTheme(
 }
 @Composable
 fun FinishTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDarkTheme: Boolean = false, // isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
