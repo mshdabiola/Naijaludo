@@ -14,6 +14,7 @@ import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.multiplayerblue.BlueFlow
 import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,11 +23,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -34,7 +37,8 @@ class GameViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val ludoStateDomain: LudoStateDomain,
     private val userPreferenceDataSource: UserPreferenceDataSource,
-    private val soundSystem: SoundSystem
+    private val soundSystem: SoundSystem,
+    private val blueFlow: BlueFlow
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -280,4 +284,8 @@ class GameViewModel @Inject constructor(
     companion object {
         const val SHOWDIALOG = "show_dialog"
     }
+
+    val device = blueFlow
+        .discoverDevices()
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
 }
