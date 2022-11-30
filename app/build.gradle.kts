@@ -14,11 +14,11 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId ="com.mshdabiola.ludo"
+        applicationId = "com.mshdabiola.ludo"
         minSdk = 24
         targetSdk = 33
-        versionCode = 7
-        versionName = "1.2.7"
+        versionCode = 8
+        versionName = "1.2.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
