@@ -1,6 +1,7 @@
 package com.mshdabiola.gamescreen.state
 
 import androidx.compose.runtime.Immutable
+import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.LudoGameState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -16,7 +17,8 @@ data class LudoUiState(
     val board: BoardUiState,
     val isHumanPlayer: Boolean = false,
     val rotate: Boolean = false,
-    val numGamePlay: Int = 0
+    val numGamePlay: Int = 0,
+    val gameType: GameType = GameType.COMPUTER
 )
 
 fun LudoGameState.toLudoUiState() =
@@ -27,5 +29,5 @@ fun LudoGameState.toLudoUiState() =
         listOfCounter = listOfCounter.map { it.toCounterUiState() }.toImmutableList(),
         drawer = drawer?.toDrawerUiState(),
         board = board.toBoardUiState(),
-        isHumanPlayer, rotate, numGamePlay
+        isHumanPlayer, rotate, numGamePlay, gameType
     )

@@ -14,7 +14,8 @@ data class LudoGameState(
     val start: Boolean = false,
     val isHumanPlayer: Boolean = false,
     val rotate: Boolean = false,
-    val numGamePlay: Int = 0
+    val numGamePlay: Int = 0,
+    val gameType: GameType = GameType.COMPUTER
 ) {
     val currentDiceNumber: Int
         get() {

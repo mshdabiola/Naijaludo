@@ -13,7 +13,7 @@ data class RandomComputerPlayer(
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor>,
     override val iconIndex: Int
-) : Player {
+) : LocalPlayer {
 
     override fun chooseCounter(
         gameState: LudoGameState,
@@ -33,7 +33,7 @@ data class RandomComputerPlayer(
         win: Int,
         isCurrent: Boolean,
         colors: List<GameColor>
-    ): Player {
+    ): LocalPlayer {
         return copy(
             name = name,
             win = win,

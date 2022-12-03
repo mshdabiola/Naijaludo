@@ -92,7 +92,7 @@ class Manager
     fun onServer() {
         setLog("start server1")
         try {
-            state.value = state.value?.copy(isServer = true)
+
             val bluetoothServerSocket = bluetoothAdapter
                 ?.listenUsingRfcommWithServiceRecord(serviceName, serverUUId)
 
@@ -109,8 +109,12 @@ class Manager
 
     fun onClient() {
         setLog("start client")
-        state.value = state.value?.copy(isServer = false)
+
         getAppDevice()
+    }
+
+    fun setIsServer(isServer: Boolean) {
+        state.value = state.value?.copy(isServer = isServer)
     }
 
     fun onBlueDevice(blueIndex: Int) {

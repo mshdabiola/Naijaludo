@@ -9,7 +9,11 @@ import com.mshdabiola.datastore.ProfilePref
 import com.mshdabiola.datastore.SoundPref
 import com.mshdabiola.datastore.UserPreferenceDataSource
 import com.mshdabiola.datastore.toList
+import com.mshdabiola.gamescreen.state.BoardUiState
+import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.ludo.model.Constant.getDefaultGameState
+import com.mshdabiola.ludo.model.Constant.getDefaultPawns
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
@@ -30,6 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -47,37 +52,44 @@ class GameViewModel @Inject constructor(
 
     private val _gameUiState =
         MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
+
     val gameUiState = _gameUiState.asStateFlow()
 
-    var gameId: Long? = null
-
-    lateinit var profName: Array<String>
-    lateinit var ludoSetting: LudoSetting
-    var offlinePlayer: OfflinePlayer? = null
-
-    val blueState = blueManager.state.stateIn(
+    val blueManagerState = blueManager.state.stateIn(
         viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         null
     )
+    val ludoGameState = game.gameState
+        .map { it.toLudoUiState() }
+        .distinctUntilChanged { old, new -> old == new }
+        .stateIn(
+            viewModelScope, started = SharingStarted.WhileSubscribed(),
+            LudoUiState(board = BoardUiState())
+        )
+
+    var gameId: Long? = null
+    lateinit var profName: Array<String>
+    lateinit var ludoSetting: LudoSetting
 
     init {
         // react to ludoGame change
-        viewModelScope.launch {
-            game
-                .gameState
-                .distinctUntilChanged { old, new -> old == new }
-                .collect { ludoGameState ->
-                    _gameUiState.value =
-                        gameUiState.value.copy(ludoGameState = ludoGameState.toLudoUiState())
-                }
-        }
+//        viewModelScope.launch {
+//            game
+//                .gameState
+//                .distinctUntilChanged { old, new -> old == new }
+//                .collect { ludoGameState ->
+//                    _gameUiState.value =
+//                        gameUiState.value.copy(ludoGameState = ludoGameState.toLudoUiState())
+//                }
+//        }
 
-        // react to gameuistate change
+        // react to gameuistate change for computer and remote
         viewModelScope.launch {
             game.onStateChange()
         }
 
+        // check if it have continue game
         viewModelScope.launch {
             val ludoAndOthers = async { ludoStateDomain.getLatestLudoAndOther().firstOrNull() }
 
@@ -127,16 +139,16 @@ class GameViewModel @Inject constructor(
             blueManager.state.collect { managerState ->
                 if (managerState?.connected == true) {
                     blueManager.bluetoothSocket?.let {
-                        offlinePlayer = OfflinePlayer(it.inputStream, it.outputStream)
+                        // offlinePlayer = OfflinePlayer(it.inputStream, it.outputStream)
 
                         if (managerState.isServer) {
-                            offlinePlayer?.SendSettingToClient(4, "abiola")
-                            val name = async { offlinePlayer?.getNameFromClient() }
+                            OfflinePlayer.sendString("4,abiola", it.outputStream)
+                            val name = async { OfflinePlayer.getString(it.inputStream) }
                             log("Name ${name.await()}")
                         } else {
-                            offlinePlayer?.sendNameToServer("ClientName")
-                            val pair = async { offlinePlayer?.getSettingFromServer() }
-                            log("Pair ${pair.await()}")
+                            OfflinePlayer.sendString("ClientName", it.outputStream)
+                            val string = async { OfflinePlayer.getString(it.inputStream) }
+                            log("Pair ${string.await()}")
                         }
                     }
                 }
@@ -144,6 +156,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    // start game
     private suspend fun startGame(ludoGameState: LudoGameState) {
 
         delay(300)
@@ -155,49 +168,23 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    fun onYouAndComputer() {
-        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-        savedStateHandle[SHOWDIALOG] = false
-
-        viewModelScope.launch(Dispatchers.Default) {
-
-            startGame(
-                LudoGame
-                    .getDefaultGameState(
-                        numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName
-                    )
-            )
-        }
-        deleteData()
-    }
-
-    fun onContinueClick() {
-        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-        savedStateHandle[SHOWDIALOG] = false
-        loadGame()
-    }
-
+    // Todo("check if is not remote game")
     private fun loadGame() {
         viewModelScope.launch() {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
             gameId = ludoAndOthers?.ludoEntity?.id
 
             val pair = ludoAndOthers?.toPair()
-            val pawns = pair?.second?.toMutableList()
+            var pawns = pair?.second
             val players = pair?.first
 
             if (players != null && pawns != null) {
 
                 if (pawns.all { it.isOut() }) {
-                    (0 until pawns.size).forEach {
-                        val pawn = pawns[it]
-                        pawns[it] = pawn.copy(currentPos = pawn.id * -1)
-                    }
+                    pawns = getDefaultPawns(ludoSetting.numberOfPawn)
                 }
 
-                val ludoState = LudoGame
-                    .getDefaultGameState()
+                val ludoState = getDefaultGameState()
                     .copy(listOfPlayer = players, listOfPawn = pawns)
 
                 startGame(ludoState)
@@ -205,21 +192,82 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun onTournament() {
+    // Start dialog
+    fun onYouAndComputer() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+        savedStateHandle[SHOWDIALOG] = false
+
         viewModelScope.launch(Dispatchers.Default) {
+
             startGame(
-                LudoGame
-                    .getDefaultGameState(
-                        numberOfPlayer = 4,
-                        numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName
-                    )
+                getDefaultGameState(
+                    numberOfPawn = ludoSetting.numberOfPawn,
+                    playerNames = profName
+                )
             )
         }
         deleteData()
     }
+    fun onTournament() {
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+        viewModelScope.launch(Dispatchers.Default) {
+            startGame(
+                getDefaultGameState(
+                    numberOfPlayer = 4,
+                    numberOfPawn = ludoSetting.numberOfPawn,
+                    playerNames = profName
+                )
+            )
+        }
+        deleteData()
+    }
+    fun onContinueClick() {
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+        savedStateHandle[SHOWDIALOG] = false
+        loadGame()
+    }
 
+    fun onJoin() {
+        _gameUiState.value =
+            gameUiState.value.copy(
+                isStartDialogOpen = false,
+                isDeviceDialogOpen = true
+            )
+        setUpBlue()
+        onClient()
+    }
+
+    fun onHost() {
+        _gameUiState.value =
+            gameUiState.value.copy(
+                isStartDialogOpen = false,
+                isWaitingDialogOpen = true
+            )
+        setUpBlue()
+        onServer()
+    }
+
+    fun onCancelBlueDialog() {
+        _gameUiState.value =
+            gameUiState.value.copy(
+                isStartDialogOpen = true,
+                isWaitingDialogOpen = false,
+                isDeviceDialogOpen = false
+            )
+        closeBlue()
+    }
+
+    fun onDeviceClick(index: Int) {
+        _gameUiState.value =
+            gameUiState.value.copy(
+                isWaitingDialogOpen = true,
+                isDeviceDialogOpen = false
+            )
+
+        onDevice(index)
+    }
+
+    // lifecycle
     fun onResume() {
         soundSystem.resume()
         game.resume()
@@ -230,6 +278,7 @@ class GameViewModel @Inject constructor(
         game.pause()
     }
 
+    // on game click
     private fun onGameFinish() {
         game.stop()
         _gameUiState.value = gameUiState.value.copy(isRestartDialogOpen = true)
@@ -248,22 +297,60 @@ class GameViewModel @Inject constructor(
 
     fun onDice() {
         viewModelScope.launch {
-            game.onDice()
+            val intArray = game.onDice()
+
+            intArray?.let {
+                game.sendDiceToRemote(it[0], it[2])
+            }
         }
     }
 
     fun onCounter(counterId: Int) {
         game.onCounter(counterId)
+        viewModelScope.launch {
+            game.sendCounterToRemote(counterId)
+        }
     }
 
     fun onPawn(index: Int, isDrawer: Boolean = false) {
         game.onPawn(index, isDrawer)
+        if (!isDrawer) {
+            viewModelScope.launch {
+                game.sendPawnToRemote(index)
+            }
+        }
     }
 
     fun getPositionIntOffset(id: Int, gameColor: GameColor): Point {
         return game.getPositionIntOffset(id, gameColor)
     }
 
+    fun setMusic(value: Boolean) {
+        viewModelScope.launch {
+            userPreferenceDataSource
+                .setSoundSetting(SoundPref(sound = gameUiState.value.sound, music = value))
+        }
+    }
+
+    fun setSound(value: Boolean) {
+        viewModelScope.launch {
+            userPreferenceDataSource
+                .setSoundSetting(SoundPref(music = gameUiState.value.music, sound = value))
+        }
+    }
+
+    fun restartGame() {
+
+        viewModelScope.launch {
+            game.resign()
+        }
+    }
+
+    private fun onPlayerFinishPlaying() {
+        saveData()
+    }
+
+    // game database
     private fun saveData() {
         viewModelScope.launch(Dispatchers.IO) {
             log("on game dispose")
@@ -281,25 +368,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun setMusic(value: Boolean) {
-        viewModelScope.launch {
-            userPreferenceDataSource
-                .setSoundSetting(SoundPref(sound = gameUiState.value.sound, music = value))
-        }
-    }
-    fun setSound(value: Boolean) {
-        viewModelScope.launch {
-            userPreferenceDataSource
-                .setSoundSetting(SoundPref(music = gameUiState.value.music, sound = value))
-        }
-    }
-
-    fun restartGame() {
-
-        viewModelScope.launch {
-            game.resign()
-        }
-    }
+    // bluetooth function
 
     fun isAllPermission(): Boolean {
         return blueManager.isAllPermissionGranted()
@@ -307,29 +376,32 @@ class GameViewModel @Inject constructor(
 
     fun isBluetoothEnable() = blueManager.isBluetoothEnable()
 
-    fun onServer() {
+    private fun onServer() {
         viewModelScope.launch(Dispatchers.IO) {
             log("start Server")
             blueManager.onServer()
         }
     }
 
-    fun onClient() {
+    private fun onClient() {
         log("start Client")
         blueManager.onClient()
     }
+
     fun onDevice(index: Int) {
         viewModelScope.launch(Dispatchers.IO) { blueManager.onBlueDevice(index) }
     }
-    fun setUpBlue() {
+
+    private fun setUpBlue() {
         blueManager.setUp()
     }
+
     fun closeBlue() {
         blueManager.close()
     }
 
-    private fun onPlayerFinishPlaying() {
-        saveData()
+    fun setIsServer(isServer: Boolean) {
+        blueManager.setIsServer(isServer)
     }
 
     companion object {

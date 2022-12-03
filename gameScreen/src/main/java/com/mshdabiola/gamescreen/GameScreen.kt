@@ -61,11 +61,12 @@ import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
 import com.mshdabiola.gamescreen.component.StartDialog
+import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.ludo.model.Constant.getDefaultGameState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import com.mshdabiola.naijaludo.LudoGame
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
@@ -77,12 +78,9 @@ fun GameScreen(
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
-    val blueState by gameScreenViewModel.blueState.collectAsStateWithLifecycle()
-    LaunchedEffect(key1 = blueState, block = {
-        if (blueState != null) {
-            log(blueState?.devices?.joinToString() ?: "is null")
-        }
-    })
+    val blueState by gameScreenViewModel.blueManagerState.collectAsStateWithLifecycle()
+    val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
+
     val observer = object : DefaultLifecycleObserver {
         override fun onResume(owner: LifecycleOwner) {
             super.onResume(owner)
@@ -96,10 +94,9 @@ fun GameScreen(
             gameScreenViewModel.onPause()
         }
     }
+
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-    val rotateF = remember {
-        Animatable(0f)
-    }
+
     DisposableEffect(key1 = lifecycle) {
         lifecycle.addObserver(observer)
 
@@ -109,58 +106,53 @@ fun GameScreen(
         }
     }
 
-    LaunchedEffect(key1 = gameUiState.ludoGameState.rotate) {
+    val rotateF = remember {
+        Animatable(0f)
+    }
+    LaunchedEffect(key1 = ludoGameState.rotate) {
 
         //   rotateF.snapTo(0f)
-        if (gameUiState.ludoGameState.rotate)
+        if (ludoGameState.rotate)
             rotateF.animateTo(360f, tween(4000))
         else
             rotateF.snapTo(0f)
     }
 
-    var isServe by remember {
-        mutableStateOf(false)
-    }
-
     val forResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = {
-            if (isServe) {
+            if (blueState?.isServer == true) {
                 // start server
-                gameScreenViewModel.onServer()
+                gameScreenViewModel.onHost()
             } else {
-                gameScreenViewModel.onClient()
+                gameScreenViewModel.onJoin()
             }
         }
     )
+
     val forRequestBlue = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = {
             if (!gameScreenViewModel.isBluetoothEnable()) {
                 forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
             } else {
-                if (isServe) {
+                if (blueState?.isServer == true) {
                     // start server
-                    gameScreenViewModel.onServer()
+                    gameScreenViewModel.onHost()
                 } else {
                     // start client
-                    gameScreenViewModel.onClient()
+                    gameScreenViewModel.onJoin()
                 }
             }
         }
     )
 
-    var showBlueDialog by remember {
-        mutableStateOf(false)
-    }
-    var showDeviceList by remember {
-        mutableStateOf(false)
-    }
-
     Scaffold { paddingValues ->
         GameScreen(
             paddingValues = paddingValues,
-            gameUiState = gameUiState,
+            gameUiState = ludoGameState,
+            music = gameUiState.music,
+            sound = gameUiState.sound,
             rotateF = rotateF.value,
             deviceType = deviceType,
             onCounter = gameScreenViewModel::onCounter,
@@ -181,9 +173,10 @@ fun GameScreen(
             onContinueButton = gameScreenViewModel::onContinueClick,
             onBackPress = onBack,
             onJoinClick = {
-                showBlueDialog = false
-                showDeviceList = true
-                gameScreenViewModel.setUpBlue()
+//                showBlueDialog = false
+//                showDeviceList = true
+//                gameScreenViewModel.setUpBlue()
+                gameScreenViewModel.setIsServer(false)
                 when {
                     !gameScreenViewModel.isAllPermission() ->
                         forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
@@ -192,14 +185,15 @@ fun GameScreen(
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
 
                     else -> {
-                        gameScreenViewModel.onClient()
+                        gameScreenViewModel.onJoin()
                     }
                 }
             },
             onHostClick = {
-                isServe = true
-                showBlueDialog = true
-                gameScreenViewModel.setUpBlue()
+//                isServe = true
+//                showBlueDialog = true
+//                gameScreenViewModel.setUpBlue()
+                gameScreenViewModel.setIsServer(true)
                 when {
                     !gameScreenViewModel.isAllPermission() ->
                         forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
@@ -208,7 +202,7 @@ fun GameScreen(
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
 
                     else -> {
-                        gameScreenViewModel.onServer()
+                        gameScreenViewModel.onHost()
                     }
                 }
             }
@@ -216,42 +210,33 @@ fun GameScreen(
         GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
             onRestart = gameScreenViewModel::onRestart,
-            players = gameUiState.ludoGameState.listOfPlayer,
+            players = ludoGameState.listOfPlayer,
             onHome = onBack
         )
 
         GameMultiPlayerWaitingDialog(
-            show = showBlueDialog,
+            show = gameUiState.isWaitingDialogOpen,
             connected = blueState?.connected == true,
             isServe = blueState?.isServer == true,
-            onCancelClick = {
-                showBlueDialog = false
-                gameScreenViewModel.closeBlue()
-            }
+            onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
 
         GameMultiPlayerListDialog(
-            show = showDeviceList,
+            show = gameUiState.isDeviceDialogOpen,
             deviceList = blueState?.devices?.toImmutableList(),
-            onDeviceClick = {
-                showDeviceList = false
-                showBlueDialog = true
-                gameScreenViewModel.onDevice(it)
-            },
-            onCancelClick = {
-                showDeviceList = false
-                gameScreenViewModel.closeBlue()
-            }
+            onDeviceClick = gameScreenViewModel::onDeviceClick,
+            onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
     }
 }
 
 @SuppressLint("InlinedApi")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
     paddingValues: PaddingValues = PaddingValues(8.dp),
-    gameUiState: GameUiState,
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
     rotateF: Float = 0f,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     onDice: () -> Unit = {},
@@ -265,25 +250,25 @@ fun GameScreen(
 ) {
     when (deviceType) {
         DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
-            gameUiState, rotateF, paddingValues,
+            gameUiState, music, sound, rotateF, paddingValues,
             onDice, onCounter, onPawn, getPositionIntOffset,
             onBack, onSetMusic, onSetSound, onForceRestart
         )
 
         DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
-            gameUiState, rotateF, paddingValues,
+            gameUiState, music, sound, rotateF, paddingValues,
             onDice, onCounter, onPawn, getPositionIntOffset,
             onBack, onSetMusic, onSetSound, onForceRestart
         )
 
         DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
-            gameUiState, rotateF, paddingValues,
+            gameUiState, music, sound, rotateF, paddingValues,
             onDice, onCounter, onPawn, getPositionIntOffset,
             onBack, onSetMusic, onSetSound, onForceRestart
         )
 
         else -> GameScreenPhonePortrait(
-            gameUiState, rotateF, paddingValues,
+            gameUiState, music, sound, rotateF, paddingValues,
             onDice, onCounter, onPawn, getPositionIntOffset,
             onBack, onSetMusic, onSetSound, onForceRestart
         )
@@ -292,7 +277,9 @@ fun GameScreen(
 
 @Composable
 fun GameScreenPhonePortrait(
-    gameUiState: GameUiState,
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
     onDice: () -> Unit = {},
@@ -305,8 +292,8 @@ fun GameScreenPhonePortrait(
     onForceRestart: () -> Unit = {}
 ) {
 
-    val showText by remember(gameUiState.ludoGameState.board) {
-        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    val showText by remember(gameUiState.board) {
+        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
     }
 
     ConstraintLayout(
@@ -324,8 +311,8 @@ fun GameScreenPhonePortrait(
             },
             onBack = onBack,
             onResign = onForceRestart,
-            music = gameUiState.music,
-            sound = gameUiState.sound,
+            music = music,
+            sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic
 
@@ -336,7 +323,7 @@ fun GameScreenPhonePortrait(
                     bottom.linkTo(boardRef.top, margin = 16.dp)
                     centerHorizontallyTo(boardRef)
                 },
-            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+            playerProvider = { gameUiState.listOfPlayer }
         )
 
         BoardUi(
@@ -347,15 +334,15 @@ fun GameScreenPhonePortrait(
                     linkTo(parent.top, parent.bottom)
                     width = Dimension.fillToConstraints
                 },
-            boardUiStateProvider = { gameUiState.ludoGameState.board }
+            boardUiStateProvider = { gameUiState.board }
         ) {
 
             // pawn
 
             // if (ludoGameState.listOfPawn.isNotEmpty()) {
             PawnsUi(
-                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                pawnUiStateListProvider = { gameUiState.listOfPawn },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 getPositionIntOffset = getPositionIntOffset,
                 onClick = onPawn
             )
@@ -365,8 +352,8 @@ fun GameScreenPhonePortrait(
 
             // if (ludoGameState.listOfDice.isNotEmpty()) {
             DicesUi(
-                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                diceUiStateListProvider = { gameUiState.listOfDice },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 onClick = onDice
             )
             // }
@@ -374,7 +361,7 @@ fun GameScreenPhonePortrait(
             // drawer
 
             DrawerUi(
-                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                drawerUiStateProvider = { gameUiState.drawer },
                 getPositionIntOffset = getPositionIntOffset,
                 onPawnDrawer = onPawn
             )
@@ -396,8 +383,8 @@ fun GameScreenPhonePortrait(
                     top.linkTo(boardRef.bottom, margin = 16.dp)
                     centerHorizontallyTo(boardRef)
                 },
-            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
-            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            counterUiStateListProvider = { gameUiState.listOfCounter },
+            isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter
         )
 
@@ -412,7 +399,9 @@ fun GameScreenPhonePortrait(
 
 @Composable
 fun GameScreenPhoneLand(
-    gameUiState: GameUiState,
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
     onDice: () -> Unit = {},
@@ -424,8 +413,8 @@ fun GameScreenPhoneLand(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.ludoGameState.board) {
-        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    val showText by remember(gameUiState.board) {
+        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
     }
 
     ConstraintLayout(
@@ -442,8 +431,8 @@ fun GameScreenPhoneLand(
             },
             onBack = onBack,
             onResign = onForceRestart,
-            music = gameUiState.music,
-            sound = gameUiState.sound,
+            music = music,
+            sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic
 
@@ -456,7 +445,7 @@ fun GameScreenPhoneLand(
                     linkTo(parent.start, boardRef.start)
                     centerVerticallyTo(boardRef)
                 },
-            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+            playerProvider = { gameUiState.listOfPlayer }
         )
 
         BoardUi(
@@ -467,15 +456,15 @@ fun GameScreenPhoneLand(
                     linkTo(parent.top, parent.bottom)
                     height = Dimension.fillToConstraints
                 },
-            { gameUiState.ludoGameState.board }
+            { gameUiState.board }
         ) {
 
             // pawn
 
             // if (ludoGameState.listOfPawn.isNotEmpty()) {
             PawnsUi(
-                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                pawnUiStateListProvider = { gameUiState.listOfPawn },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 getPositionIntOffset = getPositionIntOffset,
                 onClick = onPawn
             )
@@ -485,8 +474,8 @@ fun GameScreenPhoneLand(
 
             // if (ludoGameState.listOfDice.isNotEmpty()) {
             DicesUi(
-                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                diceUiStateListProvider = { gameUiState.listOfDice },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 onClick = onDice
             )
             // }
@@ -494,7 +483,7 @@ fun GameScreenPhoneLand(
             // drawer
 
             DrawerUi(
-                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                drawerUiStateProvider = { gameUiState.drawer },
                 getPositionIntOffset = getPositionIntOffset,
                 onPawnDrawer = onPawn
             )
@@ -517,8 +506,8 @@ fun GameScreenPhoneLand(
                     // start.linkTo(boardRef.end, margin = 16.dp)
                     centerVerticallyTo(boardRef)
                 },
-            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
-            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            counterUiStateListProvider = { gameUiState.listOfCounter },
+            isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter
         )
 
@@ -535,7 +524,9 @@ fun GameScreenPhoneLand(
 
 @Composable
 fun GameScreeFoldPortrait(
-    gameUiState: GameUiState,
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
     onDice: () -> Unit = {},
@@ -547,8 +538,8 @@ fun GameScreeFoldPortrait(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.ludoGameState.board.pathBoxes) {
-        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    val showText by remember(gameUiState.board.pathBoxes) {
+        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
     }
 
     ConstraintLayout(
@@ -567,8 +558,8 @@ fun GameScreeFoldPortrait(
             },
             onBack = onBack,
             onResign = onForceRestart,
-            music = gameUiState.music,
-            sound = gameUiState.sound,
+            music = music,
+            sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic
 
@@ -582,15 +573,15 @@ fun GameScreeFoldPortrait(
                     linkTo(parent.top, barrier)
                     height = Dimension.fillToConstraints
                 },
-            { gameUiState.ludoGameState.board }
+            { gameUiState.board }
         ) {
 
             // pawn
 
             // if (ludoGameState.listOfPawn.isNotEmpty()) {
             PawnsUi(
-                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                pawnUiStateListProvider = { gameUiState.listOfPawn },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 getPositionIntOffset = getPositionIntOffset,
                 onClick = onPawn
             )
@@ -600,8 +591,8 @@ fun GameScreeFoldPortrait(
 
             // if (ludoGameState.listOfDice.isNotEmpty()) {
             DicesUi(
-                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                diceUiStateListProvider = { gameUiState.listOfDice },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 onClick = onDice
             )
             // }
@@ -609,7 +600,7 @@ fun GameScreeFoldPortrait(
             // drawer
 
             DrawerUi(
-                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                drawerUiStateProvider = { gameUiState.drawer },
                 getPositionIntOffset = getPositionIntOffset,
                 onPawnDrawer = onPawn
             )
@@ -629,8 +620,8 @@ fun GameScreeFoldPortrait(
             modifier = Modifier.constrainAs(counterRef) {
                 linkTo(barrier, adRef.top)
             },
-            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
-            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            counterUiStateListProvider = { gameUiState.listOfCounter },
+            isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter
         )
 
@@ -638,7 +629,7 @@ fun GameScreeFoldPortrait(
             modifier = Modifier.constrainAs(playerRef) {
                 linkTo(barrier, adRef.top)
             },
-            playerProvider = { gameUiState.ludoGameState.listOfPlayer },
+            playerProvider = { gameUiState.listOfPlayer },
             isFold = true
         )
 
@@ -653,7 +644,9 @@ fun GameScreeFoldPortrait(
 
 @Composable
 fun GameScreenLarge(
-    gameUiState: GameUiState,
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
     onDice: () -> Unit = {},
@@ -665,8 +658,8 @@ fun GameScreenLarge(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.ludoGameState.board.pathBoxes) {
-        derivedStateOf { gameUiState.ludoGameState.board.pathBoxes.isEmpty() }
+    val showText by remember(gameUiState.board.pathBoxes) {
+        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
     }
     ConstraintLayout(
         modifier = Modifier
@@ -683,8 +676,8 @@ fun GameScreenLarge(
             },
             onBack = onBack,
             onResign = onForceRestart,
-            music = gameUiState.music,
-            sound = gameUiState.sound,
+            music = music,
+            sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic
 
@@ -697,7 +690,7 @@ fun GameScreenLarge(
                     start.linkTo(boardRef.start)
                     end.linkTo(boardRef.end)
                 },
-            playerProvider = { gameUiState.ludoGameState.listOfPlayer }
+            playerProvider = { gameUiState.listOfPlayer }
         )
 
         BoardUi(
@@ -709,15 +702,15 @@ fun GameScreenLarge(
                     top.linkTo(playerRef.bottom)
                     height = Dimension.fillToConstraints
                 },
-            { gameUiState.ludoGameState.board }
+            { gameUiState.board }
         ) {
 
             // pawn
 
             // if (ludoGameState.listOfPawn.isNotEmpty()) {
             PawnsUi(
-                pawnUiStateListProvider = { gameUiState.ludoGameState.listOfPawn },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                pawnUiStateListProvider = { gameUiState.listOfPawn },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 getPositionIntOffset = getPositionIntOffset,
                 onClick = onPawn
             )
@@ -727,8 +720,8 @@ fun GameScreenLarge(
 
             //  if (ludoGameState.listOfDice.isNotEmpty()) {
             DicesUi(
-                diceUiStateListProvider = { gameUiState.ludoGameState.listOfDice },
-                isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+                diceUiStateListProvider = { gameUiState.listOfDice },
+                isHumanProvider = { gameUiState.isHumanPlayer },
                 onClick = onDice
             )
             // }
@@ -736,7 +729,7 @@ fun GameScreenLarge(
             // drawer
 
             DrawerUi(
-                drawerUiStateProvider = { gameUiState.ludoGameState.drawer },
+                drawerUiStateProvider = { gameUiState.drawer },
                 getPositionIntOffset = getPositionIntOffset,
                 onPawnDrawer = onPawn
             )
@@ -762,8 +755,8 @@ fun GameScreenLarge(
                     centerVerticallyTo(boardRef)
                     linkTo(boardRef.end, parent.end, bias = 0.1f)
                 },
-            counterUiStateListProvider = { gameUiState.ludoGameState.listOfCounter },
-            isHumanProvider = { gameUiState.ludoGameState.isHumanPlayer },
+            counterUiStateListProvider = { gameUiState.listOfCounter },
+            isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter
         )
         // }
@@ -784,8 +777,8 @@ fun GameScreenLarge(
 @Composable
 fun GameScreenPreview() {
 
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint
@@ -796,8 +789,8 @@ fun GameScreenPreview() {
 @Composable
 fun GameScreenLandPreview() {
 
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
@@ -809,8 +802,8 @@ fun GameScreenLandPreview() {
 @Preview(device = "spec:width=673.5dp,height=841dp,dpi=480")
 @Composable
 fun GameScreenFoldPreview() {
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
@@ -821,8 +814,8 @@ fun GameScreenFoldPreview() {
 @Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
 @Composable
 fun GameScreenFoldLandPreview() {
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
@@ -833,8 +826,8 @@ fun GameScreenFoldLandPreview() {
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=portrait")
 @Composable
 fun GameScreenTabletPreview() {
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
@@ -845,8 +838,8 @@ fun GameScreenTabletPreview() {
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=landscape")
 @Composable
 fun GameScreenTabletLandPreview() {
-    val game = LudoGame.getDefaultGameState()
-    val state = GameUiState(ludoGameState = game.toLudoUiState(), isStartDialogOpen = false)
+    val game = getDefaultGameState()
+    val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = game.board::getPositionIntPoint,
