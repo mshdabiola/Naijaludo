@@ -14,8 +14,9 @@ import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.Point
-import com.mshdabiola.multiplayerblue.BlueFlow
+import com.mshdabiola.multiplayerblue.Manager
 import com.mshdabiola.naijaludo.LudoGame
+import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -38,7 +39,7 @@ class GameViewModel @Inject constructor(
     private val ludoStateDomain: LudoStateDomain,
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
-    private val blueFlow: BlueFlow
+    private val blueManager: Manager
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -52,6 +53,13 @@ class GameViewModel @Inject constructor(
 
     lateinit var profName: Array<String>
     lateinit var ludoSetting: LudoSetting
+    var offlinePlayer: OfflinePlayer? = null
+
+    val blueState = blueManager.state.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        null
+    )
 
     init {
         // react to ludoGame change
@@ -114,10 +122,26 @@ class GameViewModel @Inject constructor(
                     _gameUiState.value = gameUiState.value.copy(music = it.music, sound = it.sound)
                 }
         }
-//        viewModelScope.launch {
-//            delay(6000)
-//            soundSystem.play()
-//        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            blueManager.state.collect { managerState ->
+                if (managerState?.connected == true) {
+                    blueManager.bluetoothSocket?.let {
+                        offlinePlayer = OfflinePlayer(it.inputStream, it.outputStream)
+
+                        if (managerState.isServer) {
+                            offlinePlayer?.SendSettingToClient(4, "abiola")
+                            val name = async { offlinePlayer?.getNameFromClient() }
+                            log("Name ${name.await()}")
+                        } else {
+                            offlinePlayer?.sendNameToServer("ClientName")
+                            val pair = async { offlinePlayer?.getSettingFromServer() }
+                            log("Pair ${pair.await()}")
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private suspend fun startGame(ludoGameState: LudoGameState) {
@@ -277,6 +301,33 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    fun isAllPermission(): Boolean {
+        return blueManager.isAllPermissionGranted()
+    }
+
+    fun isBluetoothEnable() = blueManager.isBluetoothEnable()
+
+    fun onServer() {
+        viewModelScope.launch(Dispatchers.IO) {
+            log("start Server")
+            blueManager.onServer()
+        }
+    }
+
+    fun onClient() {
+        log("start Client")
+        blueManager.onClient()
+    }
+    fun onDevice(index: Int) {
+        viewModelScope.launch(Dispatchers.IO) { blueManager.onBlueDevice(index) }
+    }
+    fun setUpBlue() {
+        blueManager.setUp()
+    }
+    fun closeBlue() {
+        blueManager.close()
+    }
+
     private fun onPlayerFinishPlaying() {
         saveData()
     }
@@ -284,8 +335,4 @@ class GameViewModel @Inject constructor(
     companion object {
         const val SHOWDIALOG = "show_dialog"
     }
-
-    val device = blueFlow
-        .discoverDevices()
-        .stateIn(viewModelScope, SharingStarted.Lazily, null)
 }

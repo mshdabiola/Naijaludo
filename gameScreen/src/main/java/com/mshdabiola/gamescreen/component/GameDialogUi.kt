@@ -1,9 +1,10 @@
 package com.mshdabiola.gamescreen.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
@@ -18,6 +20,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,7 +52,9 @@ fun StartDialog(
     showContinueButton: Boolean = true,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
-    onContinueButton: () -> Unit = {}
+    onContinueButton: () -> Unit = {},
+    onJoinClick: () -> Unit = {},
+    onHostClick: () -> Unit = {}
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -86,7 +91,13 @@ fun StartDialog(
                         imageVector = ImageVector.vectorResource(id = R.drawable.computers)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Box(Modifier.weight(1f))
+                    GameCard2(
+                        Modifier.weight(1f),
+                        title = stringResource(id = R.string.blutooth_multi_desc),
+                        onButtonClick = onJoinClick,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.computers),
+                        onButtonClick2 = onHostClick,
+                    )
                 }
             },
             buttons = {
@@ -198,4 +209,156 @@ fun GameCard(
 @Composable
 fun GameCardPreview() {
     GameCard()
+}
+@Composable
+fun GameCard2(
+    modifier: Modifier = Modifier,
+    imageVector: ImageVector = Icons.Default.Settings,
+    title: String = "Vs Computer",
+    buttonText: String = stringResource(id = R.string.join),
+    onButtonClick: () -> Unit = {},
+    buttonText2: String = stringResource(id = R.string.host),
+    onButtonClick2: () -> Unit = {}
+) {
+    Card(modifier = modifier) {
+        Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                modifier = Modifier
+                    .aspectRatio(1f),
+                imageVector = imageVector, contentDescription = null
+            )
+            Text(text = title, style = MaterialTheme.typography.titleSmall)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Button(
+                    onClick = onButtonClick2,
+                    shape = RoundedCornerShape(
+                        topStart = 50f, topEnd = 0f,
+                        bottomStart = 50f, bottomEnd = 0f
+                    ),
+                    contentPadding = PaddingValues(4.dp)
+
+                ) {
+                    Text(text = buttonText2)
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Button(
+                    onClick = onButtonClick,
+                    shape = RoundedCornerShape(
+                        topStart = 0f, topEnd = 50f,
+                        bottomStart = 0f, bottomEnd = 50f
+                    ),
+                    contentPadding = PaddingValues(4.dp)
+
+                ) {
+                    Text(text = buttonText)
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun GameCardPreview2() {
+    GameCard2()
+}
+
+@Composable
+fun GameMultiPlayerWaitingDialog(
+    show: Boolean,
+    isServe: Boolean = true,
+    connected: Boolean = false,
+    onCancelClick: () -> Unit = {}
+
+) {
+    val message = when {
+        isServe && connected -> "Server Connected"
+        !isServe && connected -> "Client Connected"
+        isServe -> "Waiting for Client"
+        else -> "Connecting to server"
+    }
+
+    AnimatedVisibility(visible = show) {
+        DialogUi(
+
+            onDismissRequest = { /*TODO*/ },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            ),
+            content = {
+                CircularProgressIndicator()
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = message)
+            },
+            buttons = {
+                TextButton(onClick = onCancelClick) {
+                    Text(text = "Cancel")
+                }
+            },
+
+            title = { Text(text = stringResource(id = R.string.game_over_dialog_title)) }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun GameMultiPlayerPreview() {
+    GameMultiPlayerWaitingDialog(
+        show = true
+    )
+}
+
+@Composable
+fun GameMultiPlayerListDialog(
+    show: Boolean,
+    deviceList: ImmutableList<String>? = emptyList<String>().toImmutableList(),
+    onDeviceClick: (Int) -> Unit = {},
+    onCancelClick: () -> Unit = {}
+
+) {
+
+    AnimatedVisibility(visible = show) {
+        DialogUi(
+            modifier = Modifier.height(280.dp),
+            onDismissRequest = { /*TODO*/ },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            ),
+            content = {
+                Column() {
+                    deviceList?.let {
+
+                        it.forEachIndexed { index, deviceName ->
+
+                            Text(
+                                text = deviceName,
+                                modifier = Modifier.clickable {
+                                    onDeviceClick(index)
+                                }
+                            )
+                        }
+                    }
+                }
+            },
+            buttons = {
+                TextButton(onClick = onCancelClick, modifier = Modifier.height(16.dp)) {
+                    Text(text = "Cancel")
+                }
+            },
+
+            title = { Text(text = stringResource(id = R.string.game_over_dialog_title)) }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun GameMultiPlayerListPreview() {
+    GameMultiPlayerListDialog(
+        show = true,
+        deviceList = listOf("Tecno", "Infinix").toImmutableList()
+    )
 }

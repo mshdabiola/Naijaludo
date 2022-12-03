@@ -1,5 +1,11 @@
 package com.mshdabiola.gamescreen
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -48,6 +54,8 @@ import com.mshdabiola.gamescreen.component.CounterGroupUi
 import com.mshdabiola.gamescreen.component.CounterGroupUiVertical
 import com.mshdabiola.gamescreen.component.DicesUi
 import com.mshdabiola.gamescreen.component.DrawerUi
+import com.mshdabiola.gamescreen.component.GameMultiPlayerListDialog
+import com.mshdabiola.gamescreen.component.GameMultiPlayerWaitingDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
 import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
@@ -58,8 +66,9 @@ import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.naijaludo.LudoGame
+import kotlinx.collections.immutable.toImmutableList
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
@@ -68,7 +77,12 @@ fun GameScreen(
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
-
+    val blueState by gameScreenViewModel.blueState.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = blueState, block = {
+        if (blueState != null) {
+            log(blueState?.devices?.joinToString() ?: "is null")
+        }
+    })
     val observer = object : DefaultLifecycleObserver {
         override fun onResume(owner: LifecycleOwner) {
             super.onResume(owner)
@@ -104,35 +118,142 @@ fun GameScreen(
             rotateF.snapTo(0f)
     }
 
-    GameScreen(
-        gameUiState = gameUiState,
-        rotateF = rotateF.value,
-        deviceType = deviceType,
-        onYouAndComputer = gameScreenViewModel::onYouAndComputer,
-        onTournament = gameScreenViewModel::onTournament,
-        onContinueClick = gameScreenViewModel::onContinueClick,
-        onRestart = gameScreenViewModel::onRestart,
-        onCounter = gameScreenViewModel::onCounter,
-        onDice = gameScreenViewModel::onDice,
-        onPawn = gameScreenViewModel::onPawn,
-        getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
-        onBack = onBack,
-        onSetMusic = gameScreenViewModel::setMusic,
-        onSetSound = gameScreenViewModel::setSound,
-        onForceRestart = gameScreenViewModel::restartGame
+    var isServe by remember {
+        mutableStateOf(false)
+    }
+
+    val forResult = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = {
+            if (isServe) {
+                // start server
+                gameScreenViewModel.onServer()
+            } else {
+                gameScreenViewModel.onClient()
+            }
+        }
     )
+    val forRequestBlue = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = {
+            if (!gameScreenViewModel.isBluetoothEnable()) {
+                forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+            } else {
+                if (isServe) {
+                    // start server
+                    gameScreenViewModel.onServer()
+                } else {
+                    // start client
+                    gameScreenViewModel.onClient()
+                }
+            }
+        }
+    )
+
+    var showBlueDialog by remember {
+        mutableStateOf(false)
+    }
+    var showDeviceList by remember {
+        mutableStateOf(false)
+    }
+
+    Scaffold { paddingValues ->
+        GameScreen(
+            paddingValues = paddingValues,
+            gameUiState = gameUiState,
+            rotateF = rotateF.value,
+            deviceType = deviceType,
+            onCounter = gameScreenViewModel::onCounter,
+            onDice = gameScreenViewModel::onDice,
+            onPawn = gameScreenViewModel::onPawn,
+            getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
+            onBack = onBack,
+            onSetMusic = gameScreenViewModel::setMusic,
+            onSetSound = gameScreenViewModel::setSound,
+            onForceRestart = gameScreenViewModel::restartGame
+        )
+
+        StartDialog(
+            show = gameUiState.isStartDialogOpen,
+            showContinueButton = gameUiState.showContinueButton,
+            onYouAndComputer = gameScreenViewModel::onYouAndComputer,
+            onTournament = gameScreenViewModel::onTournament,
+            onContinueButton = gameScreenViewModel::onContinueClick,
+            onBackPress = onBack,
+            onJoinClick = {
+                showBlueDialog = false
+                showDeviceList = true
+                gameScreenViewModel.setUpBlue()
+                when {
+                    !gameScreenViewModel.isAllPermission() ->
+                        forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
+
+                    !gameScreenViewModel.isBluetoothEnable() ->
+                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+
+                    else -> {
+                        gameScreenViewModel.onClient()
+                    }
+                }
+            },
+            onHostClick = {
+                isServe = true
+                showBlueDialog = true
+                gameScreenViewModel.setUpBlue()
+                when {
+                    !gameScreenViewModel.isAllPermission() ->
+                        forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
+
+                    !gameScreenViewModel.isBluetoothEnable() ->
+                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+
+                    else -> {
+                        gameScreenViewModel.onServer()
+                    }
+                }
+            }
+        )
+        GameOverDialog(
+            show = gameUiState.isRestartDialogOpen,
+            onRestart = gameScreenViewModel::onRestart,
+            players = gameUiState.ludoGameState.listOfPlayer,
+            onHome = onBack
+        )
+
+        GameMultiPlayerWaitingDialog(
+            show = showBlueDialog,
+            connected = blueState?.connected == true,
+            isServe = blueState?.isServer == true,
+            onCancelClick = {
+                showBlueDialog = false
+                gameScreenViewModel.closeBlue()
+            }
+        )
+
+        GameMultiPlayerListDialog(
+            show = showDeviceList,
+            deviceList = blueState?.devices?.toImmutableList(),
+            onDeviceClick = {
+                showDeviceList = false
+                showBlueDialog = true
+                gameScreenViewModel.onDevice(it)
+            },
+            onCancelClick = {
+                showDeviceList = false
+                gameScreenViewModel.closeBlue()
+            }
+        )
+    }
 }
 
+@SuppressLint("InlinedApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
+    paddingValues: PaddingValues = PaddingValues(8.dp),
     gameUiState: GameUiState,
     rotateF: Float = 0f,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueClick: () -> Unit = {},
-    onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -142,41 +263,30 @@ fun GameScreen(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
+    when (deviceType) {
+        DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
+            gameUiState, rotateF, paddingValues,
+            onDice, onCounter, onPawn, getPositionIntOffset,
+            onBack, onSetMusic, onSetSound, onForceRestart
+        )
 
-    Scaffold { paddingValues ->
-        when (deviceType) {
-            DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
-            )
+        DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
+            gameUiState, rotateF, paddingValues,
+            onDice, onCounter, onPawn, getPositionIntOffset,
+            onBack, onSetMusic, onSetSound, onForceRestart
+        )
 
-            DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
-            )
+        DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
+            gameUiState, rotateF, paddingValues,
+            onDice, onCounter, onPawn, getPositionIntOffset,
+            onBack, onSetMusic, onSetSound, onForceRestart
+        )
 
-            DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
-            )
-
-            else -> GameScreenPhonePortrait(
-                gameUiState, rotateF, paddingValues, onYouAndComputer, onTournament,
-                onContinueClick,
-                onRestart,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
-            )
-        }
+        else -> GameScreenPhonePortrait(
+            gameUiState, rotateF, paddingValues,
+            onDice, onCounter, onPawn, getPositionIntOffset,
+            onBack, onSetMusic, onSetSound, onForceRestart
+        )
     }
 }
 
@@ -185,10 +295,6 @@ fun GameScreenPhonePortrait(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueClick: () -> Unit = {},
-    onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -295,21 +401,6 @@ fun GameScreenPhonePortrait(
             onCounterClick = onCounter
         )
 
-        StartDialog(
-            show = gameUiState.isStartDialogOpen,
-            showContinueButton = gameUiState.showContinueButton,
-            onYouAndComputer = onYouAndComputer,
-            onTournament = onTournament,
-            onContinueButton = onContinueClick,
-            onBackPress = onBack
-        )
-        GameOverDialog(
-            show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart,
-            players = gameUiState.ludoGameState.listOfPlayer,
-            onHome = onBack
-        )
-
         BannerAdmob(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
@@ -324,10 +415,6 @@ fun GameScreenPhoneLand(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueClick: () -> Unit = {},
-    onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -435,25 +522,13 @@ fun GameScreenPhoneLand(
             onCounterClick = onCounter
         )
 
-        StartDialog(
-            show = gameUiState.isStartDialogOpen,
-            showContinueButton = gameUiState.showContinueButton,
-            onYouAndComputer = onYouAndComputer,
-            onTournament = onTournament,
-            onContinueButton = onContinueClick,
-            onBackPress = onBack
-        )
-        GameOverDialog(
-            show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart,
-            players = gameUiState.ludoGameState.listOfPlayer,
-            onHome = onBack
-        )
         BannerAdmob(
-            Modifier.constrainAs(adRef) {
-                linkTo(parent.top, parent.bottom)
-                linkTo(counterRef.end, parent.end)
-            }.rotate(90f)
+            Modifier
+                .constrainAs(adRef) {
+                    linkTo(parent.top, parent.bottom)
+                    linkTo(counterRef.end, parent.end)
+                }
+                .rotate(90f)
         )
     }
 }
@@ -463,10 +538,6 @@ fun GameScreeFoldPortrait(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueClick: () -> Unit = {},
-    onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -571,20 +642,6 @@ fun GameScreeFoldPortrait(
             isFold = true
         )
 
-        StartDialog(
-            show = gameUiState.isStartDialogOpen,
-            showContinueButton = gameUiState.showContinueButton,
-            onYouAndComputer = onYouAndComputer,
-            onTournament = onTournament,
-            onContinueButton = onContinueClick,
-            onBackPress = onBack
-        )
-        GameOverDialog(
-            show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart,
-            players = gameUiState.ludoGameState.listOfPlayer,
-            onHome = onBack
-        )
         BannerAdmob(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
@@ -599,10 +656,6 @@ fun GameScreenLarge(
     gameUiState: GameUiState,
     rotateF: Float = 0f,
     paddingValues: PaddingValues = PaddingValues(),
-    onYouAndComputer: () -> Unit = {},
-    onTournament: () -> Unit = {},
-    onContinueClick: () -> Unit = {},
-    onRestart: () -> Unit = {},
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -715,25 +768,14 @@ fun GameScreenLarge(
         )
         // }
         // }
-        StartDialog(
-            show = gameUiState.isStartDialogOpen,
-            showContinueButton = gameUiState.showContinueButton,
-            onYouAndComputer = onYouAndComputer,
-            onTournament = onTournament,
-            onContinueButton = onContinueClick,
-            onBackPress = onBack
-        )
-        GameOverDialog(
-            show = gameUiState.isRestartDialogOpen,
-            onRestart = onRestart,
-            players = gameUiState.ludoGameState.listOfPlayer,
-            onHome = onBack
-        )
+
         BannerAdmob(
-            Modifier.constrainAs(adRef) {
-                linkTo(parent.top, parent.bottom)
-                centerHorizontallyTo(iconRef)
-            }.rotate(270f)
+            Modifier
+                .constrainAs(adRef) {
+                    linkTo(parent.top, parent.bottom)
+                    centerHorizontallyTo(iconRef)
+                }
+                .rotate(270f)
         )
     }
 }
