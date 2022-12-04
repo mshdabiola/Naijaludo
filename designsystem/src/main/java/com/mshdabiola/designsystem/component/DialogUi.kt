@@ -361,7 +361,7 @@ fun DialogContent(
                     Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(MaterialTheme.colorScheme.background)
-                        .weight(1f, fill = false)
+                        .weight(1f, fill = true)
                         .verticalScroll(state = rememberScrollState(), enabled = enableScroll)
                         // /  .padding(TextPadding)
                         .fillMaxWidth()

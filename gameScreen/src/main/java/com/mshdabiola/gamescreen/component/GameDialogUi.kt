@@ -344,7 +344,7 @@ fun GameMultiPlayerListDialog(
                 }
             },
             buttons = {
-                TextButton(onClick = onCancelClick, modifier = Modifier.height(16.dp)) {
+                TextButton(onClick = onCancelClick) {
                     Text(text = "Cancel")
                 }
             },
@@ -359,6 +359,6 @@ fun GameMultiPlayerListDialog(
 fun GameMultiPlayerListPreview() {
     GameMultiPlayerListDialog(
         show = true,
-        deviceList = listOf("Tecno", "Infinix").toImmutableList()
+        deviceList = listOf("Tecno", "Infinix", "oppo").toImmutableList()
     )
 }

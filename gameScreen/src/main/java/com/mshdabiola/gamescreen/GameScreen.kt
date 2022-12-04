@@ -123,9 +123,9 @@ fun GameScreen(
         onResult = {
             if (blueState?.isServer == true) {
                 // start server
-                gameScreenViewModel.onHost()
+                gameScreenViewModel.onServer()
             } else {
-                gameScreenViewModel.onJoin()
+                gameScreenViewModel.onClient()
             }
         }
     )
@@ -138,10 +138,10 @@ fun GameScreen(
             } else {
                 if (blueState?.isServer == true) {
                     // start server
-                    gameScreenViewModel.onHost()
+                    gameScreenViewModel.onServer()
                 } else {
                     // start client
-                    gameScreenViewModel.onJoin()
+                    gameScreenViewModel.onClient()
                 }
             }
         }
@@ -175,8 +175,8 @@ fun GameScreen(
             onJoinClick = {
 //                showBlueDialog = false
 //                showDeviceList = true
-//                gameScreenViewModel.setUpBlue()
-                gameScreenViewModel.setIsServer(false)
+                gameScreenViewModel.onJoin()
+
                 when {
                     !gameScreenViewModel.isAllPermission() ->
                         forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
@@ -185,15 +185,15 @@ fun GameScreen(
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
 
                     else -> {
-                        gameScreenViewModel.onJoin()
+                        gameScreenViewModel.onClient()
                     }
                 }
             },
             onHostClick = {
 //                isServe = true
 //                showBlueDialog = true
-//                gameScreenViewModel.setUpBlue()
-                gameScreenViewModel.setIsServer(true)
+                gameScreenViewModel.onHost()
+
                 when {
                     !gameScreenViewModel.isAllPermission() ->
                         forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
@@ -202,7 +202,7 @@ fun GameScreen(
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
 
                     else -> {
-                        gameScreenViewModel.onHost()
+                        gameScreenViewModel.onServer()
                     }
                 }
             }

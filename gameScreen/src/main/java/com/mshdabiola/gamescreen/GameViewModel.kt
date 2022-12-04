@@ -15,14 +15,17 @@ import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.ludo.model.Constant.getDefaultGameState
 import com.mshdabiola.ludo.model.Constant.getDefaultPawns
 import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.multiplayerblue.Manager
 import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -30,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -136,23 +140,35 @@ class GameViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            blueManager.state.collect { managerState ->
-                if (managerState?.connected == true) {
-                    blueManager.bluetoothSocket?.let {
-                        // offlinePlayer = OfflinePlayer(it.inputStream, it.outputStream)
+            blueManager.state
+                .map { it?.connected == true }
+                .distinctUntilChanged { old, new -> old == new }
+                .collect { isConnected ->
+                    if (isConnected) {
+                        blueManager.bluetoothSocket?.let {
+                            // offlinePlayer = OfflinePlayer(it.inputStream, it.outputStream)
 
-                        if (managerState.isServer) {
-                            OfflinePlayer.sendString("4,abiola", it.outputStream)
-                            val name = async { OfflinePlayer.getString(it.inputStream) }
-                            log("Name ${name.await()}")
-                        } else {
-                            OfflinePlayer.sendString("ClientName", it.outputStream)
-                            val string = async { OfflinePlayer.getString(it.inputStream) }
-                            log("Pair ${string.await()}")
+                            if (blueManager.state.value?.isServer == true) {
+                                sendString(
+                                    "setting,${ludoSetting.numberOfPawn}," +
+                                        profName[0]
+                                )
+                            } else {
+                                sendString("client_name,${profName[0]}")
+                            }
+                            launch(Dispatchers.IO) {
+                                blueManager
+                                    .readByteArrayStream(it.inputStream)
+                                    .catch {
+                                        onErrorOccurBluetooth(it)
+                                    }
+                                    .collect {
+                                        onRemoteClick(it.toString(Charsets.UTF_8))
+                                    }
+                            }
                         }
                     }
                 }
-            }
         }
     }
 
@@ -208,6 +224,7 @@ class GameViewModel @Inject constructor(
         }
         deleteData()
     }
+
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
@@ -221,6 +238,7 @@ class GameViewModel @Inject constructor(
         }
         deleteData()
     }
+
     fun onContinueClick() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         savedStateHandle[SHOWDIALOG] = false
@@ -233,8 +251,7 @@ class GameViewModel @Inject constructor(
                 isStartDialogOpen = false,
                 isDeviceDialogOpen = true
             )
-        setUpBlue()
-        onClient()
+        setUpBlue(false)
     }
 
     fun onHost() {
@@ -243,8 +260,7 @@ class GameViewModel @Inject constructor(
                 isStartDialogOpen = false,
                 isWaitingDialogOpen = true
             )
-        setUpBlue()
-        onServer()
+        setUpBlue(true)
     }
 
     fun onCancelBlueDialog() {
@@ -300,23 +316,119 @@ class GameViewModel @Inject constructor(
             val intArray = game.onDice()
 
             intArray?.let {
-                game.sendDiceToRemote(it[0], it[2])
+                sendString("dice,${it[0]},${it[2]}")
             }
         }
     }
 
     fun onCounter(counterId: Int) {
         game.onCounter(counterId)
-        viewModelScope.launch {
-            game.sendCounterToRemote(counterId)
-        }
+        sendString("counter,$counterId")
     }
 
     fun onPawn(index: Int, isDrawer: Boolean = false) {
         game.onPawn(index, isDrawer)
         if (!isDrawer) {
-            viewModelScope.launch {
-                game.sendPawnToRemote(index)
+            sendString("pawn,$index")
+        }
+    }
+
+    fun onRemoteClick(str: String) {
+        when {
+            str.contains("setting") -> {
+                val input = str.split(",")
+                log("setting is $str")
+                onLineClientGame(input[2], input[1].toInt())
+            }
+
+            str.contains("client_name") -> {
+                val input = str.split(",")
+                log("client name is $str")
+                onLineServerGame(input[1])
+            }
+
+            str.contains("dice") -> {
+                val input = str.split(",")
+                log("dice is $str")
+                viewModelScope.launch {
+                    game.onDice(intArrayOf(input[1].toInt(), 0, input[2].toInt()))
+                }
+            }
+
+            str.contains("pawn") -> {
+                val input = str.split(",")
+                log("pawn is $str")
+                game.onPawn(input[1].toInt(), false)
+            }
+
+            str.contains("counter") -> {
+                val input = str.split(",")
+                log("counter is $str")
+                game.onCounter(input[1].toInt())
+            }
+
+            else -> {
+                log("else $str")
+            }
+        }
+    }
+
+    fun onLineServerGame(name: String) {
+        _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
+        viewModelScope.launch(Dispatchers.Default) {
+            blueManager.bluetoothSocket?.let {
+
+                val player = listOf(
+                    OfflinePlayer(
+                        name = name.ifBlank { "Offline" },
+                        iconIndex = 4,
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3])
+                    ),
+                    HumanPlayer(
+                        name = profName[0],
+                        isCurrent = true,
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                        iconIndex = 6
+                    )
+                )
+
+                startGame(
+                    getDefaultGameState(
+                        numberOfPlayer = 2,
+                        numberOfPawn = ludoSetting.numberOfPawn,
+                        playerNames = profName
+                    ).copy(listOfPlayer = player, gameType = GameType.REMOTE)
+                )
+            }
+        }
+    }
+
+    fun onLineClientGame(name: String, pawnSize: Int) {
+        _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
+        viewModelScope.launch(Dispatchers.Default) {
+            blueManager.bluetoothSocket?.let {
+
+                val player = listOf(
+                    OfflinePlayer(
+                        name = name.ifBlank { "Offline" },
+                        iconIndex = 4,
+                        isCurrent = true,
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1])
+                    ),
+                    HumanPlayer(
+                        name = profName[0],
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                        iconIndex = 6
+                    )
+                )
+
+                startGame(
+                    getDefaultGameState(
+                        numberOfPlayer = 2,
+                        numberOfPawn = pawnSize,
+                        playerNames = profName
+                    ).copy(listOfPlayer = player, gameType = GameType.REMOTE)
+                )
             }
         }
     }
@@ -376,14 +488,14 @@ class GameViewModel @Inject constructor(
 
     fun isBluetoothEnable() = blueManager.isBluetoothEnable()
 
-    private fun onServer() {
+    fun onServer() {
         viewModelScope.launch(Dispatchers.IO) {
             log("start Server")
             blueManager.onServer()
         }
     }
 
-    private fun onClient() {
+    fun onClient() {
         log("start Client")
         blueManager.onClient()
     }
@@ -392,19 +504,41 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) { blueManager.onBlueDevice(index) }
     }
 
-    private fun setUpBlue() {
-        blueManager.setUp()
+    private fun setUpBlue(isServer: Boolean) {
+        blueManager.setUp(isServer)
     }
 
     fun closeBlue() {
         blueManager.close()
     }
 
-    fun setIsServer(isServer: Boolean) {
-        blueManager.setIsServer(isServer)
+    fun onErrorOccurBluetooth(throwable: Throwable) {
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = true)
+        throwable.printStackTrace()
+        blueManager.close()
+    }
+
+    fun sendString(str: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                blueManager.bluetoothSocket?.let {
+                    val out = str.toByteArray(Charsets.UTF_8)
+                    it.outputStream.write(out)
+                    it.outputStream.flush()
+                    log("send successful")
+                }
+            } catch (exception: IOException) {
+                onErrorOccurBluetooth(exception)
+            }
+        }
     }
 
     companion object {
         const val SHOWDIALOG = "show_dialog"
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        closeBlue()
     }
 }

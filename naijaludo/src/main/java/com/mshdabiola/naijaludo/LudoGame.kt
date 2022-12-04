@@ -5,6 +5,7 @@ import com.mshdabiola.ludo.model.Constant
 import com.mshdabiola.ludo.model.Constant.getDiceBox
 import com.mshdabiola.ludo.model.Drawer
 import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.Pawn
@@ -12,9 +13,7 @@ import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.SoundInterface
 import com.mshdabiola.ludo.model.log
 import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.LocalPlayer
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
-import com.mshdabiola.ludo.model.player.RemotePlayer
 import java.util.Collections
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,6 +57,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         },
         onGameFinish: () -> Unit,
         onPlayerFinishPlaying: () -> Unit = {}
+        // gameType: GameType = GameType.COMPUTER
     ) {
 
         log("start")
@@ -91,7 +91,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 listOfDice = defaultState.listOfDice,
                 rotate = ludoSetting.rotateBoard,
                 isHumanPlayer = isHumanPlayer,
-                board = Board(colors = colors, boardType = ludoSetting.boardType)
+                board = Board(colors = colors, boardType = ludoSetting.boardType),
+                gameType = defaultState.gameType
 
             )
         )
@@ -121,12 +122,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         players.forEachIndexed { index, player ->
             val next = (index + 1) % size
             val nextPlayer = mutableList[next]
-            mutableList[next] =
-                when (nextPlayer) {
-                    is RemotePlayer -> nextPlayer.copyPlayer(colors = player.colors)
-                    is LocalPlayer -> nextPlayer.copyPlayer(colors = player.colors)
-                    else -> throw Exception("Not player")
-                }
+            mutableList[next] = nextPlayer.copyPlayer(colors = player.colors)
         }
 
         val pawns = Constant.getDefaultPawns(ludoSetting.numberOfPawn)
@@ -141,6 +137,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         start(state, ludoSetting, isGameFinish, onGameFinish)
     }
 
+    // disable for remote game
     suspend fun resign() {
         log("resign")
         // swap color
@@ -150,12 +147,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         players.forEachIndexed { index, player ->
 
             val noOfWin = if (player is HumanPlayer) player.win else player.win.inc()
-            mutableList[index] =
-                when (player) {
-                    is RemotePlayer -> player.copyPlayer(win = noOfWin)
-                    is LocalPlayer -> player.copyPlayer(win = noOfWin)
-                    else -> throw Exception("Not player")
-                }
+            mutableList[index] = player.copyPlayer(win = noOfWin)
+
             // player.copyPlayer(win = noOfWin)
         }
 
@@ -183,8 +176,10 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             .onEach { delay(computerDelay) }
             .buffer()
             .collect {
-
-                onComputer(it)
+                when (getGameState().gameType) {
+                    GameType.COMPUTER -> onComputer(it)
+                    else -> {}
+                }
             }
     }
 
@@ -245,98 +240,6 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             onPawn(pawnId, false)
         }
     }
-
-    // Offline logic
-    private suspend fun onOffline(ludoGameState: LudoGameState) {
-
-        log("onGameStateChange $ludoGameState")
-
-//        val isHuman = gameUiState.ludoGameState.listOfPlayer.single { it.isCurrent } is HumanPlayer
-        if (ludoGameState.isOnResume && ludoGameState.start) {
-            when {
-                ludoGameState.listOfDice.first().isEnable -> {
-                    onOfflineRoll()
-                }
-
-                ludoGameState.listOfCounter.any { it.isEnable } -> {
-                    onOfflineCounter()
-                }
-
-                ludoGameState.listOfPawn.any { it.isEnable } -> {
-                    onOfflinePawn()
-                }
-            }
-        }
-    }
-
-    private suspend fun onOfflineRoll() {
-        val currentPlayer = getGameState().listOfPlayer.single { it.isCurrent }
-        if (currentPlayer is OfflinePlayer) {
-
-            //  log("OnComputerRoll $currentPlayer $ludoGameState")
-            val pair = currentPlayer.getDice()
-
-            onDice(intArrayOf(pair.first, 0, pair.second))
-        }
-    }
-
-    private suspend fun onOfflineCounter() {
-        val currentPlayer = getGameState().listOfPlayer.single { it.isCurrent }
-        if (currentPlayer is OfflinePlayer) {
-
-            //  log("onComputerCounter $currentPlayer $ludoGameState")
-            val counterId = currentPlayer.getCounter()
-
-            onCounter(counterId)
-        }
-    }
-
-    private suspend fun onOfflinePawn() {
-        val currentPlayer = getGameState().listOfPlayer.single { it.isCurrent }
-        if (currentPlayer is OfflinePlayer) {
-
-            val pawnId = currentPlayer.getPawn()
-
-            log("onComputerPawn $currentPlayer $pawnId")
-            onPawn(pawnId, false)
-        }
-    }
-
-    suspend fun sendDiceToRemote(dice1: Int, dice2: Int) {
-        if (isRemoteGame()) {
-            getAllRemotePlayer().forEach {
-                it.sendDice(dice1, dice2)
-            }
-        }
-    }
-
-    suspend fun sendCounterToRemote(counterId: Int) {
-        if (isRemoteGame()) {
-            getAllRemotePlayer().forEach {
-                it.sendCounter(counterId)
-            }
-        }
-    }
-
-    suspend fun sendPawnToRemote(pawnIndex: Int) {
-        if (isRemoteGame()) {
-            getAllRemotePlayer().forEach {
-                it.sendPawn(pawnIndex)
-            }
-        }
-    }
-
-    private fun getAllRemotePlayer(): List<RemotePlayer> {
-        return getGameState().listOfCounter.filterIsInstance<RemotePlayer>()
-    }
-
-    private fun isRemoteGame() = getAllRemotePlayer().isNotEmpty()
-    private fun getAllComputerPlayer(): List<RandomComputerPlayer> {
-        return getGameState().listOfCounter.filterIsInstance<RandomComputerPlayer>()
-    }
-
-    private fun isLocalGame() = getAllComputerPlayer().isNotEmpty()
-    // on ludo click function
 
     suspend fun onDice(dices: IntArray? = null): IntArray? {
         if (getGameState().isOnResume && getGameState().start) {
@@ -684,12 +587,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             val indexOfPlayer = players.indexOfFirst { it.isCurrent }
             // if (players[indexOfPlayer] is HumanPlayer) {
             val p = players[indexOfPlayer]
-            players[indexOfPlayer] =
-                when (p) {
-                    is RemotePlayer -> p.copyPlayer(win = p.win + 1)
-                    is LocalPlayer -> p.copyPlayer(win = p.win + 1)
-                    else -> throw Exception("Not player")
-                }
+            players[indexOfPlayer] = p.copyPlayer(win = p.win + 1)
+
             // p.copyPlayer(win = p.win + 1)
             if (p is HumanPlayer) soundInterface?.onWin() else soundInterface?.onLost()
 
@@ -756,20 +655,12 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         repeat(listOfPlayer.size) {
 
             val player = listOfPlayer[it]
-            listOfPlayer[it] = when (player) {
-                is RemotePlayer -> player.copyPlayer(isCurrent = false)
-                is LocalPlayer -> player.copyPlayer(isCurrent = false)
-                else -> throw Exception("Not player")
-            }
+            listOfPlayer[it] = player.copyPlayer(isCurrent = false)
         }
 
         val isHuman = listOfPlayer[newCurrent] is HumanPlayer
         val player = listOfPlayer[newCurrent]
-        listOfPlayer[newCurrent] = when (player) {
-            is RemotePlayer -> player.copyPlayer(isCurrent = true)
-            is LocalPlayer -> player.copyPlayer(isCurrent = true)
-            else -> throw Exception("Not player")
-        }
+        listOfPlayer[newCurrent] = player.copyPlayer(isCurrent = true)
 
         // enable dice
 
