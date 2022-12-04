@@ -6,7 +6,7 @@ import com.mshdabiola.ludo.model.Pawn
 
 @Entity(tableName = "pawn_table", primaryKeys = ["id", "gameId"])
 data class PawnEntity(
-    val id: Int = 0, // index is the id
+    val id: Int = 0,
     val gameId: Long,
     val currentPos: Int,
     val playerId: Int
@@ -20,7 +20,7 @@ fun Pawn.toPawnEntity(
     playerId: Int,
     gameId: Long
 ) = PawnEntity(
-    this.index, gameId,
+    this.idx, gameId,
     currentPos, playerId
 )
 

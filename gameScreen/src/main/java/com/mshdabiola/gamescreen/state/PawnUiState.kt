@@ -4,7 +4,7 @@ import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Pawn
 
 data class PawnUiState(
-    val index: Int = 0,
+    val idx: Int = 0,
     val currentPos: Int = 0,
     val color: GameColor = GameColor.RED,
     val isEnable: Boolean = false,
@@ -12,6 +12,6 @@ data class PawnUiState(
 )
 
 fun Pawn.toPawnUiState() =
-    PawnUiState(index, currentPos, color, isEnable, zIndex)
+    PawnUiState(idx, currentPos, color, isEnable, zIndex)
 
 fun PawnUiState.showText() = zIndex.toInt() > 1 && currentPos < 56

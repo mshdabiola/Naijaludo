@@ -7,7 +7,7 @@ data class LudoGameState(
     val listOfDice: List<Dice> = emptyList(),
     val listOfPawn: List<Pawn> = emptyList(),
     val listOfCounter: List<Counter> = emptyList(),
-    val drawer: Drawer? = null,
+    val listOfPawnDrawer: List<Pawn>? = null,
     val board: Board = Board(),
     val pressedCounterId: Int = 0,
     val isOnResume: Boolean = false,

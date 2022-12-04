@@ -3,7 +3,6 @@ package com.mshdabiola.naijaludo
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.Constant
 import com.mshdabiola.ludo.model.Constant.getDiceBox
-import com.mshdabiola.ludo.model.Drawer
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.LudoGameState
@@ -383,8 +382,9 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                     )
                 )
                 val pawn = allPawnsMutableList.first { it == allMovablePawns.first() }
-                log("assist $pawn ${pawn.id}")
-                onPawnNormal(pawn.index)
+                log("assist $pawn ${pawn.indexx}")
+                val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == pawn.idx }
+                onPawnNormal(pawnIndex)
             } else {
 
                 repeat(allPawnsMutableList.size) {
@@ -410,8 +410,9 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     // on pawn 2
-    private fun onPawnDrawer(index: Int) {
-        val pawn = getGameState().drawer!!.pawns[index]
+    private fun onPawnDrawer(idx: Int) {
+        log("colorId is $idx ${getGameState().listOfPawnDrawer}")
+        val pawn = getGameState().listOfPawnDrawer!!.single { it.idx == idx }
         val selectedPawn = getCurrentPlayerPawns()
             .filter {
                 getPawnBox(it) == getPawnBox(pawn) &&
@@ -420,20 +421,22 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             }
             .maxBy { it.zIndex }
 
-        setGameState(getGameState().copy(drawer = null))
-        onPawnLogic(selectedPawn.index)
+        setGameState(getGameState().copy(listOfPawnDrawer = null))
+        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == selectedPawn.idx }
+        onPawnLogic(pawnIndex)
     }
 
     // on pawn 1
-    fun onPawn(index: Int, isDrawer: Boolean) {
+    fun onPawn(id: Int, isDrawer: Boolean) {
 
         if (isDrawer) {
-            onPawnDrawer(index)
+            onPawnDrawer(id)
         } else {
-            if (getGameState().drawer != null) {
-                setGameState(getGameState().copy(drawer = null))
+            if (getGameState().listOfPawnDrawer != null) {
+                setGameState(getGameState().copy(listOfPawnDrawer = null))
             }
-            onPawnNormal(index)
+            val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == id }
+            onPawnNormal(pawnIndex)
         }
     }
 
@@ -451,16 +454,15 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             // different color
             if (sameColor.size > 1 && getGameState().isHumanPlayer) {
                 // show drawer
-                val pawns = sameColor
+                val drawerPawns = sameColor
                     .map { it.copy(isEnable = true, zIndex = 1f) }
 
-                val drawer = Drawer(pawns)
-
-                setGameState(getGameState().copy(drawer = drawer))
+                setGameState(getGameState().copy(listOfPawnDrawer = drawerPawns))
             } else {
                 // same color, select upper pawn
                 val upperPawn = pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
-                onPawnLogic(upperPawn.index)
+                val upperIndex = getGameState().listOfPawn.indexOfFirst { it.idx == upperPawn.idx }
+                onPawnLogic(upperIndex)
             }
         } else {
             onPawnLogic(pawnIndex)
@@ -700,7 +702,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         pawnList[originalIndex] =
             originalPawn.copy(currentPos = 56, zIndex = zIndex.toFloat())
-        pawnList[index] = pawn.copy(currentPos = pawn.id * -1, zIndex = 1f)
+        pawnList[index] = pawn.copy(currentPos = pawn.indexx * -1, zIndex = 1f)
 
         setGameState(getGameState().copy(listOfPawn = pawnList))
     }

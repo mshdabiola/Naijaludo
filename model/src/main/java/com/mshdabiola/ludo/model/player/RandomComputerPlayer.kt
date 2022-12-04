@@ -131,7 +131,7 @@ data class RandomComputerPlayer(
 
             if (currentPawnPoss in pawnIntArray) {
 
-                return it.index
+                return it.idx
             }
         }
 
@@ -157,7 +157,7 @@ data class RandomComputerPlayer(
                 }
                 .sortedBy { -it.second }
 
-            return sortedHomePawn.first().first.index
+            return sortedHomePawn.first().first.idx
         }
 
         val sortedMap = enablePawn
@@ -180,14 +180,14 @@ data class RandomComputerPlayer(
         log(
             "sorted by risk ${
             sortedMap.joinToString {
-                "${it.first.id}-${it.first.color}" +
+                "${it.first.idx}-${it.first.color}" +
                     "  ${it.second}"
             }
             }"
         )
 
         // move
-        return sortedMap.first().first.index
+        return sortedMap.first().first.idx
     }
 
     private fun getPawnPoint(
