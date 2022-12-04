@@ -25,6 +25,7 @@ import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.DataOutputStream
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -77,17 +78,6 @@ class GameViewModel @Inject constructor(
     lateinit var ludoSetting: LudoSetting
 
     init {
-        // react to ludoGame change
-//        viewModelScope.launch {
-//            game
-//                .gameState
-//                .distinctUntilChanged { old, new -> old == new }
-//                .collect { ludoGameState ->
-//                    _gameUiState.value =
-//                        gameUiState.value.copy(ludoGameState = ludoGameState.toLudoUiState())
-//                }
-//        }
-
         // react to gameuistate change for computer and remote
         viewModelScope.launch {
             game.onStateChange()
@@ -163,7 +153,7 @@ class GameViewModel @Inject constructor(
                                         onErrorOccurBluetooth(it)
                                     }
                                     .collect {
-                                        onRemoteClick(it.toString(Charsets.UTF_8))
+                                        onRemoteClick(it)
                                     }
                             }
                         }
@@ -328,9 +318,8 @@ class GameViewModel @Inject constructor(
 
     fun onPawn(index: Int, isDrawer: Boolean = false) {
         game.onPawn(index, isDrawer)
-        if (!isDrawer) {
-            sendString("pawn,$index")
-        }
+        val int = if (isDrawer)1 else 0
+        sendString("pawn,$index,$int")
     }
 
     fun onRemoteClick(str: String) {
@@ -358,7 +347,7 @@ class GameViewModel @Inject constructor(
             str.contains("pawn") -> {
                 val input = str.split(",")
                 log("pawn is $str")
-                game.onPawn(input[1].toInt(), false)
+                game.onPawn(input[1].toInt(), input[2].toInt() == 1)
             }
 
             str.contains("counter") -> {
@@ -522,9 +511,11 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 blueManager.bluetoothSocket?.let {
-                    val out = str.toByteArray(Charsets.UTF_8)
-                    it.outputStream.write(out)
-                    it.outputStream.flush()
+
+                    DataOutputStream(it.outputStream).apply {
+                        writeUTF(str)
+                        flush()
+                    }
                     log("send successful")
                 }
             } catch (exception: IOException) {

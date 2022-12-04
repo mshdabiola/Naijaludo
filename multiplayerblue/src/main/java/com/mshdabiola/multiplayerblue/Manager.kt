@@ -15,6 +15,7 @@ import android.os.Build
 import android.util.Log
 import com.mshdabiola.ludo.model.log
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.DataInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.UUID
@@ -36,8 +37,8 @@ class Manager
     var bluetoothAdapter: BluetoothAdapter? = null
     var bluetoothSocket: BluetoothSocket? = null
 
-    val serverUUId = UUID.fromString("2ab96c10-fc98-4e78-88cd-4572b747d420")
-    val serviceName = "manager"
+    private val serverUUId: UUID = UUID.fromString("2ab96c10-fc98-4e78-88cd-4572b747d420")
+    private val serviceName = "manager"
 
     val state = MutableStateFlow<ManagerState?>(null)
 
@@ -50,23 +51,29 @@ class Manager
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.let {
-                    val status = it.getIntExtra(
-                        BluetoothAdapter.EXTRA_CONNECTION_STATE,
-                        BluetoothAdapter.STATE_DISCONNECTED
-                    )
-                    val previousStatus = it.getIntExtra(
-                        BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE,
-                        BluetoothAdapter.STATE_DISCONNECTED
-                    )
+                    log("action is ${it.action}")
+                    when {
+                        it.action == BluetoothDevice.ACTION_ACL_CONNECTED -> {
 
-                    log("blue connected")
+                            // connection?.onConnect()
+                        }
+                        it.action == BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
+
+                            // connection?.onDisconnect()
+                            // close()
+                        }
+
+                        else -> {}
+                    }
                 }
                 log("on receive")
             }
         }
 
         val filter = IntentFilter().apply {
-            addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
+            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+            addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+            addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)
         }
         context.registerReceiver(receiver, filter)
         bluetoothAdapter = (
@@ -174,45 +181,30 @@ class Manager
     fun readByteArrayStream(
         inputStream: InputStream,
         delayMillis: Long = 1000,
-        minExpectedBytes: Int = 2,
-        bufferCapacity: Int = 1024,
-        readInterceptor: (ByteArray) -> ByteArray? = { it }
-    ): Flow<ByteArray> = channelFlow {
+    ): Flow<String> = channelFlow {
 
 //        if (inputStream == null) {
 //            throw NullPointerException("inputStream is null. Perhaps bluetoothSocket is also null")
 //        }
-        val buffer = ByteArray(bufferCapacity)
-        val byteAccumulatorList = mutableListOf<Byte>()
+//        val buffer = ByteArray(bufferCapacity)
+//        val byteAccumulatorList = mutableListOf<Byte>()
         while (isActive) {
             try {
-                if (inputStream.available() < minExpectedBytes) {
-                    delay(delayMillis)
-                    continue
+                delay(delayMillis)
+
+                val numBytes = DataInputStream(inputStream).readUTF()
+
+                if (!numBytes.isNullOrBlank()) {
+                    this.trySend(numBytes).isSuccess
                 }
-                val numBytes = inputStream.read(buffer)
-                val readBytes = buffer.trim(numBytes)
-                if (byteAccumulatorList.size >= bufferCapacity)
-                    byteAccumulatorList.clear()
 
-                byteAccumulatorList.addAll(readBytes.toList())
-                val interceptor = readInterceptor(byteAccumulatorList.toByteArray())
-
-                if (interceptor == null)
-                    delay(delayMillis)
-
-                interceptor?.let {
-                    this.trySend(it).isSuccess
-//                    offer(it)
-                    byteAccumulatorList.clear()
-                }
+//
             } catch (e: IOException) {
-                byteAccumulatorList.clear()
+
                 close()
                 error("Couldn't read bytes from flow. Disconnected")
             } finally {
                 if (bluetoothSocket?.isConnected != true) {
-                    byteAccumulatorList.clear()
                     close()
                     break
                 }
@@ -230,4 +222,9 @@ fun ByteArray.trim(size: Int): ByteArray {
     val data = ByteArray(size)
     System.arraycopy(this, 0, data, 0, size)
     return data
+}
+
+interface Connection {
+    fun onConnect()
+    fun onDisconnect()
 }
