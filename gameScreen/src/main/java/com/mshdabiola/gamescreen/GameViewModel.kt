@@ -277,6 +277,7 @@ class GameViewModel @Inject constructor(
     fun onResume() {
         soundSystem.resume()
         game.resume()
+        blueManager.onResume()
     }
 
     fun onPause() {
@@ -501,6 +502,9 @@ class GameViewModel @Inject constructor(
         blueManager.close()
     }
 
+    fun onPairDevice() {
+        blueManager.onPairNewDevice()
+    }
     fun onErrorOccurBluetooth(throwable: Throwable) {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = true)
         throwable.printStackTrace()

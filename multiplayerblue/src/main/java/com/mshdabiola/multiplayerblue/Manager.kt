@@ -46,6 +46,8 @@ class Manager
 
     var receiver: BroadcastReceiver? = null
 
+    var waitingForDevice = false
+
     fun setUp(isServer: Boolean) {
         setLog("setup")
         receiver = object : BroadcastReceiver() {
@@ -177,6 +179,18 @@ class Manager
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private fun checkPermission(permission: String): Boolean {
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun onPairNewDevice() {
+        waitingForDevice = true
+    }
+
+    fun onResume() {
+        if (waitingForDevice) {
+            waitingForDevice = false
+            getAppDevice()
+            log("reload device")
+        }
     }
 
     fun readByteArrayStream(
