@@ -410,9 +410,11 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     // on pawn 2
-    private fun onPawnDrawer(idx: Int) {
-        log("colorId is $idx ${getGameState().listOfPawnDrawer}")
-        val pawn = getGameState().listOfPawnDrawer!!.single { it.idx == idx }
+    private fun onPawnDrawer(pawwnIndx: Int) {
+        // Todo("bug is here list pawn is null for offline")
+        log("colorId is $pawwnIndx ${getGameState().listOfPawnDrawer}")
+        val pawn = getGameState().listOfPawn[pawwnIndx]
+        // listOfPawnDrawer!!.single { it.idx == idx }
         val selectedPawn = getCurrentPlayerPawns()
             .filter {
                 getPawnBox(it) == getPawnBox(pawn) &&
@@ -429,13 +431,14 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
     // on pawn 1
     fun onPawn(id: Int, isDrawer: Boolean) {
 
+        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == id }
         if (isDrawer) {
             onPawnDrawer(id)
         } else {
             if (getGameState().listOfPawnDrawer != null) {
                 setGameState(getGameState().copy(listOfPawnDrawer = null))
             }
-            val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == id }
+
             onPawnNormal(pawnIndex)
         }
     }
@@ -458,6 +461,10 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                     .map { it.copy(isEnable = true, zIndex = 1f) }
 
                 setGameState(getGameState().copy(listOfPawnDrawer = drawerPawns))
+            } else if (sameColor.size > 1 &&
+                getGameState().listOfPlayer.single { it.isCurrent } is OfflinePlayer
+            ) {
+                log("it is offline do noting")
             } else {
                 // same color, select upper pawn
                 val upperPawn = pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
