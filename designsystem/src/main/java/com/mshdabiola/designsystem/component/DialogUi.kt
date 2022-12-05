@@ -52,8 +52,7 @@ fun DialogUi(
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
-    properties: DialogProperties = DialogProperties(),
-    enableScroll: Boolean = true
+    properties: DialogProperties = DialogProperties()
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -67,8 +66,7 @@ fun DialogUi(
             content = content,
             shape = shape,
             containerColor = containerColor,
-            tonalElevation = tonalElevation,
-            enableScroll = enableScroll
+            tonalElevation = tonalElevation
         )
     }
 }
@@ -297,8 +295,7 @@ fun DialogContent(
     content: (@Composable ColumnScope.() -> Unit)?,
     shape: Shape,
     containerColor: Color,
-    tonalElevation: Dp,
-    enableScroll: Boolean
+    tonalElevation: Dp
 ) {
 
     Surface(
@@ -360,15 +357,9 @@ fun DialogContent(
                 Column(
                     Modifier
                         .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.background)
                         .weight(1f, fill = true)
-                        .verticalScroll(state = rememberScrollState(), enabled = enableScroll)
-                        // /  .padding(TextPadding)
                         .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-
+                        .padding(bottom = 8.dp)
                 ) {
                     content()
                 }

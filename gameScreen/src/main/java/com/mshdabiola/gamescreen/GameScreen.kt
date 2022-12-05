@@ -225,7 +225,8 @@ fun GameScreen(
             show = gameUiState.isDeviceDialogOpen,
             deviceList = blueState?.devices?.toImmutableList(),
             onDeviceClick = gameScreenViewModel::onDeviceClick,
-            onCancelClick = gameScreenViewModel::onCancelBlueDialog
+            onCancelClick = gameScreenViewModel::onCancelBlueDialog,
+            onPairNewDevice = gameScreenViewModel::onPairDevice
         )
     }
 }

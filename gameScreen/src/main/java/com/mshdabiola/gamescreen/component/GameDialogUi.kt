@@ -1,5 +1,7 @@
 package com.mshdabiola.gamescreen.component
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,11 +10,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
@@ -21,6 +29,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,42 +72,48 @@ fun StartDialog(
             onDismissRequest = { },
             content = {
 
-                Row(Modifier.fillMaxWidth()) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Row(Modifier.fillMaxWidth()) {
 
-                    GameCard(
-                        Modifier.weight(1f),
-                        title = stringResource(id = R.string.continue_detail),
-                        buttonText = stringResource(id = R.string.continue_btn),
-                        buttonEnable = showContinueButton,
-                        onButtonClick = onContinueButton,
-                        imageVector = ImageVector
-                            .vectorResource(id = R.drawable.resource_continue)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
+                        GameCard(
+                            Modifier.weight(1f),
+                            title = stringResource(id = R.string.continue_detail),
+                            buttonText = stringResource(id = R.string.continue_btn),
+                            buttonEnable = showContinueButton,
+                            onButtonClick = onContinueButton,
+                            imageVector = ImageVector
+                                .vectorResource(id = R.drawable.resource_continue)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
 
-                    GameCard(
-                        Modifier.weight(1f),
-                        title = stringResource(id = R.string.vs_one_comp_detail),
-                        onButtonClick = onYouAndComputer,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.computer)
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(Modifier.fillMaxWidth()) {
-                    GameCard(
-                        Modifier.weight(1f),
-                        title = stringResource(id = R.string.vs_many_comp_detail),
-                        onButtonClick = onTournament,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.computers)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    GameCard2(
-                        Modifier.weight(1f),
-                        title = stringResource(id = R.string.blutooth_multi_desc),
-                        onButtonClick = onJoinClick,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.computers),
-                        onButtonClick2 = onHostClick,
-                    )
+                        GameCard(
+                            Modifier.weight(1f),
+                            title = stringResource(id = R.string.vs_one_comp_detail),
+                            onButtonClick = onYouAndComputer,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computer)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(Modifier.fillMaxWidth()) {
+                        GameCard(
+                            Modifier.weight(1f),
+                            title = stringResource(id = R.string.vs_many_comp_detail),
+                            onButtonClick = onTournament,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computers)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        GameCard2(
+                            Modifier.weight(1f),
+                            title = stringResource(id = R.string.blutooth_multi_desc),
+                            onButtonClick = onJoinClick,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computers),
+                            onButtonClick2 = onHostClick,
+                        )
+                    }
                 }
             },
             buttons = {
@@ -128,6 +144,7 @@ fun GameOverDialog(
     }
     AnimatedVisibility(visible = show) {
         DialogUi(
+            modifier = Modifier.heightIn(280.dp, 400.dp),
             onDismissRequest = { /*TODO*/ },
             properties = DialogProperties(
                 dismissOnBackPress = false,
@@ -135,16 +152,27 @@ fun GameOverDialog(
             ),
             content = {
                 FinishTheme {
-                    players.forEach {
-                        PlayerUi(player = it)
+                    Column(
+                        Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Column(
+                            Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            players.forEach {
+                                PlayerUi(player = it)
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        if (humanWin) {
+                            Text(text = stringResource(id = R.string.player_win_msg))
+                        } else {
+                            Text(text = stringResource(id = R.string.player_loss_msg))
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (humanWin) {
-                        Text(text = stringResource(id = R.string.player_win_msg))
-                    } else {
-                        Text(text = stringResource(id = R.string.player_loss_msg))
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             },
             buttons = {
@@ -172,6 +200,7 @@ fun GameOverDialog(
 fun GameOverPreview() {
     GameOverDialog(
         players = listOf(
+            PlayerUiState(),
             PlayerUiState(),
             PlayerUiState(),
             PlayerUiState(isCurrent = true)
@@ -210,6 +239,7 @@ fun GameCard(
 fun GameCardPreview() {
     GameCard()
 }
+
 @Composable
 fun GameCard2(
     modifier: Modifier = Modifier,
@@ -280,16 +310,22 @@ fun GameMultiPlayerWaitingDialog(
 
     AnimatedVisibility(visible = show) {
         DialogUi(
-
-            onDismissRequest = { /*TODO*/ },
+            modifier = Modifier.height(280.dp),
+            onDismissRequest = { },
             properties = DialogProperties(
                 dismissOnBackPress = false,
                 dismissOnClickOutside = false
             ),
             content = {
-                CircularProgressIndicator()
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = message)
+                Column(
+                    Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = message)
+                }
             },
             buttons = {
                 TextButton(onClick = onCancelClick) {
@@ -315,10 +351,11 @@ fun GameMultiPlayerListDialog(
     show: Boolean,
     deviceList: ImmutableList<String>? = emptyList<String>().toImmutableList(),
     onDeviceClick: (Int) -> Unit = {},
+    onPairNewDevice: () -> Unit = {},
     onCancelClick: () -> Unit = {}
 
 ) {
-
+    val context = LocalContext.current
     AnimatedVisibility(visible = show) {
         DialogUi(
             modifier = Modifier.height(280.dp),
@@ -328,17 +365,35 @@ fun GameMultiPlayerListDialog(
                 dismissOnClickOutside = false
             ),
             content = {
-                Column() {
+
+                LazyColumn(Modifier.fillMaxSize()) {
                     deviceList?.let {
-
-                        it.forEachIndexed { index, deviceName ->
-
+                        itemsIndexed(it) { index, name ->
                             Text(
-                                text = deviceName,
-                                modifier = Modifier.clickable {
-                                    onDeviceClick(index)
-                                }
+                                text = name,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onDeviceClick(index)
+                                    }
                             )
+                        }
+                        item {
+                            Row(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                FilledTonalButton(onClick = {
+                                    onPairNewDevice()
+                                    context.startActivity(
+                                        Intent(
+                                            Settings.ACTION_BLUETOOTH_SETTINGS
+                                        )
+                                    )
+                                }) {
+                                    Text(text = "Pair new device")
+                                }
+                            }
                         }
                     }
                 }
