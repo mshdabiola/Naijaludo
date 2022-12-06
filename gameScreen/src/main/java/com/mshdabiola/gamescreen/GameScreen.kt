@@ -117,11 +117,14 @@ fun GameScreen(
         else
             rotateF.snapTo(0f)
     }
+    var isServer by remember {
+        mutableStateOf(false)
+    }
 
     val forResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = {
-            if (blueState?.isServer == true) {
+            if (isServer) {
                 // start server
                 gameScreenViewModel.onServer()
             } else {
@@ -136,7 +139,7 @@ fun GameScreen(
             if (!gameScreenViewModel.isBluetoothEnable()) {
                 forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
             } else {
-                if (blueState?.isServer == true) {
+                if (isServer) {
                     // start server
                     gameScreenViewModel.onServer()
                 } else {
@@ -173,6 +176,7 @@ fun GameScreen(
             onContinueButton = gameScreenViewModel::onContinueClick,
             onBackPress = onBack,
             onJoinClick = {
+                isServer = false
 //                showBlueDialog = false
 //                showDeviceList = true
                 gameScreenViewModel.onJoin()
@@ -190,7 +194,7 @@ fun GameScreen(
                 }
             },
             onHostClick = {
-//                isServe = true
+                isServer = true
 //                showBlueDialog = true
                 gameScreenViewModel.onHost()
 
@@ -217,7 +221,7 @@ fun GameScreen(
         GameMultiPlayerWaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
             connected = blueState?.connected == true,
-            isServe = blueState?.isServer == true,
+            isServe = isServer == true,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
 

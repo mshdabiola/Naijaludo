@@ -50,7 +50,7 @@ class Manager
 
     private var waitingForDevice = false
 
-    fun setUp(isServer: Boolean) {
+    fun setUp() {
         setLog("setup")
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -85,7 +85,7 @@ class Manager
                 as BluetoothManager
             ).adapter
 
-        state.value = ManagerState(isServer = isServer, devices = emptyList())
+        state.value = ManagerState(devices = emptyList())
     }
 
     fun isBluetoothEnable() = bluetoothAdapter?.isEnabled == true
@@ -255,7 +255,6 @@ class Manager
 }
 
 data class ManagerState(
-    val isServer: Boolean,
     val devices: List<String>?,
     val connected: Boolean? = null,
     val message: String = ""

@@ -220,7 +220,7 @@ class GameViewModel @Inject constructor(
                 isStartDialogOpen = false,
                 isDeviceDialogOpen = true
             )
-        setUpBlue(false)
+        setUpBlue()
     }
 
     fun onHost() {
@@ -229,7 +229,7 @@ class GameViewModel @Inject constructor(
                 isStartDialogOpen = false,
                 isWaitingDialogOpen = true
             )
-        setUpBlue(true)
+        setUpBlue()
     }
 
     fun onCancelBlueDialog() {
@@ -470,8 +470,8 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun setUpBlue(isServer: Boolean) {
-        blueManager.setUp(isServer)
+    private fun setUpBlue() {
+        blueManager.setUp()
     }
 
     private fun closeBlue() {
