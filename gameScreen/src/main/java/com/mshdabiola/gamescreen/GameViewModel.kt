@@ -61,23 +61,6 @@ class GameViewModel @Inject constructor(
 
     var clientServerJob: Job? = null
 
-    val blueManagerState =
-        blueManager
-            .state
-            .map {
-                if (it != null) {
-                    it.devices?.let { it1 ->
-                        Pair(it.connected == true, it1.toImmutableList())
-                    }
-                } else {
-                    null
-                }
-            }
-            .stateIn(
-                viewModelScope,
-                started = SharingStarted.WhileSubscribed(),
-                null
-            )
     val ludoGameState = game.gameState
         .map { it.toLudoUiState() }
         .distinctUntilChanged { old, new -> old == new }
@@ -145,17 +128,26 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             blueManager.state
                 .distinctUntilChanged { old, new -> old == new }
-                .collect { managerState ->
-                    if (managerState?.connected == false) {
-                        log("game disconnect from bluetooth")
-                        _gameUiState.value =
-                            gameUiState.value.copy(
-                                isStartDialogOpen = true
-                            )
-                    }
+                .collect { nonManagerState ->
+                    nonManagerState?.let { managerState ->
+                        if (managerState.connected == false) {
+                            log("game disconnect from bluetooth")
+                            _gameUiState.value =
+                                gameUiState.value.copy(
+                                    isStartDialogOpen = true
+                                )
+                        }
 
-                    if (!managerState?.message.isNullOrBlank()) {
-                        managerState?.message?.let { onRemoteClick(it) }
+                        _gameUiState.value = gameUiState
+                            .value.copy(
+                                isBluetoothConnected = managerState.connected == true,
+                                listOfDevice = managerState.devices?.toImmutableList()
+                                    ?: emptyList<String>().toImmutableList()
+                            )
+
+                        if (!managerState.message.isBlank()) {
+                            managerState.message.let { onRemoteClick(it) }
+                        }
                     }
                 }
         }

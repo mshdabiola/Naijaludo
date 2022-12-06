@@ -78,7 +78,6 @@ fun GameScreen(
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
-    val blueState by gameScreenViewModel.blueManagerState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
 
     val observer = object : DefaultLifecycleObserver {
@@ -223,14 +222,14 @@ fun GameScreen(
 
         GameMultiPlayerWaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
-            connected = blueState?.first == true,
+            connected = gameUiState.isBluetoothConnected,
             isServe = isServer,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
 
         GameMultiPlayerListDialog(
             show = gameUiState.isDeviceDialogOpen,
-            deviceList = blueState?.second,
+            deviceList = gameUiState.listOfDevice,
             onDeviceClick = gameScreenViewModel::onDeviceClick,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
             onPairNewDevice = gameScreenViewModel::onPairDevice

@@ -198,7 +198,7 @@ class Manager
     private fun onErrorOccurBluetooth(throwable: Throwable) {
         state.value = state.value?.copy(connected = false)
         throwable.printStackTrace()
-        close()
+        // close()
     }
 
     fun close() {
