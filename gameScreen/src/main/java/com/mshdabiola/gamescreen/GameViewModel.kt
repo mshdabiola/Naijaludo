@@ -162,7 +162,10 @@ class GameViewModel @Inject constructor(
     }
 
     // start game
-    private suspend fun startGame(ludoGameState: LudoGameState) {
+    private suspend fun startGame(
+        ludoGameState: LudoGameState,
+        ludoSetting: LudoSetting
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             savedStateHandle[SHOW_DIALOG] = false
         }
@@ -195,7 +198,7 @@ class GameViewModel @Inject constructor(
                 val ludoState = getDefaultGameState()
                     .copy(listOfPlayer = players, listOfPawn = pawns)
 
-                startGame(ludoState)
+                startGame(ludoState, ludoSetting)
             }
         }
     }
@@ -210,7 +213,8 @@ class GameViewModel @Inject constructor(
                 getDefaultGameState(
                     numberOfPawn = ludoSetting.numberOfPawn,
                     playerNames = profName
-                )
+                ),
+                ludoSetting
             )
         }
         deleteData()
@@ -224,7 +228,8 @@ class GameViewModel @Inject constructor(
                     numberOfPlayer = 4,
                     numberOfPawn = ludoSetting.numberOfPawn,
                     playerNames = profName
-                )
+                ),
+                ludoSetting
             )
         }
         deleteData()
@@ -333,7 +338,7 @@ class GameViewModel @Inject constructor(
             str.contains("setting") -> {
                 val input = str.split(",")
                 log("setting is $str")
-                onLineClientGame(input[2], input[1].toInt())
+                onLineClientGame(input[1], input[2].toInt(), input[3].toInt())
             }
 
             str.contains("client_name") -> {
@@ -390,12 +395,13 @@ class GameViewModel @Inject constructor(
                     numberOfPlayer = 2,
                     numberOfPawn = ludoSetting.numberOfPawn,
                     playerNames = profName
-                ).copy(listOfPlayer = player, gameType = GameType.REMOTE)
+                ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
+                ludoSetting
             )
         }
     }
 
-    private fun onLineClientGame(name: String, pawnSize: Int) {
+    private fun onLineClientGame(name: String, noOfPawn: Int, style: Int) {
         _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
 
@@ -416,9 +422,10 @@ class GameViewModel @Inject constructor(
             startGame(
                 getDefaultGameState(
                     numberOfPlayer = 2,
-                    numberOfPawn = pawnSize,
+                    numberOfPawn = noOfPawn,
                     playerNames = profName
-                ).copy(listOfPlayer = player, gameType = GameType.REMOTE)
+                ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
+                ludoSetting.copy(numberOfPawn = noOfPawn, style = style)
             )
         }
     }
@@ -479,7 +486,11 @@ class GameViewModel @Inject constructor(
     fun onServer() {
         clientServerJob = viewModelScope.launch(Dispatchers.IO) {
             log("start Server")
-            blueManager.onServer(pawnNumber = ludoSetting.numberOfPawn, name = profName[0])
+            blueManager.onServer(
+                pawnNumber = ludoSetting.numberOfPawn,
+                name = profName[0],
+                style = ludoSetting.style
+            )
         }
     }
 

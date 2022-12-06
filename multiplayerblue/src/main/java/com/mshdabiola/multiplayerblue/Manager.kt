@@ -76,7 +76,7 @@ class Manager
 
     fun isBluetoothEnable() = bluetoothAdapter?.isEnabled == true
 
-    suspend fun onServer(pawnNumber: Int, name: String) {
+    suspend fun onServer(name: String, pawnNumber: Int, style: Int) {
         setLog("start server1")
         try {
 
@@ -88,7 +88,7 @@ class Manager
             }
             state.value = state.value?.copy(connected = true)
             sendString(
-                "setting,$pawnNumber,$name"
+                "setting,$name,$pawnNumber,$style"
             )
             bluetoothSocket?.let { collectRead(it.inputStream) }
             setLog("start server2")
