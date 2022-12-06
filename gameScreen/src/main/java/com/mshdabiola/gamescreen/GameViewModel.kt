@@ -26,7 +26,9 @@ import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,11 +59,25 @@ class GameViewModel @Inject constructor(
 
     val gameUiState = _gameUiState.asStateFlow()
 
-    val blueManagerState = blueManager.state.stateIn(
-        viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        null
-    )
+    var clientServerJob: Job? = null
+
+    val blueManagerState =
+        blueManager
+            .state
+            .map {
+                if (it != null) {
+                    it.devices?.let { it1 ->
+                        Pair(it.connected == true, it1.toImmutableList())
+                    }
+                } else {
+                    null
+                }
+            }
+            .stateIn(
+                viewModelScope,
+                started = SharingStarted.WhileSubscribed(),
+                null
+            )
     val ludoGameState = game.gameState
         .map { it.toLudoUiState() }
         .distinctUntilChanged { old, new -> old == new }
@@ -446,14 +462,10 @@ class GameViewModel @Inject constructor(
 
     // bluetooth function
 
-    fun isAllPermission(): Boolean {
-        return blueManager.isAllPermissionGranted()
-    }
-
     fun isBluetoothEnable() = blueManager.isBluetoothEnable()
 
     fun onServer() {
-        viewModelScope.launch(Dispatchers.IO) {
+        clientServerJob = viewModelScope.launch(Dispatchers.IO) {
             log("start Server")
             blueManager.onServer(pawnNumber = ludoSetting.numberOfPawn, name = profName[0])
         }
@@ -465,7 +477,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun onDevice(index: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        clientServerJob = viewModelScope.launch(Dispatchers.IO) {
             blueManager.onBlueDevice(index, name = profName[0])
         }
     }
@@ -475,6 +487,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun closeBlue() {
+        clientServerJob?.cancel()
         blueManager.close()
     }
 

@@ -90,13 +90,6 @@ class Manager
 
     fun isBluetoothEnable() = bluetoothAdapter?.isEnabled == true
 
-    fun isAllPermissionGranted(): Boolean {
-        return context
-            .checkSelfPermission(
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) == PackageManager.PERMISSION_GRANTED
-    }
-
     suspend fun onServer(pawnNumber: Int, name: String) {
         setLog("start server1")
         try {
@@ -146,28 +139,6 @@ class Manager
 
     private fun setLog(msg: String) {
         Log.e(this::class.simpleName, msg)
-    }
-
-    private fun bluetoothPermission(): List<String> {
-        log("canConnect called")
-        val deniedPermissions = ArrayList<String>()
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            if (!checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION))
-                deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-            if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION))
-                deniedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) { // Build.VERSION_CODES.S or later
-            if (!checkPermission(Manifest.permission.BLUETOOTH_CONNECT))
-                deniedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT)
-        }
-        return deniedPermissions
-    }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private fun checkPermission(permission: String): Boolean {
-        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
 
     fun onPairNewDevice() {
@@ -259,3 +230,24 @@ data class ManagerState(
     val connected: Boolean? = null,
     val message: String = ""
 )
+
+fun bluetoothPermission(context: Context): Array<String> {
+    log("canConnect called")
+    val deniedPermissions = ArrayList<String>()
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        if (!checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION))
+            deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (!checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION))
+            deniedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) { // Build.VERSION_CODES.S or later
+        if (!checkPermission(context, Manifest.permission.BLUETOOTH_CONNECT))
+            deniedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+    }
+    return deniedPermissions.toTypedArray()
+}
+
+private fun checkPermission(context: Context, permission: String): Boolean {
+    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+}

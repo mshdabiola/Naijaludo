@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
@@ -35,6 +34,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,7 +67,7 @@ import com.mshdabiola.ludo.model.Constant.getDefaultGameState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import kotlinx.collections.immutable.toImmutableList
+import com.mshdabiola.multiplayerblue.bluetoothPermission
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -120,6 +120,7 @@ fun GameScreen(
     var isServer by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
 
     val forResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -177,13 +178,14 @@ fun GameScreen(
             onBackPress = onBack,
             onJoinClick = {
                 isServer = false
+                val permissions = bluetoothPermission(context)
 //                showBlueDialog = false
 //                showDeviceList = true
                 gameScreenViewModel.onJoin()
 
                 when {
-                    !gameScreenViewModel.isAllPermission() ->
-                        forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
+                    permissions.isNotEmpty() ->
+                        forRequestBlue.launch(permissions)
 
                     !gameScreenViewModel.isBluetoothEnable() ->
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
@@ -195,12 +197,13 @@ fun GameScreen(
             },
             onHostClick = {
                 isServer = true
+                val permissions = bluetoothPermission(context)
 //                showBlueDialog = true
                 gameScreenViewModel.onHost()
 
                 when {
-                    !gameScreenViewModel.isAllPermission() ->
-                        forRequestBlue.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
+                    permissions.isNotEmpty() ->
+                        forRequestBlue.launch(permissions)
 
                     !gameScreenViewModel.isBluetoothEnable() ->
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
@@ -220,14 +223,14 @@ fun GameScreen(
 
         GameMultiPlayerWaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
-            connected = blueState?.connected == true,
-            isServe = isServer == true,
+            connected = blueState?.first == true,
+            isServe = isServer,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
 
         GameMultiPlayerListDialog(
             show = gameUiState.isDeviceDialogOpen,
-            deviceList = blueState?.devices?.toImmutableList(),
+            deviceList = blueState?.second,
             onDeviceClick = gameScreenViewModel::onDeviceClick,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
             onPairNewDevice = gameScreenViewModel::onPairDevice
