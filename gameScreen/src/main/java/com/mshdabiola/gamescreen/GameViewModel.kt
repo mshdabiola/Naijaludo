@@ -59,7 +59,7 @@ class GameViewModel @Inject constructor(
 
     val gameUiState = _gameUiState.asStateFlow()
 
-    var clientServerJob: Job? = null
+    private var clientServerJob: Job? = null
 
     val ludoGameState = game.gameState
         .map { it.toLudoUiState() }
@@ -145,8 +145,8 @@ class GameViewModel @Inject constructor(
                                     ?: emptyList<String>().toImmutableList()
                             )
 
-                        if (!managerState.message.isBlank()) {
-                            managerState.message.let { onRemoteClick(it) }
+                        if (managerState.message.isNotBlank()) {
+                            onRemoteClick(managerState.message)
                         }
                     }
                 }
@@ -171,7 +171,6 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    // Todo("check if is not remote game")
     private fun resumeFromDatabase() {
         viewModelScope.launch {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
@@ -300,7 +299,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun gameType(): GameType {
+    private fun gameType(): GameType {
         return ludoGameState.value.gameType
     }
 
@@ -365,6 +364,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    // Todo("fix style bug")
     private fun onLineServerGame(name: String) {
         _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
@@ -388,7 +388,7 @@ class GameViewModel @Inject constructor(
                     numberOfPawn = ludoSetting.numberOfPawn,
                     playerNames = profName
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
-                ludoSetting
+                ludoSetting.copy(style = 0, level = 0)
             )
         }
     }
@@ -417,7 +417,7 @@ class GameViewModel @Inject constructor(
                     numberOfPawn = noOfPawn,
                     playerNames = profName
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
-                ludoSetting.copy(numberOfPawn = noOfPawn, style = style)
+                ludoSetting.copy(numberOfPawn = noOfPawn, style = 0, level = 0)
             )
         }
     }
