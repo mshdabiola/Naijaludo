@@ -367,17 +367,28 @@ fun GameMultiPlayerListDialog(
             ),
             content = {
 
-                LazyColumn(Modifier.fillMaxSize()) {
+                LazyColumn(
+                    Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     deviceList?.let {
                         itemsIndexed(it) { index, name ->
-                            Text(
-                                text = name,
-                                modifier = Modifier
+                            Row(
+                                Modifier
                                     .fillMaxWidth()
                                     .clickable {
                                         onDeviceClick(index)
                                     }
-                            )
+                            ) {
+                                Text(
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    text = name
+
+                                )
+                            }
                         }
                         item {
                             Row(
