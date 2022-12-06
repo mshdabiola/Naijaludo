@@ -53,31 +53,17 @@ class Manager
     fun setUp() {
         setLog("setup")
         receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                intent?.let {
-                    log("action is ${it.action}")
-                    when (it.action) {
-                        BluetoothDevice.ACTION_ACL_CONNECTED -> {
+            override fun onReceive(context: Context?, intent: Intent) {
 
-                            // connection?.onConnect()
-                        }
-                        BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
+                log("action is ${intent.action}")
 
-                            // connection?.onDisconnect()
-                            // close()
-                        }
-                        else -> {}
-                    }
-                }
-
-                log("on receive")
+                log("on receive bluetooth disconnect")
             }
         }
 
         val filter = IntentFilter().apply {
-            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+
             addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-            addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)
         }
         context.registerReceiver(receiver, filter)
         bluetoothAdapter = (
@@ -192,6 +178,7 @@ class Manager
                 state.value = state.value?.copy(message = it)
             }
     }
+
     fun sendString(str: String) {
 
         try {
@@ -207,6 +194,7 @@ class Manager
             onErrorOccurBluetooth(exception)
         }
     }
+
     private fun onErrorOccurBluetooth(throwable: Throwable) {
         state.value = state.value?.copy(connected = false)
         throwable.printStackTrace()
@@ -216,6 +204,7 @@ class Manager
     fun close() {
         setLog("Close")
         bluetoothAdapter = null
+        bluetoothSocket?.close()
         bluetoothSocket = null
         if (receiver != null) {
             context.unregisterReceiver(receiver)

@@ -108,7 +108,7 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch {
 
             if (!gameUiState.value.isStartDialogOpen) {
-                loadGame()
+                resumeFromDatabase()
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -148,6 +148,10 @@ class GameViewModel @Inject constructor(
                 .collect { managerState ->
                     if (managerState?.connected == false) {
                         log("game disconnect from bluetooth")
+                        _gameUiState.value =
+                            gameUiState.value.copy(
+                                isStartDialogOpen = true
+                            )
                     }
 
                     if (!managerState?.message.isNullOrBlank()) {
@@ -159,6 +163,9 @@ class GameViewModel @Inject constructor(
 
     // start game
     private suspend fun startGame(ludoGameState: LudoGameState) {
+        viewModelScope.launch(Dispatchers.IO) {
+            savedStateHandle[SHOW_DIALOG] = false
+        }
 
         delay(300)
         game.start(
@@ -170,7 +177,7 @@ class GameViewModel @Inject constructor(
     }
 
     // Todo("check if is not remote game")
-    private fun loadGame() {
+    private fun resumeFromDatabase() {
         viewModelScope.launch {
             val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
             gameId = ludoAndOthers?.ludoEntity?.id
@@ -196,7 +203,6 @@ class GameViewModel @Inject constructor(
     // Start dialog
     fun onYouAndComputer() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-        savedStateHandle[SHOW_DIALOG] = false
 
         viewModelScope.launch(Dispatchers.Default) {
 
@@ -226,8 +232,8 @@ class GameViewModel @Inject constructor(
 
     fun onContinueClick() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-        savedStateHandle[SHOW_DIALOG] = false
-        loadGame()
+
+        resumeFromDatabase()
     }
 
     fun onJoin() {
@@ -297,6 +303,10 @@ class GameViewModel @Inject constructor(
         }
     }
 
+    fun gameType(): GameType {
+        return ludoGameState.value.gameType
+    }
+
     fun onDice() {
         viewModelScope.launch {
             val intArray = game.onDice()
@@ -314,7 +324,7 @@ class GameViewModel @Inject constructor(
 
     fun onPawn(index: Int, isDrawer: Boolean = false) {
         game.onPawn(index, isDrawer)
-        val int = if (isDrawer)1 else 0
+        val int = if (isDrawer) 1 else 0
         sendString("pawn,$index,$int")
     }
 
@@ -444,12 +454,14 @@ class GameViewModel @Inject constructor(
 
     // game database
     private fun saveData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            log("on game dispose")
+        if (gameType() == GameType.COMPUTER) {
             viewModelScope.launch(Dispatchers.IO) {
-                val id = gameId ?: 1
+                log("on game dispose")
+                viewModelScope.launch(Dispatchers.IO) {
+                    val id = gameId ?: 1
 
-                ludoStateDomain.insertLudo(game.gameState.value, id)
+                    ludoStateDomain.insertLudo(game.gameState.value, id)
+                }
             }
         }
     }
