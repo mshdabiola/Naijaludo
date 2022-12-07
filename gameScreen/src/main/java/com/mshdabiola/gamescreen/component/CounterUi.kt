@@ -37,7 +37,7 @@ fun CounterUi(
 
     GameButton(
         modifier = modifier
-            .requiredSize(64.dp),
+            .requiredSize(56.dp),
         onClick = {
 
             onCounterClick(counterUiState.id)

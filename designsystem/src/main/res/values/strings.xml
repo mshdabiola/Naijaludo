@@ -40,5 +40,6 @@
     <string name="ad_test_id" >ca-app-pub-3940256099942544/6300978111</string>
     <string name="join">Join</string>
     <string name="host">Host</string>
-    <string name="blutooth_multi_desc">Connet Bluetooth</string>
+    <string name="blutooth_multi_desc">Connect Bluetooth</string>
+    <string name="vs_friend">vs Friend</string>
 </resources>

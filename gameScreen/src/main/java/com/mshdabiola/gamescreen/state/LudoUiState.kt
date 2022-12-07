@@ -29,5 +29,8 @@ fun LudoGameState.toLudoUiState() =
         listOfCounter = listOfCounter.map { it.toCounterUiState() }.toImmutableList(),
         drawer = listOfPawnDrawer?.map { it.toPawnUiState() }?.toImmutableList(),
         board = board.toBoardUiState(),
-        isHumanPlayer, rotate, numGamePlay, gameType
+        isHumanPlayer = isHumanPlayer,
+        rotate = rotate,
+        numGamePlay = numGamePlay,
+        gameType = gameType
     )

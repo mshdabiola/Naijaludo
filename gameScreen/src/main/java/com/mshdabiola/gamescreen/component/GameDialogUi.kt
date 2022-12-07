@@ -5,6 +5,7 @@ import android.provider.Settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -63,6 +64,7 @@ fun StartDialog(
     showContinueButton: Boolean = true,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
+    onFriend: () -> Unit = {},
     onContinueButton: () -> Unit = {},
     onJoinClick: () -> Unit = {},
     onHostClick: () -> Unit = {}
@@ -113,6 +115,19 @@ fun StartDialog(
                             onButtonClick = onJoinClick,
                             imageVector = ImageVector.vectorResource(id = R.drawable.computers),
                             onButtonClick2 = onHostClick,
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(Modifier.fillMaxWidth()) {
+                        GameCard(
+                            Modifier.weight(1f),
+                            title = stringResource(id = R.string.vs_friend),
+                            onButtonClick = onFriend,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computer)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Box(
+                            Modifier.weight(1f)
                         )
                     }
                 }

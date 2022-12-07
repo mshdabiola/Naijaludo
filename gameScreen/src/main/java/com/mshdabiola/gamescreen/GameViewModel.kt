@@ -211,6 +211,32 @@ class GameViewModel @Inject constructor(
         deleteData()
     }
 
+    fun onFriend() {
+        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
+
+        viewModelScope.launch(Dispatchers.Default) {
+            val players = listOf(
+                HumanPlayer(
+                    name = "",
+                    colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                    iconIndex = 0
+                ),
+                HumanPlayer(
+                    name = "",
+                    isCurrent = true,
+                    colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                    iconIndex = 6
+                )
+            )
+            startGame(
+                getDefaultGameState(
+                    numberOfPawn = ludoSetting.numberOfPawn,
+                    playerNames = profName
+                ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
+                ludoSetting
+            )
+        }
+    }
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
