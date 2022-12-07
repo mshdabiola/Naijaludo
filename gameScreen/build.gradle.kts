@@ -45,6 +45,7 @@ dependencies {
     implementation (project( ":naijaludo"))
     implementation (project( ":model"))
     implementation (project( ":soundsystem"))
+    implementation (project( ":multiplayerblue"))
 
     implementation(libs.bundles.common.bundle)
     implementation(libs.androidx.constraintlayout)

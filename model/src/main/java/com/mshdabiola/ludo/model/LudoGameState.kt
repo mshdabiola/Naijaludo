@@ -7,14 +7,15 @@ data class LudoGameState(
     val listOfDice: List<Dice> = emptyList(),
     val listOfPawn: List<Pawn> = emptyList(),
     val listOfCounter: List<Counter> = emptyList(),
-    val drawer: Drawer? = null,
+    val listOfPawnDrawer: List<Pawn>? = null,
     val board: Board = Board(),
     val pressedCounterId: Int = 0,
     val isOnResume: Boolean = false,
     val start: Boolean = false,
     val isHumanPlayer: Boolean = false,
     val rotate: Boolean = false,
-    val numGamePlay: Int = 0
+    val numGamePlay: Int = 0,
+    val gameType: GameType = GameType.COMPUTER
 ) {
     val currentDiceNumber: Int
         get() {

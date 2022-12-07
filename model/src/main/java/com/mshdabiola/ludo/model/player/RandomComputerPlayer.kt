@@ -13,7 +13,7 @@ data class RandomComputerPlayer(
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor>,
     override val iconIndex: Int
-) : Player {
+) : ComputerPlayer {
 
     override fun chooseCounter(
         gameState: LudoGameState,
@@ -33,7 +33,7 @@ data class RandomComputerPlayer(
         win: Int,
         isCurrent: Boolean,
         colors: List<GameColor>
-    ): Player {
+    ): ComputerPlayer {
         return copy(
             name = name,
             win = win,
@@ -131,7 +131,7 @@ data class RandomComputerPlayer(
 
             if (currentPawnPoss in pawnIntArray) {
 
-                return it.index
+                return it.idx
             }
         }
 
@@ -157,7 +157,7 @@ data class RandomComputerPlayer(
                 }
                 .sortedBy { -it.second }
 
-            return sortedHomePawn.first().first.index
+            return sortedHomePawn.first().first.idx
         }
 
         val sortedMap = enablePawn
@@ -180,14 +180,14 @@ data class RandomComputerPlayer(
         log(
             "sorted by risk ${
             sortedMap.joinToString {
-                "${it.first.id}-${it.first.color}" +
+                "${it.first.idx}-${it.first.color}" +
                     "  ${it.second}"
             }
             }"
         )
 
         // move
-        return sortedMap.first().first.index
+        return sortedMap.first().first.idx
     }
 
     private fun getPawnPoint(

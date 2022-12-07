@@ -1,13 +1,16 @@
 package com.mshdabiola.gamescreen
 
-import com.mshdabiola.gamescreen.state.BoardUiState
-import com.mshdabiola.gamescreen.state.LudoUiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 data class GameUiState(
-    val ludoGameState: LudoUiState = LudoUiState(board = BoardUiState()),
     val isStartDialogOpen: Boolean = true,
     val isRestartDialogOpen: Boolean = false,
     val showContinueButton: Boolean = false,
+    val isWaitingDialogOpen: Boolean = false,
+    val isDeviceDialogOpen: Boolean = false,
     val music: Boolean = false,
-    val sound: Boolean = false
+    val sound: Boolean = false,
+    val isBluetoothConnected: Boolean = false,
+    val listOfDevice: ImmutableList<String> = emptyList<String>().toImmutableList()
 )

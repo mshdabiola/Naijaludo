@@ -62,7 +62,7 @@ fun PawnUi(
             }
             .clickable(pawnUiState.isEnable && isEnableForPlayer) {
                 log("on Human click $pawnUiState")
-                onClick(pawnUiState.index, false)
+                onClick(pawnUiState.idx, false)
             },
         shape = CircleShape,
         color = pawnUiState.color.toPawnColor(),

@@ -3,9 +3,10 @@ package com.mshdabiola.ludo.model
 import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.ludo.model.player.Player
 import com.mshdabiola.ludo.model.player.RandomComputerPlayer
+import java.util.logging.Logger
 
 fun log(msg: String) {
-    // Logger.getLogger("Ludo game ").severe(msg)
+    Logger.getLogger("Ludo game ").severe(msg)
     // Log.d(, msg)
 }
 
@@ -30,13 +31,18 @@ object Constant {
         GameColor.values().forEach { gameColor ->
             (1..4).map { id ->
                 val pawn = if (id <= numberOfPawn2)
-                    Pawn(id = id, color = gameColor)
+                    Pawn(indexx = id, color = gameColor)
                 else
-                    Pawn(id = id, color = gameColor, currentPos = 56)
+                    Pawn(indexx = id, color = gameColor, currentPos = 56)
                 listPawns.add(pawn)
             }
         }
         return listPawns
+    }
+
+    fun getDefaultOutPawns(numberOfPawn: Int = 4): List<Pawn> {
+        return getDefaultPawns(numberOfPawn)
+            .map { it.copy(currentPos = 56) }
     }
 
     fun getDefaultPlayers(numberOfPlayer: Int, playerNames: Array<String>): List<Player> {
@@ -96,5 +102,10 @@ object Constant {
                 id = it
             )
         }
+    }
+    fun getDiceBox(level: Int) = when (level) {
+        0 -> intArrayOf(1, 2, 3, 4, 5, 6)
+        1 -> intArrayOf(1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6)
+        else -> intArrayOf(1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6)
     }
 }
