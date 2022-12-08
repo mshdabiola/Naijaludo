@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -89,7 +90,7 @@ fun StartDialog(
                             buttonEnable = showContinueButton,
                             onButtonClick = onContinueButton,
                             imageVector = ImageVector
-                                .vectorResource(id = R.drawable.resource_continue)
+                                .vectorResource(id = R.drawable.resume)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
 
@@ -106,14 +107,14 @@ fun StartDialog(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_many_comp_detail),
                             onButtonClick = onTournament,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computers)
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computer)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         GameCard2(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.blutooth_multi_desc),
                             onButtonClick = onJoinClick,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computers),
+                            imageVector = ImageVector.vectorResource(id = R.drawable.blutooth),
                             onButtonClick2 = onHostClick,
                         )
                     }
@@ -123,7 +124,7 @@ fun StartDialog(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_friend),
                             onButtonClick = onFriend,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computer)
+                            imageVector = ImageVector.vectorResource(id = R.drawable.friend)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Box(
@@ -310,7 +311,7 @@ fun GameCardPreview2() {
 }
 
 @Composable
-fun GameMultiPlayerWaitingDialog(
+fun WaitingDialog(
     show: Boolean,
     isServe: Boolean = true,
     connected: Boolean = false,
@@ -318,10 +319,10 @@ fun GameMultiPlayerWaitingDialog(
 
 ) {
     val message = when {
-        isServe && connected -> "Server Connected"
-        !isServe && connected -> "Client Connected"
-        isServe -> "Waiting for Client"
-        else -> "Connecting to server"
+        isServe && connected -> stringResource(id = R.string.server_connected)
+        !isServe && connected -> stringResource(id = R.string.client_connected)
+        isServe -> stringResource(id = R.string.waiting_for_client)
+        else -> stringResource(id = R.string.connecting_to_server)
     }
 
     AnimatedVisibility(visible = show) {
@@ -345,11 +346,9 @@ fun GameMultiPlayerWaitingDialog(
             },
             buttons = {
                 TextButton(onClick = onCancelClick) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(id = R.string.cancel))
                 }
-            },
-
-            title = { Text(text = stringResource(id = R.string.game_over_dialog_title)) }
+            }
         )
     }
 }
@@ -357,13 +356,13 @@ fun GameMultiPlayerWaitingDialog(
 @Preview
 @Composable
 fun GameMultiPlayerPreview() {
-    GameMultiPlayerWaitingDialog(
+    WaitingDialog(
         show = true
     )
 }
 
 @Composable
-fun GameMultiPlayerListDialog(
+fun DeviceListDialog(
     show: Boolean,
     deviceList: ImmutableList<String>? = emptyList<String>().toImmutableList(),
     onDeviceClick: (Int) -> Unit = {},
@@ -406,10 +405,14 @@ fun GameMultiPlayerListDialog(
                             }
                         }
                         item {
-                            Row(
+                            Column(
                                 Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                Text(
+                                    text = stringResource(id = R.string.client_pair_desc),
+                                    textAlign = TextAlign.Center
+                                )
                                 FilledTonalButton(onClick = {
                                     onPairNewDevice()
                                     context.startActivity(
@@ -418,7 +421,7 @@ fun GameMultiPlayerListDialog(
                                         )
                                     )
                                 }) {
-                                    Text(text = "Pair new device")
+                                    Text(text = stringResource(id = R.string.pair_device_btn))
                                 }
                             }
                         }
@@ -427,11 +430,11 @@ fun GameMultiPlayerListDialog(
             },
             buttons = {
                 TextButton(onClick = onCancelClick) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(id = R.string.cancel))
                 }
             },
 
-            title = { Text(text = stringResource(id = R.string.game_over_dialog_title)) }
+            title = { Text(text = stringResource(id = R.string.devices)) }
         )
     }
 }
@@ -439,7 +442,7 @@ fun GameMultiPlayerListDialog(
 @Preview
 @Composable
 fun GameMultiPlayerListPreview() {
-    GameMultiPlayerListDialog(
+    DeviceListDialog(
         show = true,
         deviceList = listOf("Tecno", "Infinix", "oppo").toImmutableList()
     )

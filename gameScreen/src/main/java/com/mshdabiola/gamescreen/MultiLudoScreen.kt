@@ -84,7 +84,7 @@ fun GameScreenMultiLand(
             .padding(paddingValues),
     ) {
 
-        val (iconRef, playerRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -239,7 +239,7 @@ fun GameScreenMultiPhoneLand(
             .padding(paddingValues),
     ) {
 
-        val (iconRef, playerRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -393,7 +393,7 @@ fun GameScreenMultiPort(
             .padding(paddingValues),
     ) {
 
-        val (iconRef, playerRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {

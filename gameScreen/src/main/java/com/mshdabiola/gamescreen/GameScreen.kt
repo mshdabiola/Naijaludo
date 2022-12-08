@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,10 +27,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.gamescreen.component.GameMultiPlayerListDialog
-import com.mshdabiola.gamescreen.component.GameMultiPlayerWaitingDialog
+import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
 import com.mshdabiola.gamescreen.component.StartDialog
+import com.mshdabiola.gamescreen.component.WaitingDialog
 import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
@@ -190,14 +189,14 @@ fun GameScreen(
             onHome = onBack
         )
 
-        GameMultiPlayerWaitingDialog(
+        WaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
             connected = gameUiState.isBluetoothConnected,
             isServe = isServer,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog
         )
 
-        GameMultiPlayerListDialog(
+        DeviceListDialog(
             show = gameUiState.isDeviceDialogOpen,
             deviceList = gameUiState.listOfDevice,
             onDeviceClick = gameScreenViewModel::onDeviceClick,
