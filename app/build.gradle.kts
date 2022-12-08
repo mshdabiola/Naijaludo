@@ -1,31 +1,19 @@
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id ("com.android.application")
-    id ("org.jetbrains.kotlin.android")
-    id ("dagger.hilt.android.plugin")
+    id ("mshdabiola.android.application")
+    id ("mshdabiola.android.application.compose")
+    id ("mshdabiola.android.hilt")
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
-    id ("kotlin-kapt")
+
 }
 
 android {
     namespace ="com.mshdabiola.ludo"
-    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.mshdabiola.ludo"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 8
-        versionName = "1.2.8"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-        resourceConfigurations += listOf("en")
-
     }
 
     buildTypes {
@@ -56,19 +44,8 @@ android {
             versionNameSuffix="-benchmark"
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
+
+
     packagingOptions {
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
@@ -84,23 +61,21 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation (libs.androidx.activity.compose)
-    implementation(libs.bundles.compose.bundle)
+    //implementation(libs.bundles.compose.bundle)
 
     implementation (project(":model"))
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
 
-    kapt (libs.hilt.compiler)
 
-    implementation(libs.bundles.hilt.bundle)
     implementation(libs.androidx.profileinstaller)
-    implementation(libs.kotlinx.collection.immutable)
+    //implementation(libs.kotlinx.collection.immutable)
     implementation(libs.androidx.core.splashscreen)
 
 
-    testImplementation (libs.junit4)
-    androidTestImplementation (libs.bundles.android.test.bundle)
-    debugImplementation (libs.bundles.compose.debug.bundle)
+    //testImplementation (libs.junit4)
+    //androidTestImplementation (libs.bundles.android.test.bundle)
+    //debugImplementation (libs.bundles.compose.debug.bundle)
 
 }
