@@ -31,6 +31,8 @@ import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Constant
 import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.ludo.model.GameType
+import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -163,41 +165,182 @@ fun GameScreenMultiLand(
 
         CounterGroupUiVertical(
             modifier = Modifier
-                .constrainAs(counterRef) {
+                .constrainAs(counterRef2) {
 
                     centerVerticallyTo(boardRef)
                     linkTo(boardRef.end, parent.end, bias = 0.1f)
                 },
+            counterUiStateListProvider = { counter2 },
+            isHumanProvider = { gameUiState.isHumanPlayer },
+            onCounterClick = onCounter,
+            rotateButton = -90f
+        )
+        CounterGroupUiVertical(
+            modifier = Modifier
+                .constrainAs(counterRef) {
+
+                    centerVerticallyTo(boardRef)
+                    linkTo(parent.start, boardRef.start, bias = 0.9f)
+                },
             counterUiStateListProvider = { counter1 },
             isHumanProvider = { gameUiState.isHumanPlayer },
-            onCounterClick = onCounter
+            onCounterClick = onCounter,
+            rotateButton = 90f
         )
+    }
+}
+
+@Composable
+fun GameScreenMultiPhoneLand(
+    gameUiState: LudoUiState,
+    music: Boolean = false,
+    sound: Boolean = false,
+    rotateF: Float = 0f,
+    paddingValues: PaddingValues = PaddingValues(),
+    onDice: () -> Unit = {},
+    onCounter: (Int) -> Unit = {},
+    onPawn: (Int, Boolean) -> Unit = { _, _ -> },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
+    onBack: () -> Unit = {},
+    onSetMusic: (Boolean) -> Unit = {},
+    onSetSound: (Boolean) -> Unit = {},
+    onForceRestart: () -> Unit = {}
+) {
+    val showText by remember(gameUiState.board.pathBoxes) {
+        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+    }
+    val counter1 by remember(gameUiState.listOfCounter) {
+        val index = gameUiState.listOfPlayer.indexOfFirst { it.isCurrent }
+        mutableStateOf(
+            if (index == 0) {
+                gameUiState.listOfCounter
+            } else {
+                Constant.getDefaultCounter().map { it.toCounterUiState() }.toImmutableList()
+            }
+        )
+    }
+
+    val counter2 by remember(gameUiState.listOfCounter) {
+        val index = gameUiState.listOfPlayer.indexOfFirst { it.isCurrent }
+        mutableStateOf(
+            if (index == 1) {
+                gameUiState.listOfCounter
+            } else {
+                Constant.getDefaultCounter().map { it.toCounterUiState() }.toImmutableList()
+            }
+        )
+    }
+
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+    ) {
+
+        val (iconRef, playerRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+
+        Show(
+            modifier = Modifier.constrainAs(iconRef) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            },
+            onBack = onBack,
+            onResign = onForceRestart,
+            music = music,
+            sound = sound,
+            onSetSound = onSetSound,
+            onSetMusic = onSetMusic
+
+        )
+
+        BannerAdmob(
+            Modifier
+                .constrainAs(adRef) {
+                    linkTo(parent.top, parent.bottom)
+                    linkTo(counterRef.end, parent.end)
+                }
+                .rotate(90f)
+
+        )
+
+        BoardUi(
+            modifier = Modifier
+                .rotate(rotateF)
+                .constrainAs(boardRef) {
+                    linkTo(parent.start, parent.end)
+                    linkTo(parent.top, parent.bottom)
+                    height = Dimension.fillToConstraints
+                },
+            { gameUiState.board }
+        ) {
+
+            // pawn
+
+            // if (ludoGameState.listOfPawn.isNotEmpty()) {
+            PawnsUi(
+                pawnUiStateListProvider = { gameUiState.listOfPawn },
+                isHumanProvider = { gameUiState.isHumanPlayer },
+                getPositionIntOffset = getPositionIntOffset,
+                onClick = onPawn
+            )
+            // }
+
+            // dice
+
+            //  if (ludoGameState.listOfDice.isNotEmpty()) {
+            DicesUi(
+                diceUiStateListProvider = { gameUiState.listOfDice },
+                isHumanProvider = { gameUiState.isHumanPlayer },
+                onClick = onDice
+            )
+            // }
+
+            // drawer
+
+            DrawerUi(
+                drawerUiStateProvider = { gameUiState.drawer },
+                getPositionIntOffset = getPositionIntOffset,
+                onPawnDrawer = onPawn
+            )
+        }
+
+        AnimatedVisibility(
+            modifier = Modifier.constrainAs(textRef) {
+                linkTo(parent.start, parent.end)
+                linkTo(parent.top, parent.bottom)
+            },
+            visible = showText
+        ) {
+            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+        }
+
         CounterGroupUiVertical(
             modifier = Modifier
                 .constrainAs(counterRef2) {
 
                     centerVerticallyTo(boardRef)
-                    linkTo(parent.start, boardRef.start, bias = 0.9f)
+                    linkTo(boardRef.end, parent.end, bias = 0.1f)
                 },
             counterUiStateListProvider = { counter2 },
             isHumanProvider = { gameUiState.isHumanPlayer },
-            onCounterClick = onCounter
+            onCounterClick = onCounter,
+            rotateButton = -90f
+        )
+        CounterGroupUiVertical(
+            modifier = Modifier
+                .constrainAs(counterRef) {
+
+                    centerVerticallyTo(boardRef)
+                    linkTo(parent.start, boardRef.start, bias = 0.9f)
+                },
+            counterUiStateListProvider = { counter1 },
+            isHumanProvider = { gameUiState.isHumanPlayer },
+            onCounterClick = onCounter,
+            rotateButton = 90f
         )
     }
-}
-
-@Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
-@Composable
-fun GameScreenMultiLandPreview() {
-
-    val game = Constant.getDefaultGameState()
-    val state = game.toLudoUiState()
-    GameScreenMultiLand(
-        gameUiState = state,
-        getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        }
-    )
 }
 
 @Composable
@@ -266,16 +409,14 @@ fun GameScreenMultiPort(
 
         )
 
-//        BannerAdmob(
-//            Modifier
-//                .constrainAs(adRef) {
-//                    top.linkTo(parent.top, 16.dp)
-//                    bottom.linkTo(boardRef.top, 16.dp)
-//                    start.linkTo(boardRef.start)
-//                    end.linkTo(boardRef.end)
-//                }
-//
-//        )
+        BannerAdmob(
+            Modifier
+                .constrainAs(adRef) {
+                    centerHorizontallyTo(parent)
+                    bottom.linkTo(parent.bottom)
+                }
+
+        )
 
         BoardUi(
             modifier = Modifier
@@ -338,7 +479,8 @@ fun GameScreenMultiPort(
                 },
             counterUiStateListProvider = { counter1 },
             isHumanProvider = { gameUiState.isHumanPlayer },
-            onCounterClick = onCounter
+            onCounterClick = onCounter,
+            rotateButton = 180f
         )
 
         CounterGroupUi(
@@ -355,16 +497,125 @@ fun GameScreenMultiPort(
     }
 }
 
-@Preview(device = "id:Nexus One")
+@Preview(device = "id:Nexus 4")
 @Composable
-fun GameScreenMultiPortPreview() {
+fun GameScreenMPreview() {
 
     val game = Constant.getDefaultGameState()
-    val state = game.toLudoUiState()
-    GameScreenMultiPort(
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
-        }
+        },
+        deviceType = DEVICE_TYPE.PHONE_PORT
+    )
+}
+
+@Preview(device = "spec:parent=Nexus S,orientation=landscape")
+@Composable
+fun GameScreenLandMPreview() {
+
+    val game = Constant.getDefaultGameState()
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
+        deviceType = DEVICE_TYPE.PHONE_LAND
+
+    )
+}
+
+@Preview(device = "spec:width=673.5dp,height=841dp,dpi=480")
+@Composable
+fun GameScreenFoldMPreview() {
+    val game = Constant.getDefaultGameState()
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
+        deviceType = DEVICE_TYPE.FOLD_PORT
+    )
+}
+
+@Preview(device = "spec:width=673.5dp,height=841dp,dpi=480,orientation=landscape")
+@Composable
+fun GameScreenFoldLandMPreview() {
+    val game = Constant.getDefaultGameState()
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
+    )
+}
+
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=portrait")
+@Composable
+fun GameScreenTabletMPreview() {
+    val game = Constant.getDefaultGameState()
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
+        deviceType = DEVICE_TYPE.TABLET_PORT
+    )
+}
+
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=480,orientation=landscape")
+@Composable
+fun GameScreenTabletLandMPreview() {
+    val game = Constant.getDefaultGameState()
+    val state = game
+        .copy(
+            listOfCounter = Constant
+                .getDefaultCounter().map { it.copy(number = 4) }
+        )
+        .toLudoUiState()
+        .copy(gameType = GameType.FRIEND)
+    GameScreen(
+        gameUiState = state,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }

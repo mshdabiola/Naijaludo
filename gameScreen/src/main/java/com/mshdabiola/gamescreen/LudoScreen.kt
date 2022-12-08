@@ -567,7 +567,7 @@ fun GameScreenPreview() {
     )
 }
 
-@Preview(device = "spec:parent=Nexus S,orientation=landscape")
+@Preview(device = "spec:parent=Nexus 4,orientation=landscape")
 @Composable
 fun GameScreenLandPreview() {
 

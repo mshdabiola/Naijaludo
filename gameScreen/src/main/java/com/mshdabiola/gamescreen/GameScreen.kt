@@ -237,6 +237,13 @@ fun GameScreen(
                     onBack, onSetMusic, onSetSound, onForceRestart
                 )
             }
+            DEVICE_TYPE.PHONE_LAND -> {
+                GameScreenMultiPhoneLand(
+                    gameUiState, music, sound, rotateF, paddingValues,
+                    onDice, onCounter, onPawn, getPositionIntOffset,
+                    onBack, onSetMusic, onSetSound, onForceRestart
+                )
+            }
             else -> {
                 GameScreenMultiLand(
                     gameUiState, music, sound, rotateF, paddingValues,
