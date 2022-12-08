@@ -60,5 +60,8 @@ task("anotherTask"){
     }
 }
 
+//./gradlew assembleDebug -PenableComposeCompilerReports=true
+// ./gradlew assembleDebug -PenableComposeCompilerMetrics=true
+
 
 
