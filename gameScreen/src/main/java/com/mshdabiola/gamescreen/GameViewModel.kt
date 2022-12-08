@@ -11,14 +11,15 @@ import com.mshdabiola.datastore.UserPreferenceDataSource
 import com.mshdabiola.datastore.toList
 import com.mshdabiola.gamescreen.state.BoardUiState
 import com.mshdabiola.gamescreen.state.LudoUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Constant.getDefaultGameState
 import com.mshdabiola.ludo.model.Constant.getDefaultPawns
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
-import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.player.HumanPlayer
 import com.mshdabiola.multiplayerblue.Manager
 import com.mshdabiola.naijaludo.LudoGame
@@ -448,8 +449,8 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun getPositionIntOffset(id: Int, gameColor: GameColor): Point {
-        return game.getPositionIntOffset(id, gameColor)
+    fun getPositionIntOffset(id: Int, gameColor: GameColor): PointUiState {
+        return game.getPositionIntOffset(id, gameColor).toPointUiState()
     }
 
     fun setMusic(value: Boolean) {

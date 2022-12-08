@@ -39,10 +39,11 @@ import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
 import com.mshdabiola.gamescreen.state.LudoUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Constant
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 
 @Composable
@@ -55,7 +56,9 @@ fun GameScreenPhonePortrait(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -176,7 +179,9 @@ fun GameScreenPhoneLand(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -301,7 +306,9 @@ fun GameScreeFoldPortrait(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -422,7 +429,9 @@ fun GameScreenLarge(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -552,7 +561,9 @@ fun GameScreenPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        }
     )
 }
 
@@ -564,7 +575,9 @@ fun GameScreenLandPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
         deviceType = DEVICE_TYPE.PHONE_LAND
 
     )
@@ -577,7 +590,9 @@ fun GameScreenFoldPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
         deviceType = DEVICE_TYPE.FOLD_PORT
     )
 }
@@ -589,7 +604,9 @@ fun GameScreenFoldLandPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
@@ -601,7 +618,9 @@ fun GameScreenTabletPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
         deviceType = DEVICE_TYPE.TABLET_PORT
     )
 }
@@ -613,7 +632,9 @@ fun GameScreenTabletLandPreview() {
     val state = game.toLudoUiState()
     GameScreen(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint,
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }

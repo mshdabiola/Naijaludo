@@ -33,9 +33,9 @@ import com.mshdabiola.gamescreen.component.GameMultiPlayerWaitingDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
 import com.mshdabiola.gamescreen.component.StartDialog
 import com.mshdabiola.gamescreen.state.LudoUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
-import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.multiplayerblue.bluetoothPermission
 
@@ -219,7 +219,9 @@ fun GameScreen(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},

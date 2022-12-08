@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import com.mshdabiola.gamescreen.isHorizontal
 import com.mshdabiola.gamescreen.state.PawnUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -33,7 +34,7 @@ fun DrawerUi(
         emptyList<PawnUiState>().toImmutableList()
     },
     onPawnDrawer: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, GameColor) -> PointUiState = { _, _ -> PointUiState.Zero }
 ) {
     val drawerUiState = drawerUiStateProvider()
     if (drawerUiState != null) {
@@ -123,7 +124,9 @@ fun DrawerBoardPreview() {
                 ).toImmutableList()
             },
 
-            getPositionIntOffset = board::getPositionIntPoint
+            getPositionIntOffset = { x: Int, y: GameColor ->
+                board.getPositionIntPoint(x, y).toPointUiState()
+            }
         )
 
         DrawerUi(
@@ -135,7 +138,9 @@ fun DrawerBoardPreview() {
                 ).toImmutableList()
             },
 
-            getPositionIntOffset = board::getPositionIntPoint
+            getPositionIntOffset = { x: Int, y: GameColor ->
+                board.getPositionIntPoint(x, y).toPointUiState()
+            }
         )
     }
 }

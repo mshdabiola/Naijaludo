@@ -25,11 +25,12 @@ import com.mshdabiola.gamescreen.component.DicesUi
 import com.mshdabiola.gamescreen.component.DrawerUi
 import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.state.LudoUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toCounterUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Constant
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -42,7 +43,9 @@ fun GameScreenMultiLand(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -191,7 +194,9 @@ fun GameScreenMultiLandPreview() {
     val state = game.toLudoUiState()
     GameScreenMultiLand(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        }
     )
 }
 
@@ -205,7 +210,9 @@ fun GameScreenMultiPort(
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, gameColor: GameColor) -> Point = { _, _ -> Point.zero },
+    getPositionIntOffset: (Int, gameColor: GameColor) -> PointUiState = { _, _ ->
+        PointUiState.Zero
+    },
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
@@ -356,6 +363,8 @@ fun GameScreenMultiPortPreview() {
     val state = game.toLudoUiState()
     GameScreenMultiPort(
         gameUiState = state,
-        getPositionIntOffset = game.board::getPositionIntPoint
+        getPositionIntOffset = { x: Int, y: GameColor ->
+            game.board.getPositionIntPoint(x, y).toPointUiState()
+        }
     )
 }

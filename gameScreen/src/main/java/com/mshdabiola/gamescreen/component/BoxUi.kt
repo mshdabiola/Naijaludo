@@ -35,6 +35,7 @@ import com.mshdabiola.designsystem.icon.LudoIcon.ArrowIcon
 import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
 import com.mshdabiola.designsystem.theme.toHomeColor
 import com.mshdabiola.gamescreen.state.BoxUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.Point
 
 @Composable
@@ -143,7 +144,7 @@ fun HomeBoxUiPreview() {
         HomeBoxUi(
             box = BoxUiState(
                 point =
-                Point.zero,
+                PointUiState.Zero,
                 showColor = true
             )
         )
@@ -231,4 +232,4 @@ fun Modifier.innerShadow(
 )
 //
 // fun Point.toOffset() = Offset(x, y)
-fun Point.toIntOffset() = IntOffset(x.toInt(), y.toInt())
+fun PointUiState.toIntOffset() = IntOffset(x.toInt(), y.toInt())
