@@ -125,6 +125,15 @@ fun GameScreen(
             }
         }
     )
+    val tst by remember(gameUiState.isRestartDialogOpen) {
+        derivedStateOf {
+            val l = ludoGameState.listOfPlayer.joinToString {
+                "${it.name} - score ${it.win}\n"
+            }
+            "Players\n $l \n download NaijaLudo At " +
+                "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
+        }
+    }
 
     val showText by remember(ludoGameState) {
         derivedStateOf {
@@ -213,6 +222,13 @@ fun GameScreen(
             show = gameUiState.isRestartDialogOpen,
             onRestart = gameScreenViewModel::onRestart,
             players = ludoGameState.listOfPlayer,
+            onShare = {
+                val intent = Intent(Intent.ACTION_SEND)
+
+                intent.putExtra(Intent.EXTRA_TEXT, tst)
+                intent.type = "text/*"
+                context.startActivity(Intent.createChooser(intent, "My Ludo"))
+            },
             onHome = onBack
         )
 

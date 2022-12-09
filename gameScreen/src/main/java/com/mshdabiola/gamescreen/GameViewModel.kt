@@ -220,12 +220,12 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             val players = listOf(
                 HumanPlayer(
-                    name = "",
+                    name = "Player 1",
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 0
                 ),
                 HumanPlayer(
-                    name = "",
+                    name = "Player 2",
                     isCurrent = true,
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6

@@ -154,7 +154,8 @@ fun GameOverDialog(
     show: Boolean = true,
     players: ImmutableList<PlayerUiState>,
     onRestart: () -> Unit = {},
-    onHome: () -> Unit = {}
+    onHome: () -> Unit = {},
+    onShare: () -> Unit = {},
 ) {
     val humanWin by remember(players) {
         derivedStateOf { players.indexOfFirst { it.isCurrent } == players.lastIndex }
@@ -196,7 +197,7 @@ fun GameOverDialog(
                 IconButton(onClick = onHome) {
                     Icon(imageVector = Icons.Default.Home, contentDescription = "home")
                 }
-                IconButton(onClick = { }) {
+                IconButton(onClick = onShare) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = "share")
                 }
                 Button(onClick = onRestart) {
