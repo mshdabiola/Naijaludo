@@ -31,7 +31,6 @@ import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import kotlinx.collections.immutable.toImmutableList
 
-// todo("test it")
 @Composable
 fun GameScreenMultiLand(
     gameUiState: LudoUiState,
@@ -501,8 +500,8 @@ fun GameScreenMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
@@ -522,8 +521,8 @@ fun GameScreenLandMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
@@ -543,8 +542,8 @@ fun GameScreenFoldMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
@@ -563,8 +562,8 @@ fun GameScreenFoldLandMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
@@ -583,8 +582,8 @@ fun GameScreenTabletMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
@@ -603,8 +602,8 @@ fun GameScreenTabletLandMPreview() {
     val game = Constant.getDefaultGameState()
     val state = game
         .copy(
-            listOfCounter = Constant
-                .getDefaultCounter().map { it.copy(number = 4) }
+            listOfCounter = game.listOfCounter.map { it.copy(number = 4) },
+            listOfPlayer = game.listOfPlayer.map { it.copyPlayer(isCurrent = true) }
         )
         .toLudoUiState()
         .copy(gameType = GameType.FRIEND)
