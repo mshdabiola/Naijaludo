@@ -127,10 +127,14 @@ fun GameScreen(
     )
     val tst by remember(gameUiState.isRestartDialogOpen) {
         derivedStateOf {
-            val l = ludoGameState.listOfPlayer.joinToString {
-                "${it.name} - score ${it.win}\n"
+            val l = ludoGameState.listOfPlayer.joinToString(
+                separator = "\n",
+                prefix = "\n",
+                postfix = "\n"
+            ) {
+                "${it.name} - score ${it.win}"
             }
-            "Players\n $l \n download NaijaLudo At " +
+            "Players $l download NaijaLudo At " +
                 "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
         }
     }
@@ -227,7 +231,7 @@ fun GameScreen(
 
                 intent.putExtra(Intent.EXTRA_TEXT, tst)
                 intent.type = "text/*"
-                context.startActivity(Intent.createChooser(intent, "My Ludo"))
+                context.startActivity(Intent.createChooser(intent, "NaijaLudo Score"))
             },
             onHome = onBack
         )

@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon
-import com.mshdabiola.designsystem.theme.toHomeColor
+import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import com.mshdabiola.ludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
@@ -47,9 +47,9 @@ fun PlayerUi(
 ) {
 
     val colorBrush = if (player.colors.size == 1)
-        (1..2).map { player.colors[0].toHomeColor().copy(alpha = 0.9f) }
+        (1..2).map { player.colors[0].toPawnColor() }
     else
-        player.colors.map { it.toHomeColor().copy(alpha = 0.9f) }
+        player.colors.map { it.toPawnColor() }
 
     val image = @Composable {
         Box(
