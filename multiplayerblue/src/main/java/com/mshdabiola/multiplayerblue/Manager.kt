@@ -58,6 +58,7 @@ class Manager
                 log("action is ${intent.action}")
 
                 log("on receive bluetooth disconnect")
+                onErrorOccurBluetooth(Exception("receive disconnect bluetooth"))
             }
         }
 

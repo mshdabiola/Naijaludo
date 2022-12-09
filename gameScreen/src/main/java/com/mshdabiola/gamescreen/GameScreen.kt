@@ -7,16 +7,23 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -119,23 +126,43 @@ fun GameScreen(
         }
     )
 
+    val showText by remember(ludoGameState) {
+        derivedStateOf {
+            ludoGameState.listOfCounter.isEmpty() ||
+                ludoGameState.listOfDice.isEmpty() ||
+                ludoGameState.listOfPawn.isEmpty() ||
+                ludoGameState.listOfPlayer.isEmpty()
+        }
+    }
+
     Scaffold { paddingValues ->
-        GameScreen(
-            paddingValues = paddingValues,
-            gameUiState = ludoGameState,
-            music = gameUiState.music,
-            sound = gameUiState.sound,
-            rotateF = rotateF.value,
-            deviceType = deviceType,
-            onCounter = gameScreenViewModel::onCounter,
-            onDice = gameScreenViewModel::onDice,
-            onPawn = gameScreenViewModel::onPawn,
-            getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
-            onBack = onBack,
-            onSetMusic = gameScreenViewModel::setMusic,
-            onSetSound = gameScreenViewModel::setSound,
-            onForceRestart = gameScreenViewModel::restartGame
-        )
+        if (showText) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = "Loading...",
+
+                    style = MaterialTheme.typography.headlineMedium
+                )
+            }
+        } else {
+            GameScreen(
+                paddingValues = paddingValues,
+                gameUiState = ludoGameState,
+                music = gameUiState.music,
+                sound = gameUiState.sound,
+                rotateF = rotateF.value,
+                deviceType = deviceType,
+                onCounter = gameScreenViewModel::onCounter,
+                onDice = gameScreenViewModel::onDice,
+                onPawn = gameScreenViewModel::onPawn,
+                getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
+                onBack = onBack,
+                onSetMusic = gameScreenViewModel::setMusic,
+                onSetSound = gameScreenViewModel::setSound,
+                onForceRestart = gameScreenViewModel::restartGame
+            )
+        }
 
         StartDialog(
             show = gameUiState.isStartDialogOpen,
@@ -236,6 +263,7 @@ fun GameScreen(
                     onBack, onSetMusic, onSetSound, onForceRestart
                 )
             }
+
             DEVICE_TYPE.PHONE_LAND -> {
                 GameScreenMultiPhoneLand(
                     gameUiState, music, sound, rotateF, paddingValues,
@@ -243,6 +271,7 @@ fun GameScreen(
                     onBack, onSetMusic, onSetSound, onForceRestart
                 )
             }
+
             else -> {
                 GameScreenMultiLand(
                     gameUiState, music, sound, rotateF, paddingValues,

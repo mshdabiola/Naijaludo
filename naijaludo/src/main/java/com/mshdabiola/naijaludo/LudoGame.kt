@@ -107,6 +107,10 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(start = true, rotate = false))
     }
 
+    fun setGameToDefault() {
+        _gameState.value = LudoGameState(board = Board(colors = emptyList()))
+    }
+
     fun stop() {
         log("stop")
         setGameState(getGameState().copy(start = false))

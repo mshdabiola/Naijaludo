@@ -139,7 +139,7 @@ fun PlayerUiPreview() {
 
 @Composable
 fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList<PlayerUiState>) {
-
+    // Todo("fix index  error")
     val player = playerProvider()
     AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

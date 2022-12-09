@@ -1,13 +1,9 @@
 package com.mshdabiola.gamescreen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +31,7 @@ import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import kotlinx.collections.immutable.toImmutableList
 
+// todo("test it")
 @Composable
 fun GameScreenMultiLand(
     gameUiState: LudoUiState,
@@ -53,9 +50,9 @@ fun GameScreenMultiLand(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board.pathBoxes) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board.pathBoxes) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
     val counter1 by remember(gameUiState.listOfCounter) {
         val index = gameUiState.listOfPlayer.indexOfFirst { it.isCurrent }
         mutableStateOf(
@@ -153,15 +150,15 @@ fun GameScreenMultiLand(
             )
         }
 
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUiVertical(
             modifier = Modifier
@@ -208,9 +205,9 @@ fun GameScreenMultiPhoneLand(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board.pathBoxes) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board.pathBoxes) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
     val counter1 by remember(gameUiState.listOfCounter) {
         val index = gameUiState.listOfPlayer.indexOfFirst { it.isCurrent }
         mutableStateOf(
@@ -306,15 +303,15 @@ fun GameScreenMultiPhoneLand(
             )
         }
 
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUiVertical(
             modifier = Modifier
@@ -361,9 +358,9 @@ fun GameScreenMultiPort(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board.pathBoxes) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board.pathBoxes) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
 
     val counter1 by remember(gameUiState.listOfCounter) {
         val index = gameUiState.listOfPlayer.indexOfFirst { it.isCurrent }
@@ -460,15 +457,15 @@ fun GameScreenMultiPort(
             )
         }
 
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUi(
             modifier = Modifier

@@ -133,6 +133,8 @@ class GameViewModel @Inject constructor(
                     nonManagerState?.let { managerState ->
                         if (managerState.connected == false) {
                             log("game disconnect from bluetooth")
+                            // todo(bug after player finished and player press continue)
+                            closeBlue()
                             _gameUiState.value =
                                 gameUiState.value.copy(
                                     isStartDialogOpen = true
@@ -146,7 +148,7 @@ class GameViewModel @Inject constructor(
                                     ?: emptyList<String>().toImmutableList()
                             )
 
-                        if (managerState.message.isNotBlank()) {
+                        if (managerState.message.isNotBlank() && managerState.connected == true) {
                             onRemoteClick(managerState.message)
                         }
                     }
@@ -529,6 +531,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun closeBlue() {
+        game.setGameToDefault()
         clientServerJob?.cancel()
         blueManager.close()
     }

@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +10,11 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -65,9 +61,9 @@ fun GameScreenPhonePortrait(
     onForceRestart: () -> Unit = {}
 ) {
 
-    val showText by remember(gameUiState.board) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -146,15 +142,15 @@ fun GameScreenPhonePortrait(
             )
         }
         // }
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUi(
             modifier = Modifier
@@ -187,9 +183,9 @@ fun GameScreenPhoneLand(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -272,15 +268,15 @@ fun GameScreenPhoneLand(
             )
         }
         // }
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUiVertical(
             modifier = Modifier
@@ -314,9 +310,9 @@ fun GameScreeFoldPortrait(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board.pathBoxes) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board.pathBoxes) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -390,15 +386,15 @@ fun GameScreeFoldPortrait(
             )
         }
 
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         CounterGroupUi(
             modifier = Modifier.constrainAs(counterRef) {
@@ -437,9 +433,9 @@ fun GameScreenLarge(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {}
 ) {
-    val showText by remember(gameUiState.board.pathBoxes) {
-        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
-    }
+//    val showText by remember(gameUiState.board.pathBoxes) {
+//        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
+//    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -524,15 +520,15 @@ fun GameScreenLarge(
             )
         }
 
-        AnimatedVisibility(
-            modifier = Modifier.constrainAs(textRef) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, parent.bottom)
-            },
-            visible = showText
-        ) {
-            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier.constrainAs(textRef) {
+//                linkTo(parent.start, parent.end)
+//                linkTo(parent.top, parent.bottom)
+//            },
+//            visible = showText
+//        ) {
+//            Text(text = "Loading...", style = MaterialTheme.typography.headlineMedium)
+//        }
 
         // Spacer(modifier = Modifier.width(16.dp))
 
