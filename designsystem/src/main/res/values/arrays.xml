@@ -25,7 +25,7 @@
     </string-array>
 
     <string-array name="board_type">
-        <item>Shape</item>
+        <item>Cartoon</item>
 <!--        <item>Club</item>-->
 <!--        <item>Tribe</item>-->
     </string-array>

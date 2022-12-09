@@ -189,7 +189,8 @@ fun SettingDialog(
                         SettingItem(title = R.string.pawn_num) { modi ->
                             val value = stringArrayResource(id = R.array.pawn_number)
                             ExposeBox(
-                                modifier = modi.weight(0.5f), current = board.boardType,
+                                modifier = modi.weight(0.5f),
+                                current = value.indexOfFirst { it == "${board.pawnNumber}" },
                                 onValueChange = {
 
                                     boardSettingChange(board.copy(pawnNumber = value[it].toInt()))
