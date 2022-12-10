@@ -38,15 +38,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                defaultConfig. testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
               //  configureFlavors(this)
 
-                buildTypes{
-                    release {
-                        isMinifyEnabled = true
-                        proguardFiles(
-                            getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
-                        )
-                    }
-                }
             }
 
 //            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
