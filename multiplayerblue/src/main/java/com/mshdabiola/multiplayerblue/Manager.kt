@@ -12,7 +12,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import com.mshdabiola.ludo.model.log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.DataInputStream
@@ -48,13 +47,10 @@ class Manager
 
     private var receiver: BroadcastReceiver? = null
 
-    private var waitingForDevice = false
-
     fun setUp() {
-        setLog("setup")
+        log("setup")
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
-
                 log("action is ${intent.action}")
 
                 log("on receive bluetooth disconnect")
@@ -72,13 +68,13 @@ class Manager
                 as BluetoothManager
             ).adapter
 
-        state.value = ManagerState(devices = emptyList())
+        state.value = ManagerState()
     }
 
     fun isBluetoothEnable() = bluetoothAdapter?.isEnabled == true
 
-    suspend fun onServer(name: String, pawnNumber: Int, style: Int) {
-        setLog("start server1")
+    suspend fun onServer() {
+        log("start server1")
         try {
 
             val bluetoothServerSocket = bluetoothAdapter
@@ -88,55 +84,28 @@ class Manager
                 bluetoothSocket = this
             }
             state.value = state.value?.copy(connected = true)
-            sendString(
-                "setting,$name,$pawnNumber,$style"
-            )
+//            sendString(
+//                "setting,$name,$pawnNumber,$style"
+//            )
             bluetoothSocket?.let { collectRead(it.inputStream) }
-            setLog("start server2")
+            log("start server2")
         } catch (e: Exception) {
             log("On Server exception")
-            e.printStackTrace()
+            onErrorOccurBluetooth(e)
         }
     }
 
-    fun onClient() {
-        setLog("start client")
-
-        getAppDevice()
-    }
-
-    suspend fun onBlueDevice(blueIndex: Int, name: String) {
+    suspend fun onBlueDevice(blueIndex: Int) {
         try {
             val device = deviceList?.elementAt(blueIndex)
             bluetoothSocket = device?.createRfcommSocketToServiceRecord(serverUUId)
             bluetoothSocket?.connect()
-            state.value = state.value?.copy(devices = null, connected = true)
-            sendString("client_name,$name")
+            state.value = state.value?.copy(connected = true)
+            // sendString("client_name,$name")
             bluetoothSocket?.let { collectRead(it.inputStream) }
         } catch (e: Exception) {
             log("exception in connecting bluetooth")
-            e.printStackTrace()
-        }
-    }
-
-    private fun getAppDevice() {
-        deviceList = bluetoothAdapter?.bondedDevices
-        state.value = state.value?.copy(devices = deviceList?.map { it.name })
-    }
-
-    private fun setLog(msg: String) {
-        Log.e(this::class.simpleName, msg)
-    }
-
-    fun onPairNewDevice() {
-        waitingForDevice = true
-    }
-
-    fun onResume() {
-        if (waitingForDevice) {
-            waitingForDevice = false
-            getAppDevice()
-            log("reload device")
+            onErrorOccurBluetooth(e)
         }
     }
 
@@ -196,48 +165,56 @@ class Manager
         }
     }
 
+    fun getAppDevice(): List<String> {
+        deviceList = bluetoothAdapter?.bondedDevices
+        return deviceList?.map { it.name } ?: emptyList()
+    }
+
     private fun onErrorOccurBluetooth(throwable: Throwable) {
+
         state.value = state.value?.copy(connected = false)
+
         throwable.printStackTrace()
         // close()
     }
 
     fun close() {
-        setLog("Close")
-        bluetoothAdapter = null
+        log("close bluetooth")
+
         bluetoothSocket?.close()
         bluetoothSocket = null
         if (receiver != null) {
             context.unregisterReceiver(receiver)
             receiver = null
         }
+        bluetoothAdapter = null
         state.value = null
+    }
+
+    fun bluetoothPermission(context: Context): List<String> {
+        log("canConnect called")
+        val deniedPermissions = ArrayList<String>()
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (!checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION))
+                deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+            if (!checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION))
+                deniedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) { // Build.VERSION_CODES.S or later
+            if (!checkPermission(context, Manifest.permission.BLUETOOTH_CONNECT))
+                deniedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+        return deniedPermissions
+    }
+
+    private fun checkPermission(context: Context, permission: String): Boolean {
+        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
 }
 
 data class ManagerState(
-    val devices: List<String>?,
+    // val devices: List<String>?,
     val connected: Boolean? = null,
     val message: String = ""
 )
-
-fun bluetoothPermission(context: Context): Array<String> {
-    log("canConnect called")
-    val deniedPermissions = ArrayList<String>()
-
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-        if (!checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION))
-            deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-        if (!checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION))
-            deniedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S) { // Build.VERSION_CODES.S or later
-        if (!checkPermission(context, Manifest.permission.BLUETOOTH_CONNECT))
-            deniedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT)
-    }
-    return deniedPermissions.toTypedArray()
-}
-
-private fun checkPermission(context: Context, permission: String): Boolean {
-    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-}

@@ -43,7 +43,6 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import com.mshdabiola.multiplayerblue.bluetoothPermission
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -92,6 +91,13 @@ fun GameScreen(
         else
             rotateF.snapTo(0f)
     }
+
+    LaunchedEffect(key1 = gameUiState.navigateBackBcosOfBlueError) {
+        if (gameUiState.navigateBackBcosOfBlueError) {
+            onBack()
+        }
+    }
+
     var isServer by remember {
         mutableStateOf(false)
     }
@@ -187,13 +193,13 @@ fun GameScreen(
             onBackPress = onBack,
             onJoinClick = {
                 isServer = false
-                val permissions = bluetoothPermission(context)
+                val permissions = gameScreenViewModel.bluetoothPermission(context)
 
                 gameScreenViewModel.onJoin()
 
                 when {
                     permissions.isNotEmpty() ->
-                        forRequestBlue.launch(permissions)
+                        forRequestBlue.launch(permissions.toTypedArray())
 
                     !gameScreenViewModel.isBluetoothEnable() ->
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
@@ -205,13 +211,13 @@ fun GameScreen(
             },
             onHostClick = {
                 isServer = true
-                val permissions = bluetoothPermission(context)
+                val permissions = gameScreenViewModel.bluetoothPermission(context)
 //                showBlueDialog = true
                 gameScreenViewModel.onHost()
 
                 when {
                     permissions.isNotEmpty() ->
-                        forRequestBlue.launch(permissions)
+                        forRequestBlue.launch(permissions.toTypedArray())
 
                     !gameScreenViewModel.isBluetoothEnable() ->
                         forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))

@@ -12,5 +12,6 @@ data class GameUiState(
     val music: Boolean = false,
     val sound: Boolean = false,
     val isBluetoothConnected: Boolean = false,
+    val navigateBackBcosOfBlueError: Boolean = false,
     val listOfDevice: ImmutableList<String> = emptyList<String>().toImmutableList()
 )
