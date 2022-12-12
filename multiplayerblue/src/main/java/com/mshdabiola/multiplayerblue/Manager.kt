@@ -181,12 +181,15 @@ class Manager
     fun close() {
         log("close bluetooth")
 
+        bluetoothSocket?.inputStream?.close()
+        bluetoothSocket?.outputStream?.close()
         bluetoothSocket?.close()
         bluetoothSocket = null
         if (receiver != null) {
             context.unregisterReceiver(receiver)
             receiver = null
         }
+
         bluetoothAdapter = null
         state.value = null
     }
