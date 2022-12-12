@@ -107,9 +107,16 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(start = true, rotate = false))
     }
 
-    fun setGameToDefault() {
-        _gameState.value = LudoGameState(board = Board(colors = emptyList()))
-    }
+//    fun setGameToDefault() {
+//        val ludo=LudoGameState(board = Board(colors = emptyList()))
+//        _gameState.value =gameState.value.copy(
+//            listOfPlayer = ludo.listOfPlayer,
+//            listOfCounter = ludo.listOfCounter,
+//            listOfPawn = ludo.listOfPawn,
+//            listOfDice = ludo.listOfDice
+//        )
+//
+//    }
 
     fun stop() {
         log("stop")
@@ -415,7 +422,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     // on pawn 2
     private fun onPawnDrawer(pawwnIndx: Int) {
-        // Todo("bug is here list pawn is null for offline")
+
         log("colorId is $pawwnIndx ${getGameState().listOfPawnDrawer}")
         val pawn = getGameState().listOfPawn[pawwnIndx]
         // listOfPawnDrawer!!.single { it.idx == idx }

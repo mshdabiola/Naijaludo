@@ -1,14 +1,14 @@
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-    }
-}
+//buildscript {
+//    dependencies {
+//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+//    }
+//}
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
+   // alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.android.test) apply false
+//    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.manes)
     alias(libs.plugins.little)

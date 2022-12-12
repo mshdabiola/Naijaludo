@@ -12,7 +12,9 @@ plugins {
 
 android {
     namespace = "com.mshdabiola.datastore"
-
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 
 }
 // Setup protobuf configuration, generating lite Java and Kotlin classes
