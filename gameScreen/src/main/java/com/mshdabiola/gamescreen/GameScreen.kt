@@ -3,6 +3,7 @@ package com.mshdabiola.gamescreen
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Animatable
@@ -91,9 +92,10 @@ fun GameScreen(
         else
             rotateF.snapTo(0f)
     }
-
+    val context = LocalContext.current
     LaunchedEffect(key1 = gameUiState.navigateBackBcosOfBlueError) {
         if (gameUiState.navigateBackBcosOfBlueError) {
+            Toast.makeText(context, "Error occur Try again", Toast.LENGTH_SHORT).show()
             onBack()
         }
     }
@@ -101,7 +103,6 @@ fun GameScreen(
     var isServer by remember {
         mutableStateOf(false)
     }
-    val context = LocalContext.current
 
     val forResult = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),

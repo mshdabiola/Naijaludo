@@ -155,6 +155,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Pixel_4_API_33" value="120" />
                   <entry key="Resizable_Experimental_API_33" value="120" />
                   <entry key="Resizable_Experimental_API_33_2" value="120" />
                   <entry key="Tests" value="360" />

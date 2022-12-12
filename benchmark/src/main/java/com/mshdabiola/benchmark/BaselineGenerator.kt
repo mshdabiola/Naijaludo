@@ -29,7 +29,7 @@ class BaselineGenerator {
         device.findObject(UiSelector().text("Cancel")).click()
 
         device.waitForIdle()
-        device.findObject(UiSelector().text("play")).click()
+        device.findObject(UiSelector().text("Play")).click()
 
         device.waitForIdle()
         device.findObject(UiSelector().descriptionContains("menu")).click()
@@ -39,8 +39,8 @@ class BaselineGenerator {
         device.findObject(UiSelector().descriptionContains("Setting")).click()
 
         device.waitForIdle()
-        device.findObject(UiSelector().text("Player Name")).swipeDown(2)
-        device.findObject(UiSelector().text("Player Name")).swipeUp(2)
+        device.findObject(UiSelector().text("Player name")).swipeDown(2)
+        device.findObject(UiSelector().text("Player name")).swipeUp(2)
 
         device.findObject(UiSelector().descriptionContains("close")).click()
         device.waitForIdle()

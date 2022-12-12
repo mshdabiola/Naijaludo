@@ -393,9 +393,11 @@ fun DeviceListDialog(
                             Row(
                                 Modifier
                                     .fillMaxWidth()
+                                    .height(44.dp)
                                     .clickable {
                                         onDeviceClick(index)
-                                    }
+                                    },
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     style = MaterialTheme.typography.titleSmall,

@@ -422,7 +422,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     // on pawn 2
     private fun onPawnDrawer(pawwnIndx: Int) {
-        // Todo("bug is here list pawn is null for offline")
+
         log("colorId is $pawwnIndx ${getGameState().listOfPawnDrawer}")
         val pawn = getGameState().listOfPawn[pawwnIndx]
         // listOfPawnDrawer!!.single { it.idx == idx }
