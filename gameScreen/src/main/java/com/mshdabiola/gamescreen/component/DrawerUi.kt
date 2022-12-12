@@ -18,23 +18,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import com.mshdabiola.gamescreen.isHorizontal
-import com.mshdabiola.gamescreen.state.DrawerUiState
 import com.mshdabiola.gamescreen.state.PawnUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun DrawerUi(
     modifier: Modifier = Modifier.zIndex(60f),
-    drawerUiStateProvider: () -> DrawerUiState? = { DrawerUiState() },
+    drawerUiStateProvider: () -> ImmutableList<PawnUiState>? = {
+        emptyList<PawnUiState>().toImmutableList()
+    },
     onPawnDrawer: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, GameColor) -> Point = { _, _ -> Point.zero }
+    getPositionIntOffset: (Int, GameColor) -> PointUiState = { _, _ -> PointUiState.Zero }
 ) {
     val drawerUiState = drawerUiStateProvider()
     if (drawerUiState != null) {
-        val pawn = drawerUiState.listOfPawnUiState.first()
+        val pawn = drawerUiState.first()
         val offset = getPositionIntOffset(pawn.currentPos, pawn.color)
         val oneDp = LocalUnitDP.current
         val padding = oneDp * 0.1f
@@ -51,17 +55,17 @@ fun DrawerUi(
 
             ) {
 
-                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
+                drawerUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(
                         modifier = Modifier.size(oneDp),
                         offset = IntOffset.Zero,
                         pawnUiState = pawn,
                         isEnableForPlayer = true,
-                        onClick = { _, _ -> onPawnDrawer(index, true) }
+                        onClick = { _, _ -> onPawnDrawer(pawn.idx, true) }
                     )
 
-                    if (index != drawerUiState.listOfPawnUiState.lastIndex) {
+                    if (index != drawerUiState.lastIndex) {
                         Spacer(modifier = Modifier.height(padding))
                     }
                 }
@@ -78,17 +82,17 @@ fun DrawerUi(
 
             ) {
 
-                drawerUiState.listOfPawnUiState.forEachIndexed { index, pawn ->
+                drawerUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(
                         modifier = Modifier.size(oneDp),
                         offset = IntOffset.Zero,
                         pawnUiState = pawn,
                         isEnableForPlayer = true,
-                        onClick = { _, _ -> onPawnDrawer(index, true) }
+                        onClick = { _, _ -> onPawnDrawer(pawn.idx, true) }
                     )
 
-                    if (index != drawerUiState.listOfPawnUiState.lastIndex) {
+                    if (index != drawerUiState.lastIndex) {
                         Spacer(modifier = Modifier.width(padding))
                     }
                 }
@@ -113,28 +117,30 @@ fun DrawerBoardPreview() {
 
         DrawerUi(
             drawerUiStateProvider = {
-                DrawerUiState(
-                    listOf(
-                        PawnUiState(currentPos = point[i]!![1]),
-                        PawnUiState(color = GameColor.BLUE)
-                    )
-                )
+
+                listOf(
+                    PawnUiState(currentPos = point[i]!![1]),
+                    PawnUiState(color = GameColor.BLUE)
+                ).toImmutableList()
             },
 
-            getPositionIntOffset = board::getPositionIntPoint
+            getPositionIntOffset = { x: Int, y: GameColor ->
+                board.getPositionIntPoint(x, y).toPointUiState()
+            }
         )
 
         DrawerUi(
             drawerUiStateProvider = {
-                DrawerUiState(
-                    listOf(
-                        PawnUiState(currentPos = 9),
-                        PawnUiState(color = GameColor.BLUE)
-                    )
-                )
+
+                listOf(
+                    PawnUiState(currentPos = 9),
+                    PawnUiState(color = GameColor.BLUE)
+                ).toImmutableList()
             },
 
-            getPositionIntOffset = board::getPositionIntPoint
+            getPositionIntOffset = { x: Int, y: GameColor ->
+                board.getPositionIntPoint(x, y).toPointUiState()
+            }
         )
     }
 }

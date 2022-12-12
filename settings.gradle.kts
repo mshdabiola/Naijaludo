@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        includeBuild("build-logic")
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -23,3 +24,4 @@ include (":database")
 include (":designsystem")
 include(":datastore")
 include(":soundsystem")
+include(":multiplayerblue")

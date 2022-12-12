@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +38,7 @@ fun CounterUi(
 
     GameButton(
         modifier = modifier
-            .requiredSize(64.dp),
+            .requiredSize(56.dp),
         onClick = {
 
             onCounterClick(counterUiState.id)
@@ -62,8 +63,8 @@ fun CounterGroupUi(
     modifier: Modifier = Modifier,
     counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
     isHumanProvider: () -> Boolean = { true },
-    onCounterClick: (Int) -> Unit = {}
-
+    onCounterClick: (Int) -> Unit = {},
+    rotateButton: Float = 0f
 ) {
     val counterUiStateList = counterUiStateListProvider()
     val isHuman = isHumanProvider()
@@ -83,6 +84,7 @@ fun CounterGroupUi(
 
                 counterUiStateList.forEachIndexed { index, counter ->
                     CounterUi(
+                        modifier = Modifier.rotate(rotateButton),
                         counterUiState = counter,
                         isHuman = isHuman,
                         onCounterClick = onCounterClick
@@ -101,8 +103,8 @@ fun CounterGroupUiVertical(
     modifier: Modifier = Modifier,
     counterUiStateListProvider: () -> ImmutableList<CounterUiState>,
     isHumanProvider: () -> Boolean = { true },
-    onCounterClick: (Int) -> Unit = {}
-
+    onCounterClick: (Int) -> Unit = {},
+    rotateButton: Float = 0f
 ) {
     val counterUiStateList = counterUiStateListProvider()
     val isHuman = isHumanProvider()
@@ -123,6 +125,7 @@ fun CounterGroupUiVertical(
 
                 counterUiStateList.forEachIndexed { index, counter ->
                     CounterUi(
+                        modifier = Modifier.rotate(rotateButton),
                         counterUiState = counter,
                         isHuman = isHuman,
                         onCounterClick = onCounterClick

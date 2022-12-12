@@ -34,7 +34,7 @@ import com.mshdabiola.gamescreen.randDiceOffSet
 import com.mshdabiola.gamescreen.state.DiceUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.gamescreen.state.toDiceUiState
-import com.mshdabiola.naijaludo.LudoGame
+import com.mshdabiola.ludo.model.Constant.getDefaultGameState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ fun DiceUi(
 @Composable
 fun DiceUiPreview() {
 
-    val ludoGameState = LudoGame.getDefaultGameState()
+    val ludoGameState = getDefaultGameState()
     val board = ludoGameState.board.toBoardUiState()
 
     BoardUi(boardUiStateProvider = { board }) {

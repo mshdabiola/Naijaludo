@@ -32,11 +32,12 @@ import androidx.compose.ui.zIndex
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.designsystem.theme.toPawnTextColor
 import com.mshdabiola.gamescreen.state.PawnUiState
+import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.showText
 import com.mshdabiola.gamescreen.state.toBoardUiState
+import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.ludo.model.Board
 import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Point
 import com.mshdabiola.ludo.model.log
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -62,7 +63,7 @@ fun PawnUi(
             }
             .clickable(pawnUiState.isEnable && isEnableForPlayer) {
                 log("on Human click $pawnUiState")
-                onClick(pawnUiState.index, false)
+                onClick(pawnUiState.idx, false)
             },
         shape = CircleShape,
         color = pawnUiState.color.toPawnColor(),
@@ -100,7 +101,7 @@ fun MovablePawnUi(
     pawnUiState: PawnUiState,
     isHuman: Boolean = true,
     onClick: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, GameColor) -> Point,
+    getPositionIntOffset: (Int, GameColor) -> PointUiState,
     // onMoveFinish: (Pawn) -> Unit = {}
 ) {
 
@@ -151,7 +152,7 @@ fun PawnsUi(
     pawnUiStateListProvider: () -> ImmutableList<PawnUiState>,
     isHumanProvider: () -> Boolean = { true },
     onClick: (Int, Boolean) -> Unit = { _, _ -> },
-    getPositionIntOffset: (Int, GameColor) -> Point,
+    getPositionIntOffset: (Int, GameColor) -> PointUiState,
 ) {
     AnimatedVisibility(visible = pawnUiStateListProvider().isNotEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -172,7 +173,9 @@ fun PawnsUi(
 fun PawnsUiPreview() {
 
     val board = Board()
-    val getOffset = board::getPositionIntPoint
+    val getOffset = { x: Int, y: GameColor ->
+        board.getPositionIntPoint(x, y).toPointUiState()
+    }
     BoardUi(boardUiStateProvider = { board.toBoardUiState() }) {
         PawnsUi(
             pawnUiStateListProvider = {
