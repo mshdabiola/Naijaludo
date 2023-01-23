@@ -13,15 +13,15 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Naija Ludo"
+rootProject.name = "Naija_Ludo"
 include (":app")
-include (":naijaludo")
+include (":core:naijaludo")
 include (":benchmark")
-include (":model")
-include (":mainScreen")
-include (":gameScreen")
-include (":database")
-include (":designsystem")
-include(":datastore")
-include(":soundsystem")
-include(":multiplayerblue")
+include (":core:model")
+include (":feature:mainScreen")
+include (":feature:gamescreen")
+include (":core:database")
+include (":core:designsystem")
+include(":core:datastore")
+include(":core:soundsystem")
+include(":core:multiplayerblue")

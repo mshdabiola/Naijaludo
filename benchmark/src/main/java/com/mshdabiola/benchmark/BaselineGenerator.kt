@@ -14,7 +14,7 @@ class BaselineGenerator {
 
     @Test
     fun startUp() = baselineProfileRule.collectBaselineProfile(
-        packageName = "com.mshdabiola.ludo"
+        packageName = "com.mshdabiola.ludo",
     ) {
         pressHome()
         startActivityAndWait()

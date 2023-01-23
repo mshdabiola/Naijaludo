@@ -9,7 +9,7 @@ import com.mshdabiola.ludo.navigation.LudoNavHost
 @Composable
 fun LudoApp(
     windowSizeClass: WindowSizeClass,
-    appState: LudoAppState = rememBerLudoAppState(windowSizeClass = windowSizeClass)
+    appState: LudoAppState = rememBerLudoAppState(windowSizeClass = windowSizeClass),
 ) {
     LudoAppTheme {
         LudoNavHost(

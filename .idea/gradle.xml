@@ -26,15 +26,17 @@
             <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
-            <option value="$PROJECT_DIR$/database" />
-            <option value="$PROJECT_DIR$/datastore" />
-            <option value="$PROJECT_DIR$/designsystem" />
-            <option value="$PROJECT_DIR$/gameScreen" />
-            <option value="$PROJECT_DIR$/mainScreen" />
-            <option value="$PROJECT_DIR$/model" />
-            <option value="$PROJECT_DIR$/multiplayerblue" />
-            <option value="$PROJECT_DIR$/naijaludo" />
-            <option value="$PROJECT_DIR$/soundsystem" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/datastore" />
+            <option value="$PROJECT_DIR$/core/designsystem" />
+            <option value="$PROJECT_DIR$/core/model" />
+            <option value="$PROJECT_DIR$/core/multiplayerblue" />
+            <option value="$PROJECT_DIR$/core/naijaludo" />
+            <option value="$PROJECT_DIR$/core/soundsystem" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/gamescreen" />
+            <option value="$PROJECT_DIR$/feature/mainScreen" />
           </set>
         </option>
       </GradleProjectSettings>

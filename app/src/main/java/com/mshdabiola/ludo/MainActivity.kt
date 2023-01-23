@@ -44,19 +44,19 @@ class MainActivity : ComponentActivity() {
         }
     }
     override fun attachBaseContext(base: Context) {
-
         super.attachBaseContext(updateBaseContextLocale(base))
     }
 
     private fun updateBaseContextLocale(context: Context): Context? {
-
 //        val language: String =
 //            SharedPrefUtils.getSavedLanguage() // Helper method to get saved language from SharedPreferences
         val locale = Locale(ShareUtil.getLand(context))
         Locale.setDefault(locale)
         return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
             updateResourcesLocale(context, locale)
-        } else updateResourcesLocaleLegacy(context, locale)
+        } else {
+            updateResourcesLocaleLegacy(context, locale)
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.N_MR1)
