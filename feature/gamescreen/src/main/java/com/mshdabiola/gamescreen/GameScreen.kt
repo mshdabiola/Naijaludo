@@ -43,6 +43,10 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,6 +156,13 @@ fun GameScreen(
         }
     }
 
+    val showConfetti = remember(gameUiState.isRestartDialogOpen) {
+        derivedStateOf {
+            ludoGameState.listOfPlayer.lastOrNull()?.isCurrent == true &&
+                gameUiState.isRestartDialogOpen
+        }
+    }
+
     Scaffold { paddingValues ->
         if (showText) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -180,7 +191,31 @@ fun GameScreen(
                 onForceRestart = gameScreenViewModel::restartGame,
             )
         }
-
+        if (showConfetti.value) {
+            KonfettiView(
+                modifier = Modifier.fillMaxSize(),
+                parties = listOf(
+                    Party(
+                        spread = 270,
+                        position = Position.Relative(0.2, 0.0),
+                        emitter = Emitter(5000).perSecond(300),
+                        timeToLive = 7000,
+                    ),
+                    Party(
+                        spread = 360,
+                        position = Position.Relative(0.5, 0.0),
+                        emitter = Emitter(5000).perSecond(700),
+                        timeToLive = 7000,
+                    ),
+                    Party(
+                        spread = 270,
+                        position = Position.Relative(0.8, 0.0),
+                        emitter = Emitter(5000).perSecond(300),
+                        timeToLive = 7000,
+                    ),
+                ),
+            )
+        }
         StartDialog(
             show = gameUiState.isStartDialogOpen,
             showContinueButton = gameUiState.showContinueButton,
@@ -226,6 +261,7 @@ fun GameScreen(
                 }
             },
         )
+
         GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
             onRestart = gameScreenViewModel::onRestart,

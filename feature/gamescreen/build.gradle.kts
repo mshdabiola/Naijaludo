@@ -14,6 +14,7 @@ dependencies {
     implementation (project( ":core:database"))
     implementation (project( ":core:multiplayerblue"))
 
+    implementation ("nl.dionsegijn:konfetti-compose:2.0.2")
    // implementation(libs.bundles.common.bundle)
     //implementation(libs.androidx.constraintlayout)
 
