@@ -171,6 +171,29 @@ class GameViewModel @Inject constructor(
 //                    }
 //                }
 //        }
+        viewModelScope.launch(Dispatchers.IO) {
+            blueManager.state
+                .mapNotNull { it?.serverConnected }
+                .buffer(2)
+                .distinctUntilChanged { old, new -> old == new }
+                .collect {
+                    log("collected $it")
+                    if (it) {
+                        if (blueManager.state.value?.isServer == true) {
+                            sendString(
+                                "setting,${profName[0]}," +
+                                    "${ludoSetting.numberOfPawn},${ludoSetting.style}",
+                            )
+                        } else {
+                            delay(500)
+                            sendString("client_name,${profName[0]}")
+                        }
+                    } else {
+                        _gameUiState.value =
+                            gameUiState.value.copy(navigateBackBcosOfBlueError = true)
+                    }
+                }
+        }
 
         viewModelScope.launch(Dispatchers.IO) {
             blueManager.state
@@ -561,10 +584,12 @@ class GameViewModel @Inject constructor(
 
     fun isBluetoothEnable() = false // blueManager.isBluetoothEnable()
 
-    fun onServer() {
-        clientServerJob = viewModelScope.launch(Dispatchers.IO) {
+    fun startOffGame() {
+        clientServerJob?.cancel()
+        clientServerJob = viewModelScope.launch {
             log("start Server")
-            blueManager.onServer()
+            _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
+            blueManager.connect()
         }
     }
 

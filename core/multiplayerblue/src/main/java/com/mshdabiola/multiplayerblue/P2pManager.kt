@@ -30,6 +30,8 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.net.InetSocketAddress
+import java.net.ServerSocket
 import java.net.Socket
 import javax.inject.Inject
 
@@ -45,6 +47,7 @@ class P2pManager
     val state = MutableStateFlow<P2pManagerState?>(null)
     private var deviceList: Set<WifiP2pDevice>? = null
     private var receiver: BroadcastReceiver? = null
+    private val port = 8888
 
     fun setUp() {
         log("setup")
@@ -152,19 +155,44 @@ class P2pManager
         state.value = P2pManagerState()
     }
 
-    suspend fun onServer() = withContext(Dispatchers.IO) {
+    suspend fun connect() {
+        log("is Server ${state.value?.isServer}")
+
+        if (state.value?.isServer == true) {
+            startServer()
+        } else {
+            startClient()
+        }
+    }
+
+    private suspend fun startServer() = withContext(Dispatchers.IO) {
         log("start server1")
         try {
-//                val serverSocket = ServerSocket(8888)
-//                socket = serverSocket.accept()
-//
-//                state.value = state.value?.copy(connected = true)
-//
-//                socket?.let { collectRead(it.inputStream) }
+            val serverSocket = ServerSocket()
+            serverSocket.bind(InetSocketAddress(port))
+            socket = serverSocket.accept()
+            state.value = state.value?.copy(serverConnected = true)
+            socket?.let { collectRead(it.inputStream) }
 
             log("start server2")
         } catch (e: Exception) {
             log("On Server exception")
+            onErrorOccurBluetooth(e)
+        }
+    }
+
+    private suspend fun startClient() = withContext(Dispatchers.IO) {
+        log("start client1")
+        try {
+            socket = Socket()
+            socket?.bind(null)
+            socket?.connect(InetSocketAddress(state.value!!.ownerAddress, port))
+            state.value = state.value?.copy(serverConnected = true)
+            // sendString("client_name,$name")
+            socket?.let { collectRead(it.inputStream) }
+            log("start client2")
+        } catch (e: Exception) {
+            log("exception in connecting bluetooth")
             onErrorOccurBluetooth(e)
         }
     }
@@ -259,7 +287,7 @@ class P2pManager
     }
 
     private fun onErrorOccurBluetooth(throwable: Throwable) {
-        state.value = state.value?.copy(connected = false)
+        state.value = state.value?.copy(serverConnected = false)
 
         throwable.printStackTrace()
         // close()
@@ -268,9 +296,11 @@ class P2pManager
     fun close() {
         log("close bluetooth")
 
-        socket?.inputStream?.close()
-        socket?.outputStream?.close()
-        socket?.close()
+        if (socket?.isConnected == true) {
+            socket?.inputStream?.close()
+            socket?.outputStream?.close()
+            socket?.close()
+        }
         socket = null
         if (receiver != null) {
             context.unregisterReceiver(receiver)

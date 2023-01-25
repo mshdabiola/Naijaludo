@@ -276,12 +276,9 @@ fun GameScreen(
 
         WaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
-//            connected = gameUiState.isBluetoothConnected,
-//            isServe = isServer,
             connected = gameUiState.connected,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
-            startGame = {
-            },
+            startGame = gameScreenViewModel::startOffGame,
         )
 
         DeviceListDialog(
