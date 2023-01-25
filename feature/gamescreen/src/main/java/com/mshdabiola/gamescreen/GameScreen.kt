@@ -1,7 +1,6 @@
 package com.mshdabiola.gamescreen
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,7 +19,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -101,36 +99,36 @@ fun GameScreen(
         }
     }
 
-    var isServer by remember {
-        mutableStateOf(false)
-    }
+//    var isServer by remember {
+//        mutableStateOf(false)
+//    }
 
-    val forResult = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = {
-            if (isServer) {
-                // start server
-                gameScreenViewModel.onServer()
-            } else {
-                gameScreenViewModel.onClient()
-            }
-        },
-    )
+//    val forResult = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.StartActivityForResult(),
+//        onResult = {
+//            if (isServer) {
+//                // start server
+//                gameScreenViewModel.onServer()
+//            } else {
+//                gameScreenViewModel.onClient()
+//            }
+//        },
+//    )
 
     val forRequestBlue = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = {
-            if (!gameScreenViewModel.isBluetoothEnable()) {
-                forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-            } else {
-                if (isServer) {
-                    // start server
-                    gameScreenViewModel.onServer()
-                } else {
-                    // start client
-                    gameScreenViewModel.onClient()
-                }
-            }
+//            if (!gameScreenViewModel.isBluetoothEnable()) {
+//                forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+//            } else {
+//                if (isServer) {
+//                    // start server
+//                    gameScreenViewModel.onServer()
+//                } else {
+//                    // start client
+//                    gameScreenViewModel.onClient()
+//                }
+            // }
         },
     )
     val tst by remember(gameUiState.isRestartDialogOpen) {
@@ -225,40 +223,40 @@ fun GameScreen(
             onContinueButton = gameScreenViewModel::onContinueClick,
             onBackPress = onBack,
             onJoinClick = {
-                isServer = false
-                val permissions = gameScreenViewModel.bluetoothPermission(context)
+//                isServer = false
+//                val permissions = gameScreenViewModel.bluetoothPermission(context)
 
                 gameScreenViewModel.onJoin()
 
-                when {
-                    permissions.isNotEmpty() ->
-                        forRequestBlue.launch(permissions.toTypedArray())
+//                when {
+//                    permissions.isNotEmpty() ->
+//                        forRequestBlue.launch(permissions.toTypedArray())
 
-                    !gameScreenViewModel.isBluetoothEnable() ->
-                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+//                    !gameScreenViewModel.isBluetoothEnable() ->
+//                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
 
-                    else -> {
-                        gameScreenViewModel.onClient()
-                    }
-                }
+//                    else -> {
+//                        gameScreenViewModel.onConnect()
+//                    }
+//                }
             },
             onHostClick = {
-                isServer = true
-                val permissions = gameScreenViewModel.bluetoothPermission(context)
-//                showBlueDialog = true
-                gameScreenViewModel.onHost()
-
-                when {
-                    permissions.isNotEmpty() ->
-                        forRequestBlue.launch(permissions.toTypedArray())
-
-                    !gameScreenViewModel.isBluetoothEnable() ->
-                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-
-                    else -> {
-                        gameScreenViewModel.onServer()
-                    }
-                }
+//                isServer = true
+//                val permissions = gameScreenViewModel.bluetoothPermission(context)
+// //                showBlueDialog = true
+//                gameScreenViewModel.onHost()
+//
+//                when {
+//                    permissions.isNotEmpty() ->
+//                        forRequestBlue.launch(permissions.toTypedArray())
+//
+// //                    !gameScreenViewModel.isBluetoothEnable() ->
+// //                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+//
+//                    else -> {
+//                        gameScreenViewModel.onServer()
+//                    }
+//                }
             },
         )
 
@@ -278,9 +276,12 @@ fun GameScreen(
 
         WaitingDialog(
             show = gameUiState.isWaitingDialogOpen,
-            connected = gameUiState.isBluetoothConnected,
-            isServe = isServer,
+//            connected = gameUiState.isBluetoothConnected,
+//            isServe = isServer,
+            connected = gameUiState.connected,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
+            startGame = {
+            },
         )
 
         DeviceListDialog(

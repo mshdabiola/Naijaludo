@@ -3,6 +3,7 @@ package com.mshdabiola.gamescreen.component
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,14 +17,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
@@ -43,6 +47,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -318,17 +323,20 @@ fun GameCardPreview2() {
 @Composable
 fun WaitingDialog(
     show: Boolean,
-    isServe: Boolean = true,
+//    isServe: Boolean = true,
     connected: Boolean = false,
     onCancelClick: () -> Unit = {},
+    startGame: () -> Unit = {},
 
 ) {
-    val message = when {
-        isServe && connected -> stringResource(id = R.string.server_connected)
-        !isServe && connected -> stringResource(id = R.string.client_connected)
-        isServe -> stringResource(id = R.string.waiting_for_client)
-        else -> stringResource(id = R.string.connecting_to_server)
-    }
+    val message = if (connected)"This device is connected" else "Connecting"
+//        when {
+//        isServe && connected -> stringResource(id = R.string.server_connected
+//        )
+//        !isServe && connected -> stringResource(id = R.string.client_connected)
+//        isServe -> stringResource(id = R.string.waiting_for_client)
+//        else -> stringResource(id = R.string.connecting_to_server)
+//    }
 
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -344,7 +352,27 @@ fun WaitingDialog(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    CircularProgressIndicator()
+                    AnimatedVisibility(connected) {
+                        Box(
+                            Modifier
+                                .background(Color.Green, CircleShape)
+                                .size(44.dp),
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(4.dp),
+                                imageVector = Icons.Default.Done,
+                                contentDescription = "done",
+                                tint = Color.White,
+                            )
+                        }
+                    }
+
+                    AnimatedVisibility(visible = !connected) {
+                        CircularProgressIndicator()
+                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(text = message)
                 }
@@ -352,6 +380,10 @@ fun WaitingDialog(
             buttons = {
                 TextButton(onClick = onCancelClick) {
                     Text(text = stringResource(id = R.string.cancel))
+                }
+
+                Button(onClick = startGame) {
+                    Text(text = "Start game")
                 }
             },
         )

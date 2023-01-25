@@ -23,7 +23,7 @@ import com.mshdabiola.ludo.model.LudoGameState
 import com.mshdabiola.ludo.model.LudoSetting
 import com.mshdabiola.ludo.model.log
 import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.multiplayerblue.Manager
+import com.mshdabiola.multiplayerblue.P2pManager
 import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,7 +55,7 @@ class GameViewModel @Inject constructor(
     private val ludoStateDomain: LudoStateDomain,
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
-    private val blueManager: Manager,
+    private val blueManager: P2pManager,
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -66,7 +67,6 @@ class GameViewModel @Inject constructor(
     val gameUiState = _gameUiState.asStateFlow()
 
     private var clientServerJob: Job? = null
-    private var isServer: Boolean? = null
 
     val ludoGameState = game.gameState
         .map { it.toLudoUiState() }
@@ -135,42 +135,42 @@ class GameViewModel @Inject constructor(
                 }
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            blueManager.state
-                .map { it?.connected }
-                .buffer(2)
-                .distinctUntilChanged { old, new -> old == new }
-                .collect {
-                    log("collected $it")
-                    if (it != null) {
-                        if (it) {
-                            _gameUiState.value = gameUiState
-                                .value.copy(
-                                    isBluetoothConnected = it,
-                                )
-
-                            if (isServer!!) {
-                                sendString(
-                                    "setting,${profName[0]}," +
-                                        "${ludoSetting.numberOfPawn},${ludoSetting.style}",
-                                )
-                            } else {
-                                delay(500)
-                                sendString("client_name,${profName[0]}")
-                            }
-                        } else {
-                            //   closeBlue()
-                            _gameUiState.value =
-                                gameUiState.value.copy(navigateBackBcosOfBlueError = true)
-                        }
-                    } else {
-                        _gameUiState.value = gameUiState
-                            .value.copy(
-                                isBluetoothConnected = false,
-                            )
-                    }
-                }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            blueManager.state
+//                .map { it?.connected }
+//                .buffer(2)
+//                .distinctUntilChanged { old, new -> old == new }
+//                .collect {
+//                    log("collected $it")
+//                    if (it != null) {
+//                        if (it) {
+//                            _gameUiState.value = gameUiState
+//                                .value.copy(
+//                                    isBluetoothConnected = it,
+//                                )
+//
+//                            if (isServer!!) {
+//                                sendString(
+//                                    "setting,${profName[0]}," +
+//                                            "${ludoSetting.numberOfPawn},${ludoSetting.style}",
+//                                )
+//                            } else {
+//                                delay(500)
+//                                sendString("client_name,${profName[0]}")
+//                            }
+//                        } else {
+//                            //   closeBlue()
+//                            _gameUiState.value =
+//                                gameUiState.value.copy(navigateBackBcosOfBlueError = true)
+//                        }
+//                    } else {
+//                        _gameUiState.value = gameUiState
+//                            .value.copy(
+//                                isBluetoothConnected = false,
+//                            )
+//                    }
+//                }
+//        }
 
         viewModelScope.launch(Dispatchers.IO) {
             blueManager.state
@@ -180,6 +180,35 @@ class GameViewModel @Inject constructor(
                 .collect { message ->
 
                     onRemoteClick(message)
+                }
+        }
+
+        viewModelScope.launch {
+            blueManager
+                .state
+                .mapNotNull { it?.devices }
+                .distinctUntilChanged()
+                .collectLatest {
+
+                    _gameUiState.value = gameUiState
+                        .value.copy(listOfDevice = it.toImmutableList())
+                }
+        }
+        viewModelScope.launch {
+            blueManager
+                .state
+                .mapNotNull { it?.connected }
+                .distinctUntilChanged()
+                .collectLatest {
+
+                    if (it) {
+                        _gameUiState.value = gameUiState
+                            .value.copy(
+                                connected = it,
+                                isDeviceDialogOpen = false,
+                                isWaitingDialogOpen = true,
+                            )
+                    }
                 }
         }
     }
@@ -295,16 +324,17 @@ class GameViewModel @Inject constructor(
                 isDeviceDialogOpen = true,
             )
         setUpBlue()
+        blueManager.discoverDevice()
     }
 
-    fun onHost() {
-        _gameUiState.value =
-            gameUiState.value.copy(
-                isStartDialogOpen = false,
-                isWaitingDialogOpen = true,
-            )
-        setUpBlue()
-    }
+//    fun onHost() {
+//        _gameUiState.value =
+//            gameUiState.value.copy(
+//                isStartDialogOpen = false,
+//                isWaitingDialogOpen = true,
+//            )
+//        setUpBlue()
+//    }
 
     fun onCancelBlueDialog() {
         _gameUiState.value =
@@ -330,10 +360,10 @@ class GameViewModel @Inject constructor(
     fun onResume() {
         soundSystem.resume()
         game.resume()
-        if (waitingForDevice) {
-            loadDevice()
-            waitingForDevice = false
-        }
+//        if (waitingForDevice) {
+//            //loadDevice()
+//            waitingForDevice = false
+//        }
     }
 
     fun onPause() {
@@ -529,30 +559,33 @@ class GameViewModel @Inject constructor(
 
 // bluetooth function
 
-    fun isBluetoothEnable() = blueManager.isBluetoothEnable()
+    fun isBluetoothEnable() = false // blueManager.isBluetoothEnable()
 
     fun onServer() {
-        isServer = true
         clientServerJob = viewModelScope.launch(Dispatchers.IO) {
             log("start Server")
             blueManager.onServer()
         }
     }
 
-    fun onClient() {
-        isServer = false
-        log("start Client")
-        loadDevice()
-    }
+//    fun onConnect() {
+//        isServer = false
+//        log("start Client")
+//        loadDevice()
+//    }
 
-    fun loadDevice() {
-        _gameUiState.value = gameUiState
-            .value.copy(listOfDevice = blueManager.getAppDevice().toImmutableList())
-    }
+    //  fun loadDevice() {
+//        viewModelScope.launch {
+//            val devices=blueManager.getDevice()
+//            _gameUiState.value = gameUiState
+//                .value.copy(listOfDevice = devices?.toImmutableList()?: emptyList<String>().toImmutableList())
+//        }
+
+    //  }
 
     private fun onDevice(index: Int) {
         clientServerJob = viewModelScope.launch(Dispatchers.IO) {
-            blueManager.onBlueDevice(index)
+            blueManager.connectToDevice(index)
         }
     }
 
@@ -563,7 +596,7 @@ class GameViewModel @Inject constructor(
     private fun closeBlue() {
         //  game.setGameToDefault()
         clientServerJob?.cancel()
-        isServer = null
+        // isServer = null
         blueManager.close()
     }
 
@@ -579,7 +612,7 @@ class GameViewModel @Inject constructor(
     }
 
     fun bluetoothPermission(context: Context): ImmutableList<String> {
-        return blueManager.bluetoothPermission(context).toImmutableList()
+        return blueManager.wifiPermission(context).toImmutableList()
     }
 
     companion object {
