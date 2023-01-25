@@ -54,6 +54,22 @@ class P2pManager
 
         manager = context.getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
         channel = manager?.initialize(context, context.mainLooper, null)
+        manager?.requestGroupInfo(channel) {
+            if (it != null) {
+                manager?.removeGroup(
+                    channel,
+                    object : WifiP2pManager.ActionListener {
+                        override fun onSuccess() {
+                            log("remove group")
+                        }
+
+                        override fun onFailure(p0: Int) {
+                            log("remove fail")
+                        }
+                    },
+                )
+            }
+        }
 
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -126,6 +142,10 @@ class P2pManager
                                         connected = true,
                                     )
                                 }
+                            }
+                        } else {
+                            if (state.value?.connected == true) {
+                                log("disconnect")
                             }
                         }
 
@@ -296,41 +316,53 @@ class P2pManager
     fun close() {
         log("close bluetooth")
 
-        if (socket?.isConnected == true) {
-            socket?.inputStream?.close()
-            socket?.outputStream?.close()
-            socket?.close()
+        try {
+            if (socket?.isConnected == true) {
+                socket?.inputStream?.close()
+                socket?.outputStream?.close()
+                socket?.close()
+            }
+            socket = null
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        socket = null
-        if (receiver != null) {
-            context.unregisterReceiver(receiver)
-            receiver = null
+
+        try {
+            if (receiver != null) {
+                context.unregisterReceiver(receiver)
+                receiver = null
+            }
+
+            manager?.cancelConnect(
+                channel,
+                object : WifiP2pManager.ActionListener {
+                    override fun onSuccess() {
+                        log("cancel succesful")
+                    }
+
+                    override fun onFailure(p0: Int) {
+                        log("cancel error")
+                    }
+                },
+            )
+            manager?.removeGroup(
+                channel,
+                object : WifiP2pManager.ActionListener {
+                    override fun onSuccess() {
+                        log("remove succesful")
+                    }
+
+                    override fun onFailure(p0: Int) {
+                        log("remove error")
+                    }
+                },
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                channel?.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
-        manager?.cancelConnect(
-            channel,
-            object : WifiP2pManager.ActionListener {
-                override fun onSuccess() {
-                    log("cancel succesful")
-                }
-
-                override fun onFailure(p0: Int) {
-                    log("cancel error")
-                }
-            },
-        )
-        manager?.removeGroup(
-            channel,
-            object : WifiP2pManager.ActionListener {
-                override fun onSuccess() {
-                    log("remove succesful")
-                }
-
-                override fun onFailure(p0: Int) {
-                    log("remove error")
-                }
-            },
-        )
 
         state.value = null
     }

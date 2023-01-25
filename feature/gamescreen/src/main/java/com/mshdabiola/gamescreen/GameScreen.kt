@@ -278,7 +278,7 @@ fun GameScreen(
             show = gameUiState.isWaitingDialogOpen,
             connected = gameUiState.connected,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
-            startGame = gameScreenViewModel::startOffGame,
+            startGame = {}, // gameScreenViewModel::startOffGame,
         )
 
         DeviceListDialog(

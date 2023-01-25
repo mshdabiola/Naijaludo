@@ -231,6 +231,8 @@ class GameViewModel @Inject constructor(
                                 isDeviceDialogOpen = false,
                                 isWaitingDialogOpen = true,
                             )
+
+                        startOffGame()
                     }
                 }
         }
@@ -584,7 +586,7 @@ class GameViewModel @Inject constructor(
 
     fun isBluetoothEnable() = false // blueManager.isBluetoothEnable()
 
-    fun startOffGame() {
+    private fun startOffGame() {
         clientServerJob?.cancel()
         clientServerJob = viewModelScope.launch {
             log("start Server")
