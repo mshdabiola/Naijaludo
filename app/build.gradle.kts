@@ -69,6 +69,11 @@ dependencies {
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
 
+        val billing_version = "5.1.0"
+
+        implementation("com.android.billingclient:billing-ktx:$billing_version")
+    implementation ("com.google.android.gms:play-services-games-v2:17.0.0")
+
 
     implementation(libs.androidx.profileinstaller)
     //implementation(libs.kotlinx.collection.immutable)
