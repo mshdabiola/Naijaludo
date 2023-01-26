@@ -78,7 +78,7 @@ class GameViewModel @Inject constructor(
     private lateinit var profName: Array<String>
     private lateinit var ludoSetting: LudoSetting
 
-    private var waitingForDevice = false
+
 
     init {
         // react to game ui state change for computer and remote
