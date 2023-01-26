@@ -23,7 +23,7 @@ class BaselineGenerator {
         device.findObject(UiSelector().descriptionContains("play")).click()
 
         device.waitForIdle()
-        device.findObject(UiSelector().text("Host")).click()
+        device.findObject(UiSelector().text("Connect")).click()
 
         device.waitForIdle()
         device.findObject(UiSelector().text("Cancel")).click()
