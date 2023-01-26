@@ -57,7 +57,7 @@ class GameViewModel @Inject constructor(
 
     private val game = LudoGame(soundSystem)
     private val showDialog = savedStateHandle.get<Boolean>(SHOW_DIALOG)
-    private val gameId2 = savedStateHandle.get<Long>(GAME_ID) ?: 1L
+    private val gameId2 = savedStateHandle.get<Long>(GAME_ID) ?: 200L
     private var currId = gameId2
     private val _gameUiState =
         MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
@@ -241,7 +241,7 @@ class GameViewModel @Inject constructor(
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
 
         viewModelScope.launch(Dispatchers.Default) {
-            currId = 1L
+            currId = 200L
 
             val ludoGameState =
                 getSavedGame(currId)
@@ -289,7 +289,7 @@ class GameViewModel @Inject constructor(
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
-            currId = 0L
+            currId = 100L
 
             val ludoGameState =
                 getSavedGame(currId)

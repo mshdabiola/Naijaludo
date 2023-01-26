@@ -522,7 +522,7 @@ fun WifiPermission(
                 }
             },
             buttons = {
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = { onDismissRequest() }) {
                     Text(text = "Close")
                 }
             },
