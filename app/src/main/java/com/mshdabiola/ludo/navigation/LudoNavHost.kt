@@ -16,14 +16,13 @@ fun LudoNavHost(
     onNavigate: (String) -> Unit,
     onBackClick: () -> Unit,
     deviceType: DEVICE_TYPE,
-    startDestination: String = LudoNavDestination.MainNavDestination.route
+    startDestination: String = LudoNavDestination.MainNavDestination.route,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
-
         mainScreenGraph(onNavigate, deviceType)
         gameScreenGraph(deviceType, onBackClick)
     }

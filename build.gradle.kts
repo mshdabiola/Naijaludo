@@ -42,23 +42,23 @@ versionCatalogUpdate {
 //"""
 //    "chmod +x .git/hooks/pre-commit".execute()
 //}
-task("anotherTask"){
-    doLast {
-        val gitHooksDirectory = File("$project.rootDir/.git/hooks/")
-        if (!gitHooksDirectory.exists()) gitHooksDirectory.mkdirs()
-        File("${project.rootDir}/.git/hooks", "pre-commit").writeText(
-            """
-    #!/bin/bash
-    echo "Running spotless check"
-    ./gradlew spotlessApply --init-script gradle/init.gradle.kts
-"""
-        )
-        exec {
-            commandLine("chmod","+x", ".git/hooks/pre-commit")
-        }
-        //   "chmod +x .git/hooks/pre-commit".execute()
-    }
-}
+//task("spot"){
+//   // doLast {
+//        val gitHooksDirectory = File("$project.rootDir/.git/hooks/")
+//        if (!gitHooksDirectory.exists()) gitHooksDirectory.mkdirs()
+//        File("${project.rootDir}/.git/hooks", "pre-commit").writeText(
+//            """
+//    #!/bin/bash
+//    echo "Running spotless check"
+//
+//"""
+//        )
+//        exec {
+//            commandLine("chmod","+x", ".git/hooks/pre-commit")
+//        }
+//        //   "chmod +x .git/hooks/pre-commit".execute()
+//   // }
+//}
 
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
 // ./gradlew assembleDebug -PenableComposeCompilerMetrics=true

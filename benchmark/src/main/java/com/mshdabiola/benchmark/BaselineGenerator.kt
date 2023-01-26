@@ -14,7 +14,7 @@ class BaselineGenerator {
 
     @Test
     fun startUp() = baselineProfileRule.collectBaselineProfile(
-        packageName = "com.mshdabiola.ludo"
+        packageName = "com.mshdabiola.ludo",
     ) {
         pressHome()
         startActivityAndWait()
@@ -23,7 +23,7 @@ class BaselineGenerator {
         device.findObject(UiSelector().descriptionContains("play")).click()
 
         device.waitForIdle()
-        device.findObject(UiSelector().text("Host")).click()
+        device.findObject(UiSelector().text("Connect")).click()
 
         device.waitForIdle()
         device.findObject(UiSelector().text("Cancel")).click()

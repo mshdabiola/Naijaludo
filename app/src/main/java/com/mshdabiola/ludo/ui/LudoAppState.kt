@@ -11,7 +11,7 @@ import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 
 class LudoAppState(
     val windowSizeClass: WindowSizeClass,
-    val navHostController: NavHostController
+    val navHostController: NavHostController,
 ) {
 
     fun navigateTo(destination: String) = navHostController.navigate(destination)
@@ -49,10 +49,9 @@ class LudoAppState(
 }
 
 @Composable
-
 fun rememBerLudoAppState(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ): LudoAppState {
     return remember(key1 = navController, key2 = windowSizeClass) {
         LudoAppState(windowSizeClass, navController)

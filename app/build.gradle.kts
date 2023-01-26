@@ -54,20 +54,25 @@ android {
 }
 
 dependencies {
-    implementation (project( ":naijaludo"))
-    implementation (project( ":gameScreen"))
-    implementation (project( ":designsystem"))
-    implementation (project( ":mainScreen"))
+    implementation (project( ":core:naijaludo"))
+    implementation(project(":feature:gamescreen"))
+    implementation (project( ":core:designsystem"))
+    implementation(project(":feature:mainScreen"))
 
 
     implementation(libs.androidx.core.ktx)
     implementation (libs.androidx.activity.compose)
     //implementation(libs.bundles.compose.bundle)
 
-    implementation (project(":model"))
+    implementation (project(":core:model"))
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
+
+        val billing_version = "5.1.0"
+
+        implementation("com.android.billingclient:billing-ktx:$billing_version")
+    implementation ("com.google.android.gms:play-services-games-v2:17.0.0")
 
 
     implementation(libs.androidx.profileinstaller)

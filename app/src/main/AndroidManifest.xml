@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Request legacy Bluetooth permissions on older devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
 
-    <!-- Needed only if your app looks for Bluetooth devices.
-         If your app doesn't use Bluetooth scan results to derive physical
-         location information, you can strongly assert that your app
-         doesn't derive physical location. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-
-    <!-- Needed only if your app makes the device discoverable to Bluetooth
-         devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
-    <!-- Needed only if your app communicates with already-paired Bluetooth
-         devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
-    <!-- Needed only if your app uses Bluetooth scan results to derive physical location. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- If your app targets Android 13 (API level 33)
+         or higher, you must declare the NEARBY_WIFI_DEVICES permission. -->
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <!-- If your app derives location information from
+         Wi-Fi APIs, don't include the "usesPermissionFlags"
+         attribute. -->
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="32" />
+    <!-- If any feature in your app relies on precise location
+         information, don't include the "maxSdkVersion"
+         attribute. -->
+
 
 
     <application
@@ -48,7 +48,8 @@
                     android:name="com.google.android.gms.ads.APPLICATION_ID"
                     android:value="ca-app-pub-6629038423064076~6073617084"/>
 
-
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/game_services_project_id"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
