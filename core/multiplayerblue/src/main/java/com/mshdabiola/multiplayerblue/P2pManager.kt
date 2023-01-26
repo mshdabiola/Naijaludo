@@ -1,12 +1,10 @@
 package com.mshdabiola.multiplayerblue
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.net.wifi.WpsInfo
@@ -365,64 +363,6 @@ class P2pManager
         }
 
         state.value = null
-    }
-
-    fun wifiPermission(context: Context): List<String> {
-        log("canConnect called")
-        val deniedPermissions = ArrayList<String>()
-
-        val requestedPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arrayOf(
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.CHANGE_NETWORK_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.NEARBY_WIFI_DEVICES,
-            )
-        } else {
-            arrayOf(
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.CHANGE_NETWORK_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            )
-        }
-        if (!checkPermission(context, Manifest.permission.ACCESS_NETWORK_STATE)) {
-            deniedPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE)
-        }
-        if (!checkPermission(context, Manifest.permission.CHANGE_NETWORK_STATE)) {
-            deniedPermissions.add(Manifest.permission.CHANGE_NETWORK_STATE)
-        }
-        if (!checkPermission(context, Manifest.permission.ACCESS_WIFI_STATE)) {
-            deniedPermissions.add(Manifest.permission.ACCESS_WIFI_STATE)
-        }
-        if (!checkPermission(context, Manifest.permission.CHANGE_WIFI_STATE)) {
-            deniedPermissions.add(Manifest.permission.CHANGE_WIFI_STATE)
-        }
-        if (!checkPermission(
-                context,
-                Manifest.permission.NEARBY_WIFI_DEVICES,
-            )
-        ) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                deniedPermissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
-            }
-        } else {
-            if (!checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-            }
-            if (!checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                deniedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-            }
-        }
-
-        return deniedPermissions
-    }
-
-    private fun checkPermission(context: Context, permission: String): Boolean {
-        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
 }
 

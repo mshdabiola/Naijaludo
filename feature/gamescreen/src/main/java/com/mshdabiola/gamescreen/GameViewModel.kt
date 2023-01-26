@@ -1,6 +1,5 @@
 package com.mshdabiola.gamescreen
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +27,6 @@ import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -352,15 +350,6 @@ class GameViewModel @Inject constructor(
         blueManager.discoverDevice()
     }
 
-//    fun onHost() {
-//        _gameUiState.value =
-//            gameUiState.value.copy(
-//                isStartDialogOpen = false,
-//                isWaitingDialogOpen = true,
-//            )
-//        setUpBlue()
-//    }
-
     fun onCancelBlueDialog() {
         _gameUiState.value =
             gameUiState.value.copy(
@@ -385,10 +374,6 @@ class GameViewModel @Inject constructor(
     fun onResume() {
         soundSystem.resume()
         game.resume()
-//        if (waitingForDevice) {
-//            //loadDevice()
-//            waitingForDevice = false
-//        }
     }
 
     fun onPause() {
@@ -636,10 +621,6 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             blueManager.sendString(str)
         }
-    }
-
-    fun bluetoothPermission(context: Context): ImmutableList<String> {
-        return blueManager.wifiPermission(context).toImmutableList()
     }
 
     companion object {

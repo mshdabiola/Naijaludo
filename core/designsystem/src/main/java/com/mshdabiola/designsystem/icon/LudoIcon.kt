@@ -5,6 +5,7 @@ import com.mshdabiola.designsystem.R
 object LudoIcon {
 
     val ArrowIcon = R.drawable.arrow
+    val Wifi = R.drawable.baseline_wifi_24
 
     private val defaultBoardType = intArrayOf(
         R.drawable.red,

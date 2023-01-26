@@ -1,14 +1,18 @@
 package com.mshdabiola.gamescreen.component
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -24,7 +28,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -32,10 +35,11 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -50,16 +54,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
+import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.gamescreen.state.PlayerUiState
+import com.mshdabiola.ludo.model.log
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -73,7 +79,6 @@ fun StartDialog(
     onFriend: () -> Unit = {},
     onContinueButton: () -> Unit = {},
     onJoinClick: () -> Unit = {},
-    onHostClick: () -> Unit = {},
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -113,12 +118,12 @@ fun StartDialog(
                             imageVector = ImageVector.vectorResource(id = R.drawable.computer),
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        GameCard2(
+                        GameCard(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.blutooth_multi_desc),
                             onButtonClick = onJoinClick,
                             imageVector = ImageVector.vectorResource(id = R.drawable.blutooth),
-                            onButtonClick2 = onHostClick,
+                            buttonText = stringResource(id = R.string.connect),
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -141,7 +146,10 @@ fun StartDialog(
                     Text(text = stringResource(id = R.string.back_btn))
                 }
             },
-            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false),
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+            ),
         )
     }
 }
@@ -262,63 +270,63 @@ fun GameCardPreview() {
     GameCard()
 }
 
-@Composable
-fun GameCard2(
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector = Icons.Default.Settings,
-    title: String = "Vs Computer",
-    buttonText: String = stringResource(id = R.string.join),
-    onButtonClick: () -> Unit = {},
-    buttonText2: String = stringResource(id = R.string.host),
-    onButtonClick2: () -> Unit = {},
-) {
-    Card(modifier = modifier) {
-        Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                modifier = Modifier
-                    .aspectRatio(1f),
-                imageVector = imageVector,
-                contentDescription = null,
-            )
-            Text(text = title, style = MaterialTheme.typography.titleSmall)
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                Button(
-                    onClick = onButtonClick2,
-                    shape = RoundedCornerShape(
-                        topStart = 50f,
-                        topEnd = 0f,
-                        bottomStart = 50f,
-                        bottomEnd = 0f,
-                    ),
-                    contentPadding = PaddingValues(4.dp),
+// @Composable
+// fun GameCard2(
+//    modifier: Modifier = Modifier,
+//    imageVector: ImageVector = Icons.Default.Settings,
+//    title: String = "Vs Computer",
+//    buttonText: String = stringResource(id = R.string.join),
+//    onButtonClick: () -> Unit = {},
+//    buttonText2: String = stringResource(id = R.string.host),
+//    onButtonClick2: () -> Unit = {},
+// ) {
+//    Card(modifier = modifier) {
+//        Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+//            Icon(
+//                modifier = Modifier
+//                    .aspectRatio(1f),
+//                imageVector = imageVector,
+//                contentDescription = null,
+//            )
+//            Text(text = title, style = MaterialTheme.typography.titleSmall)
+//            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+//                Button(
+//                    onClick = onButtonClick2,
+//                    shape = RoundedCornerShape(
+//                        topStart = 50f,
+//                        topEnd = 0f,
+//                        bottomStart = 50f,
+//                        bottomEnd = 0f,
+//                    ),
+//                    contentPadding = PaddingValues(4.dp),
+//
+//                    ) {
+//                    Text(text = buttonText2)
+//                }
+//                Spacer(modifier = Modifier.width(4.dp))
+//                Button(
+//                    onClick = onButtonClick,
+//                    shape = RoundedCornerShape(
+//                        topStart = 0f,
+//                        topEnd = 50f,
+//                        bottomStart = 0f,
+//                        bottomEnd = 50f,
+//                    ),
+//                    contentPadding = PaddingValues(4.dp),
+//
+//                    ) {
+//                    Text(text = buttonText)
+//                }
+//            }
+//        }
+//    }
+// }
 
-                ) {
-                    Text(text = buttonText2)
-                }
-                Spacer(modifier = Modifier.width(4.dp))
-                Button(
-                    onClick = onButtonClick,
-                    shape = RoundedCornerShape(
-                        topStart = 0f,
-                        topEnd = 50f,
-                        bottomStart = 0f,
-                        bottomEnd = 50f,
-                    ),
-                    contentPadding = PaddingValues(4.dp),
-
-                ) {
-                    Text(text = buttonText)
-                }
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun GameCardPreview2() {
-    GameCard2()
-}
+// @Preview
+// @Composable
+// fun GameCardPreview2() {
+//    GameCard2()
+// }
 
 @Composable
 fun WaitingDialog(
@@ -329,7 +337,7 @@ fun WaitingDialog(
     startGame: () -> Unit = {},
 
 ) {
-    val message = if (connected)"This device is connected" else "Connecting"
+    val message = if (connected) "This device is connected" else "Connecting"
 //        when {
 //        isServe && connected -> stringResource(id = R.string.server_connected
 //        )
@@ -401,9 +409,8 @@ fun GameMultiPlayerPreview() {
 @Composable
 fun DeviceListDialog(
     show: Boolean,
-    deviceList: ImmutableList<String>? = emptyList<String>().toImmutableList(),
+    deviceList: ImmutableList<String> = emptyList<String>().toImmutableList(),
     onDeviceClick: (Int) -> Unit = {},
-    onPairNewDevice: () -> Unit = {},
     onCancelClick: () -> Unit = {},
 
 ) {
@@ -423,45 +430,31 @@ fun DeviceListDialog(
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
-                    deviceList?.let {
-                        itemsIndexed(it) { index, name ->
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .height(44.dp)
-                                    .clickable {
-                                        onDeviceClick(index)
-                                    },
-                                verticalAlignment = Alignment.CenterVertically,
+                    if (deviceList.isEmpty()) {
+                        item {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
                             ) {
-                                Text(
-                                    style = MaterialTheme.typography.titleSmall,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    text = name,
-
-                                )
+                                CircularProgressIndicator(Modifier.align(Alignment.Center))
                             }
                         }
-                        item {
-                            Column(
-                                Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.client_pair_desc),
-                                    textAlign = TextAlign.Center,
-                                )
-                                FilledTonalButton(onClick = {
-                                    onPairNewDevice()
-                                    context.startActivity(
-                                        Intent(
-                                            Settings.ACTION_BLUETOOTH_SETTINGS,
-                                        ),
-                                    )
-                                }) {
-                                    Text(text = stringResource(id = R.string.pair_device_btn))
-                                }
-                            }
+                    }
+                    itemsIndexed(deviceList, key = { _, it -> it.hashCode() }) { index, name ->
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(44.dp)
+                                .clickable {
+                                    onDeviceClick(index)
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                text = name,
+
+                            )
                         }
                     }
                 }
@@ -484,4 +477,114 @@ fun GameMultiPlayerListPreview() {
         show = true,
         deviceList = listOf("Tecno", "Infinix", "oppo").toImmutableList(),
     )
+}
+
+@Composable
+fun WifiPermission(
+    show: Boolean = false,
+    isLocationEnable: Boolean = false,
+    isWifiEnable: Boolean = false,
+    onDismissRequest: () -> Unit = {},
+) {
+    LocalContext.current
+    val requestwifi = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = {
+            log("request code is $it")
+        },
+    )
+    AnimatedVisibility(visible = show) {
+        DialogUi(
+
+            modifier = Modifier.height(240.dp),
+            onDismissRequest = { },
+            title = {
+                Text("Permission")
+            },
+            content = {
+                if (!isWifiEnable) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = LudoIcon.Wifi),
+                            contentDescription = "wifi",
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(modifier = Modifier.weight(1f), text = "Open Wi-fi")
+                        Button(onClick = {
+                            // if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+                            requestwifi.launch(Intent(Settings.ACTION_WIFI_SETTINGS))
+//                            }else{
+//                                val wif=context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+//                                wif.isWifiEnabled=true
+//
+//                            }
+                        }) {
+                            Text(text = "Open")
+                        }
+                    }
+                }
+                if (!isLocationEnable) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.LocationOn,
+                            contentDescription = "location",
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(modifier = Modifier.weight(1f), text = "Open Gps")
+                        Button(onClick = { requestwifi.launch(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }) {
+                            Text(text = "Open")
+                        }
+                    }
+                }
+            },
+            buttons = {
+                TextButton(onClick = { /*TODO*/ }) {
+                    Text(text = "Close")
+                }
+            },
+
+        )
+    }
+}
+
+@Preview
+@Composable
+fun WifiPermissionPreview() {
+    WifiPermission(
+        show = true,
+        isLocationEnable = false,
+        isWifiEnable = false,
+    )
+}
+
+@Composable
+fun getPermission(): List<String> {
+    val requestedPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.CHANGE_NETWORK_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.NEARBY_WIFI_DEVICES,
+        )
+    } else {
+        arrayOf(
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.CHANGE_NETWORK_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        )
+    }
+    return requestedPermissions
+        .filter { !checkPermission(permission = it) }
+}
+
+@Composable
+fun checkPermission(permission: String): Boolean {
+    val context = LocalContext.current
+    return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 }

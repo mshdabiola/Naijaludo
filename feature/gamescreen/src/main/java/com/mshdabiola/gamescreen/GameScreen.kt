@@ -1,7 +1,10 @@
 package com.mshdabiola.gamescreen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
+import android.net.wifi.WifiManager
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +22,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.location.LocationManagerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -36,6 +41,8 @@ import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
 import com.mshdabiola.gamescreen.component.StartDialog
 import com.mshdabiola.gamescreen.component.WaitingDialog
+import com.mshdabiola.gamescreen.component.WifiPermission
+import com.mshdabiola.gamescreen.component.getPermission
 import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
@@ -55,11 +62,32 @@ fun GameScreen(
 ) {
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
+    var showPermission by remember {
+        mutableStateOf(false)
+    }
+    var wifiEnable by remember {
+        mutableStateOf(false)
+    }
+    var locationEnable by remember {
+        mutableStateOf(false)
+    }
+    val permissions = getPermission()
+    val isComponentEnable = {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationEnable = LocationManagerCompat.isLocationEnabled(locationManager)
+        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        wifiEnable = wifiManager.isWifiEnabled
+    }
     val observer = object : DefaultLifecycleObserver {
         override fun onResume(owner: LifecycleOwner) {
             super.onResume(owner)
             println("On Resume")
+            isComponentEnable()
+            if (locationEnable && wifiEnable && showPermission) {
+                showPermission = false
+                gameScreenViewModel.onJoin()
+            }
             gameScreenViewModel.onResume()
         }
 
@@ -91,7 +119,7 @@ fun GameScreen(
             rotateF.snapTo(0f)
         }
     }
-    val context = LocalContext.current
+
     LaunchedEffect(key1 = gameUiState.navigateBackBcosOfBlueError) {
         if (gameUiState.navigateBackBcosOfBlueError) {
             Toast.makeText(context, "Error occur Try again", Toast.LENGTH_SHORT).show()
@@ -117,18 +145,13 @@ fun GameScreen(
 
     val forRequestBlue = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
-        onResult = {
-//            if (!gameScreenViewModel.isBluetoothEnable()) {
-//                forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-//            } else {
-//                if (isServer) {
-//                    // start server
-//                    gameScreenViewModel.onServer()
-//                } else {
-//                    // start client
-//                    gameScreenViewModel.onClient()
-//                }
-            // }
+        onResult = { stringBooleanMap ->
+            isComponentEnable()
+            when {
+                stringBooleanMap.values.all { !it } -> {}
+                !locationEnable || !wifiEnable -> showPermission = true
+                else -> gameScreenViewModel.onJoin()
+            }
         },
     )
     val tst by remember(gameUiState.isRestartDialogOpen) {
@@ -225,39 +248,21 @@ fun GameScreen(
             onJoinClick = {
 //                isServer = false
 //                val permissions = gameScreenViewModel.bluetoothPermission(context)
+                isComponentEnable()
 
-                gameScreenViewModel.onJoin()
+                when {
+                    permissions.isNotEmpty() ->
+                        forRequestBlue.launch(permissions.toTypedArray())
 
-//                when {
-//                    permissions.isNotEmpty() ->
-//                        forRequestBlue.launch(permissions.toTypedArray())
+                    !wifiEnable || !locationEnable ->
+                        showPermission = true
 
-//                    !gameScreenViewModel.isBluetoothEnable() ->
-//                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-
-//                    else -> {
-//                        gameScreenViewModel.onConnect()
-//                    }
-//                }
+                    else -> {
+                        gameScreenViewModel.onJoin()
+                    }
+                }
             },
-            onHostClick = {
-//                isServer = true
-//                val permissions = gameScreenViewModel.bluetoothPermission(context)
-// //                showBlueDialog = true
-//                gameScreenViewModel.onHost()
-//
-//                when {
-//                    permissions.isNotEmpty() ->
-//                        forRequestBlue.launch(permissions.toTypedArray())
-//
-// //                    !gameScreenViewModel.isBluetoothEnable() ->
-// //                        forResult.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
-//
-//                    else -> {
-//                        gameScreenViewModel.onServer()
-//                    }
-//                }
-            },
+
         )
 
         GameOverDialog(
@@ -280,13 +285,18 @@ fun GameScreen(
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
             startGame = {}, // gameScreenViewModel::startOffGame,
         )
+        WifiPermission(
+            show = showPermission,
+            isLocationEnable = locationEnable,
+            isWifiEnable = wifiEnable,
+            onDismissRequest = { showPermission = false },
+        )
 
         DeviceListDialog(
             show = gameUiState.isDeviceDialogOpen,
             deviceList = gameUiState.listOfDevice,
             onDeviceClick = gameScreenViewModel::onDeviceClick,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
-            onPairNewDevice = gameScreenViewModel::onPairDevice,
         )
     }
 }

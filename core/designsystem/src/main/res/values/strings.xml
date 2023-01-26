@@ -40,7 +40,7 @@
     <string name="ad_test_id" >ca-app-pub-3940256099942544/6300978111</string>
     <string name="join">Join</string>
     <string name="host">Host</string>
-    <string name="blutooth_multi_desc">Connect ludo</string>
+    <string name="blutooth_multi_desc">Play Multiplayer</string>
     <string name="vs_friend">With friend</string>
     <string name="server_connected">Server connected</string>
     <string name="client_connected">Client connected</string>
@@ -50,5 +50,6 @@
     <string name="pair_device_btn">Pair new device</string>
     <string name="devices">Devices</string>
     <string name="client_pair_desc">If host Device is not here, click button to pair</string>
+    <string name="connect">Connect</string>
 
 </resources>
