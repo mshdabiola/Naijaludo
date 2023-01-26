@@ -239,11 +239,9 @@ fun GameScreen(
         }
         StartDialog(
             show = gameUiState.isStartDialogOpen,
-            showContinueButton = gameUiState.showContinueButton,
             onYouAndComputer = gameScreenViewModel::onYouAndComputer,
             onTournament = gameScreenViewModel::onTournament,
             onFriend = gameScreenViewModel::onFriend,
-            onContinueButton = gameScreenViewModel::onContinueClick,
             onBackPress = onBack,
             onJoinClick = {
 //                isServer = false

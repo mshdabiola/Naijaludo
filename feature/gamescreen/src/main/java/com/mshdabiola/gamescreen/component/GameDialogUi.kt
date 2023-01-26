@@ -73,11 +73,9 @@ import kotlinx.collections.immutable.toImmutableList
 fun StartDialog(
     show: Boolean = true,
     onBackPress: () -> Unit = {},
-    showContinueButton: Boolean = true,
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
     onFriend: () -> Unit = {},
-    onContinueButton: () -> Unit = {},
     onJoinClick: () -> Unit = {},
 ) {
     AnimatedVisibility(visible = show) {
@@ -93,31 +91,21 @@ fun StartDialog(
                     Row(Modifier.fillMaxWidth()) {
                         GameCard(
                             Modifier.weight(1f),
-                            title = stringResource(id = R.string.continue_detail),
-                            buttonText = stringResource(id = R.string.continue_btn),
-                            buttonEnable = showContinueButton,
-                            onButtonClick = onContinueButton,
-                            imageVector = ImageVector
-                                .vectorResource(id = R.drawable.resume),
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        GameCard(
-                            Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_one_comp_detail),
                             onButtonClick = onYouAndComputer,
                             imageVector = ImageVector.vectorResource(id = R.drawable.computer),
                         )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.width(8.dp))
+
                         GameCard(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_many_comp_detail),
                             onButtonClick = onTournament,
                             imageVector = ImageVector.vectorResource(id = R.drawable.computer),
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(Modifier.fillMaxWidth()) {
                         GameCard(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.blutooth_multi_desc),
@@ -125,18 +113,12 @@ fun StartDialog(
                             imageVector = ImageVector.vectorResource(id = R.drawable.blutooth),
                             buttonText = stringResource(id = R.string.connect),
                         )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.width(8.dp))
                         GameCard(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_friend),
                             onButtonClick = onFriend,
                             imageVector = ImageVector.vectorResource(id = R.drawable.friend),
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Box(
-                            Modifier.weight(1f),
                         )
                     }
                 }

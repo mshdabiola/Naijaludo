@@ -30,7 +30,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -58,7 +57,8 @@ class GameViewModel @Inject constructor(
 
     private val game = LudoGame(soundSystem)
     private val showDialog = savedStateHandle.get<Boolean>(SHOW_DIALOG)
-
+    private val gameId2 = savedStateHandle.get<Long>(GAME_ID) ?: 1L
+    private var currId = gameId2
     private val _gameUiState =
         MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
 
@@ -75,7 +75,6 @@ class GameViewModel @Inject constructor(
             LudoUiState(board = BoardUiState()),
         )
 
-    private var gameId: Long? = null
     private lateinit var profName: Array<String>
     private lateinit var ludoSetting: LudoSetting
 
@@ -85,15 +84,6 @@ class GameViewModel @Inject constructor(
         // react to game ui state change for computer and remote
         viewModelScope.launch {
             game.onStateChange()
-        }
-
-        // check if it have continue game
-        viewModelScope.launch {
-            val ludoAndOthers = async { ludoStateDomain.getLatestLudoAndOther().firstOrNull() }
-
-            if (gameUiState.value.isStartDialogOpen && ludoAndOthers.await() != null) {
-                _gameUiState.value = gameUiState.value.copy(showContinueButton = true)
-            }
         }
 
         viewModelScope.launch {
@@ -133,42 +123,7 @@ class GameViewModel @Inject constructor(
                 }
         }
 
-//        viewModelScope.launch(Dispatchers.IO) {
-//            blueManager.state
-//                .map { it?.connected }
-//                .buffer(2)
-//                .distinctUntilChanged { old, new -> old == new }
-//                .collect {
-//                    log("collected $it")
-//                    if (it != null) {
-//                        if (it) {
-//                            _gameUiState.value = gameUiState
-//                                .value.copy(
-//                                    isBluetoothConnected = it,
-//                                )
 //
-//                            if (isServer!!) {
-//                                sendString(
-//                                    "setting,${profName[0]}," +
-//                                            "${ludoSetting.numberOfPawn},${ludoSetting.style}",
-//                                )
-//                            } else {
-//                                delay(500)
-//                                sendString("client_name,${profName[0]}")
-//                            }
-//                        } else {
-//                            //   closeBlue()
-//                            _gameUiState.value =
-//                                gameUiState.value.copy(navigateBackBcosOfBlueError = true)
-//                        }
-//                    } else {
-//                        _gameUiState.value = gameUiState
-//                            .value.copy(
-//                                isBluetoothConnected = false,
-//                            )
-//                    }
-//                }
-//        }
         viewModelScope.launch(Dispatchers.IO) {
             blueManager.state
                 .mapNotNull { it?.serverConnected }
@@ -256,23 +211,28 @@ class GameViewModel @Inject constructor(
 
     private fun resumeFromDatabase() {
         viewModelScope.launch {
-            val ludoAndOthers = ludoStateDomain.getLatestLudoAndOther().firstOrNull()
-            gameId = ludoAndOthers?.ludoEntity?.id
-
-            val pair = ludoAndOthers?.toPair()
-            var pawns = pair?.second
-            val players = pair?.first
-
-            if (players != null && pawns != null) {
-                if (pawns.all { it.isOut() }) {
-                    pawns = getDefaultPawns(ludoSetting.numberOfPawn)
-                }
-
-                val ludoState = getDefaultGameState()
-                    .copy(listOfPlayer = players, listOfPawn = pawns)
-
+            val ludoState = getSavedGame(gameId2)
+            if (ludoState != null) {
                 startGame(ludoState, ludoSetting)
             }
+        }
+    }
+
+    private suspend fun getSavedGame(id: Long): LudoGameState? {
+        val ludoAndOthers = ludoStateDomain.getLudoAndOtherById(id).firstOrNull()
+        val pair = ludoAndOthers?.toPair()
+        var pawns = pair?.second
+        val players = pair?.first
+
+        return if (players != null && pawns != null) {
+            if (pawns.all { it.isOut() }) {
+                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
+            }
+
+            getDefaultGameState()
+                .copy(listOfPlayer = players, listOfPawn = pawns)
+        } else {
+            null
         }
     }
 
@@ -281,15 +241,22 @@ class GameViewModel @Inject constructor(
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
 
         viewModelScope.launch(Dispatchers.Default) {
+            currId = 1L
+
+            val ludoGameState =
+                getSavedGame(currId)
+                    ?: getDefaultGameState(
+                        numberOfPawn = ludoSetting.numberOfPawn,
+                        playerNames = profName,
+                    )
+
             startGame(
-                getDefaultGameState(
-                    numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
-                ),
+                ludoGameState,
                 ludoSetting,
             )
+            launch(Dispatchers.IO) { savedStateHandle[GAME_ID] = currId }
         }
-        deleteData()
+        // deleteData()
     }
 
     fun onFriend() {
@@ -322,22 +289,21 @@ class GameViewModel @Inject constructor(
     fun onTournament() {
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
+            currId = 0L
+
+            val ludoGameState =
+                getSavedGame(currId)
+                    ?: getDefaultGameState(
+                        numberOfPlayer = 4,
+                        numberOfPawn = ludoSetting.numberOfPawn,
+                        playerNames = profName,
+                    )
             startGame(
-                getDefaultGameState(
-                    numberOfPlayer = 4,
-                    numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
-                ),
+                ludoGameState,
                 ludoSetting,
             )
+            launch(Dispatchers.IO) { savedStateHandle[GAME_ID] = currId }
         }
-        deleteData()
-    }
-
-    fun onContinueClick() {
-        _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
-
-        resumeFromDatabase()
     }
 
     fun onJoin() {
@@ -553,17 +519,9 @@ class GameViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 log("on game dispose")
                 viewModelScope.launch(Dispatchers.IO) {
-                    val id = gameId ?: 1
-
-                    ludoStateDomain.insertLudo(game.gameState.value, id)
+                    ludoStateDomain.insertLudo(game.gameState.value, currId)
                 }
             }
-        }
-    }
-
-    private fun deleteData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            ludoStateDomain.deleteGame(1)
         }
     }
 
@@ -580,20 +538,6 @@ class GameViewModel @Inject constructor(
         }
     }
 
-//    fun onConnect() {
-//        isServer = false
-//        log("start Client")
-//        loadDevice()
-//    }
-
-    //  fun loadDevice() {
-//        viewModelScope.launch {
-//            val devices=blueManager.getDevice()
-//            _gameUiState.value = gameUiState
-//                .value.copy(listOfDevice = devices?.toImmutableList()?: emptyList<String>().toImmutableList())
-//        }
-
-    //  }
 
     private fun onDevice(index: Int) {
         clientServerJob = viewModelScope.launch(Dispatchers.IO) {
@@ -612,10 +556,6 @@ class GameViewModel @Inject constructor(
         blueManager.close()
     }
 
-    fun onPairDevice() {
-        waitingForDevice = true
-    }
-
     private fun sendString(str: String) {
         log("send string $str")
         viewModelScope.launch(Dispatchers.IO) {
@@ -625,6 +565,7 @@ class GameViewModel @Inject constructor(
 
     companion object {
         const val SHOW_DIALOG = "show_dialog"
+        const val GAME_ID = "game_id"
     }
 
     override fun onCleared() {

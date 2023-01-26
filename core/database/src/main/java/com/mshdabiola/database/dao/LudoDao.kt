@@ -33,4 +33,8 @@ interface LudoDao {
     @Transaction
     @Query("SELECT * FROM ludo_table ORDER BY  date DESC LIMIT 1")
     fun getLudoAndOther(): Flow<LudoAndOthers?>
+
+    @Transaction
+    @Query("SELECT * FROM ludo_table WHERE id = :id")
+    fun getLudoAndOtherById(id: Long): Flow<LudoAndOthers?>
 }

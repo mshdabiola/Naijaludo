@@ -46,6 +46,8 @@ class LudoStateDomain @Inject constructor(
 
     fun getLatestLudoAndOther() =
         ludoDao.getLudoAndOther()
+    fun getLudoAndOtherById(id: Long) =
+        ludoDao.getLudoAndOtherById(id)
 
     // fun getLatestGameId() = ludoDao.getLatestGameId()
 }

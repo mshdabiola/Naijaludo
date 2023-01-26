@@ -6,7 +6,6 @@ import kotlinx.collections.immutable.toImmutableList
 data class GameUiState(
     val isStartDialogOpen: Boolean = true,
     val isRestartDialogOpen: Boolean = false,
-    val showContinueButton: Boolean = false,
     val isWaitingDialogOpen: Boolean = false,
     val isDeviceDialogOpen: Boolean = false,
     val music: Boolean = false,
