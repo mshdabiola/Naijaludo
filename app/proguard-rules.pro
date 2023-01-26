@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#https://issuetracker.google.com/issues/265188224
+
+-keep,allowshrinking class * extends androidx.compose.ui.node.ModifierNodeElement {
+
+}
