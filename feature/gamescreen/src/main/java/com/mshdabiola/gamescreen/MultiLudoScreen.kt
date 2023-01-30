@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.mshdabiola.designsystem.component.BannerAdmob
+import com.mshdabiola.designsystem.component.GameAd
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
 import com.mshdabiola.gamescreen.component.CounterGroupUiVertical
@@ -95,7 +95,7 @@ fun GameScreenMultiLand(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier
                 .constrainAs(adRef) {
                     top.linkTo(parent.top, 16.dp)
@@ -246,7 +246,7 @@ fun GameScreenMultiPhoneLand(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier
                 .constrainAs(adRef) {
                     linkTo(parent.top, parent.bottom)
@@ -396,7 +396,7 @@ fun GameScreenMultiPort(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier
                 .constrainAs(adRef) {
                     centerHorizontallyTo(parent)

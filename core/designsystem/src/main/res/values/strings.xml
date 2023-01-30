@@ -36,7 +36,9 @@
     <string name="player_win_msg">Hurray!!, You win the game</string>
     <string name="home">Home</string>
     <string name="give_up">Give up</string>
-    <string name="ad_banner">ca-app-pub-6629038423064076/7757114284</string>
+    <string name="ad_banner">ca-app-pub-9288865147193743/1723120525</string>
+    <string name="game_ad_banner">ca-app-pub-9288865147193743/5241910746</string>
+    <string name="main_ad_banner">ca-app-pub-9288865147193743/1723120525</string>
     <string name="ad_test_id" >ca-app-pub-3940256099942544/6300978111</string>
     <string name="join">Join</string>
     <string name="host">Host</string>

@@ -2,7 +2,7 @@
 accompanist = "0.24.8-beta"
 admob = "21.3.0"
 androidDesugarJdkLibs = "1.1.5"
-androidGradlePlugin = "8.1.0-alpha01"
+androidGradlePlugin = "8.1.0-alpha02"
 androidx-compose-foundation = "1.4.0-alpha01"
 androidxActivity = "1.7.0-alpha03"
 androidxAppCompat = "1.5.1"
@@ -65,6 +65,7 @@ turbine = "0.8.0"
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 admob-service = { module = "com.google.android.gms:play-services-ads-lite", version.ref = "admob" }
+admob-service2 = { module = "com.google.android.gms:play-services-ads", version.ref = "admob" }
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
