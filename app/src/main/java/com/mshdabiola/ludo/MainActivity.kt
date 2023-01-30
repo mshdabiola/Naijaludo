@@ -30,11 +30,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         MobileAds.initialize(this)
-       val config= RequestConfiguration
-           .Builder()
-           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
-           .build()
-        MobileAds.setRequestConfiguration(config)
+//       val config= RequestConfiguration
+//           .Builder()
+//           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
+//           .build()
+//        MobileAds.setRequestConfiguration(config)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent {
 //            NaijaLudoTheme {
