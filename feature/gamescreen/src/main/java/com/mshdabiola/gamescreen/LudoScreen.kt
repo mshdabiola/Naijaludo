@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mshdabiola.designsystem.R
-import com.mshdabiola.designsystem.component.BannerAdmob
+import com.mshdabiola.designsystem.component.GameAd
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
 import com.mshdabiola.gamescreen.component.CounterGroupUiVertical
@@ -84,7 +84,7 @@ fun GameScreenPhonePortrait(
             onSetMusic = onSetMusic,
 
         )
-        BannerAdmob(
+        GameAd(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
                 bottom.linkTo(parent.bottom)
@@ -204,7 +204,7 @@ fun GameScreenPhoneLand(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier
                 .constrainAs(adRef) {
                     linkTo(parent.top, parent.bottom)
@@ -332,7 +332,7 @@ fun GameScreeFoldPortrait(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
                 bottom.linkTo(parent.bottom)
@@ -450,7 +450,7 @@ fun GameScreenLarge(
 
         )
 
-        BannerAdmob(
+        GameAd(
             Modifier
                 .constrainAs(adRef) {
                     linkTo(parent.top, parent.bottom)
