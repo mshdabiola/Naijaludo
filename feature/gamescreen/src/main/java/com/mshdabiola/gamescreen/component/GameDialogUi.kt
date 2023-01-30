@@ -101,7 +101,7 @@ fun StartDialog(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.vs_many_comp_detail),
                             onButtonClick = onTournament,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computer),
+                            imageVector = ImageVector.vectorResource(id = R.drawable.computer_multiplayer),
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -110,7 +110,7 @@ fun StartDialog(
                             Modifier.weight(1f),
                             title = stringResource(id = R.string.blutooth_multi_desc),
                             onButtonClick = onJoinClick,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.blutooth),
+                            imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
                             buttonText = stringResource(id = R.string.connect),
                         )
                         Spacer(modifier = Modifier.width(8.dp))
