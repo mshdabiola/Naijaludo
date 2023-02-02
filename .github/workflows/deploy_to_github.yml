@@ -3,8 +3,7 @@ name: Deploy to github
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "test" ]
 
 ## 2
 jobs:
