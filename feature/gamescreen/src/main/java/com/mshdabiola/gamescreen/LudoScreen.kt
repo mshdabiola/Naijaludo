@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
@@ -34,6 +35,7 @@ import com.mshdabiola.gamescreen.component.DrawerUi
 import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
+import com.mshdabiola.gamescreen.component.RankCard
 import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
@@ -63,13 +65,16 @@ fun GameScreenPhonePortrait(
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
+    val single= stringResource(id = com.mshdabiola.gamescreen.R.string.leaderboard_single_player)
+    val multi= stringResource(id = com.mshdabiola.gamescreen.R.string.leaderboard_multiplayer)
+    val numb=gameUiState.listOfPlayer.size
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -84,6 +89,18 @@ fun GameScreenPhonePortrait(
             onSetMusic = onSetMusic,
 
         )
+        RankCard(
+            Modifier
+            .width(70.dp)
+            .constrainAs(rankRef){
+            top.linkTo(parent.top)
+            end.linkTo(parent.end)
+        },
+            leadRes = if (numb==2)
+                com.mshdabiola.gamescreen.R.string.leaderboard_single_player
+            else
+            com.mshdabiola.gamescreen.R.string.leaderboard_multiplayer
+            )
         GameAd(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
@@ -539,7 +556,7 @@ fun GameScreenLarge(
     }
 }
 
-@Preview(device = "id:Nexus 4")
+@Preview(device = "id:Nexus 4", showBackground = true)
 @Composable
 fun GameScreenPreview() {
     val game = Constant.getDefaultGameState()

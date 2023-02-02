@@ -1,6 +1,7 @@
 package com.mshdabiola.mainscreen
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.games.GamesSignInClient
+import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.component.MainAd
@@ -78,6 +82,7 @@ fun MainScreen(
             mainViewModel.uploadProfile()
         },
     )
+
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -145,7 +150,6 @@ fun MainScreen(
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
     val coroutine = rememberCoroutineScope()
-    val activity = context as Activity
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -172,6 +176,43 @@ fun MainScreen(
                     Modifier.rotate(45f),
                 )
             }
+//            IconButton(
+//                modifier = Modifier.align(Alignment.TopCenter),
+//                onClick = {
+//                    val actvity=context as Activity
+//                          PlayGames.getGamesSignInClient(actvity)
+//                              .signIn()
+//                              .addOnSuccessListener {
+//                                  if(it.isAuthenticated){
+//                                      Log.e("is Authentication","")
+//                                  }
+//                                  Log.e("succefull","loging")
+//                              }
+//                              .addOnFailureListener {
+//                                  it.printStackTrace()
+//                              }
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .submitScoreImmediate("CgkIsvWJ65EFEAIQAA",3)
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .loadCurrentPlayerLeaderboardScore("CgkIsvWJ65EFEAIQAA",LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
+//                        .addOnSuccessListener {
+//                           val rand= it.get()?.rank
+//                            Log.e("rank","rank $rand")
+//                        }
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .getLeaderboardIntent("CgkIsvWJ65EFEAIQAA")
+//                        .addOnSuccessListener{
+//                            context.startActivityForResult(it,34)
+//                        }
+//
+//                },
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Add,
+//                    contentDescription = stringResource(id = R.string.close),
+//                    Modifier.rotate(45f),
+//                )
+//            }
             IconButton(
                 modifier = Modifier.align(Alignment.TopEnd),
                 onClick = { showDialog = true },
@@ -253,7 +294,7 @@ fun MainScreen(
                 coroutine.launch(Dispatchers.IO) {
                     ShareUtil.setLanguage(context, it)
                     withContext(Dispatchers.Main) {
-                        activity.recreate()
+                       (context as  Activity).recreate()
                     }
                 }
             },

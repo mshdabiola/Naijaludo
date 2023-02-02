@@ -1,6 +1,7 @@
 package com.mshdabiola.gamescreen
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
@@ -36,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.games.PlayGames
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
@@ -107,6 +110,24 @@ fun GameScreen(
             lifecycle.removeObserver(observer)
         }
     }
+    val single = stringResource(id = R.string.leaderboard_single_player)
+    val multi = stringResource(id = R.string.leaderboard_multiplayer)
+    val full = stringResource(id = R.string.leaderboard_general_rank)
+
+    LaunchedEffect(key1 = ludoGameState, block = {
+        if (ludoGameState.listOfPlayer.isNotEmpty()) {
+            val num = ludoGameState.listOfPlayer.size
+            val score = ludoGameState.listOfPlayer.last().win
+            if (num == 2) {
+                PlayGames.getLeaderboardsClient(context as Activity)
+                    .submitScoreImmediate(single, score.toLong())
+            } else {
+                PlayGames.getLeaderboardsClient(context as Activity)
+                    .submitScoreImmediate(multi, score.toLong())
+            }
+
+        }
+    })
 
     val rotateF = remember {
         Animatable(0f)
@@ -164,23 +185,23 @@ fun GameScreen(
                 "${it.name} - score ${it.win}"
             }
             "Players $l download NaijaLudo At " +
-                "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
+                    "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
         }
     }
 
     val showText by remember(ludoGameState) {
         derivedStateOf {
             ludoGameState.listOfCounter.isEmpty() ||
-                ludoGameState.listOfDice.isEmpty() ||
-                ludoGameState.listOfPawn.isEmpty() ||
-                ludoGameState.listOfPlayer.isEmpty()
+                    ludoGameState.listOfDice.isEmpty() ||
+                    ludoGameState.listOfPawn.isEmpty() ||
+                    ludoGameState.listOfPlayer.isEmpty()
         }
     }
 
     val showConfetti = remember(gameUiState.isRestartDialogOpen) {
         derivedStateOf {
             ludoGameState.listOfPlayer.lastOrNull()?.isCurrent == true &&
-                gameUiState.isRestartDialogOpen
+                    gameUiState.isRestartDialogOpen
         }
     }
 
@@ -261,7 +282,7 @@ fun GameScreen(
                 }
             },
 
-        )
+            )
 
         GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
