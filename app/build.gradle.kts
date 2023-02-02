@@ -26,9 +26,9 @@ android {
 
     buildTypes {
         val debug by getting {
-//            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".debug"
             versionNameSuffix="-debug"
-            signingConfig = signingConfigs.getByName("rele")
+//            signingConfig = signingConfigs.getByName("rele")
         }
         val release by getting {
             isMinifyEnabled = true

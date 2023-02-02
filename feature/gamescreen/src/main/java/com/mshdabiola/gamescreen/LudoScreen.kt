@@ -67,7 +67,7 @@ fun GameScreenPhonePortrait(
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
 
-    val numb= remember {
+    val numb = remember {
         gameUiState.listOfPlayer.size
     }
 
@@ -99,11 +99,12 @@ fun GameScreenPhonePortrait(
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
                     },
-                leadRes = if (numb == 2)
+                leadRes = if (numb == 2) {
                     R.string.leaderboard_single_player
-                else
-                   R.string.leaderboard_multiplayer,
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
             )
         }
         GameAd(
@@ -205,7 +206,7 @@ fun GameScreenPhoneLand(
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb= remember {
+    val numb = remember {
         gameUiState.listOfPlayer.size
     }
     ConstraintLayout(
@@ -235,11 +236,12 @@ fun GameScreenPhoneLand(
                         bottom.linkTo(parent.bottom)
                         start.linkTo(parent.start)
                     },
-                leadRes = if (numb == 2)
+                leadRes = if (numb == 2) {
                     R.string.leaderboard_single_player
-                else
-                    R.string.leaderboard_multiplayer,
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
             )
         }
 
@@ -347,7 +349,7 @@ fun GameScreeFoldPortrait(
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb= remember {
+    val numb = remember {
         gameUiState.listOfPlayer.size
     }
 
@@ -382,11 +384,12 @@ fun GameScreeFoldPortrait(
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     },
-                leadRes = if (numb == 2)
+                leadRes = if (numb == 2) {
                     R.string.leaderboard_single_player
-                else
-                    R.string.leaderboard_multiplayer,
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
             )
         }
 
@@ -487,7 +490,7 @@ fun GameScreenLarge(
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb= remember {
+    val numb = remember {
         gameUiState.listOfPlayer.size
     }
     ConstraintLayout(
@@ -519,11 +522,12 @@ fun GameScreenLarge(
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
                     },
-                leadRes = if (numb == 2)
+                leadRes = if (numb == 2) {
                     R.string.leaderboard_single_player
-                else
-                    R.string.leaderboard_multiplayer,
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
             )
         }
 

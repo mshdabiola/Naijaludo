@@ -1,7 +1,6 @@
 package com.mshdabiola.gamescreen
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
@@ -30,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
@@ -38,8 +36,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.games.PlayGames
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
@@ -52,12 +48,10 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
-import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -113,7 +107,6 @@ fun GameScreen(
             lifecycle.removeObserver(observer)
         }
     }
-
 
     val rotateF = remember {
         Animatable(0f)
@@ -171,23 +164,23 @@ fun GameScreen(
                 "${it.name} - score ${it.win}"
             }
             "Players $l download NaijaLudo At " +
-                    "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
+                "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
         }
     }
 
     val showText by remember(ludoGameState) {
         derivedStateOf {
             ludoGameState.listOfCounter.isEmpty() ||
-                    ludoGameState.listOfDice.isEmpty() ||
-                    ludoGameState.listOfPawn.isEmpty() ||
-                    ludoGameState.listOfPlayer.isEmpty()
+                ludoGameState.listOfDice.isEmpty() ||
+                ludoGameState.listOfPawn.isEmpty() ||
+                ludoGameState.listOfPlayer.isEmpty()
         }
     }
 
     val showConfetti = remember(gameUiState.isRestartDialogOpen) {
         derivedStateOf {
             ludoGameState.listOfPlayer.lastOrNull()?.isCurrent == true &&
-                    gameUiState.isRestartDialogOpen
+                gameUiState.isRestartDialogOpen
         }
     }
 
@@ -268,7 +261,7 @@ fun GameScreen(
                 }
             },
 
-            )
+        )
 
         GameOverDialog(
             show = gameUiState.isRestartDialogOpen,

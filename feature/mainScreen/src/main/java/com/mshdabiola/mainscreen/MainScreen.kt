@@ -1,7 +1,6 @@
 package com.mshdabiola.mainscreen
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,9 +48,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.games.GamesSignInClient
-import com.google.android.gms.games.PlayGames
-import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.component.MainAd
@@ -83,7 +79,6 @@ fun MainScreen(
             mainViewModel.uploadProfile()
         },
     )
-
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -235,7 +230,7 @@ fun MainScreen(
                 }
                 RankCard(
                     Modifier.width(70.dp).align(Alignment.CenterEnd),
-                    leadRes = R.string.leaderboard_general_rank
+                    leadRes = R.string.leaderboard_general_rank,
                 )
 
                 GameButton(
@@ -289,7 +284,7 @@ fun MainScreen(
                     )
                     RankCard(
                         Modifier.width(70.dp),
-                        leadRes = R.string.leaderboard_general_rank
+                        leadRes = R.string.leaderboard_general_rank,
                     )
                 }
                 MainAd(Modifier.align(Alignment.BottomEnd))
@@ -307,7 +302,7 @@ fun MainScreen(
                 coroutine.launch(Dispatchers.IO) {
                     ShareUtil.setLanguage(context, it)
                     withContext(Dispatchers.Main) {
-                       (context as  Activity).recreate()
+                        (context as Activity).recreate()
                     }
                 }
             },

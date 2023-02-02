@@ -73,11 +73,8 @@ import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import com.mshdabiola.ludo.model.log
-import com.mshdabiola.ludo.model.player.ComputerPlayer
-import com.mshdabiola.ludo.model.player.Player
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -164,23 +161,20 @@ fun GameOverDialog(
     onShare: () -> Unit = {},
 ) {
     val humanWin by remember(players) {
-        derivedStateOf { players.lastOrNull()?.isCurrent ?:false }
+        derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
     }
     val single = stringResource(id = R.string.leaderboard_single_player)
     val multi = stringResource(id = R.string.leaderboard_multiplayer)
     val full = stringResource(id = R.string.leaderboard_general_rank)
-    val coroutineScope= rememberCoroutineScope()
-    val context= LocalContext.current
-    val review={
-        val manager= ReviewManagerFactory.create(context)
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val review = {
+        val manager = ReviewManagerFactory.create(context)
 
-
-        val request=manager.requestReviewFlow()
+        val request = manager.requestReviewFlow()
         request.addOnSuccessListener {
-
-            val flow=manager.launchReviewFlow(context as Activity,it)
+            val flow = manager.launchReviewFlow(context as Activity, it)
             flow.addOnSuccessListener {
-
             }
         }
             .addOnFailureListener {
@@ -228,51 +222,56 @@ fun GameOverDialog(
                 IconButton(onClick = onShare) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = "share")
                 }
-                Button(onClick = {
-                    onRestart()
-                    if (players.any { it.isComputer }) {
-                        coroutineScope.launch {
-                            val num = players.size
-                            val score = players.last().win
-                            if (num == 2) {
-                                PlayGames.getLeaderboardsClient(context as Activity)
-                                    .submitScoreImmediate(single, score.toLong())
-                                PlayGames.getLeaderboardsClient(context)
-                                    .loadCurrentPlayerLeaderboardScore(multi,
-                                        LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                                        LeaderboardVariant.COLLECTION_PUBLIC)
-                                    .addOnSuccessListener {
-                                       it.get()?.let {
-                                            val multiScore=it.rawScore
-                                           PlayGames.getLeaderboardsClient(context)
-                                               .submitScoreImmediate(full,multiScore+score)
+                Button(
+                    onClick = {
+                        onRestart()
+                        if (players.any { it.isComputer }) {
+                            coroutineScope.launch {
+                                val num = players.size
+                                val score = players.last().win
+                                if (num == 2) {
+                                    PlayGames.getLeaderboardsClient(context as Activity)
+                                        .submitScoreImmediate(single, score.toLong())
+                                    PlayGames.getLeaderboardsClient(context)
+                                        .loadCurrentPlayerLeaderboardScore(
+                                            multi,
+                                            LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                                            LeaderboardVariant.COLLECTION_PUBLIC,
+                                        )
+                                        .addOnSuccessListener {
+                                            it.get()?.let {
+                                                val multiScore = it.rawScore
+                                                PlayGames.getLeaderboardsClient(context)
+                                                    .submitScoreImmediate(full, multiScore + score)
+                                            }
                                         }
-                                    }
-                            } else {
-                                PlayGames.getLeaderboardsClient(context as Activity)
-                                    .submitScoreImmediate(multi, score.toLong())
+                                } else {
+                                    PlayGames.getLeaderboardsClient(context as Activity)
+                                        .submitScoreImmediate(multi, score.toLong())
 
-                                PlayGames.getLeaderboardsClient(context)
-                                    .loadCurrentPlayerLeaderboardScore(single,
-                                        LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                                        LeaderboardVariant.COLLECTION_PUBLIC)
-                                    .addOnSuccessListener {
-                                        it.get()?.let {
-                                            val singleScore=it.rawScore
-                                            PlayGames.getLeaderboardsClient(context)
-                                                .submitScoreImmediate(full,singleScore+score)
+                                    PlayGames.getLeaderboardsClient(context)
+                                        .loadCurrentPlayerLeaderboardScore(
+                                            single,
+                                            LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                                            LeaderboardVariant.COLLECTION_PUBLIC,
+                                        )
+                                        .addOnSuccessListener {
+                                            it.get()?.let {
+                                                val singleScore = it.rawScore
+                                                PlayGames.getLeaderboardsClient(context)
+                                                    .submitScoreImmediate(full, singleScore + score)
+                                            }
                                         }
-                                    }
+                                }
                             }
                         }
-                    }
 
-                    val num = Random(3).nextInt(100)
-                    if (num in intArrayOf(1,10,56)&& humanWin){
-                        review()
-                    }
-                },
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp)
+                        val num = Random(3).nextInt(100)
+                        if (num in intArrayOf(1, 10, 56) && humanWin) {
+                            review()
+                        }
+                    },
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Refresh,

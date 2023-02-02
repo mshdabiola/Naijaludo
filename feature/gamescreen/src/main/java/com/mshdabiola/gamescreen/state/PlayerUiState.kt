@@ -12,7 +12,7 @@ data class PlayerUiState(
     val isCurrent: Boolean = false,
     val colors: List<GameColor> = listOf(GameColor.RED, GameColor.BLUE),
     val iconIndex: Int = 0,
-    val isComputer : Boolean=false
+    val isComputer: Boolean = false,
 )
 
 fun Player.toPlayerUiState() =
@@ -22,5 +22,5 @@ fun Player.toPlayerUiState() =
         isCurrent,
         colors,
         iconIndex = iconIndex,
-        isComputer = this is ComputerPlayer
+        isComputer = this is ComputerPlayer,
     )

@@ -1,7 +1,6 @@
 package com.mshdabiola.designsystem.component
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,17 +25,17 @@ import com.mshdabiola.ludo.model.log
 @Composable
 internal fun BannerAdmob(
     modifier: Modifier = Modifier,
-    appUnitId: Int=0
+    appUnitId: Int = 0,
 ) {
     val isInEditMode = LocalInspectionMode.current
-    val context= LocalContext.current
-    val unitId= remember {
-        val packagename=context.applicationContext.packageName
+    val context = LocalContext.current
+    val unitId = remember {
+        val packagename = context.applicationContext.packageName
 
         val p = "com.mshdabiola.ludo.debug"
-       if (packagename==p){
+        if (packagename == p) {
             R.string.ad_test_id
-        }else{
+        } else {
             appUnitId
         }
     }
@@ -67,9 +65,8 @@ internal fun BannerAdmob(
 
 @Composable
 fun GameAd(modifier: Modifier) {
-    BannerAdmob(modifier,R.string.game_ad_banner)
+    BannerAdmob(modifier, R.string.game_ad_banner)
 }
-
 
 @Composable
 fun MainAd(modifier: Modifier) {
