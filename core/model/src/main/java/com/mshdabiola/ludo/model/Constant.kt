@@ -6,7 +6,7 @@ import com.mshdabiola.ludo.model.player.RandomComputerPlayer
 import java.util.logging.Logger
 
 fun log(msg: String) {
-    //Logger.getLogger("Ludo game ").severe(msg)
+    Logger.getLogger("Ludo game ").severe(msg)
 //     Log.d(, msg)
 }
 

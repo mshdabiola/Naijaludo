@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
@@ -15,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,6 +36,7 @@ import com.mshdabiola.gamescreen.component.DrawerUi
 import com.mshdabiola.gamescreen.component.PawnsUi
 import com.mshdabiola.gamescreen.component.PlayersUi
 import com.mshdabiola.gamescreen.component.PlayersUiVertical
+import com.mshdabiola.gamescreen.component.RankCard
 import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
@@ -64,12 +67,16 @@ fun GameScreenPhonePortrait(
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
 
+    val numb = remember {
+        gameUiState.listOfPlayer.size
+    }
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -84,6 +91,22 @@ fun GameScreenPhonePortrait(
             onSetMusic = onSetMusic,
 
         )
+        if (gameUiState.listOfPlayer.any { it.isComputer }) {
+            RankCard(
+                Modifier
+                    .width(70.dp)
+                    .constrainAs(rankRef) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    },
+                leadRes = if (numb == 2) {
+                    R.string.leaderboard_single_player
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+            )
+        }
         GameAd(
             Modifier.constrainAs(adRef) {
                 linkTo(parent.start, parent.end)
@@ -183,13 +206,15 @@ fun GameScreenPhoneLand(
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-
+    val numb = remember {
+        gameUiState.listOfPlayer.size
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
         Show(
             modifier = Modifier.constrainAs(iconRef) {
                 top.linkTo(parent.top)
@@ -203,6 +228,22 @@ fun GameScreenPhoneLand(
             onSetMusic = onSetMusic,
 
         )
+        if (gameUiState.listOfPlayer.any { it.isComputer }) {
+            RankCard(
+                Modifier
+                    .width(70.dp)
+                    .constrainAs(rankRef) {
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                    },
+                leadRes = if (numb == 2) {
+                    R.string.leaderboard_single_player
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+            )
+        }
 
         GameAd(
             Modifier
@@ -308,6 +349,9 @@ fun GameScreeFoldPortrait(
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
+    val numb = remember {
+        gameUiState.listOfPlayer.size
+    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -315,7 +359,7 @@ fun GameScreeFoldPortrait(
             .padding(paddingValues),
 
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
         Show(
@@ -331,6 +375,23 @@ fun GameScreeFoldPortrait(
             onSetMusic = onSetMusic,
 
         )
+
+        if (gameUiState.listOfPlayer.any { it.isComputer }) {
+            RankCard(
+                Modifier
+                    .width(70.dp)
+                    .constrainAs(rankRef) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    },
+                leadRes = if (numb == 2) {
+                    R.string.leaderboard_single_player
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+            )
+        }
 
         GameAd(
             Modifier.constrainAs(adRef) {
@@ -429,12 +490,15 @@ fun GameScreenLarge(
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
+    val numb = remember {
+        gameUiState.listOfPlayer.size
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, playerRef, boardRef, counterRef, textRef, adRef) = createRefs()
+        val (iconRef, playerRef, boardRef, counterRef, rankRef, adRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -449,6 +513,23 @@ fun GameScreenLarge(
             onSetMusic = onSetMusic,
 
         )
+
+        if (gameUiState.listOfPlayer.any { it.isComputer }) {
+            RankCard(
+                Modifier
+                    .width(70.dp)
+                    .constrainAs(rankRef) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    },
+                leadRes = if (numb == 2) {
+                    R.string.leaderboard_single_player
+                } else {
+                    R.string.leaderboard_multiplayer
+                },
+                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+            )
+        }
 
         GameAd(
             Modifier
@@ -539,7 +620,7 @@ fun GameScreenLarge(
     }
 }
 
-@Preview(device = "id:Nexus 4")
+@Preview(device = "id:Nexus 4", showBackground = true)
 @Composable
 fun GameScreenPreview() {
     val game = Constant.getDefaultGameState()

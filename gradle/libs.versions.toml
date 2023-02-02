@@ -61,6 +61,8 @@ retrofitKotlinxSerializationJson = "0.8.0"
 room = "2.5.0-rc01"
 secrets = "2.0.1"
 turbine = "0.8.0"
+playGame = "17.0.0"
+playReview = "2.0.1"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
@@ -141,6 +143,11 @@ room-compiler = "androidx.room:room-compiler:2.5.0"
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+play-game= {module = "com.google.android.gms:play-services-games-v2", version.ref="playGame"}
+play-review= {module = "com.google.android.play:review", version.ref="playReview"}
+play-review-kts= {module = "com.google.android.play:review-ktx", version.ref="playReview"}
+play-update= {module = "com.google.android.play:app-update", version.ref="playReview"}
+play-update-kts= {module = "com.google.android.play:app-update-ktx", version.ref="playReview"}
 
 [bundles]
 android-test-bundle = [
