@@ -44,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -232,6 +233,10 @@ fun MainScreen(
                         contentDescription = stringResource(id = R.string.logo),
                     )
                 }
+                RankCard(
+                    Modifier.width(70.dp).align(Alignment.CenterEnd),
+                    leadRes = R.string.leaderboard_general_rank
+                )
 
                 GameButton(
                     onClick = onPlay,
@@ -278,6 +283,14 @@ fun MainScreen(
                             modifier = Modifier.size(dimensionResource(id = R.dimen.base_4)),
                         )
                     }
+                    Spacer(
+                        modifier = Modifier
+                            .width(dimensionResource(id = R.dimen.base_4)),
+                    )
+                    RankCard(
+                        Modifier.width(70.dp),
+                        leadRes = R.string.leaderboard_general_rank
+                    )
                 }
                 MainAd(Modifier.align(Alignment.BottomEnd))
             }

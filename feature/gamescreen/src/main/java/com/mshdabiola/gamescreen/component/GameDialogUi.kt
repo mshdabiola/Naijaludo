@@ -1,6 +1,8 @@
 package com.mshdabiola.gamescreen.component
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -38,6 +40,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -49,6 +52,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -60,14 +64,22 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.gamescreen.state.PlayerUiState
 import com.mshdabiola.ludo.model.log
+import com.mshdabiola.ludo.model.player.ComputerPlayer
+import com.mshdabiola.ludo.model.player.Player
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 @Composable
 fun StartDialog(
@@ -142,6 +154,7 @@ fun StartDialogPreview() {
     StartDialog()
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun GameOverDialog(
     show: Boolean = true,
@@ -151,8 +164,30 @@ fun GameOverDialog(
     onShare: () -> Unit = {},
 ) {
     val humanWin by remember(players) {
-        derivedStateOf { players.indexOfFirst { it.isCurrent } == players.lastIndex }
+        derivedStateOf { players.lastOrNull()?.isCurrent ?:false }
     }
+    val single = stringResource(id = R.string.leaderboard_single_player)
+    val multi = stringResource(id = R.string.leaderboard_multiplayer)
+    val full = stringResource(id = R.string.leaderboard_general_rank)
+    val coroutineScope= rememberCoroutineScope()
+    val context= LocalContext.current
+    val review={
+        val manager= ReviewManagerFactory.create(context)
+
+
+        val request=manager.requestReviewFlow()
+        request.addOnSuccessListener {
+
+            val flow=manager.launchReviewFlow(context as Activity,it)
+            flow.addOnSuccessListener {
+
+            }
+        }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
     AnimatedVisibility(visible = show) {
         DialogUi(
             modifier = Modifier.heightIn(280.dp, 400.dp),
@@ -193,11 +228,57 @@ fun GameOverDialog(
                 IconButton(onClick = onShare) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = "share")
                 }
-                Button(onClick = onRestart) {
+                Button(onClick = {
+                    onRestart()
+                    if (players.any { it.isComputer }) {
+                        coroutineScope.launch {
+                            val num = players.size
+                            val score = players.last().win
+                            if (num == 2) {
+                                PlayGames.getLeaderboardsClient(context as Activity)
+                                    .submitScoreImmediate(single, score.toLong())
+                                PlayGames.getLeaderboardsClient(context)
+                                    .loadCurrentPlayerLeaderboardScore(multi,
+                                        LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                                        LeaderboardVariant.COLLECTION_PUBLIC)
+                                    .addOnSuccessListener {
+                                       it.get()?.let {
+                                            val multiScore=it.rawScore
+                                           PlayGames.getLeaderboardsClient(context)
+                                               .submitScoreImmediate(full,multiScore+score)
+                                        }
+                                    }
+                            } else {
+                                PlayGames.getLeaderboardsClient(context as Activity)
+                                    .submitScoreImmediate(multi, score.toLong())
+
+                                PlayGames.getLeaderboardsClient(context)
+                                    .loadCurrentPlayerLeaderboardScore(single,
+                                        LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                                        LeaderboardVariant.COLLECTION_PUBLIC)
+                                    .addOnSuccessListener {
+                                        it.get()?.let {
+                                            val singleScore=it.rawScore
+                                            PlayGames.getLeaderboardsClient(context)
+                                                .submitScoreImmediate(full,singleScore+score)
+                                        }
+                                    }
+                            }
+                        }
+                    }
+
+                    val num = Random(3).nextInt(100)
+                    if (num in intArrayOf(1,10,56)&& humanWin){
+                        review()
+                    }
+                },
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = stringResource(id = R.string.play_again_btn),
                     )
+
                     Text(text = stringResource(id = R.string.play_again_btn))
                 }
             },

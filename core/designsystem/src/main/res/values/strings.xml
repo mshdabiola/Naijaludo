@@ -53,6 +53,15 @@
     <string name="devices">Devices</string>
     <string name="client_pair_desc">If host Device is not here, click button to pair</string>
     <string name="connect">Connect</string>
-    <string name="player_one_leaderboard">CgkIsvWJ65EFEAIQAA</string>
+    <!--app_id-->
+    <string name="app_id" translatable="false">176586652338</string>
+    <!--package_name-->
+    <string name="package_name" translatable="false">com.mshdabiola.ludo</string>
+    <!--leaderboard Multi-Player-->
+    <string name="leaderboard_multiplayer" translatable="false">CgkIsvWJ65EFEAIQBA</string>
+    <!--leaderboard General Rank-->
+    <string name="leaderboard_general_rank" translatable="false">CgkIsvWJ65EFEAIQBQ</string>
+    <!--leaderboard Single Player-->
+    <string name="leaderboard_single_player" translatable="false">CgkIsvWJ65EFEAIQBg</string>
 
 </resources>

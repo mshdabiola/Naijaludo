@@ -88,6 +88,8 @@ dependencies {
     //implementation(libs.kotlinx.collection.immutable)
     implementation(libs.androidx.core.splashscreen)
 
+    implementation(libs.play.update)
+    implementation(libs.play.update.kts)
 
     //testImplementation (libs.junit4)
     //androidTestImplementation (libs.bundles.android.test.bundle)

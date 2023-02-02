@@ -1,4 +1,4 @@
-package com.mshdabiola.gamescreen.component
+package com.mshdabiola.mainscreen
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -84,7 +84,8 @@ fun RankCard(
             TextButton(onClick = {
                 val activity=context as Activity
                 PlayGames.getLeaderboardsClient(activity)
-                    .getLeaderboardIntent(leaderString)
+                    .getLeaderboardIntent(leaderString,LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
+                    //.getLeaderboardIntent(leaderString)
                     .addOnSuccessListener {
                         activity.startActivityForResult(it,23)
                     }

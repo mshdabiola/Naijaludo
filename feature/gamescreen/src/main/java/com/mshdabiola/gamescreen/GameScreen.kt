@@ -39,6 +39,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.games.PlayGames
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
@@ -51,10 +52,12 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.ludo.model.GameColor
 import com.mshdabiola.ludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,24 +113,7 @@ fun GameScreen(
             lifecycle.removeObserver(observer)
         }
     }
-    val single = stringResource(id = R.string.leaderboard_single_player)
-    val multi = stringResource(id = R.string.leaderboard_multiplayer)
-    val full = stringResource(id = R.string.leaderboard_general_rank)
 
-    LaunchedEffect(key1 = ludoGameState, block = {
-        if (ludoGameState.listOfPlayer.isNotEmpty()) {
-            val num = ludoGameState.listOfPlayer.size
-            val score = ludoGameState.listOfPlayer.last().win
-            if (num == 2) {
-                PlayGames.getLeaderboardsClient(context as Activity)
-                    .submitScoreImmediate(single, score.toLong())
-            } else {
-                PlayGames.getLeaderboardsClient(context as Activity)
-                    .submitScoreImmediate(multi, score.toLong())
-            }
-
-        }
-    })
 
     val rotateF = remember {
         Animatable(0f)

@@ -60,6 +60,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.constraintlayout").get())
                 add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
                 add("implementation", libs.findLibrary("play-game").get())
+                add("implementation", libs.findLibrary("play-review").get())
+                add("implementation", libs.findLibrary("play-review-kts").get())
                 // add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
                // add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 

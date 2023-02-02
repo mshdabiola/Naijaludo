@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
 
-        <!--app_id-->
-        <string name="app_id" translatable="false">176586652338</string>
-        <!--package_name-->
-        <string name="package_name" translatable="false">com.mshdabiola.ludo</string>
-        <!--leaderboard Single Player-->
-        <string name="leaderboard_single_player" translatable="false">CgkIsvWJ65EFEAIQAA</string>
-        <!--leaderboard Multi-Player-->
-        <string name="leaderboard_multiplayer" translatable="false">CgkIsvWJ65EFEAIQBA</string>
-        <!--leaderboard General Rank-->
-        <string name="leaderboard_general_rank" translatable="false">CgkIsvWJ65EFEAIQBQ</string>
 
 </resources>
