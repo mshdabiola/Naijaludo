@@ -10,6 +10,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("rele") {
+            storeFile = file("/Users/user/Desktop/android collection/androidkey.jks")
+            storePassword = "cheatmobi20"
+            keyAlias = "androidKey"
+            keyPassword = "cheatmobi20"
+        }
+    }
     namespace ="com.mshdabiola.ludo"
 
     defaultConfig {
@@ -20,6 +28,7 @@ android {
         val debug by getting {
             applicationIdSuffix = ".debug"
             versionNameSuffix="-debug"
+//            signingConfig = signingConfigs.getByName("rele")
         }
         val release by getting {
             isMinifyEnabled = true
@@ -72,13 +81,15 @@ dependencies {
         val billing_version = "5.1.0"
 
         implementation("com.android.billingclient:billing-ktx:$billing_version")
-    implementation ("com.google.android.gms:play-services-games-v2:17.0.0")
+    implementation (libs.play.game)
 
 
     implementation(libs.androidx.profileinstaller)
     //implementation(libs.kotlinx.collection.immutable)
     implementation(libs.androidx.core.splashscreen)
 
+    implementation(libs.play.update)
+    implementation(libs.play.update.kts)
 
     //testImplementation (libs.junit4)
     //androidTestImplementation (libs.bundles.android.test.bundle)

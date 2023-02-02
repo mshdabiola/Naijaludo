@@ -14,11 +14,12 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.mainscreen.ShareUtil
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Arrays
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -79,5 +80,22 @@ class MainActivity : ComponentActivity() {
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
         return context
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val appUpdateInfoManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateInfoManager.appUpdateInfo
+
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateInfoManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this, 343)
+            }
+            //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
     }
 }

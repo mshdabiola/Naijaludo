@@ -78,8 +78,6 @@ class GameViewModel @Inject constructor(
     private lateinit var profName: Array<String>
     private lateinit var ludoSetting: LudoSetting
 
-
-
     init {
         // react to game ui state change for computer and remote
         viewModelScope.launch {
@@ -537,7 +535,6 @@ class GameViewModel @Inject constructor(
             blueManager.connect()
         }
     }
-
 
     private fun onDevice(index: Int) {
         clientServerJob = viewModelScope.launch(Dispatchers.IO) {

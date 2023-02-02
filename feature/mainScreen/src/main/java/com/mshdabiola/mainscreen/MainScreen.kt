@@ -43,6 +43,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -145,7 +146,6 @@ fun MainScreen(
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
     val coroutine = rememberCoroutineScope()
-    val activity = context as Activity
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -172,6 +172,43 @@ fun MainScreen(
                     Modifier.rotate(45f),
                 )
             }
+//            IconButton(
+//                modifier = Modifier.align(Alignment.TopCenter),
+//                onClick = {
+//                    val actvity=context as Activity
+//                          PlayGames.getGamesSignInClient(actvity)
+//                              .signIn()
+//                              .addOnSuccessListener {
+//                                  if(it.isAuthenticated){
+//                                      Log.e("is Authentication","")
+//                                  }
+//                                  Log.e("succefull","loging")
+//                              }
+//                              .addOnFailureListener {
+//                                  it.printStackTrace()
+//                              }
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .submitScoreImmediate("CgkIsvWJ65EFEAIQAA",3)
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .loadCurrentPlayerLeaderboardScore("CgkIsvWJ65EFEAIQAA",LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
+//                        .addOnSuccessListener {
+//                           val rand= it.get()?.rank
+//                            Log.e("rank","rank $rand")
+//                        }
+//                    PlayGames.getLeaderboardsClient(actvity)
+//                        .getLeaderboardIntent("CgkIsvWJ65EFEAIQAA")
+//                        .addOnSuccessListener{
+//                            context.startActivityForResult(it,34)
+//                        }
+//
+//                },
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Add,
+//                    contentDescription = stringResource(id = R.string.close),
+//                    Modifier.rotate(45f),
+//                )
+//            }
             IconButton(
                 modifier = Modifier.align(Alignment.TopEnd),
                 onClick = { showDialog = true },
@@ -191,6 +228,10 @@ fun MainScreen(
                         contentDescription = stringResource(id = R.string.logo),
                     )
                 }
+                RankCard(
+                    Modifier.width(70.dp).align(Alignment.CenterEnd),
+                    leadRes = R.string.leaderboard_general_rank,
+                )
 
                 GameButton(
                     onClick = onPlay,
@@ -237,6 +278,14 @@ fun MainScreen(
                             modifier = Modifier.size(dimensionResource(id = R.dimen.base_4)),
                         )
                     }
+                    Spacer(
+                        modifier = Modifier
+                            .width(dimensionResource(id = R.dimen.base_4)),
+                    )
+                    RankCard(
+                        Modifier.width(70.dp),
+                        leadRes = R.string.leaderboard_general_rank,
+                    )
                 }
                 MainAd(Modifier.align(Alignment.BottomEnd))
             }
@@ -253,7 +302,7 @@ fun MainScreen(
                 coroutine.launch(Dispatchers.IO) {
                     ShareUtil.setLanguage(context, it)
                     withContext(Dispatchers.Main) {
-                        activity.recreate()
+                        (context as Activity).recreate()
                     }
                 }
             },
