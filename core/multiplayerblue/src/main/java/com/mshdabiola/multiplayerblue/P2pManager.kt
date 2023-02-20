@@ -50,7 +50,7 @@ class P2pManager
     fun setUp() {
         log("setup")
 
-        manager = context.getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
+        manager = context.getSystemService(Context.WIFI_P2P_SERVICE) as? WifiP2pManager
         channel = manager?.initialize(context, context.mainLooper, null)
         manager?.requestGroupInfo(channel) {
             if (it != null) {
