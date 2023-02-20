@@ -1,10 +1,9 @@
 package com.mshdabiola.database.model
 
 import androidx.room.Entity
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.Player
-import com.mshdabiola.ludo.model.player.RandomComputerPlayer
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
+import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 
 @Entity(tableName = "player_table", primaryKeys = ["id", "gameId"])
 data class PlayerEntity(
@@ -23,7 +22,7 @@ fun PlayerEntity.toPlayer(colors: List<GameColor>, iconIndex: Int) =
         RandomComputerPlayer(name, win, isCurrent, colors, iconIndex)
     }
 
-fun Player.toPlayerEntity(id: Int, gameId: Long, isHuman: Boolean) =
+fun com.mshdabiola.naijaludo.model.player.Player.toPlayerEntity(id: Int, gameId: Long, isHuman: Boolean) =
     PlayerEntity(
         id,
         gameId,

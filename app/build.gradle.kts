@@ -43,7 +43,7 @@ android {
         val benchmark by creating {
             // Enable all the optimizations from release build through initWith(release).
             initWith(release)
-            matchingFallbacks.add("release")
+            matchingFallbacks += listOf("release")
             // Debug key signing is available to everyone.
             signingConfig = signingConfigs.getByName("debug")
             // Only use benchmark proguard rules

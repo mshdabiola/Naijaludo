@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -12,48 +12,50 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- If your app targets Android 13 (API level 33)
          or higher, you must declare the NEARBY_WIFI_DEVICES permission. -->
-    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
+    <uses-permission
+        android:name="android.permission.NEARBY_WIFI_DEVICES"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
     <!-- If your app derives location information from
          Wi-Fi APIs, don't include the "usesPermissionFlags"
          attribute. -->
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
         android:maxSdkVersion="32" />
     <!-- If any feature in your app relies on precise location
          information, don't include the "maxSdkVersion"
          attribute. -->
 
 
-
     <application
+        android:name=".LudoApplication"
         android:allowBackup="true"
+        android:appCategory="game"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".LudoApplication"
-        android:appCategory="game"
         android:theme="@style/Theme.NaijaLudo.Splash"
         tools:targetApi="31">
         <profileable
             android:shell="true"
             tools:targetApi="33" />
 
-                <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
-                <meta-data
-                    android:name="com.google.android.gms.ads.APPLICATION_ID"
-                    android:value="ca-app-pub-9288865147193743~8922953694"/>
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9288865147193743~8922953694" />
 
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/game_services_project_id"/>
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/game_services_project_id" />
+
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

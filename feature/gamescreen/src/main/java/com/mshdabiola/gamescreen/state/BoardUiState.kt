@@ -1,8 +1,8 @@
 package com.mshdabiola.gamescreen.state
 
 import androidx.compose.runtime.Immutable
-import com.mshdabiola.ludo.model.Board
-import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.naijaludo.model.Board
+import com.mshdabiola.naijaludo.model.GameColor
 
 // ToDo("change it to immutable list")
 @Immutable

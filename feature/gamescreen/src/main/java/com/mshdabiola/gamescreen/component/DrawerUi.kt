@@ -22,8 +22,8 @@ import com.mshdabiola.gamescreen.state.PawnUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
-import com.mshdabiola.ludo.model.Board
-import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.naijaludo.model.Board
+import com.mshdabiola.naijaludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

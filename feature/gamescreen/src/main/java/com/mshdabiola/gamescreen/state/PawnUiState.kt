@@ -1,7 +1,7 @@
 package com.mshdabiola.gamescreen.state
 
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Pawn
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.Pawn
 
 data class PawnUiState(
     val idx: Int = 0,

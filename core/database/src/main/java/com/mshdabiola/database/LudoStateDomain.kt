@@ -6,8 +6,8 @@ import com.mshdabiola.database.dao.PlayerDao
 import com.mshdabiola.database.model.LudoEntity
 import com.mshdabiola.database.model.toPawnEntity
 import com.mshdabiola.database.model.toPlayerEntity
-import com.mshdabiola.ludo.model.LudoGameState
-import com.mshdabiola.ludo.model.player.HumanPlayer
+import com.mshdabiola.naijaludo.model.LudoGameState
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import javax.inject.Inject
 
 class LudoStateDomain @Inject constructor(

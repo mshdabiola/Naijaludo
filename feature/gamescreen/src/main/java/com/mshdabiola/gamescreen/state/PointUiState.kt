@@ -1,6 +1,6 @@
 package com.mshdabiola.gamescreen.state
 
-import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.naijaludo.model.Point
 
 data class PointUiState(val x: Float, val y: Float) {
     companion object {

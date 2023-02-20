@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.model
+package com.mshdabiola.naijaludo.model
 data class Box(
     val point: Point,
     val color: GameColor = GameColor.RED,
@@ -6,4 +6,4 @@ data class Box(
     val isSafeArea: Boolean = false,
     val isHome: Boolean = false,
 
-)
+    )

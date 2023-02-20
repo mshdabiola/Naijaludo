@@ -63,6 +63,7 @@ secrets = "2.0.1"
 turbine = "0.8.0"
 playGame = "17.0.0"
 playReview = "2.0.1"
+timber="5.0.1"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
@@ -148,6 +149,8 @@ play-review= {module = "com.google.android.play:review", version.ref="playReview
 play-review-kts= {module = "com.google.android.play:review-ktx", version.ref="playReview"}
 play-update= {module = "com.google.android.play:app-update", version.ref="playReview"}
 play-update-kts= {module = "com.google.android.play:app-update-ktx", version.ref="playReview"}
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
 
 [bundles]
 android-test-bundle = [

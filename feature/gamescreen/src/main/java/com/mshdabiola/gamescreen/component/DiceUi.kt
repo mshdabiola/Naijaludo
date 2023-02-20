@@ -34,7 +34,7 @@ import com.mshdabiola.gamescreen.randDiceOffSet
 import com.mshdabiola.gamescreen.state.DiceUiState
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.gamescreen.state.toDiceUiState
-import com.mshdabiola.ludo.model.Constant.getDefaultGameState
+import com.mshdabiola.naijaludo.model.Constant.getDefaultGameState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch

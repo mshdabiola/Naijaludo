@@ -25,11 +25,11 @@ class LudoAppState(
 
     private fun isFondPort() =
         windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium &&
-            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium
+                windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium
 
     private fun isFondLandAndTabletPort() =
         windowSizeClass.heightSizeClass == WindowHeightSizeClass.Medium &&
-            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
+                windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
 
     private fun isTabletPort() = windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded
 

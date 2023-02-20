@@ -1,7 +1,8 @@
 package com.mshdabiola.naijaludo
 
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.player.Player
+
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.player.Player
 
 data class OfflinePlayer(
 

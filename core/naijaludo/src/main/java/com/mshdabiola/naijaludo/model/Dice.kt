@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.model
+package com.mshdabiola.naijaludo.model
 
 data class Dice(
     val id: Int = 1,

@@ -1,8 +1,8 @@
 package com.mshdabiola.database.model
 
 import androidx.room.Entity
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.Pawn
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.Pawn
 
 @Entity(tableName = "pawn_table", primaryKeys = ["id", "gameId"])
 data class PawnEntity(
@@ -16,7 +16,7 @@ fun Int.toColor() = GameColor.values()[this / 4]
 
 fun Int.toId() = (this % 4) + 1
 
-fun Pawn.toPawnEntity(
+fun com.mshdabiola.naijaludo.model.Pawn.toPawnEntity(
     playerId: Int,
     gameId: Long,
 ) = PawnEntity(
@@ -26,4 +26,4 @@ fun Pawn.toPawnEntity(
     playerId,
 )
 
-fun PawnEntity.toPawn() = Pawn().copy(id.toId(), currentPos, id.toColor())
+fun PawnEntity.toPawn() = com.mshdabiola.naijaludo.model.Pawn().copy(id.toId(), currentPos, id.toColor())

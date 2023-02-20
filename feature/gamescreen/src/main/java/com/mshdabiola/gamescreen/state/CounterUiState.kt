@@ -1,6 +1,6 @@
 package com.mshdabiola.gamescreen.state
 
-import com.mshdabiola.ludo.model.Counter
+import com.mshdabiola.naijaludo.model.Counter
 
 data class CounterUiState(
     val id: Int = 0,

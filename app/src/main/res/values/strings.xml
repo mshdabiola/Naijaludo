@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Naija Ludo +</string>
 
-    <string translatable="false"  name="game_services_project_id"> 176586652338 </string>
+    <string name="game_services_project_id" translatable="false"> 176586652338 </string>
 </resources>

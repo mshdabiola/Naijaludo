@@ -1,8 +1,9 @@
-package com.mshdabiola.ludo.model
+package com.mshdabiola.naijaludo.model
 
-import com.mshdabiola.ludo.model.player.HumanPlayer
-import com.mshdabiola.ludo.model.player.Player
-import com.mshdabiola.ludo.model.player.RandomComputerPlayer
+
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
+import com.mshdabiola.naijaludo.model.player.Player
+import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import java.util.logging.Logger
 
 fun log(msg: String) {

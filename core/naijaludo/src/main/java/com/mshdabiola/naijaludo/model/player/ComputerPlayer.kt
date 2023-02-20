@@ -1,6 +1,7 @@
-package com.mshdabiola.ludo.model.player
+package com.mshdabiola.naijaludo.model.player
 
-import com.mshdabiola.ludo.model.LudoGameState
+import com.mshdabiola.naijaludo.model.LudoGameState
+
 
 interface ComputerPlayer : Player {
 

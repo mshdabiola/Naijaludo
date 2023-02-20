@@ -1,6 +1,7 @@
-package com.mshdabiola.ludo.model.player
+package com.mshdabiola.naijaludo.model.player
 
-import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameColor
+
 
 interface Player {
     val name: String

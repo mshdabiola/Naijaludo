@@ -45,8 +45,8 @@ import com.mshdabiola.gamescreen.component.WifiPermission
 import com.mshdabiola.gamescreen.component.getPermission
 import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.GameType
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameType
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
