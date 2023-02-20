@@ -47,7 +47,7 @@ import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position

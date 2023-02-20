@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 
 class LudoAppState(
     val windowSizeClass: WindowSizeClass,
@@ -31,14 +31,14 @@ class LudoAppState(
 
     private fun isTabletPort() = windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded
 
-    fun getDevietype(): DEVICE_TYPE {
+    fun getDevietype(): com.mshdabiola.common.navigation.DEVICE_TYPE {
         val dev = when {
-            isPhonePort() -> DEVICE_TYPE.PHONE_PORT
-            isPhoneLand() -> DEVICE_TYPE.PHONE_LAND
-            isFondPort() -> DEVICE_TYPE.FOLD_PORT
-            isFondLandAndTabletPort() -> DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
-            isTabletPort() -> DEVICE_TYPE.TABLET_PORT
-            else -> DEVICE_TYPE.DEFAULT
+            isPhonePort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.PHONE_PORT
+            isPhoneLand() -> com.mshdabiola.common.navigation.DEVICE_TYPE.PHONE_LAND
+            isFondPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.FOLD_PORT
+            isFondLandAndTabletPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
+            isTabletPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.TABLET_PORT
+            else -> com.mshdabiola.common.navigation.DEVICE_TYPE.DEFAULT
         }
         // log("device $dev height- ${windowSizeClass.heightSizeClass}, width- ${windowSizeClass.widthSizeClass}")
         return dev

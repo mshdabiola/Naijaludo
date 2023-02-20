@@ -17,7 +17,6 @@ rootProject.name = "Naija_Ludo"
 include (":app")
 include (":core:naijaludo")
 include (":benchmark")
-include (":core:model")
 include (":feature:mainScreen")
 include (":feature:gamescreen")
 include (":core:database")

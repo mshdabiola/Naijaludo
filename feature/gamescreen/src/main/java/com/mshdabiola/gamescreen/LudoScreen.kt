@@ -43,7 +43,7 @@ import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 
 @Composable
 fun GameScreenPhonePortrait(

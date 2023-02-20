@@ -53,7 +53,7 @@ import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.component.MainAd
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

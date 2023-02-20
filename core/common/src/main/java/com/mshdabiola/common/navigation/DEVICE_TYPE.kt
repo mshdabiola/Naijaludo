@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.model.navigation
+package com.mshdabiola.common.navigation
 
 enum class DEVICE_TYPE {
 

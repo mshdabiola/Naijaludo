@@ -73,7 +73,7 @@ dependencies {
     implementation (libs.androidx.activity.compose)
     //implementation(libs.bundles.compose.bundle)
 
-    implementation (project(":core:model"))
+    implementation (project(":core:common"))
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)

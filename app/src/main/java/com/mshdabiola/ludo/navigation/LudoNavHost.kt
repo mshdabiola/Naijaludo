@@ -4,12 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.gamescreen.gameScreen
 import com.mshdabiola.gamescreen.navigateToGame
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
 import com.mshdabiola.mainscreen.mainRoute
 import com.mshdabiola.mainscreen.mainScreen
-import com.mshdabiola.mainscreen.navigateTomain
 
 @Composable
 fun LudoNavHost(
