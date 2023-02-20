@@ -99,6 +99,9 @@ fun GameScreen(
     }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+    LaunchedEffect(key1 = Unit, block = {
+        gameScreenViewModel.logScreen("gamescreen")
+    })
 
     DisposableEffect(key1 = lifecycle) {
         lifecycle.addObserver(observer)

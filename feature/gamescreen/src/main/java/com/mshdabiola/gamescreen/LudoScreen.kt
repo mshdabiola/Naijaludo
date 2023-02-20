@@ -67,6 +67,7 @@ fun GameScreenPhonePortrait(
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
 
+
     val numb = remember {
         gameUiState.listOfPlayer.size
     }

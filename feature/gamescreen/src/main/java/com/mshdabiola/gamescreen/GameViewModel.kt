@@ -3,6 +3,7 @@ package com.mshdabiola.gamescreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.common.firebase.FireAnalyticsLog
 import com.mshdabiola.common.multiplayer.P2pManager
 import com.mshdabiola.common.sound.SoundSystem
 import com.mshdabiola.database.LudoStateDomain
@@ -53,6 +54,7 @@ class GameViewModel @Inject constructor(
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
     private val blueManager: P2pManager,
+    private val fireAnalyticsLog: FireAnalyticsLog
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -194,6 +196,9 @@ class GameViewModel @Inject constructor(
         ludoGameState: LudoGameState,
         ludoSetting: LudoSetting,
     ) {
+        viewModelScope.launch {
+            log(ludoGameState)
+        }
         viewModelScope.launch(Dispatchers.IO) {
             savedStateHandle[SHOW_DIALOG] = false
         }
@@ -205,6 +210,19 @@ class GameViewModel @Inject constructor(
             onGameFinish = this@GameViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying,
         )
+    }
+
+    private fun log(msg: LudoGameState) {
+        val player= msg.listOfPlayer.map {
+            it.name to it.win
+        }
+            .toTypedArray()
+        logFirebase("player",
+            "gametype" to msg.gameType.name,
+            *player,
+            "no of pawn" to msg.listOfPawn.count()
+            )
+
     }
 
     private fun resumeFromDatabase() {
@@ -569,4 +587,7 @@ class GameViewModel @Inject constructor(
         super.onCleared()
         closeBlue()
     }
+
+    fun logScreen(name: String)=fireAnalyticsLog.logScreen(name)
+    fun logFirebase(name: String,vararg pair: Pair<String,Any>)=fireAnalyticsLog.log(name,*pair)
 }

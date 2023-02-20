@@ -78,6 +78,9 @@ fun MainScreen(
             mainViewModel.uploadProfile()
         },
     )
+    LaunchedEffect(key1 = Unit, block = {
+        mainViewModel.logScreen("mainscreen")
+    })
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 

@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
+    implementation(libs.timber)
 
         val billing_version = "5.1.0"
 
