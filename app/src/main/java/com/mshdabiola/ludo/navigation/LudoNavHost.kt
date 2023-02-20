@@ -4,26 +4,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.mshdabiola.gamescreen.gameScreenGraph
+import com.mshdabiola.gamescreen.gameScreen
+import com.mshdabiola.gamescreen.navigateToGame
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import com.mshdabiola.ludo.model.navigation.LudoNavDestination
-import com.mshdabiola.mainscreen.mainScreenGraph
+import com.mshdabiola.mainscreen.mainRoute
+import com.mshdabiola.mainscreen.mainScreen
+import com.mshdabiola.mainscreen.navigateTomain
 
 @Composable
 fun LudoNavHost(
     modifier: Modifier,
     navController: NavHostController,
-    onNavigate: (String) -> Unit,
-    onBackClick: () -> Unit,
     deviceType: DEVICE_TYPE,
-    startDestination: String = LudoNavDestination.MainNavDestination.route,
+    startDestination: String = mainRoute,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination,
     ) {
-        mainScreenGraph(onNavigate, deviceType)
-        gameScreenGraph(deviceType, onBackClick)
+
+        mainScreen(navController::navigateToGame, deviceType)
+        gameScreen(deviceType, navController::popBackStack)
     }
 }

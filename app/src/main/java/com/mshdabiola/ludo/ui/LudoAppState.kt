@@ -14,9 +14,7 @@ class LudoAppState(
     val navHostController: NavHostController,
 ) {
 
-    fun navigateTo(destination: String) = navHostController.navigate(destination)
 
-    fun onBackPressed() = navHostController.popBackStack()
 
     private fun isPhonePort() =
         windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact

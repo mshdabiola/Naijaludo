@@ -54,7 +54,6 @@ import com.mshdabiola.designsystem.component.MainAd
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
-import com.mshdabiola.ludo.model.navigation.LudoNavDestination
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,7 +61,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
-    navigateTo: (String) -> Unit,
+    navigateTo: () -> Unit,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
 ) {
     val activity = LocalContext.current as Activity
@@ -104,7 +103,7 @@ fun MainScreen(
         onPlay = {
             // navController.popBackStack()
             //  navController.navigate("game")
-            navigateTo(LudoNavDestination.GameNavDestination.route)
+            navigateTo()
         },
         onCloseApp = {
             activity.finish()
