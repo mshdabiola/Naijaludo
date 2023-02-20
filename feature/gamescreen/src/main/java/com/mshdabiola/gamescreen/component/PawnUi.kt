@@ -36,9 +36,9 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.showText
 import com.mshdabiola.gamescreen.state.toBoardUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
-import com.mshdabiola.ludo.model.Board
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.log
+import com.mshdabiola.naijaludo.model.Board
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.log
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

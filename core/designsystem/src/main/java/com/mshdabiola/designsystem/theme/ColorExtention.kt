@@ -3,7 +3,7 @@ package com.mshdabiola.designsystem.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameColor
 
 @Composable
 fun GameColor.toHomeColor(): Color {

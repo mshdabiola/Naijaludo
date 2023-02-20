@@ -9,6 +9,5 @@ java {
 }
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
-    implementation (project( ":core:model"))
     //  androidTestImplementation 'org.junit.jupiter:junit-jupiter'
 }

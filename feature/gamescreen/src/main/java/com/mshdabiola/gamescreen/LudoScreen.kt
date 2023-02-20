@@ -41,9 +41,9 @@ import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
-import com.mshdabiola.ludo.model.Constant
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.naijaludo.model.Constant
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 
 @Composable
 fun GameScreenPhonePortrait(
@@ -66,6 +66,7 @@ fun GameScreenPhonePortrait(
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
+
 
     val numb = remember {
         gameUiState.listOfPlayer.size

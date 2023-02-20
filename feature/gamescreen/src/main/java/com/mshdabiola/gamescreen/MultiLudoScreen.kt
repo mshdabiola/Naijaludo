@@ -25,10 +25,10 @@ import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toCounterUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
-import com.mshdabiola.ludo.model.Constant
-import com.mshdabiola.ludo.model.GameColor
-import com.mshdabiola.ludo.model.GameType
-import com.mshdabiola.ludo.model.navigation.DEVICE_TYPE
+import com.mshdabiola.naijaludo.model.Constant
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameType
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable

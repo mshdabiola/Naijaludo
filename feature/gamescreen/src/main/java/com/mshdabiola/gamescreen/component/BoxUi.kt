@@ -36,7 +36,7 @@ import com.mshdabiola.designsystem.icon.LudoIcon.BoardImage
 import com.mshdabiola.designsystem.theme.toHomeColor
 import com.mshdabiola.gamescreen.state.BoxUiState
 import com.mshdabiola.gamescreen.state.PointUiState
-import com.mshdabiola.ludo.model.Point
+import com.mshdabiola.naijaludo.model.Point
 
 @Composable
 fun BoxUi(box: BoxUiState, sizeScale: Int = 1) {

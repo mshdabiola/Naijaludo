@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
+    implementation(project(":core:naijaludo"))
     implementation(libs.androidx.core.ktx)
 
     ksp(libs.room.compiler)

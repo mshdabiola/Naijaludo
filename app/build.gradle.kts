@@ -43,7 +43,7 @@ android {
         val benchmark by creating {
             // Enable all the optimizations from release build through initWith(release).
             initWith(release)
-            matchingFallbacks.add("release")
+            matchingFallbacks += listOf("release")
             // Debug key signing is available to everyone.
             signingConfig = signingConfigs.getByName("debug")
             // Only use benchmark proguard rules
@@ -73,10 +73,11 @@ dependencies {
     implementation (libs.androidx.activity.compose)
     //implementation(libs.bundles.compose.bundle)
 
-    implementation (project(":core:model"))
+    implementation (project(":core:common"))
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
+    implementation(libs.timber)
 
         val billing_version = "5.1.0"
 

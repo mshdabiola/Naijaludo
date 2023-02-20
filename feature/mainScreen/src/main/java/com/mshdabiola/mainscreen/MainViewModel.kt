@@ -4,8 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.common.firebase.FireAnalyticsLog
+import com.mshdabiola.common.sound.SoundSystem
 import com.mshdabiola.datastore.UserPreferenceDataSource
-import com.mshdabiola.soundsystem.SoundSystem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -21,6 +22,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
+
+    private val fireAnalyticsLog: FireAnalyticsLog
 ) : ViewModel() {
 
     val basic = userPreferenceDataSource
@@ -134,4 +137,7 @@ class MainViewModel @Inject constructor(
 
         soundSystem.close()
     }
+
+    fun logScreen(name: String)=fireAnalyticsLog.logScreen(name)
+    fun logFirebase(name: String,vararg pair: Pair<String,Any>)=fireAnalyticsLog.log(name,*pair)
 }

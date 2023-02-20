@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
 //            }
         }
     }
+
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(updateBaseContextLocale(base))
     }
@@ -91,7 +92,12 @@ class MainActivity : ComponentActivity() {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                 appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
-                appUpdateInfoManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this, 343)
+                appUpdateInfoManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    343
+                )
             }
             //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
         }.addOnFailureListener {

@@ -7,13 +7,17 @@ plugins {
 
 android {
     namespace = "com.mshdabiola.designsystem"
+    buildTypes {
+        create("benchmark") {
+        }
+    }
 
 }
 
 
 dependencies {
 
-    implementation (project( ":core:model"))
+    implementation (project( ":core:naijaludo"))
 
     testImplementation (libs.junit4)
     implementation(libs.admob.service)

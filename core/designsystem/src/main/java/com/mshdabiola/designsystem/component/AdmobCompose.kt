@@ -19,7 +19,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.mshdabiola.designsystem.R
-import com.mshdabiola.ludo.model.log
 
 @SuppressLint("MissingPermission", "ResourceType")
 @Composable
@@ -39,7 +38,6 @@ internal fun BannerAdmob(
             appUnitId
         }
     }
-    log("$unitId")
     Column(modifier) {
         if (isInEditMode) {
             Text(

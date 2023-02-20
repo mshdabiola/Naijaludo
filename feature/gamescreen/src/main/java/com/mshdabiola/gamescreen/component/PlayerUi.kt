@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.gamescreen.state.PlayerUiState
-import com.mshdabiola.ludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

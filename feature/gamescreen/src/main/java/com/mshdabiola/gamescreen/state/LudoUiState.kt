@@ -1,8 +1,8 @@
 package com.mshdabiola.gamescreen.state
 
 import androidx.compose.runtime.Immutable
-import com.mshdabiola.ludo.model.GameType
-import com.mshdabiola.ludo.model.LudoGameState
+import com.mshdabiola.naijaludo.model.GameType
+import com.mshdabiola.naijaludo.model.LudoGameState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
