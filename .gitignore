@@ -900,3 +900,15 @@ local.properties
 /build-logic/convention/build/classes/kotlin/main/com/mshdabiola/app/FlavorKt$configureFlavors$1$1$1$1.class
 /app/tmp/full-r8-config.txt
 /app/tmp/usage.tx
+/core/build/spotless/spotlessKotlin/designsystem/src/main/java/com/mshdabiola/designsystem/component/AdmobCompose.kt
+/build-logic/convention/build/classes/kotlin/main/AndroidLibraryConventionPlugin$apply$lambda$1$$inlined$getByType$1.class
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/component/GameDialogUi.kt
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/GameScreen.kt
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/GameViewModel.kt
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/LudoScreen.kt
+/core/designsystem/src/main/java/com/mshdabiola/designsystem/component/MoveAbleDialog.kt
+/core/build/spotless/spotlessKotlin/soundsystem/src/main/java/com/mshdabiola/soundsystem/PlayBase.kt
+/core/soundsystem/src/main/java/com/mshdabiola/soundsystem/PlayBase.kt
+/core/build/spotless/spotlessKotlin/designsystem/src/main/java/com/mshdabiola/designsystem/Playcomponent.kt
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/state/PlayerUiState.kt
+/feature/build/spotless/spotlessKotlin/gamescreen/src/main/java/com/mshdabiola/gamescreen/component/RankCard.kt

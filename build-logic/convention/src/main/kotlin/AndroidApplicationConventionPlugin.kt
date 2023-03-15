@@ -43,7 +43,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.vectorDrawables{
                     useSupportLibrary=true
                 }
-                defaultConfig.resourceConfigurations+= listOf("en")
+                defaultConfig.resourceConfigurations+= listOf("en","hi","fr","es","ar")
                // configureFlavors(this)
 
 

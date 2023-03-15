@@ -17,7 +17,7 @@
     <string name="rotate" >Rotate</string>
     <string name="close">Close</string>
     <string name="setting">Setting</string>
-    <string name="logo">Naija Ludo logo</string>
+    <string name="logo" translatable="false">Naija Ludo logo</string>
     <string name="play">Play</string>
     <string name="game_setting">Game settings</string>
     <string name="basic_setting">Basic</string>
@@ -36,10 +36,10 @@
     <string name="player_win_msg">Hurray!!, You win the game</string>
     <string name="home">Home</string>
     <string name="give_up">Give up</string>
-    <string name="ad_banner">ca-app-pub-9288865147193743/1723120525</string>
-    <string name="game_ad_banner">ca-app-pub-9288865147193743/5241910746</string>
-    <string name="main_ad_banner">ca-app-pub-9288865147193743/1723120525</string>
-    <string name="ad_test_id" >ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_banner" translatable="false">ca-app-pub-9288865147193743/1723120525</string>
+    <string name="game_ad_banner" translatable="false">ca-app-pub-9288865147193743/5241910746</string>
+    <string name="main_ad_banner" translatable="false">ca-app-pub-9288865147193743/1723120525</string>
+    <string name="ad_test_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="join">Join</string>
     <string name="host">Host</string>
     <string name="blutooth_multi_desc">Play Multiplayer</string>
@@ -49,9 +49,9 @@
     <string name="waiting_for_client">Waiting for client</string>
     <string name="connecting_to_server">Connecting to server</string>
     <string name="cancel">Cancel</string>
-    <string name="pair_device_btn">Pair new device</string>
+    <string name="pair_device_btn" translatable="false">Pair new device</string>
     <string name="devices">Devices</string>
-    <string name="client_pair_desc">If host Device is not here, click button to pair</string>
+    <string name="client_pair_desc" translatable="false">If host Device is not here, click button to pair</string>
     <string name="connect">Connect</string>
     <!--app_id-->
     <string name="app_id" translatable="false">176586652338</string>
@@ -63,5 +63,12 @@
     <string name="leaderboard_general_rank" translatable="false">CgkIsvWJ65EFEAIQBQ</string>
     <!--leaderboard Single Player-->
     <string name="leaderboard_single_player" translatable="false">CgkIsvWJ65EFEAIQBg</string>
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertical</string>
+    <string name="diagonal">Diagonal</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+
 
 </resources>
