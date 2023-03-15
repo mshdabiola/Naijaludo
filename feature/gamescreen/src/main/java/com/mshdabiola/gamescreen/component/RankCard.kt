@@ -40,8 +40,12 @@ fun RankCard(
     }
     val leaderString = stringResource(id = leadRes)
     val context = LocalContext.current
+    var showCard by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(key1 = Unit, block = {
+
         PlayGames.getLeaderboardsClient(context as Activity)
             .loadCurrentPlayerLeaderboardScore(
                 leaderString,
@@ -54,42 +58,55 @@ fun RankCard(
             .addOnFailureListener {
                 it.printStackTrace()
             }
+
+        PlayGames.getGamesSignInClient(context)
+            .isAuthenticated
+            .addOnSuccessListener {
+                it.isAuthenticated
+                showCard=it.isAuthenticated
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
     })
 
-    Column(
-        modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Card(
-            Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
+    if (showCard){
+        Column(
+            modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
-                text = "Rank $rank",
-                textAlign = TextAlign.Center,
-            )
-        }
-        // Spacer(modifier = Modifier.height(4.dp))
-        TextButton(onClick = {
-            val activity = context as Activity
-            PlayGames.getLeaderboardsClient(activity)
-                .getLeaderboardIntent(leaderString)
-                .addOnSuccessListener {
-                    activity.startActivityForResult(it, 23)
-                }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
-        }) {
-            Text(text = "More")
+            Card(
+                Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp),
+                    text = "Rank $rank",
+                    textAlign = TextAlign.Center,
+                )
+            }
+            // Spacer(modifier = Modifier.height(4.dp))
+            TextButton(onClick = {
+                val activity = context as Activity
+                PlayGames.getLeaderboardsClient(activity)
+                    .getLeaderboardIntent(leaderString)
+                    .addOnSuccessListener {
+                        activity.startActivityForResult(it, 23)
+                    }
+                    .addOnFailureListener {
+                        it.printStackTrace()
+                    }
+            }) {
+                Text(text = "More")
+            }
         }
     }
+
 }
 
 @SuppressLint("ResourceType")

@@ -222,19 +222,19 @@ fun GameScreen(
                     Party(
                         spread = 270,
                         position = Position.Relative(0.2, 0.0),
-                        emitter = Emitter(5000).perSecond(300),
+                        emitter = Emitter(5000).perSecond(50),
                         timeToLive = 7000,
                     ),
                     Party(
                         spread = 360,
                         position = Position.Relative(0.5, 0.0),
-                        emitter = Emitter(5000).perSecond(700),
+                        emitter = Emitter(5000).perSecond(100),
                         timeToLive = 7000,
                     ),
                     Party(
                         spread = 270,
                         position = Position.Relative(0.8, 0.0),
-                        emitter = Emitter(5000).perSecond(300),
+                        emitter = Emitter(5000).perSecond(50),
                         timeToLive = 7000,
                     ),
                 ),
