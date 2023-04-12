@@ -33,9 +33,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
-                compileSdk=33
+//                compileSdk=33
                 defaultConfig.targetSdk = 33
-                defaultConfig.minSdk =24
+//                defaultConfig.minSdk =24
                 defaultConfig.versionName="1.3.5"
                 defaultConfig.versionCode=15
 
