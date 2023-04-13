@@ -1,4 +1,4 @@
-package com.mshdabiola.worker
+package com.mshdabiola.worker.util
 
 import com.mshdabiola.database.model.PawnEntity
 import com.mshdabiola.database.model.PlayerEntity

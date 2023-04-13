@@ -1,4 +1,4 @@
-package com.mshdabiola.worker
+package com.mshdabiola.worker.util
 
 import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.player.HumanPlayer

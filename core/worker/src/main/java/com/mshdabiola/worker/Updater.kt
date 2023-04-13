@@ -7,8 +7,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkManagerInitializer
 import com.mshdabiola.naijaludo.model.LudoGameState
+import com.mshdabiola.worker.util.FileConverter
 import com.mshdabiola.worker.work.SyncWorker
-import timber.log.Timber
 
 object Updater {
     lateinit var workManager: WorkManager
@@ -36,17 +36,4 @@ object Updater {
         )
        update("updater", pawns = pair.first, players = pair.second, id = id)
     }
-}
-
-class UpdateInitializer : Initializer<Updater> {
-    override fun create(context: Context): Updater {
-        val updater=Updater
-      updater.workManager=  WorkManager.getInstance(context)
-
-        return updater
-    }
-
-    override fun dependencies() =
-        listOf(WorkManagerInitializer::class.java)
-
 }

@@ -1,27 +1,23 @@
 package com.mshdabiola.worker.work
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
-import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
-import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
-import com.mshdabiola.database.LudoStateDomain
 import com.mshdabiola.database.dao.LudoDao
 import com.mshdabiola.database.dao.PawnDao
 import com.mshdabiola.database.dao.PlayerDao
 import com.mshdabiola.database.model.LudoEntity
-import com.mshdabiola.worker.PawnSer
-import com.mshdabiola.worker.PlayerSer
-import com.mshdabiola.worker.toPawnEntity
-import com.mshdabiola.worker.toPlayerEntity
+import com.mshdabiola.worker.util.PawnSer
+import com.mshdabiola.worker.util.PlayerSer
+import com.mshdabiola.worker.util.toPawnEntity
+import com.mshdabiola.worker.util.toPlayerEntity
+import com.mshdabiola.worker.util.UpdaterConstraints
+import com.mshdabiola.worker.util.delegatedData
+import com.mshdabiola.worker.util.syncForegroundInfo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -78,47 +74,3 @@ class SyncWorker @AssistedInject constructor(
     }
 }
 
-
-private const val NotificationId = 0
-private const val NotificationChannelID = "NotificationChannel"
-
-val UpdaterConstraints
-    get() = Constraints.Builder()
-        .build()
-
-fun Context.syncForegroundInfo() = ForegroundInfo(
-    NotificationId,
-    syncWorkNotification(),
-)
-
-/**
- * Notification displayed on lower API levels when sync workers are being
- * run with a foreground service
- */
-private fun Context.syncWorkNotification(): Notification {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channel = NotificationChannel(
-            NotificationChannelID,
-            "updater",
-            NotificationManager.IMPORTANCE_DEFAULT,
-        ).apply {
-            description = "for updating data"
-        }
-        // Register the channel with the system
-        val notificationManager: NotificationManager? =
-            getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-
-        notificationManager?.createNotificationChannel(channel)
-    }
-
-    return NotificationCompat.Builder(
-        this,
-        NotificationChannelID,
-    )
-        .setSmallIcon(
-            android.R.drawable.sym_def_app_icon,
-        )
-        .setContentTitle("Updater")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .build()
-}
