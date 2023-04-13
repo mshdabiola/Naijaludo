@@ -10,7 +10,12 @@ import timber.log.Timber
 class LudoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        PlayGamesSdk.initialize(this)
+        try {
+            PlayGamesSdk.initialize(this)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
         Saver.initialize(context = this.applicationContext)
         if (packageName.contains("debug")){
             Timber.plant(Timber.DebugTree())

@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -402,9 +403,17 @@ class GameViewModel @Inject constructor(
     }
 
     fun onPawn(index: Int, isDrawer: Boolean = false) {
-        game.onPawn(index, isDrawer)
-        val int = if (isDrawer) 1 else 0
-        sendString("pawn,$index,$int")
+        try {
+            game.onPawn(index, isDrawer)
+            val int = if (isDrawer) 1 else 0
+            sendString("pawn,$index,$int")
+        }catch (e:Exception){
+            logFirebase("on pawn exception", Pair("exception",e.message?:""))
+            _gameUiState.update {
+                it.copy(navigateBackBcosOfBlueError = true)
+            }
+        }
+
     }
 
     private fun onRemoteClick(str: String) {

@@ -2,6 +2,7 @@ package com.mshdabiola.gamescreen.component
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -92,15 +93,23 @@ fun RankCard(
             }
             // Spacer(modifier = Modifier.height(4.dp))
             TextButton(onClick = {
-                val activity = context as Activity
-                PlayGames.getLeaderboardsClient(activity)
-                    .getLeaderboardIntent(leaderString)
-                    .addOnSuccessListener {
-                        activity.startActivityForResult(it, 23)
-                    }
-                    .addOnFailureListener {
-                        it.printStackTrace()
-                    }
+                try {
+                    val activity = context as Activity
+                    PlayGames.getLeaderboardsClient(activity)
+                        .getLeaderboardIntent(leaderString)
+                        .addOnSuccessListener {
+                            activity.startActivityForResult(it, 23)
+                        }
+                        .addOnFailureListener {
+                            it.printStackTrace()
+                        }
+                }catch (e:ActivityNotFoundException){
+                    e.printStackTrace()
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
+
+
             }) {
                 Text(text = "More")
             }
