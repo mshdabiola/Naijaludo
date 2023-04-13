@@ -7,6 +7,9 @@ plugins {
 
 android {
     namespace = "com.mshdabiola.worker"
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 }
 dependencies {
     implementation(project(":core:database"))
