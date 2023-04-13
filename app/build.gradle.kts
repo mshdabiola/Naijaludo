@@ -67,7 +67,7 @@ dependencies {
     implementation(project(":feature:gamescreen"))
     implementation (project( ":core:designsystem"))
     implementation(project(":feature:mainScreen"))
-
+    implementation (project( ":core:worker"))
 
     implementation(libs.androidx.core.ktx)
     implementation (libs.androidx.activity.compose)
@@ -91,6 +91,7 @@ dependencies {
 
     implementation(libs.play.update)
     implementation(libs.play.update.kts)
+    implementation(libs.timber)
 
     //testImplementation (libs.junit4)
     //androidTestImplementation (libs.bundles.android.test.bundle)

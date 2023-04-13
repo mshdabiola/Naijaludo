@@ -17,16 +17,17 @@ import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
-import com.mshdabiola.naijaludo.model.GameType
-import com.mshdabiola.naijaludo.model.LudoSetting
-import com.mshdabiola.naijaludo.model.log
 import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.naijaludo.model.Constant.getDefaultGameState
 import com.mshdabiola.naijaludo.model.Constant.getDefaultPawns
 import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.GameType
 import com.mshdabiola.naijaludo.model.LudoGameState
+import com.mshdabiola.naijaludo.model.LudoSetting
+import com.mshdabiola.naijaludo.model.log
 import com.mshdabiola.naijaludo.model.player.HumanPlayer
+import com.mshdabiola.worker.Saver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
@@ -135,7 +136,7 @@ class GameViewModel @Inject constructor(
                         if (blueManager.state.value?.isServer == true) {
                             sendString(
                                 "setting,${profName[0]}," +
-                                    "${ludoSetting.numberOfPawn},${ludoSetting.style}",
+                                        "${ludoSetting.numberOfPawn},${ludoSetting.style}",
                             )
                         } else {
                             delay(500)
@@ -213,15 +214,16 @@ class GameViewModel @Inject constructor(
     }
 
     private fun log(msg: LudoGameState) {
-        val player= msg.listOfPlayer.map {
+        val player = msg.listOfPlayer.map {
             it.name to it.win
         }
             .toTypedArray()
-        logFirebase("player",
+        logFirebase(
+            "player",
             "gametype" to msg.gameType.name,
             *player,
             "no of pawn" to msg.listOfPawn.count()
-            )
+        )
 
     }
 
@@ -361,6 +363,7 @@ class GameViewModel @Inject constructor(
     fun onPause() {
         soundSystem.pause()
         game.pause()
+        saveData()
     }
 
     // on game click
@@ -526,18 +529,19 @@ class GameViewModel @Inject constructor(
     }
 
     private fun onPlayerFinishPlaying() {
-        saveData()
+      //  saveData()
     }
 
     // game database
     private fun saveData() {
         if (gameType() == GameType.COMPUTER) {
-            viewModelScope.launch(Dispatchers.IO) {
-                log("on game dispose")
-                viewModelScope.launch(Dispatchers.IO) {
-                    ludoStateDomain.insertLudo(game.gameState.value, currId)
-                }
-            }
+//            viewModelScope.launch(Dispatchers.IO) {
+//                log("on game dispose")
+
+//                ludoStateDomain.insertLudo(game.gameState.value, currId)
+               Saver.saveGame(game.gameState.value,currId)
+
+//            }
         }
     }
 
@@ -588,6 +592,7 @@ class GameViewModel @Inject constructor(
         closeBlue()
     }
 
-    fun logScreen(name: String)=fireAnalyticsLog.logScreen(name)
-    fun logFirebase(name: String,vararg pair: Pair<String,Any>)=fireAnalyticsLog.log(name,*pair)
+    fun logScreen(name: String) = fireAnalyticsLog.logScreen(name)
+    fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
+        fireAnalyticsLog.log(name, *pair)
 }
