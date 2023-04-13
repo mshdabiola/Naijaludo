@@ -3,7 +3,7 @@ package com.mshdabiola.worker.util
 import androidx.work.Constraints
 
 
-val UpdaterConstraints
+val saverConstraints
     get() = Constraints.Builder()
         .build()
 

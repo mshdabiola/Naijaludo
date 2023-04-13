@@ -1,18 +1,13 @@
 package com.mshdabiola.worker.work
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.CoroutineWorker
-import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.mshdabiola.worker.di.HiltWorkerFactoryEntryPoint
 import com.mshdabiola.worker.util.WORKER_CLASS_NAME
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
-import kotlin.reflect.KClass
+
 class DelegatingWorker(
     appContext: Context,
     workerParams: WorkerParameters,

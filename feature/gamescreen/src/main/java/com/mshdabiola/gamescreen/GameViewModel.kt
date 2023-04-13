@@ -27,7 +27,7 @@ import com.mshdabiola.naijaludo.model.LudoGameState
 import com.mshdabiola.naijaludo.model.LudoSetting
 import com.mshdabiola.naijaludo.model.log
 import com.mshdabiola.naijaludo.model.player.HumanPlayer
-import com.mshdabiola.worker.Updater
+import com.mshdabiola.worker.Saver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
@@ -539,7 +539,7 @@ class GameViewModel @Inject constructor(
 //                log("on game dispose")
 
 //                ludoStateDomain.insertLudo(game.gameState.value, currId)
-               Updater.savegame(game.gameState.value,currId)
+               Saver.saveGame(game.gameState.value,currId)
 
 //            }
         }

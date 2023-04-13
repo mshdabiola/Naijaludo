@@ -5,10 +5,13 @@ import androidx.work.Data
 import kotlin.reflect.KClass
 
 internal const val WORKER_CLASS_NAME = "RouterWorkerDelegateClassName"
-internal fun KClass<out CoroutineWorker>.delegatedData(players:String, pawns:String, id:Long) =
+internal const val PLAYERS = "players"
+internal const val PAWNS = "pawns"
+internal const val ID = "id"
+internal fun KClass<out CoroutineWorker>.delegatedData(players: String, pawns: String, id: Long) =
     Data.Builder()
         .putString(WORKER_CLASS_NAME, qualifiedName)
-        .putString("Players",players)
-        .putString("Pawns",pawns)
-        .putLong("id",id)
+        .putString(PLAYERS, players)
+        .putString(PAWNS, pawns)
+        .putLong(ID, id)
         .build()

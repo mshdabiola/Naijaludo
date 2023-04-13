@@ -7,7 +7,7 @@ import com.mshdabiola.naijaludo.model.player.Player
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlayerSer(
+data class PlayerPojo(
     val id: Int,
     val gameId: Long,
     val name: String,
@@ -16,8 +16,8 @@ data class PlayerSer(
     val isHuman: Boolean,
 )
 
-fun Player.toPlayerSer(id: Int, gameId: Long, isHuman: Boolean) =
-    PlayerSer(
+fun Player.toPlayerPojo(id: Int, gameId: Long, isHuman: Boolean) =
+    PlayerPojo(
         id,
         gameId,
         name,
@@ -26,27 +26,26 @@ fun Player.toPlayerSer(id: Int, gameId: Long, isHuman: Boolean) =
         isHuman,
     )
 
-fun PlayerSer.toPlayerEntity()=PlayerEntity(id, gameId, name, win, isCurrent, isHuman)
-
+fun PlayerPojo.toPlayerEntity() = PlayerEntity(id, gameId, name, win, isCurrent, isHuman)
 
 
 @Serializable
-data class PawnSer(
+data class PawnPojo(
     val id: Int = 0,
     val gameId: Long,
     val currentPos: Int,
     val playerId: Int,
 )
 
-fun Pawn.toPawnSer(
+fun Pawn.toPawnPojo(
     playerId: Int,
     gameId: Long,
-) = PawnSer(
+) = PawnPojo(
     this.idx,
     gameId,
     currentPos,
     playerId,
 )
 
-fun PawnSer.toPawnEntity()=PawnEntity(id, gameId, currentPos, playerId)
+fun PawnPojo.toPawnEntity() = PawnEntity(id, gameId, currentPos, playerId)
 
