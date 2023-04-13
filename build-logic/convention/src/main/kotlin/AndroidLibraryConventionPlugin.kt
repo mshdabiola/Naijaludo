@@ -34,8 +34,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                compileSdk=33
-                defaultConfig.minSdk=24
+//                compileSdk=33
+//                defaultConfig.minSdk=24
                 defaultConfig.targetSdk = 33
                defaultConfig. testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
               //  configureFlavors(this)

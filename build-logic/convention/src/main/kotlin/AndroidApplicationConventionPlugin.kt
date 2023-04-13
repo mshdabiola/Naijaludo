@@ -33,17 +33,17 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
-                compileSdk=33
+//                compileSdk=33
                 defaultConfig.targetSdk = 33
-                defaultConfig.minSdk =24
-                defaultConfig.versionName="1.3.5"
-                defaultConfig.versionCode=15
+//                defaultConfig.minSdk =24
+                defaultConfig.versionName="1.3.6"
+                defaultConfig.versionCode=16
 
                 defaultConfig.testInstrumentationRunner="androidx.test.runner.AndroidJUnitRunner"
                 defaultConfig.vectorDrawables{
                     useSupportLibrary=true
                 }
-                defaultConfig.resourceConfigurations+= listOf("en")
+                defaultConfig.resourceConfigurations+= listOf("en","hi","fr","es","ar")
                // configureFlavors(this)
 
 

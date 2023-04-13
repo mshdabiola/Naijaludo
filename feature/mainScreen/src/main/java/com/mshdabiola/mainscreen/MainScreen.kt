@@ -230,10 +230,7 @@ fun MainScreen(
                         contentDescription = stringResource(id = R.string.logo),
                     )
                 }
-                RankCard(
-                    Modifier.width(70.dp).align(Alignment.CenterEnd),
-                    leadRes = R.string.leaderboard_general_rank,
-                )
+
 
                 GameButton(
                     onClick = onPlay,
@@ -284,10 +281,7 @@ fun MainScreen(
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.base_4)),
                     )
-                    RankCard(
-                        Modifier.width(70.dp),
-                        leadRes = R.string.leaderboard_general_rank,
-                    )
+
                 }
                 MainAd(Modifier.align(Alignment.BottomEnd))
             }
@@ -300,14 +294,14 @@ fun MainScreen(
             board = board,
             onDismissRequest = { showDialog = false },
             basicSettingChange, soundSettingChange, profileSettingChange, boardSettingChange,
-            setLanguage = {
-                coroutine.launch(Dispatchers.IO) {
-                    ShareUtil.setLanguage(context, it)
-                    withContext(Dispatchers.Main) {
-                        (context as Activity).recreate()
-                    }
-                }
-            },
+//            setLanguage = {
+//                coroutine.launch(Dispatchers.IO) {
+//                    ShareUtil.setLanguage(context, it)
+//                    withContext(Dispatchers.Main) {
+//                        (context as Activity).recreate()
+//                    }
+//                }
+//            },
         )
     }
 }

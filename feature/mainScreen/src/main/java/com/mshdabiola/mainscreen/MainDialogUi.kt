@@ -53,7 +53,7 @@ fun SettingDialog(
     soundSettingChange: (Sound) -> Unit = {},
     profileSettingChange: (Profile) -> Unit = {},
     boardSettingChange: (Board) -> Unit = {},
-    setLanguage: (Int) -> Unit = {},
+  //  setLanguage: (Int) -> Unit = {},
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -76,17 +76,17 @@ fun SettingDialog(
                 ) {
                     Title(title = stringResource(id = R.string.basic_setting))
                     SettingContainer {
-                        SettingItem2(title = R.string.language) { modi ->
-                            ExposeBox(
-                                modifier = modi,
-                                current = basic.language,
-                                onValueChange = {
-                                    basicSettingChange(basic.copy(language = it))
-                                    setLanguage(it)
-                                },
-                                stringArrayRes = R.array.language,
-                            )
-                        }
+//                        SettingItem2(title = R.string.language) { modi ->
+//                            ExposeBox(
+//                                modifier = modi,
+//                                current = basic.language,
+//                                onValueChange = {
+//                                    basicSettingChange(basic.copy(language = it))
+//                                    setLanguage(it)
+//                                },
+//                                stringArrayRes = R.array.language,
+//                            )
+//                        }
                         SettingItem2(title = R.string.level) { modifier ->
                             ExposeBox(
                                 modifier = modifier,
@@ -338,18 +338,18 @@ fun ExposeBox(
     }
 }
 
-@Preview
-@Composable
-fun ExposeBoxPreview() {
-// Column(modifier=Modifier.fillMaxSize()) {
-    // val options = (1..6).map { " Item $it" }
-
-    var curr by remember {
-        mutableStateOf(1)
-    }
-    ExposeBox(current = curr, onValueChange = { curr = 0 }, stringArrayRes = R.array.language)
-// }
-}
+//@Preview
+//@Composable
+//fun ExposeBoxPreview() {
+//// Column(modifier=Modifier.fillMaxSize()) {
+//    // val options = (1..6).map { " Item $it" }
+//
+//    var curr by remember {
+//        mutableStateOf(1)
+//    }
+//    ExposeBox(current = curr, onValueChange = { curr = 0 }, stringArrayRes = R.array.language)
+//// }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

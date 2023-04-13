@@ -1,10 +1,5 @@
 package com.mshdabiola.ludo
 
-import android.annotation.TargetApi
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -18,9 +13,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.mshdabiola.ludo.ui.LudoApp
-import com.mshdabiola.mainscreen.ShareUtil
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -52,36 +45,36 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(updateBaseContextLocale(base))
-    }
+//    override fun attachBaseContext(base: Context) {
+//        super.attachBaseContext(updateBaseContextLocale(base))
+//    }
 
-    private fun updateBaseContextLocale(context: Context): Context? {
-//        val language: String =
-//            SharedPrefUtils.getSavedLanguage() // Helper method to get saved language from SharedPreferences
-        val locale = Locale(ShareUtil.getLand(context))
-        Locale.setDefault(locale)
-        return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            updateResourcesLocale(context, locale)
-        } else {
-            updateResourcesLocaleLegacy(context, locale)
-        }
-    }
+//    private fun updateBaseContextLocale(context: Context): Context? {
+////        val language: String =
+////            SharedPrefUtils.getSavedLanguage() // Helper method to get saved language from SharedPreferences
+//        val locale = Locale(ShareUtil.getLand(context))
+//        Locale.setDefault(locale)
+//        return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+//            updateResourcesLocale(context, locale)
+//        } else {
+//            updateResourcesLocaleLegacy(context, locale)
+//        }
+//    }
 
-    @TargetApi(Build.VERSION_CODES.N_MR1)
-    private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
-        val configuration = Configuration(context.resources.configuration)
-        configuration.setLocale(locale)
-        return context.createConfigurationContext(configuration)
-    }
+//    @TargetApi(Build.VERSION_CODES.N_MR1)
+//    private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
+//        val configuration = Configuration(context.resources.configuration)
+//        configuration.setLocale(locale)
+//        return context.createConfigurationContext(configuration)
+//    }
 
-    private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context? {
-        val resources: Resources = context.resources
-        val configuration: Configuration = resources.configuration
-        configuration.locale = locale
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-        return context
-    }
+//    private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context? {
+//        val resources: Resources = context.resources
+//        val configuration: Configuration = resources.configuration
+//        configuration.locale = locale
+//        resources.updateConfiguration(configuration, resources.displayMetrics)
+//        return context
+//    }
 
     override fun onStart() {
         super.onStart()
