@@ -64,6 +64,9 @@ turbine = "0.8.0"
 playGame = "17.0.0"
 playReview = "2.0.1"
 timber="5.0.1"
+org-jetbrains-kotlin-android = "1.8.10"
+junit = "1.1.5"
+material = "1.8.0"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
@@ -150,6 +153,8 @@ play-review-kts= {module = "com.google.android.play:review-ktx", version.ref="pl
 play-update= {module = "com.google.android.play:app-update", version.ref="playReview"}
 play-update-kts= {module = "com.google.android.play:app-update-ktx", version.ref="playReview"}
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [bundles]
@@ -205,3 +210,4 @@ little = { id = "nl.littlerobots.version-catalog-update", version.ref = "littleV
 manes = { id = "com.github.ben-manes.versions", version.ref = "maneVersion" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
