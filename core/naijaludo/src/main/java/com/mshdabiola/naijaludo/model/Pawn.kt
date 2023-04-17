@@ -19,6 +19,6 @@ data class Pawn(
 
     fun isInSavePath() = currentPos > 50
     override fun toString(): String {
-        return "\n$color - $indexx - $idx"
+        return "\n color-$color - index $indexx - id $idx"
     }
 }
