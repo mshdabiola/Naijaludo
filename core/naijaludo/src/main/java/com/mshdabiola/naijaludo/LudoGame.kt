@@ -349,10 +349,10 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         return when {
             //home logic
-            pawn.currentPos<0->{
+            pawn.isHome()->{
                 !isTotal&&diceNum==6
             }
-            pawn.currentPos<56->{
+            !pawn.isOut()->{
                 (pawn.currentPos+diceNum)<=56
             }
             else->false
