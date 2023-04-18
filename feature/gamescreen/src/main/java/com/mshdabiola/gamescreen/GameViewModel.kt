@@ -243,10 +243,16 @@ class GameViewModel @Inject constructor(
         var pawns = pair?.second
         val players = pair?.first
 
-        return if (players != null && pawns != null) {
-            if (pawns.all { it.isOut() }) {
-                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
-            }
+        return if (!players.isNullOrEmpty() && !pawns.isNullOrEmpty()) {
+//            if (pawns.all { it.isOut() }) {
+//                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
+//            }
+          players.forEach { player->
+             val isOut= pawns.filter { it.color in player.colors  }.all { it.isOut() }
+              if (isOut){
+                  return null
+              }
+          }
 
             getDefaultGameState()
                 .copy(listOfPlayer = players, listOfPawn = pawns)
