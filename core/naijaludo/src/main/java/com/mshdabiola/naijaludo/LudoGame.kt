@@ -71,7 +71,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         this.ludoSetting = ludoSetting
 
-        val isHumanPlayer = defaultState.listOfPlayer.single { it.isCurrent } is HumanPlayer
+        val isHumanPlayer = defaultState.listOfPlayer.lastOrNull()?.isCurrent ?:false
         val colors = defaultState.listOfPlayer.map { it.colors }.flatten().toMutableList()
         if (defaultState.listOfPlayer.size == 2) {
             if (ludoSetting.style == 2) {
