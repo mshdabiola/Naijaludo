@@ -5,9 +5,19 @@ package com.mshdabiola.naijaludo
 import app.cash.turbine.test
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.LudoSetting
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineExceptionHandler
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.createTestCoroutineScope
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -18,6 +28,7 @@ class LudoGameTest {
 
     private lateinit var ludoGame: LudoGame
     private lateinit var ludoSetting: LudoSetting
+
     @BeforeEach
     fun setUp() {
         ludoGame=LudoGame()
@@ -71,6 +82,7 @@ class LudoGameTest {
 
     @Test
     fun onDice() = runTest{
+
         stateLudo()
         ludoGame.onDice(intArrayOf(6,12,6))
         ludoGame.gameState
@@ -103,20 +115,28 @@ class LudoGameTest {
 
     }
 
-    private fun pawn(){
-        count()
-        ludoGame.onPawn(0,isDrawer = false)
+    private suspend fun pawn(){
+        stateLudo()
+        ludoGame.onDice(intArrayOf(6,12,6))
+        ludoGame.onCounter(0)
+        ludoGame.onPawn(9,isDrawer = false)
+//        ludoGame.pause()
     }
     @Test
     fun onPawn()= runTest {
         pawn()
         ludoGame.gameState
             .test {
-                val ludoGameState=awaitItem()
 
-                val pawn=ludoGameState.listOfPawn.single { it.idx==0 }
+                val ludoGameState=awaitItem()
+                val pawn=ludoGameState.listOfPawn.single { it.idx==9 }
                 print(ludoGameState)
                 assertEquals(0,pawn.currentPos)
+
+                ludoGame.onCounter(2)
+                ludoGame.onPawn(9,isDrawer = false)
+
+                delay(2000)
                 cancelAndIgnoreRemainingEvents()
             }
     }

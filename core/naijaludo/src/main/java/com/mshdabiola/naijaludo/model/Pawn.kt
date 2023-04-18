@@ -10,7 +10,7 @@ data class Pawn(
 
     fun getDistanceRemain() = 56 - currentPos
 
-    fun isOut() = getDistanceRemain() == 0
+    fun isOut() = currentPos == 0
     fun isOnPath() = currentPos in 0..50
 
     fun isHome() = currentPos < 0
@@ -19,6 +19,6 @@ data class Pawn(
 
     fun isInSavePath() = currentPos > 50
     override fun toString(): String {
-        return "\n color-$color - index $indexx - id $idx"
+        return " color-$color - index $indexx - id $idx pos $currentPos"
     }
 }
