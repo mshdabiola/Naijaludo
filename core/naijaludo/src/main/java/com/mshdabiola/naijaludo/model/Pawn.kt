@@ -8,17 +8,15 @@ data class Pawn(
     val zIndex: Float = 1f,
 ) {
 
-    fun getDistanceRemain() = 56 - currentPos
-
-    fun isOut() = getDistanceRemain() == 0
+    fun isOut() = currentPos >=56
     fun isOnPath() = currentPos in 0..50
 
     fun isHome() = currentPos < 0
     val idx
         get() = color.ordinal * 4 + indexx - 1
 
-    fun isInSavePath() = currentPos > 50
+    fun isInSavePath() = currentPos in 51..55
     override fun toString(): String {
-        return "\n$color - $indexx - $idx"
+        return " color-$color - index $indexx - id $idx pos $currentPos"
     }
 }
