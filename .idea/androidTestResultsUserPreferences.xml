@@ -22,6 +22,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Resizable_API_33" value="120" />
                   <entry key="Resizable_Experimental_API_33" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -143,6 +144,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="INFINIX MOBILITY LIMITED Infinix X650B" value="120" />
                   <entry key="Resizable_Experimental_API_33_2" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -157,6 +159,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_33" value="120" />
+                  <entry key="Resizable_API_33" value="120" />
                   <entry key="Resizable_Experimental_API_33" value="120" />
                   <entry key="Resizable_Experimental_API_33_2" value="120" />
                   <entry key="Tests" value="360" />
