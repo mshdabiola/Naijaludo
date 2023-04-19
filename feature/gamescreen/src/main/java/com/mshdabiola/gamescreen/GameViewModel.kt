@@ -1,12 +1,16 @@
 package com.mshdabiola.gamescreen
 
+import android.app.Activity
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.mshdabiola.common.firebase.FireAnalyticsLog
 import com.mshdabiola.common.multiplayer.P2pManager
 import com.mshdabiola.common.sound.SoundSystem
 import com.mshdabiola.database.LudoStateDomain
+import com.mshdabiola.database.dao.PlayerDao
 import com.mshdabiola.database.model.toPair
 import com.mshdabiola.datastore.ProfilePref
 import com.mshdabiola.datastore.SoundPref
@@ -56,7 +60,8 @@ class GameViewModel @Inject constructor(
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
     private val blueManager: P2pManager,
-    private val fireAnalyticsLog: FireAnalyticsLog
+    private val fireAnalyticsLog: FireAnalyticsLog,
+    private val playerDao: PlayerDao
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -626,4 +631,11 @@ class GameViewModel @Inject constructor(
     fun logScreen(name: String) = fireAnalyticsLog.logScreen(name)
     fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
         fireAnalyticsLog.log(name, *pair)
+
+    fun updateScore(score:Long) {
+        log("score is $score")
+        viewModelScope.launch(Dispatchers.IO){
+            game.updateScore(score)
+        }
+    }
 }

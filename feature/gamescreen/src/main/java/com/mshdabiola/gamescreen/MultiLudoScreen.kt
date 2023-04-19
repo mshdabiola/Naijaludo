@@ -498,6 +498,7 @@ fun GameScreenMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_PORT,
+        updateScore = {}
     )
 }
 
@@ -518,6 +519,7 @@ fun GameScreenLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_LAND,
+        updateScore = {}
 
     )
 }
@@ -539,6 +541,7 @@ fun GameScreenFoldMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_PORT,
+        updateScore = {}
     )
 }
 
@@ -559,6 +562,7 @@ fun GameScreenFoldLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
+        updateScore = {}
     )
 }
 
@@ -579,6 +583,7 @@ fun GameScreenTabletMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.TABLET_PORT,
+        updateScore = {}
     )
 }
 
@@ -599,5 +604,6 @@ fun GameScreenTabletLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
+        updateScore = {}
     )
 }

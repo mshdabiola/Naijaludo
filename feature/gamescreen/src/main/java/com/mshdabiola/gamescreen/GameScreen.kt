@@ -58,7 +58,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
-    onBack: () -> Unit = {},
+    onBack: () -> Unit = {}
 ) {
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
@@ -76,7 +76,7 @@ fun GameScreen(
     val isComponentEnable = {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationEnable = LocationManagerCompat.isLocationEnabled(locationManager)
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiEnable = wifiManager.isWifiEnabled
     }
     val observer = object : DefaultLifecycleObserver {
@@ -213,6 +213,7 @@ fun GameScreen(
                 onSetMusic = gameScreenViewModel::setMusic,
                 onSetSound = gameScreenViewModel::setSound,
                 onForceRestart = gameScreenViewModel::restartGame,
+                updateScore = gameScreenViewModel::updateScore
             )
         }
         if (showConfetti.value) {
@@ -321,6 +322,7 @@ fun GameScreen(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore :(Long)->Unit
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {
@@ -353,25 +355,25 @@ fun GameScreen(
             DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart,updateScore
             )
 
             DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart,updateScore
             )
 
             DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart,updateScore
             )
 
             else -> GameScreenPhonePortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart,updateScore
             )
         }
     }
