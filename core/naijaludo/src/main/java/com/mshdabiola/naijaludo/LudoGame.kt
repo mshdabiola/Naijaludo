@@ -84,10 +84,19 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         }
 
         val pawnss = getGameState().listOfPawn.ifEmpty { Constant.getDefaultOutPawns() }
+        var players=defaultState.listOfPlayer
+        players=players.mapIndexed { index, player ->
+            if (index==players.lastIndex){
+                player.copyPlayer(name = ludoSetting.names[0])
+            }else{
+                player.copyPlayer(name = ludoSetting.names[index+1])
+            }
+
+        }
 
         setGameState(
             getGameState().copy(
-                listOfPlayer = defaultState.listOfPlayer,
+                listOfPlayer = players,
                 listOfCounter = defaultState.listOfCounter,
                 listOfPawn = pawnss,
                 listOfDice = defaultState.listOfDice,

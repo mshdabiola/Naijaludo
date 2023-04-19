@@ -84,7 +84,7 @@ class GameViewModel @Inject constructor(
             LudoUiState(board = BoardUiState()),
         )
 
-    private lateinit var profName: Array<String>
+ //   private lateinit var profName: Array<String>
     private lateinit var ludoSetting: LudoSetting
 
     init {
@@ -106,7 +106,7 @@ class GameViewModel @Inject constructor(
             val boardPref = userPreferenceDataSource.getBoardSetting().first()
 
             val defaultNames = ProfilePref().toList()
-            profName = Array(defaultNames.size) {
+            val profName = Array(defaultNames.size) {
                 val str = profilePref.toList()[it]
                 str.ifBlank { defaultNames[it] }
             }
@@ -118,6 +118,7 @@ class GameViewModel @Inject constructor(
                 numberOfPawn = boardPref.pawnNumber,
                 rotateBoard = boardPref.rotate,
                 boardType = boardPref.boardType,
+                names = profName
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -141,12 +142,12 @@ class GameViewModel @Inject constructor(
                     if (it) {
                         if (blueManager.state.value?.isServer == true) {
                             sendString(
-                                "setting,${profName[0]}," +
+                                "setting,${ludoSetting.names[0]}," +
                                         "${ludoSetting.numberOfPawn},${ludoSetting.style}",
                             )
                         } else {
                             delay(500)
-                            sendString("client_name,${profName[0]}")
+                            sendString("client_name,${ludoSetting.names[0]}")
                         }
                     } else {
                         _gameUiState.value =
@@ -293,7 +294,7 @@ class GameViewModel @Inject constructor(
                 getSavedGame(currId)
                     ?: getDefaultGameState(
                         numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName,
+                        playerNames = ludoSetting.names,
                     )
 
             startGame(
@@ -325,7 +326,7 @@ class GameViewModel @Inject constructor(
             startGame(
                 getDefaultGameState(
                     numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
                 ludoSetting,
             )
@@ -342,7 +343,7 @@ class GameViewModel @Inject constructor(
                     ?: getDefaultGameState(
                         numberOfPlayer = 4,
                         numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName,
+                        playerNames = ludoSetting.names,
                     )
             startGame(
                 ludoGameState,
@@ -494,7 +495,7 @@ class GameViewModel @Inject constructor(
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                 ),
                 HumanPlayer(
-                    name = profName[0],
+                    name = ludoSetting.names[0],
                     isCurrent = true,
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 6,
@@ -505,7 +506,7 @@ class GameViewModel @Inject constructor(
                 getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.copy(style = 0, level = 0),
             )
@@ -523,7 +524,7 @@ class GameViewModel @Inject constructor(
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                 ),
                 HumanPlayer(
-                    name = profName[0],
+                    name = ludoSetting.names[0],
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6,
                 ),
@@ -533,7 +534,7 @@ class GameViewModel @Inject constructor(
                 getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = noOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.copy(numberOfPawn = noOfPawn, style = 0, level = 0),
             )
