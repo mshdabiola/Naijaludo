@@ -779,11 +779,19 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         return getGameState().board.getPositionIntPoint(id, gameColor)
     }
 
-    fun updateScore(score:Long){
+    fun updateScore(score:Long,name:String){
         var ludoGameState=gameState.value
         val players=ludoGameState.listOfPlayer.toMutableList()
         var player=players.lastOrNull()
 
+
+
+        if (player!=null && player.name=="Human"){
+            player=player.copyPlayer(name=name)
+            players[players.lastIndex]=player
+            ludoGameState=ludoGameState.copy(listOfPlayer = players)
+            setGameState(ludoGameState)
+        }
 
             if (player!=null && score>player.win){
                 player=player.copyPlayer(win = score.toInt())

@@ -62,7 +62,7 @@ fun GameScreenPhonePortrait(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
-    updateScore :(Long)->Unit
+    updateScore :(Long,String)->Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -204,7 +204,7 @@ fun GameScreenPhoneLand(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
-    updateScore :(Long)->Unit
+    updateScore :(Long,String)->Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -348,7 +348,7 @@ fun GameScreeFoldPortrait(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
-    updateScore :(Long)->Unit
+    updateScore :(Long,String)->Unit
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -490,7 +490,7 @@ fun GameScreenLarge(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
-    updateScore :(Long)->Unit
+    updateScore :(Long,String)->Unit
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -635,7 +635,7 @@ fun GameScreenPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
 
@@ -650,7 +650,7 @@ fun GameScreenLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_LAND,
-        updateScore = {}
+        updateScore = {_,_->}
 
     )
 }
@@ -666,7 +666,7 @@ fun GameScreenFoldPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_PORT,
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
 
@@ -681,7 +681,7 @@ fun GameScreenFoldLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
 
@@ -696,7 +696,7 @@ fun GameScreenTabletPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.TABLET_PORT,
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
 
@@ -711,7 +711,7 @@ fun GameScreenTabletLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
 

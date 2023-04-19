@@ -632,10 +632,10 @@ class GameViewModel @Inject constructor(
     fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
         fireAnalyticsLog.log(name, *pair)
 
-    fun updateScore(score:Long) {
+    fun updateScore(score:Long,name: String) {
         log("score is $score")
         viewModelScope.launch(Dispatchers.IO){
-            game.updateScore(score)
+            game.updateScore(score,name)
         }
     }
 }

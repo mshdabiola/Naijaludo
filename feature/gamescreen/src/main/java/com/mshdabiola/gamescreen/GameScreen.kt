@@ -322,7 +322,7 @@ fun GameScreen(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
-    updateScore :(Long)->Unit
+    updateScore :(Long,String)->Unit
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {

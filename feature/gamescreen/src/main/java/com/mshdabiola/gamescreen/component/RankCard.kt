@@ -35,7 +35,7 @@ import com.mshdabiola.designsystem.R
 fun RankCard(
     modifier: Modifier = Modifier,
     @StringRes leadRes: Int = R.string.leaderboard_single_player,
-    updateScore :(Long)->Unit,
+    updateScore :(Long,String)->Unit,
 ) {
     var rank by remember {
         mutableStateOf(1L)
@@ -57,8 +57,8 @@ fun RankCard(
             .addOnSuccessListener { scoreAnnotatedData ->
                 rank = scoreAnnotatedData.get()?.rank ?: 0
 
-                scoreAnnotatedData.get()?.rawScore?.let {
-                    updateScore(it)
+                scoreAnnotatedData.get()?.let {
+                    updateScore(it.rawScore,it.scoreHolderDisplayName)
                 }
             }
             .addOnFailureListener {
@@ -130,6 +130,6 @@ fun RankCardPreview() {
     RankCard(
         Modifier.width(70.dp),
         leadRes = 343,
-        updateScore = {}
+        updateScore = {_,_->}
     )
 }
