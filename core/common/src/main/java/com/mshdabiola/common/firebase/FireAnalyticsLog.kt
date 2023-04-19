@@ -12,11 +12,11 @@ import javax.inject.Inject
 //android:value="false" />
 @SuppressLint("MissingPermission")
 class FireAnalyticsLog @Inject constructor(
-    @ApplicationContext val context : Context
+    @ApplicationContext val context: Context
 ) {
 
-    fun logScreen(name:String){
-       val firebaseAnalytics= FirebaseAnalytics.getInstance(context)
+    fun logScreen(name: String) {
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         firebaseAnalytics.logEvent(
             FirebaseAnalytics.Event.SCREEN_VIEW,
@@ -24,14 +24,14 @@ class FireAnalyticsLog @Inject constructor(
                 FirebaseAnalytics.Param.SCREEN_CLASS to name,
                 FirebaseAnalytics.Param.SCREEN_NAME to name
             )
-            )
+        )
     }
 
-    fun log(name: String,vararg params: Pair<String,Any>){
-        val firebaseAnalytics= FirebaseAnalytics.getInstance(context)
+    fun log(name: String, vararg params: Pair<String, Any>) {
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         firebaseAnalytics.logEvent(
-           name, bundleOf(*params)
+            name, bundleOf(*params)
         )
     }
 }

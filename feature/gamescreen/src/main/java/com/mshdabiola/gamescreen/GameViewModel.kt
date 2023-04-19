@@ -7,6 +7,7 @@ import com.mshdabiola.common.firebase.FireAnalyticsLog
 import com.mshdabiola.common.multiplayer.P2pManager
 import com.mshdabiola.common.sound.SoundSystem
 import com.mshdabiola.database.LudoStateDomain
+import com.mshdabiola.database.dao.PlayerDao
 import com.mshdabiola.database.model.toPair
 import com.mshdabiola.datastore.ProfilePref
 import com.mshdabiola.datastore.SoundPref
@@ -56,7 +57,8 @@ class GameViewModel @Inject constructor(
     private val userPreferenceDataSource: UserPreferenceDataSource,
     private val soundSystem: SoundSystem,
     private val blueManager: P2pManager,
-    private val fireAnalyticsLog: FireAnalyticsLog
+    private val fireAnalyticsLog: FireAnalyticsLog,
+    private val playerDao: PlayerDao
 ) : ViewModel() {
 
     private val game = LudoGame(soundSystem)
@@ -79,7 +81,7 @@ class GameViewModel @Inject constructor(
             LudoUiState(board = BoardUiState()),
         )
 
-    private lateinit var profName: Array<String>
+    //   private lateinit var profName: Array<String>
     private lateinit var ludoSetting: LudoSetting
 
     init {
@@ -101,7 +103,7 @@ class GameViewModel @Inject constructor(
             val boardPref = userPreferenceDataSource.getBoardSetting().first()
 
             val defaultNames = ProfilePref().toList()
-            profName = Array(defaultNames.size) {
+            val profName = Array(defaultNames.size) {
                 val str = profilePref.toList()[it]
                 str.ifBlank { defaultNames[it] }
             }
@@ -113,6 +115,7 @@ class GameViewModel @Inject constructor(
                 numberOfPawn = boardPref.pawnNumber,
                 rotateBoard = boardPref.rotate,
                 boardType = boardPref.boardType,
+                names = profName
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -136,12 +139,12 @@ class GameViewModel @Inject constructor(
                     if (it) {
                         if (blueManager.state.value?.isServer == true) {
                             sendString(
-                                "setting,${profName[0]}," +
+                                "setting,${ludoSetting.names[0]}," +
                                         "${ludoSetting.numberOfPawn},${ludoSetting.style}",
                             )
                         } else {
                             delay(500)
-                            sendString("client_name,${profName[0]}")
+                            sendString("client_name,${ludoSetting.names[0]}")
                         }
                     } else {
                         _gameUiState.value =
@@ -243,22 +246,38 @@ class GameViewModel @Inject constructor(
         var pawns = pair?.second
         val players = pair?.first
 
-        return if (!players.isNullOrEmpty() && !pawns.isNullOrEmpty()) {
-//            if (pawns.all { it.isOut() }) {
-//                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
-//            }
-          players.forEach { player->
-             val isOut= pawns.filter { it.color in player.colors  }.all { it.isOut() }
-              if (isOut){
-                  return null
-              }
-          }
+        if (players.isNullOrEmpty())
+            return null
 
-            getDefaultGameState()
-                .copy(listOfPlayer = players, listOfPawn = pawns)
+        if (!pawns.isNullOrEmpty()) {
+            players.forEach { player ->
+                val isOut = pawns!!.filter { it.color in player.colors }.all { it.isOut() }
+                if (isOut) {
+                    pawns = getDefaultPawns(ludoSetting.numberOfPawn)
+                }
+            }
         } else {
-            null
+            pawns = getDefaultPawns(ludoSetting.numberOfPawn)
         }
+
+        return getDefaultGameState()
+            .copy(listOfPlayer = players, listOfPawn = pawns!!)
+//        return if (!players.isNullOrEmpty() && !pawns.isNullOrEmpty()) {
+////            if (pawns.all { it.isOut() }) {
+////                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
+////            }
+//          players.forEach { player->
+//             val isOut= pawns!!.filter { it.color in player.colors  }.all { it.isOut() }
+//              if (isOut){
+//                  pawns=getDefaultPawns(ludoSetting.numberOfPawn)
+//              }
+//          }
+//
+//            getDefaultGameState()
+//                .copy(listOfPlayer = players, listOfPawn = pawns!!)
+//        } else {
+//            null
+//        }
     }
 
     // Start dialog
@@ -272,7 +291,7 @@ class GameViewModel @Inject constructor(
                 getSavedGame(currId)
                     ?: getDefaultGameState(
                         numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName,
+                        playerNames = ludoSetting.names,
                     )
 
             startGame(
@@ -304,7 +323,7 @@ class GameViewModel @Inject constructor(
             startGame(
                 getDefaultGameState(
                     numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
                 ludoSetting,
             )
@@ -321,7 +340,7 @@ class GameViewModel @Inject constructor(
                     ?: getDefaultGameState(
                         numberOfPlayer = 4,
                         numberOfPawn = ludoSetting.numberOfPawn,
-                        playerNames = profName,
+                        playerNames = ludoSetting.names,
                     )
             startGame(
                 ludoGameState,
@@ -413,8 +432,8 @@ class GameViewModel @Inject constructor(
             game.onPawn(index, isDrawer)
             val int = if (isDrawer) 1 else 0
             sendString("pawn,$index,$int")
-        }catch (e:Exception){
-            logFirebase("on pawn exception", Pair("exception",e.message?:""))
+        } catch (e: Exception) {
+            logFirebase("on pawn exception", Pair("exception", e.message ?: ""))
             _gameUiState.update {
                 it.copy(navigateBackBcosOfBlueError = true)
             }
@@ -473,7 +492,7 @@ class GameViewModel @Inject constructor(
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                 ),
                 HumanPlayer(
-                    name = profName[0],
+                    name = ludoSetting.names[0],
                     isCurrent = true,
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 6,
@@ -484,7 +503,7 @@ class GameViewModel @Inject constructor(
                 getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = ludoSetting.numberOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.copy(style = 0, level = 0),
             )
@@ -502,7 +521,7 @@ class GameViewModel @Inject constructor(
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                 ),
                 HumanPlayer(
-                    name = profName[0],
+                    name = ludoSetting.names[0],
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6,
                 ),
@@ -512,7 +531,7 @@ class GameViewModel @Inject constructor(
                 getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = noOfPawn,
-                    playerNames = profName,
+                    playerNames = ludoSetting.names,
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.copy(numberOfPawn = noOfPawn, style = 0, level = 0),
             )
@@ -544,7 +563,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun onPlayerFinishPlaying() {
-      //  saveData()
+        //  saveData()
     }
 
     // game database
@@ -554,7 +573,7 @@ class GameViewModel @Inject constructor(
 //                log("on game dispose")
 
 //                ludoStateDomain.insertLudo(game.gameState.value, currId)
-               Saver.saveGame(game.gameState.value,currId)
+            Saver.saveGame(game.gameState.value, currId)
 
 //            }
         }
@@ -610,4 +629,11 @@ class GameViewModel @Inject constructor(
     fun logScreen(name: String) = fireAnalyticsLog.logScreen(name)
     fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
         fireAnalyticsLog.log(name, *pair)
+
+    fun updateScore(score: Long, name: String) {
+        log("score is $score")
+        viewModelScope.launch(Dispatchers.IO) {
+            game.updateScore(score, name)
+        }
+    }
 }

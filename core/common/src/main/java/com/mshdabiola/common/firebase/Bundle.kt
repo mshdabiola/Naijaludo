@@ -41,19 +41,24 @@ fun bundleOf(vararg pairs: Pair<String, Any?>) = Bundle(pairs.size).apply {
                     Parcelable::class.java.isAssignableFrom(componentType) -> {
                         putParcelableArray(key, value as Array<Parcelable>)
                     }
+
                     String::class.java.isAssignableFrom(componentType) -> {
                         putStringArray(key, value as Array<String>)
                     }
+
                     CharSequence::class.java.isAssignableFrom(componentType) -> {
                         putCharSequenceArray(key, value as Array<CharSequence>)
                     }
+
                     Serializable::class.java.isAssignableFrom(componentType) -> {
                         putSerializable(key, value)
                     }
+
                     else -> {
                         val valueType = componentType.canonicalName
                         throw IllegalArgumentException(
-                            "Illegal value array type $valueType for key \"$key\"")
+                            "Illegal value array type $valueType for key \"$key\""
+                        )
                     }
                 }
             }
@@ -61,8 +66,8 @@ fun bundleOf(vararg pairs: Pair<String, Any?>) = Bundle(pairs.size).apply {
             is Serializable -> putSerializable(key, value)
             else -> {
 
-                    val valueType = value.javaClass.canonicalName
-                    throw IllegalArgumentException("Illegal value type $valueType for key \"$key\"")
+                val valueType = value.javaClass.canonicalName
+                throw IllegalArgumentException("Illegal value type $valueType for key \"$key\"")
 
             }
         }

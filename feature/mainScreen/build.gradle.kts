@@ -1,5 +1,5 @@
 plugins {
-    id ("mshdabiola.android.feature")
+    id("mshdabiola.android.feature")
 }
 
 android {

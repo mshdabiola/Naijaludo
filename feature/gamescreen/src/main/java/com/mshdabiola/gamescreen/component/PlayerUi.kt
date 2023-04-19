@@ -1,8 +1,11 @@
 package com.mshdabiola.gamescreen.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
@@ -36,6 +40,7 @@ import com.mshdabiola.naijaludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PlayerUi(
     player: PlayerUiState,
@@ -82,7 +87,18 @@ fun PlayerUi(
                 .background(contentColor)
                 .padding(4.dp),
         ) {
-            Text(text = "${player.win}", color = color, fontWeight = FontWeight.Bold)
+            Text(
+                modifier = Modifier
+                    .widthIn(max = 24.dp)
+                    .basicMarquee(
+                        iterations = 1,
+                        animationMode = MarqueeAnimationMode.WhileFocused
+                    ),
+                text = "${player.win}", color = color,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+
+                )
         }
     }
 
@@ -270,11 +286,15 @@ fun PlayersVerticalPreview() {
                     name = "abiolalawal moshood",
                     colors = listOf(GameColor.GREEN, GameColor.RED),
                 ),
-                PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(
+                    win = 100000000,
+                    colors = listOf(GameColor.GREEN),
+                    name = "abiola moshood"
+                ),
                 PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
                 PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
 
-            ).toImmutableList()
+                ).toImmutableList()
         },
         isFold = true,
     )

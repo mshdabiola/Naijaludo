@@ -11,7 +11,7 @@ buildscript {
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false
-   // alias(libs.plugins.android.library) apply false
+    // alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.jvm) apply false
 //    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.hilt) apply false
@@ -35,7 +35,7 @@ versionCatalogUpdate {
         keepUnusedPlugins.set(true)
     }
 }
-  //  ./gradlew versionCatalogUpdate
+//  ./gradlew versionCatalogUpdate
 //apply("${project.rootDir}/gradle/toml_updater_config.gradle.kts")
 //task createSpotlessPreCommitHook() {
 //    def gitHooksDirectory = new File("$project.rootDir/.git/hooks/")

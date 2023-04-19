@@ -2,8 +2,6 @@ package com.mshdabiola.database.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.mshdabiola.naijaludo.model.Pawn
-import com.mshdabiola.naijaludo.model.player.Player
 
 data class LudoAndOthers(
     @Embedded val ludoEntity: LudoEntity,
@@ -18,7 +16,7 @@ data class LudoAndOthers(
     )
     val playerEntity: List<PlayerEntity>,
 
-)
+    )
 
 fun LudoAndOthers.toPair(): Pair<List<com.mshdabiola.naijaludo.model.player.Player>, List<com.mshdabiola.naijaludo.model.Pawn>> {
     val pawns = pawnEntity.map { it.toPawn() }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="base">8dp</dimen>
-    <dimen name="base_2" >16dp</dimen>
+    <dimen name="base_2">16dp</dimen>
     <dimen name="base_3">32dp</dimen>
     <dimen name="base_4">64dp</dimen>
     <dimen name="play_button_size">96dp</dimen>

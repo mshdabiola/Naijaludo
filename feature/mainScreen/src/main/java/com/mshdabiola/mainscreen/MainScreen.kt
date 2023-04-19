@@ -43,20 +43,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.component.MainAd
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.common.navigation.DEVICE_TYPE
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Composable
 fun MainScreen(
@@ -158,7 +154,7 @@ fun MainScreen(
                 }
             },
 
-    ) { paddingValues ->
+        ) { paddingValues ->
         Box(
             Modifier
                 .fillMaxSize()
@@ -240,7 +236,7 @@ fun MainScreen(
                     shape = RoundedCornerShape(dimensionResource(id = R.dimen.base_2)),
                     elevation = dimensionResource(id = R.dimen.base),
 
-                ) {
+                    ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
                         contentDescription = stringResource(id = R.string.play),
@@ -253,7 +249,7 @@ fun MainScreen(
                     modifier = Modifier.align(Alignment.Center),
                     verticalAlignment = Alignment.CenterVertically,
 
-                ) {
+                    ) {
                     Image(
                         modifier = Modifier.width(dimensionResource(id = R.dimen.logo_size)),
                         painter = painterResource(id = LudoIcon.logo),
@@ -270,7 +266,7 @@ fun MainScreen(
                         shape = RoundedCornerShape(dimensionResource(id = R.dimen.base_2)),
                         elevation = dimensionResource(id = R.dimen.base),
 
-                    ) {
+                        ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
                             contentDescription = stringResource(id = R.string.play),

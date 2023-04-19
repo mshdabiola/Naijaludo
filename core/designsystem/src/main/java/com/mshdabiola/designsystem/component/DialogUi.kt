@@ -107,7 +107,7 @@ fun DialogUiPreview() {
         },
         containerColor = Color.Blue,
 
-    )
+        )
 }
 
 @Composable
@@ -176,7 +176,7 @@ fun DialogContent2(
                         size.height * 0.5f to containerColor.copy(alpha = 0.6f),
                         tileMode = TileMode.Mirror,
 
-                    ),
+                        ),
                 )
             },
         shape = shape,
@@ -230,7 +230,7 @@ fun DialogContent2(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
 
-                ) {
+                    ) {
                     content()
                 }
             }
@@ -242,7 +242,7 @@ fun DialogContent2(
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceAround,
 
-                ) {
+                    ) {
                     buttons()
                 }
             }
@@ -286,7 +286,7 @@ fun DialogUiPreview2() {
         },
         containerColor = Color.Blue,
 
-    )
+        )
 }
 
 @Composable
@@ -316,7 +316,7 @@ fun DialogContent(
                             size.height * 0.5f to containerColor.copy(alpha = 0.6f),
                             tileMode = TileMode.Mirror,
 
-                        ),
+                            ),
                     )
                 }
                 .sizeIn(
@@ -375,7 +375,7 @@ fun DialogContent(
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceAround,
 
-                ) {
+                    ) {
                     buttons()
                 }
             }

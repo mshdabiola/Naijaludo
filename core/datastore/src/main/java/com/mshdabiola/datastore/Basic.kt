@@ -13,7 +13,7 @@ data class SoundPref(
     val music: Boolean = false,
     val musicType: Int = 0,
 
-)
+    )
 
 fun UserPreferences.toSoundPref() = SoundPref(sound, music, musicType = musicType)
 

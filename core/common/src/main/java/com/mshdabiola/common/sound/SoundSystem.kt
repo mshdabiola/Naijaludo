@@ -82,6 +82,7 @@ class SoundSystem
         playMusic = value
         if (value) resume() else pause()
     }
+
     fun play() {
         if (streamId == null || streamId == 0) {
             streamId = soundPool?.play(soundIds[0], 1f, 1f, 2, -1, 1f)

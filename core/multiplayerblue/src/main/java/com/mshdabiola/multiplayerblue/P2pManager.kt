@@ -133,12 +133,12 @@ class P2pManager
                                     log("Init client")
                                     state.value = state
                                         .value?.copy(
-                                        ownerAddress = wifiP2pInfo
-                                            .groupOwnerAddress
-                                            .hostAddress,
-                                        isServer = false,
-                                        connected = true,
-                                    )
+                                            ownerAddress = wifiP2pInfo
+                                                .groupOwnerAddress
+                                                .hostAddress,
+                                            isServer = false,
+                                            connected = true,
+                                        )
                                 }
                             }
                         } else {

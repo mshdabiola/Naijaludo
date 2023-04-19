@@ -18,10 +18,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.mshdabiola.app.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -36,15 +33,15 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 //                compileSdk=33
                 defaultConfig.targetSdk = 33
 //                defaultConfig.minSdk =24
-                defaultConfig.versionName="2.0.0"
-                defaultConfig.versionCode=22
+                defaultConfig.versionName = "2.0.1"
+                defaultConfig.versionCode = 23
 
-                defaultConfig.testInstrumentationRunner="androidx.test.runner.AndroidJUnitRunner"
-                defaultConfig.vectorDrawables{
-                    useSupportLibrary=true
+                defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                defaultConfig.vectorDrawables {
+                    useSupportLibrary = true
                 }
-                defaultConfig.resourceConfigurations+= listOf("en","hi","fr","es","ar")
-               // configureFlavors(this)
+                defaultConfig.resourceConfigurations += listOf("en", "hi", "fr", "es", "ar")
+                // configureFlavors(this)
 
 
             }

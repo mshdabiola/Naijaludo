@@ -80,6 +80,7 @@ class UserPreferenceDataSource
                 it.isFirstTime
             }
             .first()
+
     suspend fun setIsFirstTime() {
         userPreferences.updateData {
             it.copy {

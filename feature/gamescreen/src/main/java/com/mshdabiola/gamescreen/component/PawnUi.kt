@@ -74,14 +74,14 @@ fun PawnUi(
                 1f to Color.Black.copy(alpha = 0.8f),
             ),
         ),
-        tonalElevation = if (pawnUiState.showText())pawnUiState.zIndex.dp else 1.dp,
-        shadowElevation = if (pawnUiState.showText())pawnUiState.zIndex.dp else 1.dp,
+        tonalElevation = if (pawnUiState.showText()) pawnUiState.zIndex.dp else 1.dp,
+        shadowElevation = if (pawnUiState.showText()) pawnUiState.zIndex.dp else 1.dp,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize(),
 
-        ) {
+            ) {
             if (pawnUiState.showText()) {
                 Text(
                     text = "${pawnUiState.zIndex.toInt()}",
@@ -89,7 +89,7 @@ fun PawnUi(
                     color = pawnUiState.color.toPawnTextColor(),
                     modifier = Modifier.align(Alignment.Center),
 
-                )
+                    )
             }
         }
     }

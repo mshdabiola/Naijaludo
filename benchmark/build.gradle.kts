@@ -1,11 +1,11 @@
 plugins {
-    id ("com.android.test")
-    id ("org.jetbrains.kotlin.android")
+    id("com.android.test")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
     namespace = "com.mshdabiola.benchmark"
-    compileSdk=33
+    compileSdk = 33
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -14,10 +14,10 @@ android {
 
 
     defaultConfig {
-        minSdk =24
-        targetSdk =33
+        minSdk = 24
+        targetSdk = 33
 
-        testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         buildConfig = true
@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macro)
-   implementation(libs.androidx.profileinstaller)
+    implementation(libs.androidx.profileinstaller)
 }
 
 androidComponents {

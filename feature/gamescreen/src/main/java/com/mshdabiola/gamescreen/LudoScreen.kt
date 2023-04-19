@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.GameAd
 import com.mshdabiola.gamescreen.component.BoardUi
@@ -43,7 +44,6 @@ import com.mshdabiola.gamescreen.state.toLudoUiState
 import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
-import com.mshdabiola.common.navigation.DEVICE_TYPE
 
 @Composable
 fun GameScreenPhonePortrait(
@@ -62,6 +62,7 @@ fun GameScreenPhonePortrait(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore: (Long, String) -> Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -91,7 +92,7 @@ fun GameScreenPhonePortrait(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
         if (gameUiState.listOfPlayer.any { it.isComputer }) {
             RankCard(
                 Modifier
@@ -105,7 +106,7 @@ fun GameScreenPhonePortrait(
                 } else {
                     R.string.leaderboard_multiplayer
                 },
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+                updateScore
             )
         }
         GameAd(
@@ -203,6 +204,7 @@ fun GameScreenPhoneLand(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore: (Long, String) -> Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -228,7 +230,7 @@ fun GameScreenPhoneLand(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
         if (gameUiState.listOfPlayer.any { it.isComputer }) {
             RankCard(
                 Modifier
@@ -242,7 +244,7 @@ fun GameScreenPhoneLand(
                 } else {
                     R.string.leaderboard_multiplayer
                 },
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+                updateScore
             )
         }
 
@@ -346,6 +348,7 @@ fun GameScreeFoldPortrait(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore: (Long, String) -> Unit
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -359,7 +362,7 @@ fun GameScreeFoldPortrait(
             .fillMaxSize()
             .padding(paddingValues),
 
-    ) {
+        ) {
         val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
@@ -375,7 +378,7 @@ fun GameScreeFoldPortrait(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
 
         if (gameUiState.listOfPlayer.any { it.isComputer }) {
             RankCard(
@@ -390,7 +393,7 @@ fun GameScreeFoldPortrait(
                 } else {
                     R.string.leaderboard_multiplayer
                 },
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+                updateScore
             )
         }
 
@@ -487,6 +490,7 @@ fun GameScreenLarge(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore: (Long, String) -> Unit
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -513,7 +517,7 @@ fun GameScreenLarge(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
 
         if (gameUiState.listOfPlayer.any { it.isComputer }) {
             RankCard(
@@ -528,7 +532,7 @@ fun GameScreenLarge(
                 } else {
                     R.string.leaderboard_multiplayer
                 },
-                win = gameUiState.listOfPlayer.lastOrNull()?.win ?: 1,
+                updateScore
             )
         }
 
@@ -631,6 +635,7 @@ fun GameScreenPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
+        updateScore = { _, _ -> }
     )
 }
 
@@ -645,6 +650,7 @@ fun GameScreenLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_LAND,
+        updateScore = { _, _ -> }
 
     )
 }
@@ -660,6 +666,7 @@ fun GameScreenFoldPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_PORT,
+        updateScore = { _, _ -> }
     )
 }
 
@@ -674,6 +681,7 @@ fun GameScreenFoldLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
+        updateScore = { _, _ -> }
     )
 }
 
@@ -688,6 +696,7 @@ fun GameScreenTabletPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.TABLET_PORT,
+        updateScore = { _, _ -> }
     )
 }
 
@@ -702,6 +711,7 @@ fun GameScreenTabletLandPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
+        updateScore = { _, _ -> }
     )
 }
 

@@ -7,13 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mshdabiola.common.navigation.DEVICE_TYPE
 
 class LudoAppState(
     val windowSizeClass: WindowSizeClass,
     val navHostController: NavHostController,
 ) {
-
 
 
     private fun isPhonePort() =

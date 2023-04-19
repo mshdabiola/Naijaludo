@@ -45,7 +45,7 @@ fun CounterUi(
         border = BorderStroke(2.dp, Color.White.copy(alpha = 0.6f)),
         enabled = counterUiState.isEnable && isHuman,
 
-    ) {
+        ) {
         Text(
             text = "${counterUiState.number}",
             style = MaterialTheme.typography.headlineSmall,
@@ -72,7 +72,7 @@ fun CounterGroupUi(
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer,
 
-        ) {
+            ) {
             Row(
                 modifier = Modifier
                     .padding(8.dp),
@@ -112,7 +112,7 @@ fun CounterGroupUiVertical(
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer,
 
-        ) {
+            ) {
             Column(
                 modifier = Modifier
                     .padding(8.dp),

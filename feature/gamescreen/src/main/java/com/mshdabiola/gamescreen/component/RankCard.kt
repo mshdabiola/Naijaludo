@@ -30,11 +30,12 @@ import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.mshdabiola.designsystem.R
 
+@SuppressLint("VisibleForTests")
 @Composable
 fun RankCard(
     modifier: Modifier = Modifier,
     @StringRes leadRes: Int = R.string.leaderboard_single_player,
-    win: Int = 7,
+    updateScore: (Long, String) -> Unit,
 ) {
     var rank by remember {
         mutableStateOf(1L)
@@ -53,8 +54,12 @@ fun RankCard(
                 LeaderboardVariant.TIME_SPAN_ALL_TIME,
                 LeaderboardVariant.COLLECTION_PUBLIC,
             )
-            .addOnSuccessListener {
-                rank = it.get()?.rank ?: 0
+            .addOnSuccessListener { scoreAnnotatedData ->
+                rank = scoreAnnotatedData.get()?.rank ?: 0
+
+                scoreAnnotatedData.get()?.let {
+                    updateScore(it.rawScore, it.scoreHolderDisplayName)
+                }
             }
             .addOnFailureListener {
                 it.printStackTrace()
@@ -64,14 +69,14 @@ fun RankCard(
             .isAuthenticated
             .addOnSuccessListener {
                 it.isAuthenticated
-                showCard=it.isAuthenticated
+                showCard = it.isAuthenticated
             }
             .addOnFailureListener {
                 it.printStackTrace()
             }
     })
 
-    if (showCard){
+    if (showCard) {
         Column(
             modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,9 +108,9 @@ fun RankCard(
                         .addOnFailureListener {
                             it.printStackTrace()
                         }
-                }catch (e:ActivityNotFoundException){
+                } catch (e: ActivityNotFoundException) {
                     e.printStackTrace()
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
@@ -125,5 +130,6 @@ fun RankCardPreview() {
     RankCard(
         Modifier.width(70.dp),
         leadRes = 343,
+        updateScore = { _, _ -> }
     )
 }

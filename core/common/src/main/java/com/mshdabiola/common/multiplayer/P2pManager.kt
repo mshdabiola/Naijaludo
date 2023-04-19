@@ -13,7 +13,6 @@ import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Build
-import com.mshdabiola.naijaludo.model.log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -133,12 +132,12 @@ class P2pManager
                                     com.mshdabiola.naijaludo.model.log("Init client")
                                     state.value = state
                                         .value?.copy(
-                                        ownerAddress = wifiP2pInfo
-                                            .groupOwnerAddress
-                                            .hostAddress,
-                                        isServer = false,
-                                        connected = true,
-                                    )
+                                            ownerAddress = wifiP2pInfo
+                                                .groupOwnerAddress
+                                                .hostAddress,
+                                            isServer = false,
+                                            connected = true,
+                                        )
                                 }
                             }
                         } else {

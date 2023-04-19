@@ -27,7 +27,7 @@ import java.io.File
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *,*>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -37,7 +37,8 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("androidxComposeCompiler").get().toString()
+            kotlinCompilerExtensionVersion =
+                libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
         kotlinOptions {
@@ -45,15 +46,18 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-           add("implementation",libs.findLibrary("androidx.compose.material3").get())
-            add("implementation",libs.findLibrary("androidx-compose-material3-windowSizeClass").get())
-            add("implementation",libs.findLibrary("androidx-compose-ui").get())
-            add("implementation",libs.findLibrary("androidx-compose-ui-tooling-preview").get())
-            add("implementation",libs.findLibrary("androidx-lifecycle-runtimeCompose").get())
-            add("implementation",libs.findLibrary("androidx.compose.material3").get())
+            add("implementation", libs.findLibrary("androidx.compose.material3").get())
+            add(
+                "implementation",
+                libs.findLibrary("androidx-compose-material3-windowSizeClass").get()
+            )
+            add("implementation", libs.findLibrary("androidx-compose-ui").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            add("implementation", libs.findLibrary("androidx-lifecycle-runtimeCompose").get())
+            add("implementation", libs.findLibrary("androidx.compose.material3").get())
 
-            add("debugImplementation",libs.findLibrary("androidx-compose-ui-testManifest").get())
-            add("debugImplementation",libs.findLibrary("androidx-compose-ui-tooling").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-testManifest").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
         }
     }
 }

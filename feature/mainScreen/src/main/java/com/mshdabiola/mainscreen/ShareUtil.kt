@@ -1,6 +1,5 @@
 package com.mshdabiola.mainscreen
 
-import android.content.Context
 //
 //object ShareUtil {
 //    private const val pref_name = "share_pref"

@@ -63,9 +63,9 @@ class Manager
         }
         context.registerReceiver(receiver, filter)
         bluetoothAdapter = (
-            context.getSystemService(Context.BLUETOOTH_SERVICE)
-                as BluetoothManager
-            ).adapter
+                context.getSystemService(Context.BLUETOOTH_SERVICE)
+                        as BluetoothManager
+                ).adapter
 
         state.value = ManagerState()
     }

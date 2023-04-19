@@ -122,7 +122,7 @@ fun HomeBoxUi(box: BoxUiState, colorIndex: Int = 0, boardType: Int = 0) {
                     .color.toHomeColor(),
             ),
 
-    ) {
+        ) {
         Image(
             modifier = Modifier
                 .rotate((colorIndex * 90f) - 180f)
@@ -131,7 +131,7 @@ fun HomeBoxUi(box: BoxUiState, colorIndex: Int = 0, boardType: Int = 0) {
             painter = painterResource(
                 id = BoardImage[boardType][box.color.ordinal],
 
-            ),
+                ),
             contentDescription = "home icon ${box.color.name}",
         )
     }

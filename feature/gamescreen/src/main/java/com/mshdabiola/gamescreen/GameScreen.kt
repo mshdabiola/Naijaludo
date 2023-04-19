@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.gamescreen.component.DeviceListDialog
 import com.mshdabiola.gamescreen.component.GameOverDialog
@@ -47,7 +48,6 @@ import com.mshdabiola.gamescreen.state.LudoUiState
 import com.mshdabiola.gamescreen.state.PointUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import com.mshdabiola.common.navigation.DEVICE_TYPE
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -58,7 +58,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 fun GameScreen(
     gameScreenViewModel: GameViewModel = hiltViewModel(),
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
-    onBack: () -> Unit = {},
+    onBack: () -> Unit = {}
 ) {
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
@@ -76,7 +76,8 @@ fun GameScreen(
     val isComponentEnable = {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationEnable = LocationManagerCompat.isLocationEnabled(locationManager)
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager =
+            context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         wifiEnable = wifiManager.isWifiEnabled
     }
     val observer = object : DefaultLifecycleObserver {
@@ -167,23 +168,23 @@ fun GameScreen(
                 "${it.name} - score ${it.win}"
             }
             "Players $l download NaijaLudo At " +
-                "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
+                    "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
         }
     }
 
     val showText by remember(ludoGameState) {
         derivedStateOf {
             ludoGameState.listOfCounter.isEmpty() ||
-                ludoGameState.listOfDice.isEmpty() ||
-                ludoGameState.listOfPawn.isEmpty() ||
-                ludoGameState.listOfPlayer.isEmpty()
+                    ludoGameState.listOfDice.isEmpty() ||
+                    ludoGameState.listOfPawn.isEmpty() ||
+                    ludoGameState.listOfPlayer.isEmpty()
         }
     }
 
     val showConfetti = remember(gameUiState.isRestartDialogOpen) {
         derivedStateOf {
             ludoGameState.listOfPlayer.lastOrNull()?.isCurrent == true &&
-                gameUiState.isRestartDialogOpen
+                    gameUiState.isRestartDialogOpen
         }
     }
 
@@ -213,6 +214,7 @@ fun GameScreen(
                 onSetMusic = gameScreenViewModel::setMusic,
                 onSetSound = gameScreenViewModel::setSound,
                 onForceRestart = gameScreenViewModel::restartGame,
+                updateScore = gameScreenViewModel::updateScore
             )
         }
         if (showConfetti.value) {
@@ -264,7 +266,7 @@ fun GameScreen(
                 }
             },
 
-        )
+            )
 
         GameOverDialog(
             show = gameUiState.isRestartDialogOpen,
@@ -321,6 +323,7 @@ fun GameScreen(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    updateScore: (Long, String) -> Unit
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {
@@ -353,25 +356,25 @@ fun GameScreen(
             DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
             )
 
             DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
             )
 
             DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
             )
 
             else -> GameScreenPhonePortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart,
+                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
             )
         }
     }

@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
-    id ("mshdabiola.android.library.compose")
+    id("mshdabiola.android.library.compose")
     //alias(libs.plugins.google.services)
 }
 
@@ -17,9 +17,9 @@ android {
 
 dependencies {
 
-    implementation (project( ":core:naijaludo"))
+    implementation(project(":core:naijaludo"))
 
-    testImplementation (libs.junit4)
+    testImplementation(libs.junit4)
     implementation(libs.admob.service)
 
 }
