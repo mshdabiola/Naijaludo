@@ -243,22 +243,38 @@ class GameViewModel @Inject constructor(
         var pawns = pair?.second
         val players = pair?.first
 
-        return if (!players.isNullOrEmpty() && !pawns.isNullOrEmpty()) {
-//            if (pawns.all { it.isOut() }) {
-//                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
-//            }
-          players.forEach { player->
-             val isOut= pawns.filter { it.color in player.colors  }.all { it.isOut() }
-              if (isOut){
-                  return null
-              }
-          }
+        if (players.isNullOrEmpty())
+            return null
 
-            getDefaultGameState()
-                .copy(listOfPlayer = players, listOfPawn = pawns)
-        } else {
-            null
+        if (!pawns.isNullOrEmpty()){
+            players.forEach { player->
+                val isOut= pawns!!.filter { it.color in player.colors  }.all { it.isOut() }
+                if (isOut){
+                    pawns=getDefaultPawns(ludoSetting.numberOfPawn)
+                }
+            }
+        }else{
+            pawns=getDefaultPawns(ludoSetting.numberOfPawn)
         }
+
+        return  getDefaultGameState()
+            .copy(listOfPlayer = players, listOfPawn = pawns!!)
+//        return if (!players.isNullOrEmpty() && !pawns.isNullOrEmpty()) {
+////            if (pawns.all { it.isOut() }) {
+////                pawns = getDefaultPawns(ludoSetting.numberOfPawn)
+////            }
+//          players.forEach { player->
+//             val isOut= pawns!!.filter { it.color in player.colors  }.all { it.isOut() }
+//              if (isOut){
+//                  pawns=getDefaultPawns(ludoSetting.numberOfPawn)
+//              }
+//          }
+//
+//            getDefaultGameState()
+//                .copy(listOfPlayer = players, listOfPawn = pawns!!)
+//        } else {
+//            null
+//        }
     }
 
     // Start dialog
