@@ -48,7 +48,7 @@ internal fun BannerAdmob(
                 textAlign = TextAlign.Center,
                 color = Color.White,
 
-            )
+                )
         } else {
             AndroidView(factory = {
                 AdView(it).apply {

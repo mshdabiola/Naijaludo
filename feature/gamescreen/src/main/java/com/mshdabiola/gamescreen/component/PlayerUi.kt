@@ -87,15 +87,18 @@ fun PlayerUi(
                 .background(contentColor)
                 .padding(4.dp),
         ) {
-            Text(modifier = Modifier
-                .widthIn(max=24.dp)
-                .basicMarquee(iterations = 1, animationMode = MarqueeAnimationMode.WhileFocused)
-                ,
+            Text(
+                modifier = Modifier
+                    .widthIn(max = 24.dp)
+                    .basicMarquee(
+                        iterations = 1,
+                        animationMode = MarqueeAnimationMode.WhileFocused
+                    ),
                 text = "${player.win}", color = color,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
 
-            )
+                )
         }
     }
 
@@ -283,11 +286,15 @@ fun PlayersVerticalPreview() {
                     name = "abiolalawal moshood",
                     colors = listOf(GameColor.GREEN, GameColor.RED),
                 ),
-                PlayerUiState(win = 100000000, colors = listOf(GameColor.GREEN), name = "abiola moshood"),
+                PlayerUiState(
+                    win = 100000000,
+                    colors = listOf(GameColor.GREEN),
+                    name = "abiola moshood"
+                ),
                 PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
                 PlayerUiState(colors = listOf(GameColor.GREEN), name = "abiola moshood"),
 
-            ).toImmutableList()
+                ).toImmutableList()
         },
         isFold = true,
     )

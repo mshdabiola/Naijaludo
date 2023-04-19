@@ -8,7 +8,7 @@ data class Pawn(
     val zIndex: Float = 1f,
 ) {
 
-    fun isOut() = currentPos >=56
+    fun isOut() = currentPos >= 56
     fun isOnPath() = currentPos in 0..50
 
     fun isHome() = currentPos < 0

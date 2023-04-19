@@ -176,7 +176,7 @@ data class RandomComputerPlayer(
             "sorted by risk ${
                 sortedMap.joinToString {
                     "${it.first.idx}-${it.first.color}" +
-                        "  ${it.second}"
+                            "  ${it.second}"
                 }
             }",
         )

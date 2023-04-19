@@ -53,7 +53,7 @@ fun DrawerUi(
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
                     .padding(padding),
 
-            ) {
+                ) {
                 drawerUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(
@@ -79,7 +79,7 @@ fun DrawerUi(
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
                     .padding(padding),
 
-            ) {
+                ) {
                 drawerUiState.forEachIndexed { index, pawn ->
 
                     PawnUi(

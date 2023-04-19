@@ -93,6 +93,7 @@ fun LudoAppTheme(
             val context = LocalContext.current
             if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         useDarkTheme -> DarkColors
         else -> LightColors
     }
@@ -130,6 +131,7 @@ fun FinishTheme(
             val context = LocalContext.current
             if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         useDarkTheme -> NewDarkColor
         else -> NewLightColor
     }

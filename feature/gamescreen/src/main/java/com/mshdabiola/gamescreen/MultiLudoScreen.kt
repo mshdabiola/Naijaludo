@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.designsystem.component.GameAd
 import com.mshdabiola.gamescreen.component.BoardUi
 import com.mshdabiola.gamescreen.component.CounterGroupUi
@@ -28,7 +29,6 @@ import com.mshdabiola.gamescreen.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import com.mshdabiola.common.navigation.DEVICE_TYPE
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -93,7 +93,7 @@ fun GameScreenMultiLand(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
 
         GameAd(
             Modifier
@@ -104,7 +104,7 @@ fun GameScreenMultiLand(
                     end.linkTo(boardRef.end)
                 },
 
-        )
+            )
 
         BoardUi(
             modifier = Modifier
@@ -244,7 +244,7 @@ fun GameScreenMultiPhoneLand(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
 
         GameAd(
             Modifier
@@ -254,7 +254,7 @@ fun GameScreenMultiPhoneLand(
                 }
                 .rotate(90f),
 
-        )
+            )
 
         BoardUi(
             modifier = Modifier
@@ -394,7 +394,7 @@ fun GameScreenMultiPort(
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
 
-        )
+            )
 
         GameAd(
             Modifier
@@ -403,7 +403,7 @@ fun GameScreenMultiPort(
                     bottom.linkTo(parent.bottom)
                 },
 
-        )
+            )
 
         BoardUi(
             modifier = Modifier
@@ -498,7 +498,7 @@ fun GameScreenMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_PORT,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
     )
 }
 
@@ -519,7 +519,7 @@ fun GameScreenLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_LAND,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
 
     )
 }
@@ -541,7 +541,7 @@ fun GameScreenFoldMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_PORT,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
     )
 }
 
@@ -562,7 +562,7 @@ fun GameScreenFoldLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
     )
 }
 
@@ -583,7 +583,7 @@ fun GameScreenTabletMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.TABLET_PORT,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
     )
 }
 
@@ -604,6 +604,6 @@ fun GameScreenTabletLandMPreview() {
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = {_,_->}
+        updateScore = { _, _ -> }
     )
 }

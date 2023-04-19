@@ -22,7 +22,11 @@ fun PlayerEntity.toPlayer(colors: List<GameColor>, iconIndex: Int) =
         RandomComputerPlayer(name, win, isCurrent, colors, iconIndex)
     }
 
-fun com.mshdabiola.naijaludo.model.player.Player.toPlayerEntity(id: Int, gameId: Long, isHuman: Boolean) =
+fun com.mshdabiola.naijaludo.model.player.Player.toPlayerEntity(
+    id: Int,
+    gameId: Long,
+    isHuman: Boolean
+) =
     PlayerEntity(
         id,
         gameId,

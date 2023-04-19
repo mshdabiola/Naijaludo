@@ -1,9 +1,8 @@
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id ("mshdabiola.android.application")
-    id ("mshdabiola.android.application.compose")
-    id ("mshdabiola.android.hilt")
+    id("mshdabiola.android.application")
+    id("mshdabiola.android.application.compose")
+    id("mshdabiola.android.hilt")
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
 
@@ -18,7 +17,7 @@ android {
             keyPassword = "cheatmobi20"
         }
     }
-    namespace ="com.mshdabiola.ludo"
+    namespace = "com.mshdabiola.ludo"
 
     defaultConfig {
         applicationId = "com.mshdabiola.ludo"
@@ -30,18 +29,21 @@ android {
     buildTypes {
         val debug by getting {
             applicationIdSuffix = ".debug"
-            versionNameSuffix="-debug"
+            versionNameSuffix = "-debug"
 //            signingConfig = signingConfigs.getByName("rele")
         }
         val release by getting {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
 
             // To publish on the Play store a private signing key is required, but to allow anyone
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             // Todo: comment code before release
-           // signingConfig = signingConfigs.getByName("debug")
+            // signingConfig = signingConfigs.getByName("debug")
         }
         val benchmark by creating {
             // Enable all the optimizations from release build through initWith(release).
@@ -54,7 +56,7 @@ android {
             //  FIXME enabling minification breaks access to demo backend.
             isMinifyEnabled = false
             applicationIdSuffix = ".benchmark"
-            versionNameSuffix="-benchmark"
+            versionNameSuffix = "-benchmark"
         }
     }
 
@@ -67,26 +69,26 @@ android {
 }
 
 dependencies {
-    implementation (project( ":core:naijaludo"))
+    implementation(project(":core:naijaludo"))
     implementation(project(":feature:gamescreen"))
-    implementation (project( ":core:designsystem"))
+    implementation(project(":core:designsystem"))
     implementation(project(":feature:mainScreen"))
-    implementation (project( ":core:worker"))
+    implementation(project(":core:worker"))
 
     implementation(libs.androidx.core.ktx)
-    implementation (libs.androidx.activity.compose)
+    implementation(libs.androidx.activity.compose)
     //implementation(libs.bundles.compose.bundle)
 
-    implementation (project(":core:common"))
+    implementation(project(":core:common"))
     implementation(libs.firebase.crashlytics.kts)
     implementation(libs.firebase.analytics.kts)
     implementation(libs.admob.service)
     implementation(libs.timber)
 
-        val billing_version = "5.1.0"
+    val billing_version = "5.1.0"
 
-        implementation("com.android.billingclient:billing-ktx:$billing_version")
-    implementation (libs.play.game)
+    implementation("com.android.billingclient:billing-ktx:$billing_version")
+    implementation(libs.play.game)
 
 
     implementation(libs.androidx.profileinstaller)

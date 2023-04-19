@@ -9,16 +9,17 @@ import kotlin.test.assertTrue
 class BoardTest {
 
     private lateinit var board: Board
+
     @BeforeEach
     fun setUp() {
-        board= Board()
+        board = Board()
     }
 
     @Test
     fun getPaths() {
-        val path=board.paths
+        val path = board.paths
 
-        assertEquals(52,path.size)
+        assertEquals(52, path.size)
 
 
     }
@@ -33,7 +34,7 @@ class BoardTest {
 
     @Test
     fun getBoxByIndex() {
-        val box=board.getBoxByIndex(0,GameColor.GREEN)
+        val box = board.getBoxByIndex(0, GameColor.GREEN)
         assertTrue { box.isHome }
     }
 

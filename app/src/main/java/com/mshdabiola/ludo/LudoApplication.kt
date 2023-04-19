@@ -12,12 +12,12 @@ class LudoApplication : Application() {
         super.onCreate()
         try {
             PlayGamesSdk.initialize(this)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         Saver.initialize(context = this.applicationContext)
-        if (packageName.contains("debug")){
+        if (packageName.contains("debug")) {
             Timber.plant(Timber.DebugTree())
         }
     }

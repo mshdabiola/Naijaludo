@@ -71,7 +71,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         this.ludoSetting = ludoSetting
 
-        val isHumanPlayer = defaultState.listOfPlayer.lastOrNull()?.isCurrent ?:false
+        val isHumanPlayer = defaultState.listOfPlayer.lastOrNull()?.isCurrent ?: false
         val colors = defaultState.listOfPlayer.map { it.colors }.flatten().toMutableList()
         if (defaultState.listOfPlayer.size == 2) {
             if (ludoSetting.style == 2) {
@@ -84,12 +84,12 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         }
 
         val pawnss = getGameState().listOfPawn.ifEmpty { Constant.getDefaultOutPawns() }
-        var players=defaultState.listOfPlayer
-        players=players.mapIndexed { index, player ->
-            if (index==players.lastIndex){
+        var players = defaultState.listOfPlayer
+        players = players.mapIndexed { index, player ->
+            if (index == players.lastIndex) {
                 player.copyPlayer(name = ludoSetting.names[0])
-            }else{
-                player.copyPlayer(name = ludoSetting.names[index+1])
+            } else {
+                player.copyPlayer(name = ludoSetting.names[index + 1])
             }
 
         }
@@ -317,7 +317,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         // get dice value that can move pawn
         val useableDice = getGameState().listOfDice
             .map {
-              val canMove=  getAllThePawnMovable(it.number,it.isTotal).isNotEmpty()
+                val canMove = getAllThePawnMovable(it.number, it.isTotal).isNotEmpty()
 //                val canMove = if (!it.isTotal) {
 //                    getAllThePawnMovable(it.number)
 //                        .isNotEmpty()
@@ -358,13 +358,15 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         return when {
             //home logic
-            pawn.isHome()->{
-                !isTotal&&diceNum==6
+            pawn.isHome() -> {
+                !isTotal && diceNum == 6
             }
-            !pawn.isOut()->{
-                (pawn.currentPos+diceNum)<=56
+
+            !pawn.isOut() -> {
+                (pawn.currentPos + diceNum) <= 56
             }
-            else->false
+
+            else -> false
         }
 
     }
@@ -401,7 +403,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
             // get movable pawn and enable
 
-            val allMovablePawns = getAllThePawnMovable(counter.number,counter.isTotal)
+            val allMovablePawns = getAllThePawnMovable(counter.number, counter.isTotal)
 //                if (counter.number == 6 && counter.isTotal) {
 //                val filterHome = getAllThePawnMovable(counter.number).filter { !it.isHome() }
 //                filterHome
@@ -605,7 +607,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 } else {
                     val counter = getGameState().listOfCounter[indexOfCounterNotUsed]
                     val secondDiceCanMoveAnyOtherPawn =
-                        getAllThePawnMovable(counter.number,counter.isTotal).any { it != pawnCopy }
+                        getAllThePawnMovable(counter.number, counter.isTotal).any { it != pawnCopy }
 
                     if (secondDiceCanMoveAnyOtherPawn) {
                         // kill
@@ -660,7 +662,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                 // enable second counter
 
                 val counter = getGameState().listOfCounter[index]
-                val isSecondCanMoveAnyPawn = getAllThePawnMovable(counter.number,counter.isTotal).isNotEmpty()
+                val isSecondCanMoveAnyPawn =
+                    getAllThePawnMovable(counter.number, counter.isTotal).isNotEmpty()
                 // if second can move any pawn
                 if (isSecondCanMoveAnyPawn) {
                     val listOfCounter = getGameState().listOfCounter.toMutableList()
@@ -750,11 +753,11 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             .sortedByDescending { it.zIndex }
     }
 
-    private fun getAllThePawnMovable(currentNumberSelected: Int,isTotal: Boolean): List<Pawn> {
+    private fun getAllThePawnMovable(currentNumberSelected: Int, isTotal: Boolean): List<Pawn> {
         val pairOfPairDiceCanMoveAndOnPath =
             getCurrentPlayerPawns()
         return pairOfPairDiceCanMoveAndOnPath
-            .filter { canPawnMove(it,currentNumberSelected,isTotal) }
+            .filter { canPawnMove(it, currentNumberSelected, isTotal) }
 //            // get pawn that is out
 //            // get pawn that is in range of counter distance
 //            .filter { !it.isHome() && currentNumberSelected in 1..it.getDistanceRemain() }
@@ -788,28 +791,26 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         return getGameState().board.getPositionIntPoint(id, gameColor)
     }
 
-    fun updateScore(score:Long,name:String){
-        var ludoGameState=gameState.value
-        val players=ludoGameState.listOfPlayer.toMutableList()
-        var player=players.lastOrNull()
+    fun updateScore(score: Long, name: String) {
+        var ludoGameState = gameState.value
+        val players = ludoGameState.listOfPlayer.toMutableList()
+        var player = players.lastOrNull()
 
 
 
-        if (player!=null && player.name=="Human"){
-            player=player.copyPlayer(name=name)
-            players[players.lastIndex]=player
-            ludoGameState=ludoGameState.copy(listOfPlayer = players)
+        if (player != null && player.name == "Human") {
+            player = player.copyPlayer(name = name)
+            players[players.lastIndex] = player
+            ludoGameState = ludoGameState.copy(listOfPlayer = players)
             setGameState(ludoGameState)
         }
 
-            if (player!=null && score>player.win){
-                player=player.copyPlayer(win = score.toInt())
-                players[players.lastIndex]=player
-                ludoGameState=ludoGameState.copy(listOfPlayer = players)
-                setGameState(ludoGameState)
-            }
-
-
+        if (player != null && score > player.win) {
+            player = player.copyPlayer(win = score.toInt())
+            players[players.lastIndex] = player
+            ludoGameState = ludoGameState.copy(listOfPlayer = players)
+            setGameState(ludoGameState)
+        }
 
 
     }

@@ -397,7 +397,7 @@ fun WaitingDialog(
     onCancelClick: () -> Unit = {},
     startGame: () -> Unit = {},
 
-) {
+    ) {
     val message = if (connected) "This device is connected" else "Connecting"
 //        when {
 //        isServe && connected -> stringResource(id = R.string.server_connected
@@ -474,7 +474,7 @@ fun DeviceListDialog(
     onDeviceClick: (Int) -> Unit = {},
     onCancelClick: () -> Unit = {},
 
-) {
+    ) {
     val context = LocalContext.current
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -515,7 +515,7 @@ fun DeviceListDialog(
                                 color = MaterialTheme.colorScheme.primary,
                                 text = name,
 
-                            )
+                                )
                         }
                     }
                 }
@@ -606,7 +606,7 @@ fun WifiPermission(
                 }
             },
 
-        )
+            )
     }
 }
 

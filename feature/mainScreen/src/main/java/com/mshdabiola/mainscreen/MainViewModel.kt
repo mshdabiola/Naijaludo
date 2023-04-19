@@ -123,6 +123,7 @@ class MainViewModel @Inject constructor(
     fun onPause() {
         soundSystem.pause()
     }
+
     fun onResume() {
         soundSystem.resume()
     }
@@ -132,12 +133,14 @@ class MainViewModel @Inject constructor(
             userPreferenceDataSource.setBoardSetting(board.toBoardPref())
         }
     }
+
     override fun onCleared() {
         super.onCleared()
 
         soundSystem.close()
     }
 
-    fun logScreen(name: String)=fireAnalyticsLog.logScreen(name)
-    fun logFirebase(name: String,vararg pair: Pair<String,Any>)=fireAnalyticsLog.log(name,*pair)
+    fun logScreen(name: String) = fireAnalyticsLog.logScreen(name)
+    fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
+        fireAnalyticsLog.log(name, *pair)
 }

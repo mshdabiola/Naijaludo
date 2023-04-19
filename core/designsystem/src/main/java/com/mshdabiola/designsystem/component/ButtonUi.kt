@@ -101,7 +101,7 @@ fun GameButtonPreview() {
         onClick = {},
         enabled = false,
 
-    ) {
+        ) {
         Icon(
             imageVector = Icons.Default.Place,
             contentDescription = "Place",

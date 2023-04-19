@@ -43,19 +43,22 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                add("implementation", project( ":core:designsystem"))
-                add("implementation", project( ":core:naijaludo"))
-                add("implementation", project( ":core:common"))
+                add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:naijaludo"))
+                add("implementation", project(":core:common"))
                 add("implementation", project(":core:datastore"))
 
                 add("testImplementation", kotlin("test"))
                 add("androidTestImplementation", kotlin("test"))
-                add("androidTestImplementation",libs.findLibrary("androidx-compose-ui-test").get())
-                add("androidTestImplementation",libs.findLibrary("androidx-test-espresso-core").get())
-                add("androidTestImplementation",libs.findLibrary("androidx-test-ext").get())
+                add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test").get())
+                add(
+                    "androidTestImplementation",
+                    libs.findLibrary("androidx-test-espresso-core").get()
+                )
+                add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())
 
 
-                add("implementation",libs.findLibrary("androidx.navigation.compose").get())
+                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.constraintlayout").get())
                 add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
@@ -63,7 +66,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("play-review").get())
                 add("implementation", libs.findLibrary("play-review-kts").get())
                 // add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-               // add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                // add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
 
             }

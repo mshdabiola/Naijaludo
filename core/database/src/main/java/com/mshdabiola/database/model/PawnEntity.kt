@@ -2,7 +2,6 @@ package com.mshdabiola.database.model
 
 import androidx.room.Entity
 import com.mshdabiola.naijaludo.model.GameColor
-import com.mshdabiola.naijaludo.model.Pawn
 
 @Entity(tableName = "pawn_table", primaryKeys = ["id", "gameId"])
 data class PawnEntity(
@@ -26,4 +25,5 @@ fun com.mshdabiola.naijaludo.model.Pawn.toPawnEntity(
     playerId,
 )
 
-fun PawnEntity.toPawn() = com.mshdabiola.naijaludo.model.Pawn().copy(id.toId(), currentPos, id.toColor())
+fun PawnEntity.toPawn() =
+    com.mshdabiola.naijaludo.model.Pawn().copy(id.toId(), currentPos, id.toColor())

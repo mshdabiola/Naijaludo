@@ -53,7 +53,7 @@ fun SettingDialog(
     soundSettingChange: (Sound) -> Unit = {},
     profileSettingChange: (Profile) -> Unit = {},
     boardSettingChange: (Board) -> Unit = {},
-  //  setLanguage: (Int) -> Unit = {},
+    //  setLanguage: (Int) -> Unit = {},
 ) {
     AnimatedVisibility(visible = show) {
         DialogUi(
@@ -73,7 +73,7 @@ fun SettingDialog(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
 
-                ) {
+                    ) {
                     Title(title = stringResource(id = R.string.basic_setting))
                     SettingContainer {
 //                        SettingItem2(title = R.string.language) { modi ->
@@ -321,7 +321,7 @@ fun ExposeBox(
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             singleLine = true,
 
-        )
+            )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
             expanded = false
         }) {

@@ -13,8 +13,8 @@
 
     <string-array name="board_type">
         <item>Cartoon</item>
-<!--        <item>Club</item>-->
-<!--        <item>Tribe</item>-->
+        <!--        <item>Club</item>-->
+        <!--        <item>Tribe</item>-->
     </string-array>
 
     <string-array name="pawn_number">

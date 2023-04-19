@@ -115,7 +115,7 @@ internal class ExpeRandomComputerPlayerTest {
                     pressedCounterId = 0,
                     listOfDice = dice,
 
-                ),
+                    ),
             )
 
         assertEquals(index, 1)
@@ -124,7 +124,7 @@ internal class ExpeRandomComputerPlayerTest {
     @Test
     fun printAllPath() {
         repeat(52) {
-            println("$it is ${ludoGameState.board.getBoxByIndex(it,GameColor.RED)}")
+            println("$it is ${ludoGameState.board.getBoxByIndex(it, GameColor.RED)}")
         }
     }
 }

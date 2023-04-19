@@ -72,7 +72,7 @@ fun DiceUi(
         painter = painterResource(id = res),
         contentDescription = "dice",
 
-    )
+        )
 }
 
 @Preview
@@ -112,7 +112,7 @@ fun DicesUi(
                     onClick = onClick,
                     numberOfDice = diceUiStateList.size,
 
-                )
+                    )
                 //  }
             }
         }

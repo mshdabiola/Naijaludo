@@ -7,7 +7,7 @@ data class LudoSetting(
     val numberOfPawn: Int = 4,
     val rotateBoard: Boolean = true,
     val boardType: Int = 0,
-    val names : Array<String> = emptyArray()
+    val names: Array<String> = emptyArray()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
