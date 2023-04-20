@@ -800,6 +800,9 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         if (player != null && player.name == "Human") {
             player = player.copyPlayer(name = name)
+            val names=ludoSetting.names
+            names[0]=name
+            ludoSetting=ludoSetting.copy(names=names)
             players[players.lastIndex] = player
             ludoGameState = ludoGameState.copy(listOfPlayer = players)
             setGameState(ludoGameState)
