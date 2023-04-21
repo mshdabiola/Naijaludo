@@ -35,7 +35,7 @@ internal fun Project.configureKotlinAndroid(
         compileSdk = 33
 
         defaultConfig {
-            minSdk = 21
+            minSdk = 24
 
         }
 
@@ -54,7 +54,7 @@ internal fun Project.configureKotlinAndroid(
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
     dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
+      //  add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
 
     }
 }

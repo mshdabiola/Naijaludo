@@ -33,8 +33,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 //                compileSdk=33
                 defaultConfig.targetSdk = 33
 //                defaultConfig.minSdk =24
-                defaultConfig.versionName = "2.0.2"
-                defaultConfig.versionCode = 24
+                defaultConfig.versionName = "2.0.3"
+                defaultConfig.versionCode = 25
 
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 defaultConfig.vectorDrawables {
