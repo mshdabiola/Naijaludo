@@ -79,7 +79,6 @@ jobs:
           inAppUpdatePriority: 2
           mappingFile: mapping.txt
           whatsNewDirectory: whatsnew
-          changesNotSentForReview: true
 
   deploy-firebase:
     # 1
