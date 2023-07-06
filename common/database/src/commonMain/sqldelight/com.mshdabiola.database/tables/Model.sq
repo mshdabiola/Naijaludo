@@ -1,0 +1,35 @@
+
+
+CREATE TABLE IF NOT EXISTS modelEntity (
+  id INTEGER PRIMARY KEY AUTOINCREMENT  ,
+  name TEXT NOT NULL,
+  id2 INTEGER
+);
+
+-- CREATE INDEX IF NOT EXISTS hockeyPlayer_full_name ON hockeyPlayer(full_name);
+
+
+selectAllModel:
+SELECT *
+FROM modelEntity;
+
+selectWIthId:
+SELECT *
+FROM  modelEntity
+WHERE id = ?;
+
+insert:
+INSERT INTO modelEntity(id, name)
+VALUES (id, ?);
+
+insertFullModelObject:
+INSERT INTO modelEntity(name)
+VALUES ?;
+
+deleteById:
+DELETE FROM modelEntity
+WHERE id = ?;
+
+updateByName:
+UPDATE modelEntity SET name = ? WHERE id = ?;
+

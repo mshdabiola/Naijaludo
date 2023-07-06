@@ -1,0 +1,10 @@
+R_DEF: Internal format may change without notice
+local
+raw dice
+raw kill
+raw lost
+raw moveout
+raw moving
+raw select
+raw sound_1
+raw win

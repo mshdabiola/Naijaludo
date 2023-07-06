@@ -1,5 +1,3 @@
 <resources>
-    <string name="app_name">Naija Ludo +</string>
-
-    <string name="game_services_project_id" translatable="false"> 176586652338 </string>
+    <string name="app_name">Skeleton App</string>
 </resources>

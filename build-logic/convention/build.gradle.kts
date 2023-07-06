@@ -28,8 +28,15 @@ java {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
-}
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradle)
+    compileOnly(libs.firebase.performance.gradle)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
 
+    implementation(libs.compose.gradlePlugin)
+    //compileOnly(libs.compose.multiplatform.plugin)
+}
 
 gradlePlugin {
     plugins {
@@ -37,6 +44,14 @@ gradlePlugin {
         register("androidApplicationCompose") {
             id = "mshdabiola.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidApplicationFlavor") {
+            id = "mshdabiola.android.application.flavor"
+            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
+        }
+        register("androidApplicationFirebase") {
+            id = "mshdabiola.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
         register("androidApplication") {
             id = "mshdabiola.android.application"
@@ -64,12 +79,26 @@ gradlePlugin {
             id = "mshdabiola.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
-        register("firebase-perf") {
-            id = "mshdabiola.firebase-perf"
-            implementationClass = "FirebasePerfConventionPlugin"
+
+        register("androidRoom") {
+            id = "mshdabiola.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
+        register("desktop") {
+            id = "mshdabiola.mpp.desktop"
+            implementationClass = "Desktop"
+        }
+        register("mppLibrary") {
+            id = "mshdabiola.mpp.library"
+            implementationClass = "MppLibraryConventionPlugin"
+        }
+        register("mppLibraryCompose") {
+            id = "mshdabiola.mpp.library.compose"
+            implementationClass = "MppLibraryComposeConventionPlugin"
         }
     }
 }
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = "17"
