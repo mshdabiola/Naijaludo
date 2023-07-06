@@ -17,7 +17,7 @@ dependencyResolutionManagement {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
     }
 }
-rootProject.name = "SkeletonApp"
+rootProject.name = "LudoNew"
 include(":app")
 include(":benchmark")
 include(":common:database")
