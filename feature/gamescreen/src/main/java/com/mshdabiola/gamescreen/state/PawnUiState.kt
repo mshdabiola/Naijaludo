@@ -24,7 +24,7 @@ fun Pawn.toPawnUiState() =
 
 fun PawnUiState.toPawn() =
     Pawn(
-        colorNumber = pawnId,
+        colorNumber = colorNumber,
         currentPos = currentPos,
         color = color,
         isEnable = isEnable,
