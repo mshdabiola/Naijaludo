@@ -26,6 +26,7 @@ import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
 import com.mshdabiola.naijaludo.model.LudoGameState
 import com.mshdabiola.naijaludo.model.LudoSetting
+import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.log
 import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.worker.Saver
@@ -211,7 +212,7 @@ class GameViewModel @Inject constructor(
         delay(300)
         game.start(
             ludoGameState = ludoGameState,
-            ludoSetting = ludoSetting,
+            ludoSetting = Setting(),
             onGameFinish = this@GameViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying,
         )
