@@ -11,10 +11,10 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.skeletonapp"
+    namespace = "com.mshdabiola.ludo"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.skeletonapp"
+        applicationId = "com.mshdabiola.ludo"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 
@@ -65,12 +65,13 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(project(":common:designsystem"))
+    implementation(project(":common:naijaludo"))
+    implementation(project(":common:util"))
+    implementation(libs.kotlinx.collection.immutable)
 
     implementation(project(":common:navigation"))
-    implementation(project(":feature:mainscreen"))
 
-    implementation(project(":feature:detail"))
-    implementation(project(":android:worker"))
+    implementation(project(":common:setting"))
     val decomposeVersion = "2.0.0-alpha-02"
     implementation(libs.decompose.core)
     //implementation(libs.decompose.android)
@@ -81,5 +82,16 @@ dependencies {
     androidTestImplementation(project(":common:testing"))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
+
+    implementation(libs.play.game)
+    implementation(libs.play.update)
+    implementation(libs.play.update.kts)
+    implementation(libs.admob.service)
+    implementation(libs.play.review)
+    implementation(libs.play.review.kts)
+
+
+    implementation((libs.androidx.constraintlayout))
 
 }

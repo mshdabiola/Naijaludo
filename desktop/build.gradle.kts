@@ -24,8 +24,6 @@ dependencies {
 
     implementation(compose.desktop.currentOs)
     implementation(project(":common:designsystem"))
-    implementation(project(":common:data"))
-    implementation(project(":common:model"))
 
     implementation(project(":common:ui"))
     implementation(libs.kotlinx.coroutines.swing)
