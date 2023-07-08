@@ -13,7 +13,7 @@ class LudoApplication : Application() {
         try {
             PlayGamesSdk.initialize(this)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
         startKoin {
             androidContext(this@LudoApplication)

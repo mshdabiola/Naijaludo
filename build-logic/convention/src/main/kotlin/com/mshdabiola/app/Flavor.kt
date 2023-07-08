@@ -20,8 +20,8 @@ enum class Flavor(
     val applicationIdSuffix: String? = null,
     val versionNameSuffix: String? = null
 ) {
-    demo(FlavorDimension.contentType, applicationIdSuffix = ".demo", "-demo"),
-    prod(FlavorDimension.contentType)
+    paid(FlavorDimension.contentType, applicationIdSuffix = ".paid", "-paid"),
+    free(FlavorDimension.contentType)
 }
 
 fun Project.configureFlavors(

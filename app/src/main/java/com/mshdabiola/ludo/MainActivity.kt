@@ -8,14 +8,18 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.google.android.gms.ads.MobileAds
+import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.gms.games.AuthenticationResult
+import com.google.android.gms.games.PlayGames
+import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.mshdabiola.ludo.ui.LudoApp
-import dagger.hilt.android.AndroidEntryPoint
+import com.mshdabiola.navigation.RootComponent
+import timber.log.Timber
 
-@AndroidEntryPoint
+
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +27,41 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        MobileAds.initialize(this)
+       // MobileAds.initialize(this)
 //       val config= RequestConfiguration
 //           .Builder()
 //           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
 //           .build()
 //        MobileAds.setRequestConfiguration(config)
+        val root =
+            RootComponent(
+                componentContext = defaultComponentContext()
+            )
+
+        val gamesSignInClient = PlayGames.getGamesSignInClient(this)
+
+
+        gamesSignInClient.isAuthenticated()
+            .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
+                val isAuthenticated = isAuthenticatedTask.isSuccessful &&
+                        isAuthenticatedTask.result.isAuthenticated
+                if (isAuthenticated) {
+                    // Continue with Play Games Services
+                    Timber.e("login")
+                } else {
+                    // Disable your integration with Play Games Services or show a
+                    // login button to ask  players to sign-in. Clicking it should
+                      gamesSignInClient.signIn()
+                }
+            }
+
+//        val sing=PlayGames.getGamesSignInClient(this)
+//        sing.signIn()
+//
+//            .addOnFailureListener { it.printStackTrace() }
+//            .addOnSuccessListener {
+//                Timber.e("successful")
+//            }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent {
 //            NaijaLudoTheme {
@@ -38,7 +71,10 @@ class MainActivity : ComponentActivity() {
 //                    color = MaterialTheme.colorScheme.background
 //                ) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            LudoApp(windowSizeClass = calculateWindowSizeClass(activity = this))
+            LudoApp(
+                windowSizeClass = calculateWindowSizeClass(activity = this),
+                iRootComponent = root
+            )
             // MyNavigationGraph(gameScreenViewModel = gameViewModel)
 //                }
 //            }

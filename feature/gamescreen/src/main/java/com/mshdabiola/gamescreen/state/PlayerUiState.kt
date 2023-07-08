@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.player.ComputerPlayer
 import com.mshdabiola.naijaludo.model.player.Player
+import com.mshdabiola.naijaludo.model.player.SavePlayer
 
 @Immutable
 data class PlayerUiState(
@@ -23,4 +24,14 @@ fun Player.toPlayerUiState() =
         colors,
         iconIndex = iconIndex,
         isComputer = this is ComputerPlayer,
+    )
+
+fun PlayerUiState.toSaverPlayer() =
+    SavePlayer(
+        name,
+        win,
+        isCurrent,
+        colors,
+        iconIndex = iconIndex,
+        isHumanPlayer = !isComputer
     )

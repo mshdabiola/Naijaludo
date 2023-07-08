@@ -1,178 +1,63 @@
 {
   "project_info": {
-    "project_number": "801461677522",
-    "project_id": "skeletonapp-7ec62",
-    "storage_bucket": "skeletonapp-7ec62.appspot.com"
+    "project_number": "176586652338",
+    "project_id": "naija-ludo-fa884",
+    "storage_bucket": "naija-ludo-fa884.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
+        "mobilesdk_app_id": "1:176586652338:android:f513aaaf15e648d80867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp.demo.debug"
+          "package_name": "com.mshdabiola.ludo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
+          "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
+          "current_key": "AIzaSyBGcQnUzRhBjkGMR1JYgu7PvGLCoYx_VUE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
+              "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-6629038423064076~6073617084"
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
+        "mobilesdk_app_id": "1:176586652338:android:21cfda9984ebe6aa0867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp.demo"
+          "package_name": "com.mshdabiola.ludo.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
+          "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
+          "current_key": "AIzaSyBGcQnUzRhBjkGMR1JYgu7PvGLCoYx_VUE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
-        "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp.prod.debug"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
-        "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp.prod"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
-        "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp.demo.benchmark"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:801461677522:android:63a1c6467747f0a2a3ac0b",
-        "android_client_info": {
-          "package_name": "com.mshdabiola.skeletonapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBFkACfDU_wVm0yP1ariOVs-lCyePOyKYk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "801461677522-75h4mmgteqqsh8vjdrm94df2h5ftnmmi.apps.googleusercontent.com",
+              "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,7 @@
 package com.mshdabiola.gamescreen
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
@@ -60,9 +61,18 @@ fun GameScreen(
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     onBack: () -> Unit = {}
 ) {
+
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = Unit, block = {
+        val gameSaver= com.mshdabiola.ludo.database.GameSaver()
+        gameSaver.saveGame("lawal abiola".toByteArray(),4,context as Activity)
+        gameSaver.get2Game(context as Activity)
+
+    })
+
     var showPermission by remember {
         mutableStateOf(false)
     }
@@ -94,9 +104,9 @@ fun GameScreen(
 
         override fun onPause(owner: LifecycleOwner) {
             super.onDestroy(owner)
-            println("On Pause")
             gameScreenViewModel.onPause()
         }
+
     }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -109,6 +119,7 @@ fun GameScreen(
 
         onDispose {
             lifecycle.removeObserver(observer)
+            gameScreenViewModel.onDestroy()
         }
     }
 
