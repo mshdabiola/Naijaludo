@@ -67,7 +67,7 @@ fun GameScreen(
 
     LaunchedEffect(key1 = Unit, block = {
         val gameSaver = com.mshdabiola.ludo.database.GameSaver()
-        gameSaver.saveGame("lawal abiola".toByteArray(), 4, context as Activity)
+        ///gameSaver.saveGame("lawal abiola".toByteArray(), 4, context as Activity)
         gameSaver.get2Game(context as Activity)
 
     })

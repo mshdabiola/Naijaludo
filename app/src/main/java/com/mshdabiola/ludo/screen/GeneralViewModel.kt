@@ -31,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collectLatest
@@ -38,6 +39,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -59,27 +61,29 @@ class GeneralViewModel(
     val gameUiState = _gameUiState.asStateFlow()
 
     private var clientServerJob: Job? = null
-    private val _settingUiState = MutableStateFlow(SettingUiState())
-    val settingUiState = _settingUiState.asStateFlow()
-    private val _ludoGameState= MutableStateFlow(LudoUiState(board = BoardUiState()))
+
+    val settingUiState = setting.setting
+        .map { it.toUi() }
+        .distinctUntilChanged { old, new -> old == new }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingUiState())
+
+    private val _ludoGameState = MutableStateFlow(LudoUiState(board = BoardUiState()))
     val ludoGameState = _ludoGameState.asStateFlow()
-
-
 
 
     init {
         // react to game ui state change for computer and remote
-        viewModelScope.launch (Dispatchers.Default){
+        viewModelScope.launch(Dispatchers.Default) {
             game.onStateChange()
         }
-        viewModelScope.launch(Dispatchers.Default){
+        viewModelScope.launch(Dispatchers.Default) {
             game.gameState
                 .map { it.toLudoUiState() }
                 .distinctUntilChanged { old, new -> old == new }
-                .collectLatest { ludo->
+                .collectLatest { ludo ->
                     _ludoGameState
                         .update {
-                           ludo
+                            ludo
                         }
                 }
         }
@@ -92,28 +96,25 @@ class GeneralViewModel(
         }
 
         //get and set settings
-        viewModelScope.launch (Dispatchers.IO){
-            val gameSetting = setting.getGameSetting()
-            _settingUiState.update {
-                gameSetting.toUi()
-            }
+        viewModelScope.launch(Dispatchers.IO) {
 
-            settingUiState
-                .distinctUntilChanged { old, new -> old == new }
-                .collectLatest {
-                    Timber.e(it.toString())
-                    setting.setGameSetting(it.toSetting())
-                }
+
+//            settingUiState
+//                .distinctUntilChanged { old, new -> old == new }
+//                .collectLatest {
+//                    Timber.e(it.toString())
+//                    setting.setGameSetting(it.toSetting())
+//                }
         }
 
-        viewModelScope.launch (Dispatchers.Default){
+        viewModelScope.launch(Dispatchers.Default) {
             delay(6000)
             soundSystem.play()
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             settingUiState
-                .map { Pair(it.music,it.sound) }
+                .map { Pair(it.music, it.sound) }
                 .distinctUntilChanged()
                 .collectLatest {
                     soundSystem.playSound = it.second
@@ -249,7 +250,7 @@ class GeneralViewModel(
     fun onDestroy() {
         Timber.e("destroy game")
         _gameUiState.update {
-            it.copy(isStartDialogOpen =true)
+            it.copy(isStartDialogOpen = true)
         }
         _ludoGameState.update {
             LudoUiState(board = BoardUiState())
@@ -582,10 +583,11 @@ class GeneralViewModel(
         return Constant.getDefaultGameState()
             .copy(listOfPlayer = players, listOfPawn = pawns!!)
     }
+
     private fun resumeFromDatabase() {
         viewModelScope.launch {
-           if (gameId2==2)
-               onYouAndComputer()
+            if (gameId2 == 2)
+                onYouAndComputer()
             else
                 onTournament()
 
@@ -593,20 +595,19 @@ class GeneralViewModel(
     }
 
 
-
-
-
     //general
     fun setMusic(value: Boolean) {
-        _settingUiState.update {
-            it.copy(music = value)
+        viewModelScope.launch {
+            val setti = settingUiState.value.copy(music = value)
+            setting.setGameSetting(setti.toSetting())
         }
 
     }
 
     fun setSound(value: Boolean) {
-        _settingUiState.update {
-            it.copy(sound = value)
+        viewModelScope.launch {
+            val setti = settingUiState.value.copy(sound = value)
+            setting.setGameSetting(setti.toSetting())
         }
     }
 
@@ -616,11 +617,13 @@ class GeneralViewModel(
 
     //setting
 
-    fun setSetting(settingUiState: SettingUiState){
-        _settingUiState.update {
-            settingUiState
+    fun setSetting(settingUiState: SettingUiState) {
+        viewModelScope.launch {
+
+            setting.setGameSetting(settingUiState.toSetting())
         }
     }
+
     companion object {
         const val SHOW_DIALOG = "show_dialog"
         const val GAME_ID = "game_id"

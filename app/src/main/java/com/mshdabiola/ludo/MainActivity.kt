@@ -23,6 +23,7 @@ import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -158,46 +159,74 @@ class MainActivity : ComponentActivity() {
 
 
                 val leaderboardScore = FirebaseUtil.rank(
-                    resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_single_player),
+                    resources.getString(R.string.leaderboard_single_player),
                     this@MainActivity
                 )!!
-                settingUiState.getGame(2)?.let {
-                    val players = it.getSaverPlayer().toMutableList()
-                    val compScore = FirebaseUtil.get2Game(this@MainActivity, players.size)
+                settingUiState.getGame(2)?.let { gameSaver ->
+                    val players = gameSaver.getSaverPlayer().toMutableList()
 
-                    Timber.e("comp2 score $compScore")
                     var player = players[1]
                     if (leaderboardScore.rawScore > player.win) {
+                        val compScore = FirebaseUtil
+                            .get2Game(this@MainActivity, 2)
+                            ?.split(", ")
+                            ?.map { it.toInt() }
+                            ?.toIntArray()
+                        compScore?.let {
+                            players[0] = players[0].copy(win = it[0])
+                        }
                         player = player.copy(win = leaderboardScore.rawScore.toInt())
                         players[1] = player
                     }
 
-                    val settings = settingUiState.getGameSetting()
+                    val settings = settingUiState.setting.first()
                     val playersName = settings.playerName.toMutableList()
-                    if (playersName[1] == "Human") {
-                        playersName[1] = leaderboardScore.scoreHolderDisplayName
+                    Timber.e("name :${playersName[0]} ")
+                    if (playersName[0] == "Human") {
+                        Timber.e("set name :${playersName[0]} ")
+                        playersName[0] = leaderboardScore.scoreHolderDisplayName
                         settingUiState.setGameSetting(settings.copy(playerName = playersName))
                     }
 
-                    settingUiState.setGame(players.map { it.toOriginal() }, it.pawns)
+                    settingUiState.setGame(players.map { it.toOriginal() }, gameSaver.pawns)
                 }
 
                 val leaderboardScore2 = FirebaseUtil.rank(
                     resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_multiplayer),
                     this@MainActivity
                 )!!
-                settingUiState.getGame(4)?.let {
-                    val players = it.getSaverPlayer().toMutableList()
-                    val compScore = FirebaseUtil.get2Game(this@MainActivity, players.size)
+                settingUiState.getGame(4)?.let { gameSaver ->
+                    val players = gameSaver.getSaverPlayer().toMutableList()
 
-                    Timber.e("comp2 score $compScore")
+
                     var player = players[3]
                     if (leaderboardScore2.rawScore > player.win) {
+                        val compScore = FirebaseUtil
+                            .get2Game(this@MainActivity, 4)
+                            ?.split(", ")
+                            ?.map { it.toInt() }
+                            ?.toIntArray()
+                        compScore?.let {
+                            players[0] = players[0].copy(win = it[0])
+                            players[1] = players[1].copy(win = it[1])
+                            players[2] = players[2].copy(win = it[2])
+                        }
+
+
                         player = player.copy(win = leaderboardScore2.rawScore.toInt())
                         players[3] = player
                     }
 
-                    settingUiState.setGame(players.map { it.toOriginal() }, it.pawns)
+                    val settings = settingUiState.setting.first()
+                    val playersName = settings.playerName.toMutableList()
+                    Timber.e("name :${playersName[0]} ")
+                    if (playersName[0] == "Human") {
+                        Timber.e("set name :${playersName[0]} ")
+                        playersName[0] = leaderboardScore.scoreHolderDisplayName
+                        settingUiState.setGameSetting(settings.copy(playerName = playersName))
+                    }
+
+                    settingUiState.setGame(players.map { it.toOriginal() }, gameSaver.pawns)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -207,13 +236,13 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    fun saveGame(compScore: IntArray) {
+    fun saveGame(compScore: IntArray, num: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
 
             FirebaseUtil.saveGame(
                 compScore.joinToString(),
                 compScore.sum().toLong(),
-                compScore.size,
+                num,
                 this@MainActivity
             )
 
@@ -230,15 +259,17 @@ class MainActivity : ComponentActivity() {
             if (num == 2) {
                 PlayGames.getLeaderboardsClient(this@MainActivity)
                     .submitScoreImmediate(single, score.toLong())
-
+                saveGame(players.map { it.win }.toIntArray(), 2)
             } else {
                 PlayGames.getLeaderboardsClient(this@MainActivity)
                     .submitScoreImmediate(multi, score.toLong())
+                saveGame(players.map { it.win }.toIntArray(), 4)
             }
 
-            saveGame(players.map { it.win }.toIntArray())
+
         }
 
     }
+
 
 }

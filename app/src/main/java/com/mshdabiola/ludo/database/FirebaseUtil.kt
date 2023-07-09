@@ -51,33 +51,38 @@ object FirebaseUtil {
     }
 
      fun saveGame(string: String,totalScore:Long,numb:Int,activity: Activity) {
-        val snap = PlayGames.getSnapshotsClient(activity)
-        val meta = SnapshotMetadataChange.Builder()
-            .setDescription("saved game")
-            .setProgressValue(totalScore)
-            .build()
+
+         if (string.isNotBlank()){
+             val snap = PlayGames.getSnapshotsClient(activity)
+             val meta = SnapshotMetadataChange.Builder()
+                 .setDescription("saved game")
+                 .setProgressValue(totalScore)
+                 .build()
 
 
-        snap.open("type_$numb", true)
+             snap.open("game_$numb", true)
 
-            .addOnSuccessListener {
-                it.data?.let { it1 ->
-                    it1.snapshotContents.writeBytes(string.toByteArray())
+                 .addOnSuccessListener {
+                     it.data?.let { it1 ->
+                         it1.snapshotContents.writeBytes(string.toByteArray())
 
-                    snap.commitAndClose(it1,meta)
-                        .addOnSuccessListener {
-                            Timber.e("Save game $string")
-                        }
-                        .addOnFailureListener {
-                            it.printStackTrace()
-                        }
+                         snap.commitAndClose(it1,meta)
+                             .addOnSuccessListener {
+                                 Timber.e("Save game $string")
+                             }
+                             .addOnFailureListener {
+                                 it.printStackTrace()
+                             }
 
-                }
+                     }
 
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
+                 }
+                 .addOnFailureListener {
+                     it.printStackTrace()
+                 }
+
+         }
+
 
     }
 
@@ -86,7 +91,7 @@ object FirebaseUtil {
         val snap = PlayGames.getSnapshotsClient(activity)
 
 
-        snap.open("type_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
+        snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
 
             .addOnSuccessListener {
                 val t=it.data?.snapshotContents?.readFully()
