@@ -64,6 +64,7 @@ fun GameScreen(
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
+    val settingUiState by gameScreenViewModel.settingUiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit, block = {
@@ -213,8 +214,8 @@ fun GameScreen(
             GameScreen(
                 paddingValues = paddingValues,
                 gameUiState = ludoGameState,
-                music = gameUiState.music,
-                sound = gameUiState.sound,
+                music = settingUiState.music,
+                sound = settingUiState.sound,
                 rotateF = rotateF.value,
                 deviceType = deviceType,
                 onCounter = gameScreenViewModel::onCounter,

@@ -3,7 +3,6 @@ package com.mshdabiola.ludo.screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mshdabiola.ludo.database.IGameSaver
 import com.mshdabiola.ludo.screen.game.GameUiState
 import com.mshdabiola.ludo.screen.game.GameViewModel
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
@@ -51,7 +50,6 @@ class GeneralViewModel(
     private val soundSystem: SoundSystem,
     private val blueManager: P2pManager,
     private val setting: MultiplatformSettings,
-    private val iGameSaver: IGameSaver
 ) : ViewModel() {
 
 
@@ -96,10 +94,26 @@ class GeneralViewModel(
             _settingUiState.update {
                 gameSetting.toUi()
             }
+
             settingUiState
                 .distinctUntilChanged { old, new -> old == new }
                 .collectLatest {
                     setting.setGameSetting(it.toSetting())
+                }
+        }
+
+        viewModelScope.launch {
+            delay(6000)
+            soundSystem.play()
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            settingUiState
+                .map { Pair(it.music,it.sound) }
+                .distinctUntilChanged()
+                .collectLatest {
+                    soundSystem.playSound = it.second
+                    soundSystem.setPlayMusic(it.first)
                 }
         }
 
@@ -590,7 +604,7 @@ class GeneralViewModel(
         _settingUiState.update {
             it.copy(music = value)
         }
-        soundSystem.onKill()
+
     }
 
     fun setSound(value: Boolean) {
