@@ -5,7 +5,7 @@ import com.mshdabiola.naijaludo.model.Setting
 data class SettingUiState(
     val language: Int = 1,
     val gameLevel: Int = 1,
-    val assistant: Boolean = false,
+    val assistant: Boolean = true,
 
     val boardType: Int = 1,
     val boardStyle: Int = 1,

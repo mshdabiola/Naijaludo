@@ -225,8 +225,7 @@ fun GameScreen(
                 onBack = onBack,
                 onSetMusic = gameScreenViewModel::setMusic,
                 onSetSound = gameScreenViewModel::setSound,
-                onForceRestart = gameScreenViewModel::restartGame,
-                updateScore = gameScreenViewModel::updateScore
+                onForceRestart = gameScreenViewModel::restartGame
             )
         }
         if (showConfetti.value) {
@@ -334,8 +333,7 @@ fun GameScreen(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {},
-    updateScore: (Long, String) -> Unit
+    onForceRestart: () -> Unit = {}
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {
@@ -368,25 +366,25 @@ fun GameScreen(
             DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
             DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
             DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
 
             else -> GameScreenPhonePortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, updateScore
+                onBack, onSetMusic, onSetSound, onForceRestart
             )
         }
     }

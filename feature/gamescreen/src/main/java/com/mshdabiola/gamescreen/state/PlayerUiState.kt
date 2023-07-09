@@ -3,8 +3,9 @@ package com.mshdabiola.gamescreen.state
 import androidx.compose.runtime.Immutable
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.player.ComputerPlayer
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.naijaludo.model.player.Player
-import com.mshdabiola.naijaludo.model.player.SavePlayer
+import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 
 @Immutable
 data class PlayerUiState(
@@ -27,11 +28,7 @@ fun Player.toPlayerUiState() =
     )
 
 fun PlayerUiState.toSaverPlayer() =
-    SavePlayer(
-        name,
-        win,
-        isCurrent,
-        colors,
-        iconIndex = iconIndex,
-        isHumanPlayer = !isComputer
-    )
+    if (isComputer)
+        RandomComputerPlayer(name, win, isCurrent, colors, iconIndex)
+    else
+        HumanPlayer(name, win, isCurrent, colors, iconIndex)

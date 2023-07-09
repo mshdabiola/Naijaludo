@@ -8,6 +8,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
@@ -15,8 +16,13 @@ import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.navigation.RootComponent
+import com.mshdabiola.setting.MultiplatformSettings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 
@@ -27,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
-       // MobileAds.initialize(this)
+        // MobileAds.initialize(this)
 //       val config= RequestConfiguration
 //           .Builder()
 //           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
@@ -48,10 +54,13 @@ class MainActivity : ComponentActivity() {
                 if (isAuthenticated) {
                     // Continue with Play Games Services
                     Timber.e("login")
+                    updateScore()
                 } else {
                     // Disable your integration with Play Games Services or show a
                     // login button to ask  players to sign-in. Clicking it should
-                      gamesSignInClient.signIn()
+                    gamesSignInClient.signIn().addOnSuccessListener {
+                        updateScore()
+                    }
                 }
             }
 
@@ -133,4 +142,52 @@ class MainActivity : ComponentActivity() {
             it.printStackTrace()
         }
     }
+
+    private fun updateScore() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val settingUiState by inject<MultiplatformSettings>()
+
+                val leaderboardScore = FirebaseUtil.rank(
+                    resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_single_player),
+                    this@MainActivity
+                )!!
+                settingUiState.getGame(2)?.let {
+                    val players = it.getSaverPlayer().toMutableList()
+                    var player = players[1]
+                    if (leaderboardScore.rawScore > player.win) {
+                        player = player.copy(win = leaderboardScore.rawScore.toInt())
+                        players[1] = player
+                    }
+                    val settings = settingUiState.getGameSetting()
+                    val playersName = settings.playerName.toMutableList()
+                    if (playersName[0] == "Human") {
+                        playersName[0] = leaderboardScore.scoreHolderDisplayName
+                        settingUiState.setGameSetting(settings.copy(playerName = playersName))
+                    }
+
+                    settingUiState.setGame(players.map { it.toOriginal() }, it.pawns)
+                }
+
+                val leaderboardScore2 = FirebaseUtil.rank(
+                    resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_multiplayer),
+                    this@MainActivity
+                )!!
+                settingUiState.getGame(2)?.let {
+                    val players = it.getSaverPlayer().toMutableList()
+                    var player = players[1]
+                    if (leaderboardScore2.rawScore > player.win) {
+                        player = player.copy(win = leaderboardScore2.rawScore.toInt())
+                        players[3] = player
+                    }
+
+                    settingUiState.setGame(players.map { it.toOriginal() }, it.pawns)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+
 }

@@ -61,8 +61,7 @@ fun GameScreenPhonePortrait(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {},
-    updateScore: (Long, String) -> Unit
+    onForceRestart: () -> Unit = {}
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -105,8 +104,7 @@ fun GameScreenPhonePortrait(
                     R.string.leaderboard_single_player
                 } else {
                     R.string.leaderboard_multiplayer
-                },
-                updateScore
+                }
             )
         }
         GameAd(
@@ -203,8 +201,7 @@ fun GameScreenPhoneLand(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {},
-    updateScore: (Long, String) -> Unit
+    onForceRestart: () -> Unit = {}
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -243,8 +240,7 @@ fun GameScreenPhoneLand(
                     R.string.leaderboard_single_player
                 } else {
                     R.string.leaderboard_multiplayer
-                },
-                updateScore
+                }
             )
         }
 
@@ -347,8 +343,7 @@ fun GameScreeFoldPortrait(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {},
-    updateScore: (Long, String) -> Unit
+    onForceRestart: () -> Unit = {}
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -392,8 +387,7 @@ fun GameScreeFoldPortrait(
                     R.string.leaderboard_single_player
                 } else {
                     R.string.leaderboard_multiplayer
-                },
-                updateScore
+                }
             )
         }
 
@@ -489,8 +483,7 @@ fun GameScreenLarge(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {},
-    updateScore: (Long, String) -> Unit
+    onForceRestart: () -> Unit = {}
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -531,8 +524,7 @@ fun GameScreenLarge(
                     R.string.leaderboard_single_player
                 } else {
                     R.string.leaderboard_multiplayer
-                },
-                updateScore
+                }
             )
         }
 
@@ -634,8 +626,7 @@ fun GameScreenPreview() {
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
-        updateScore = { _, _ -> }
+        }
     )
 }
 
@@ -649,8 +640,7 @@ fun GameScreenLandPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        deviceType = DEVICE_TYPE.PHONE_LAND,
-        updateScore = { _, _ -> }
+        deviceType = DEVICE_TYPE.PHONE_LAND
 
     )
 }
@@ -665,8 +655,7 @@ fun GameScreenFoldPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        deviceType = DEVICE_TYPE.FOLD_PORT,
-        updateScore = { _, _ -> }
+        deviceType = DEVICE_TYPE.FOLD_PORT
     )
 }
 
@@ -680,8 +669,7 @@ fun GameScreenFoldLandPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = { _, _ -> }
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
 
@@ -695,8 +683,7 @@ fun GameScreenTabletPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        deviceType = DEVICE_TYPE.TABLET_PORT,
-        updateScore = { _, _ -> }
+        deviceType = DEVICE_TYPE.TABLET_PORT
     )
 }
 
@@ -710,8 +697,7 @@ fun GameScreenTabletLandPreview() {
         getPositionIntOffset = { x: Int, y: GameColor ->
             game.board.getPositionIntPoint(x, y).toPointUiState()
         },
-        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND,
-        updateScore = { _, _ -> }
+        deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
 

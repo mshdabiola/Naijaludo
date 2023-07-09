@@ -5,26 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SavePlayer(
-    override val name: String = "C. Player",
-    override val win: Int = 0,
-    override val isCurrent: Boolean = false,
-    override val colors: List<GameColor>,
-    override val iconIndex: Int,
+    val name: String = "C. Player",
+    val win: Int = 0,
+    val isCurrent: Boolean = false,
+    val colors: List<GameColor>,
+    val iconIndex: Int,
     val isHumanPlayer: Boolean = false
-) : Player {
-    override fun copyPlayer(
-        name: String,
-        win: Int,
-        isCurrent: Boolean,
-        colors: List<GameColor>
-    ): Player {
-        return copy(
-            name = name,
-            win = win,
-            isCurrent = isCurrent,
-            colors = colors,
-        )
-    }
+) {
+
 
     fun toOriginal(): Player {
         return if (isHumanPlayer)

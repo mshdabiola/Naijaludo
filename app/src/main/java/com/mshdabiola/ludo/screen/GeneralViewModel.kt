@@ -69,10 +69,10 @@ class GeneralViewModel(
 
     init {
         // react to game ui state change for computer and remote
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch (Dispatchers.Default){
             game.onStateChange()
         }
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.Default){
             game.gameState
                 .map { it.toLudoUiState() }
                 .distinctUntilChanged { old, new -> old == new }
@@ -84,7 +84,7 @@ class GeneralViewModel(
                 }
         }
 
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
 
             if (!gameUiState.value.isStartDialogOpen) {
                 resumeFromDatabase()
@@ -92,7 +92,7 @@ class GeneralViewModel(
         }
 
         //get and set settings
-        viewModelScope.launch (Dispatchers.Default){
+        viewModelScope.launch (Dispatchers.IO){
             val gameSetting = setting.getGameSetting()
             _settingUiState.update {
                 gameSetting.toUi()
@@ -159,7 +159,7 @@ class GeneralViewModel(
                 }
         }
 
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             blueManager
                 .state
                 .mapNotNull { it?.devices }
@@ -170,7 +170,7 @@ class GeneralViewModel(
                         .value.copy(listOfDevice = it.toImmutableList())
                 }
         }
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             blueManager
                 .state
                 .mapNotNull { it?.connected }
@@ -250,6 +250,9 @@ class GeneralViewModel(
         Timber.e("destroy game")
         _gameUiState.update {
             it.copy(isStartDialogOpen =true)
+        }
+        _ludoGameState.update {
+            LudoUiState(board = BoardUiState())
         }
         closeBlue()
     }
@@ -560,7 +563,7 @@ class GeneralViewModel(
         val ludoAndOthers = setting.getGame(id)
 
         var pawns = ludoAndOthers?.pawns
-        val players = ludoAndOthers?.players
+        val players = ludoAndOthers?.getPlayer()
 
         if (players.isNullOrEmpty())
             return null
@@ -590,13 +593,7 @@ class GeneralViewModel(
     }
 
 
-    fun updateScore(score: Long, name: String) {
-        //update score from play store
-        log("score is $score")
-        viewModelScope.launch(Dispatchers.IO) {
-            game.updateScore(score, name)
-        }
-    }
+
 
 
     //general
