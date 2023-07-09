@@ -11,12 +11,12 @@ fun LudoApp(
     windowSizeClass: WindowSizeClass,
     appState: LudoAppState = rememBerLudoAppState(windowSizeClass = windowSizeClass),
 ) {
-    LudoAppTheme {
+
         LudoNavHost(
             modifier = Modifier,
             navController = appState.navHostController,
             deviceType = appState.getDevietype()
         )
         // change display here
-    }
+
 }

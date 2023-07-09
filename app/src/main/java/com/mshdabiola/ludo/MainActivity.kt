@@ -4,8 +4,20 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -14,9 +26,12 @@ import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.mshdabiola.designsystem.R
+import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
@@ -30,7 +45,10 @@ import timber.log.Timber
 
 
 class MainActivity : ComponentActivity() {
-    val settingUiState by inject<MultiplatformSettings>()
+    private val settingUiState by inject<MultiplatformSettings>()
+    private var show by mutableStateOf(true)
+    private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
+    private var listener: InstallStateUpdatedListener? = null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,67 +104,88 @@ class MainActivity : ComponentActivity() {
 //                    color = MaterialTheme.colorScheme.background
 //                ) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            LudoApp(
-                windowSizeClass = calculateWindowSizeClass(activity = this),
-                iRootComponent = root
-            )
-            // MyNavigationGraph(gameScreenViewModel = gameViewModel)
-//                }
-//            }
+            LudoAppTheme {
+                Box {
+                    LudoApp(
+                        windowSizeClass = calculateWindowSizeClass(activity = this@MainActivity),
+                        iRootComponent = root
+                    )
+                    if (show) {
+                        Snackbar(
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .padding(horizontal = 4.dp)
+                                .align(Alignment.BottomCenter),
+                            action = {
+                                Button(onClick = {
+                                    appUpdateInfoManager.completeUpdate()
+                                    show = false
+                                }) {
+                                    Text(text = "Reload")
+                                }
+                            }
+                        ) {
+                            Text(text = "NaijaLudo+ just download an update")
+                        }
+                    }
+
+                }
+            }
+
         }
     }
 
-//    override fun attachBaseContext(base: Context) {
-//        super.attachBaseContext(updateBaseContextLocale(base))
-//    }
+    override fun onResume() {
+        super.onResume()
 
-//    private fun updateBaseContextLocale(context: Context): Context? {
-////        val language: String =
-////            SharedPrefUtils.getSavedLanguage() // Helper method to get saved language from SharedPreferences
-//        val locale = Locale(ShareUtil.getLand(context))
-//        Locale.setDefault(locale)
-//        return if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-//            updateResourcesLocale(context, locale)
-//        } else {
-//            updateResourcesLocaleLegacy(context, locale)
-//        }
-//    }
-
-//    @TargetApi(Build.VERSION_CODES.N_MR1)
-//    private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
-//        val configuration = Configuration(context.resources.configuration)
-//        configuration.setLocale(locale)
-//        return context.createConfigurationContext(configuration)
-//    }
-
-//    private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context? {
-//        val resources: Resources = context.resources
-//        val configuration: Configuration = resources.configuration
-//        configuration.locale = locale
-//        resources.updateConfiguration(configuration, resources.displayMetrics)
-//        return context
-//    }
+        appUpdateInfoManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                    show = true
+                }
+                if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
+                    listener?.let { appUpdateInfoManager.unregisterListener(it) }
+                }
+            }
+    }
 
     override fun onStart() {
         super.onStart()
-        val appUpdateInfoManager = AppUpdateManagerFactory.create(this)
-        val appUpdateInfoTask = appUpdateInfoManager.appUpdateInfo
 
+        val appUpdateInfoTask = appUpdateInfoManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
             ) {
+
+                listener = InstallStateUpdatedListener { state ->
+
+//                    if (state.installStatus() == InstallStatus.DOWNLOADING) {
+//                        val bytesDownloaded = state.bytesDownloaded()
+//                        val totalBytesToDownload = state.totalBytesToDownload()
+//                        // Show update progress bar.
+//                    }
+                    if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                        show = true
+                    }
+                }
+
+                listener?.let { appUpdateInfoManager.registerListener(it) }
+
                 appUpdateInfoManager.startUpdateFlowForResult(
                     appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
+                    AppUpdateType.FLEXIBLE,
                     this,
                     343
                 )
+
             }
             //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
         }.addOnFailureListener {
             it.printStackTrace()
         }
+
     }
 
     override fun onPause() {
