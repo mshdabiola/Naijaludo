@@ -1,4 +1,4 @@
-package com.mshdabiola.gamescreen
+package com.mshdabiola.ludo.screen.game
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -33,31 +33,29 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mshdabiola.common.navigation.DEVICE_TYPE
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.gamescreen.component.DeviceListDialog
-import com.mshdabiola.gamescreen.component.GameOverDialog
-import com.mshdabiola.gamescreen.component.StartDialog
-import com.mshdabiola.gamescreen.component.WaitingDialog
-import com.mshdabiola.gamescreen.component.WifiPermission
-import com.mshdabiola.gamescreen.component.getPermission
-import com.mshdabiola.gamescreen.state.LudoUiState
-import com.mshdabiola.gamescreen.state.PointUiState
+import com.mshdabiola.ludo.MainActivity
+import com.mshdabiola.ludo.screen.DEVICE_TYPE
+import com.mshdabiola.ludo.screen.GeneralViewModel
+import com.mshdabiola.ludo.screen.game.component.DeviceListDialog
+import com.mshdabiola.ludo.screen.game.component.GameOverDialog
+import com.mshdabiola.ludo.screen.game.component.StartDialog
+import com.mshdabiola.ludo.screen.game.component.WaitingDialog
+import com.mshdabiola.ludo.screen.game.component.WifiPermission
+import com.mshdabiola.ludo.screen.game.component.getPermission
+import com.mshdabiola.ludo.screen.game.firework.FireworkView
+import com.mshdabiola.ludo.screen.game.state.LudoUiState
+import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
-    gameScreenViewModel: GameViewModel = hiltViewModel(),
+    gameScreenViewModel: GeneralViewModel,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     onBack: () -> Unit = {}
 ) {
@@ -68,8 +66,8 @@ fun GameScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit, block = {
-        val gameSaver= com.mshdabiola.ludo.database.GameSaver()
-        gameSaver.saveGame("lawal abiola".toByteArray(),4,context as Activity)
+        val gameSaver = com.mshdabiola.ludo.database.GameSaver()
+        gameSaver.saveGame("lawal abiola".toByteArray(), 4, context as Activity)
         gameSaver.get2Game(context as Activity)
 
     })
@@ -199,6 +197,11 @@ fun GameScreen(
                     gameUiState.isRestartDialogOpen
         }
     }
+    LaunchedEffect(key1 = gameUiState.isRestartDialogOpen, block = {
+        if (gameUiState.isRestartDialogOpen) {
+            (context as MainActivity).onGameFinish(ludoGameState.listOfPlayer)
+        }
+    })
 
     Scaffold { paddingValues ->
         if (showText) {
@@ -228,31 +231,7 @@ fun GameScreen(
                 onForceRestart = gameScreenViewModel::restartGame
             )
         }
-        if (showConfetti.value) {
-            KonfettiView(
-                modifier = Modifier.fillMaxSize(),
-                parties = listOf(
-                    Party(
-                        spread = 270,
-                        position = Position.Relative(0.2, 0.0),
-                        emitter = Emitter(5000).perSecond(50),
-                        timeToLive = 7000,
-                    ),
-                    Party(
-                        spread = 360,
-                        position = Position.Relative(0.5, 0.0),
-                        emitter = Emitter(5000).perSecond(100),
-                        timeToLive = 7000,
-                    ),
-                    Party(
-                        spread = 270,
-                        position = Position.Relative(0.8, 0.0),
-                        emitter = Emitter(5000).perSecond(50),
-                        timeToLive = 7000,
-                    ),
-                ),
-            )
-        }
+        FireworkView(firstAppear = showConfetti.value/**/)
         StartDialog(
             show = gameUiState.isStartDialogOpen,
             onYouAndComputer = gameScreenViewModel::onYouAndComputer,

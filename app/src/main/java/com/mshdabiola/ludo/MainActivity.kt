@@ -16,7 +16,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.mshdabiola.designsystem.R
 import com.mshdabiola.ludo.database.FirebaseUtil
+import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
@@ -27,9 +29,12 @@ import timber.log.Timber
 
 
 class MainActivity : ComponentActivity() {
+    val settingUiState by inject<MultiplatformSettings>()
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         //   val gameViewModel = viewModels<GameViewModel>().value
+
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -143,10 +148,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
+
     private fun updateScore() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val settingUiState by inject<MultiplatformSettings>()
+
 
                 val leaderboardScore = FirebaseUtil.rank(
                     resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_single_player),
@@ -154,15 +163,19 @@ class MainActivity : ComponentActivity() {
                 )!!
                 settingUiState.getGame(2)?.let {
                     val players = it.getSaverPlayer().toMutableList()
+                    val compScore = FirebaseUtil.get2Game(this@MainActivity, players.size)
+
+                    Timber.e("comp2 score $compScore")
                     var player = players[1]
                     if (leaderboardScore.rawScore > player.win) {
                         player = player.copy(win = leaderboardScore.rawScore.toInt())
                         players[1] = player
                     }
+
                     val settings = settingUiState.getGameSetting()
                     val playersName = settings.playerName.toMutableList()
-                    if (playersName[0] == "Human") {
-                        playersName[0] = leaderboardScore.scoreHolderDisplayName
+                    if (playersName[1] == "Human") {
+                        playersName[1] = leaderboardScore.scoreHolderDisplayName
                         settingUiState.setGameSetting(settings.copy(playerName = playersName))
                     }
 
@@ -173,9 +186,12 @@ class MainActivity : ComponentActivity() {
                     resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_multiplayer),
                     this@MainActivity
                 )!!
-                settingUiState.getGame(2)?.let {
+                settingUiState.getGame(4)?.let {
                     val players = it.getSaverPlayer().toMutableList()
-                    var player = players[1]
+                    val compScore = FirebaseUtil.get2Game(this@MainActivity, players.size)
+
+                    Timber.e("comp2 score $compScore")
+                    var player = players[3]
                     if (leaderboardScore2.rawScore > player.win) {
                         player = player.copy(win = leaderboardScore2.rawScore.toInt())
                         players[3] = player
@@ -188,6 +204,41 @@ class MainActivity : ComponentActivity() {
             }
 
         }
+    }
+
+
+    fun saveGame(compScore: IntArray) {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            FirebaseUtil.saveGame(
+                compScore.joinToString(),
+                compScore.sum().toLong(),
+                compScore.size,
+                this@MainActivity
+            )
+
+        }
+    }
+
+    fun onGameFinish(players: List<PlayerUiState>) {
+        lifecycleScope.launch {
+            val single = resources.getString(R.string.leaderboard_single_player)
+            val multi = resources.getString(R.string.leaderboard_multiplayer)
+
+            val num = players.size
+            val score = players.last().win
+            if (num == 2) {
+                PlayGames.getLeaderboardsClient(this@MainActivity)
+                    .submitScoreImmediate(single, score.toLong())
+
+            } else {
+                PlayGames.getLeaderboardsClient(this@MainActivity)
+                    .submitScoreImmediate(multi, score.toLong())
+            }
+
+            saveGame(players.map { it.win }.toIntArray())
+        }
+
     }
 
 }

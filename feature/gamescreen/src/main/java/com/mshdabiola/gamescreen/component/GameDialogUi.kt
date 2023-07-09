@@ -63,8 +63,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.google.android.gms.games.PlayGames
-import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
@@ -162,9 +160,7 @@ fun GameOverDialog(
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
     }
-    val single = stringResource(id = R.string.leaderboard_single_player)
-    val multi = stringResource(id = R.string.leaderboard_multiplayer)
-    val full = stringResource(id = R.string.leaderboard_general_rank)
+
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val review = {
@@ -226,42 +222,7 @@ fun GameOverDialog(
                         onRestart()
                         if (players.any { it.isComputer }) {
                             coroutineScope.launch {
-                                val num = players.size
-                                val score = players.last().win
-                                if (num == 2) {
-                                    PlayGames.getLeaderboardsClient(context as Activity)
-                                        .submitScoreImmediate(single, score.toLong())
-                                    PlayGames.getLeaderboardsClient(context)
-                                        .loadCurrentPlayerLeaderboardScore(
-                                            multi,
-                                            LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                                            LeaderboardVariant.COLLECTION_PUBLIC,
-                                        )
-                                        .addOnSuccessListener {
-                                            it.get()?.let {
-                                                val multiScore = it.rawScore
-                                                PlayGames.getLeaderboardsClient(context)
-                                                    .submitScoreImmediate(full, multiScore + score)
-                                            }
-                                        }
-                                } else {
-                                    PlayGames.getLeaderboardsClient(context as Activity)
-                                        .submitScoreImmediate(multi, score.toLong())
 
-                                    PlayGames.getLeaderboardsClient(context)
-                                        .loadCurrentPlayerLeaderboardScore(
-                                            single,
-                                            LeaderboardVariant.TIME_SPAN_ALL_TIME,
-                                            LeaderboardVariant.COLLECTION_PUBLIC,
-                                        )
-                                        .addOnSuccessListener {
-                                            it.get()?.let {
-                                                val singleScore = it.rawScore
-                                                PlayGames.getLeaderboardsClient(context)
-                                                    .submitScoreImmediate(full, singleScore + score)
-                                            }
-                                        }
-                                }
                             }
                         }
 
