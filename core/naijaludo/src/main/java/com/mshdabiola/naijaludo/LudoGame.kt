@@ -421,8 +421,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
                     ),
                 )
                 val pawn = allPawnsMutableList.first { it == allMovablePawns.first() }
-                log("assist $pawn ${pawn.indexx}")
-                val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == pawn.idx }
+                log("assist $pawn ${pawn.colorNumber}")
+                val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == pawn.pawnId }
                 onPawnNormal(pawnIndex)
             } else {
                 repeat(allPawnsMutableList.size) {
@@ -461,13 +461,13 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             .maxBy { it.zIndex }
 
         setGameState(getGameState().copy(listOfPawnDrawer = null))
-        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == selectedPawn.idx }
+        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == selectedPawn.pawnId }
         onPawnLogic(pawnIndex)
     }
 
     // on pawn 1
     fun onPawn(id: Int, isDrawer: Boolean) {
-        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.idx == id }
+        val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == id }
         if (isDrawer) {
             onPawnDrawer(id)
         } else {
@@ -503,7 +503,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             } else {
                 // same color, select upper pawn
                 val upperPawn = pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
-                val upperIndex = getGameState().listOfPawn.indexOfFirst { it.idx == upperPawn.idx }
+                val upperIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == upperPawn.pawnId }
                 onPawnLogic(upperIndex)
             }
         } else {
@@ -740,7 +740,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         pawnList[originalIndex] =
             originalPawn.copy(currentPos = 56, zIndex = zIndex.toFloat())
-        pawnList[index] = pawn.copy(currentPos = pawn.indexx * -1, zIndex = 1f)
+        pawnList[index] = pawn.copy(currentPos = pawn.colorNumber * -1, zIndex = 1f)
 
         setGameState(getGameState().copy(listOfPawn = pawnList))
     }

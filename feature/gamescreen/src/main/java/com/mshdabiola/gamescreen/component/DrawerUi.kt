@@ -61,7 +61,7 @@ fun DrawerUi(
                         offset = IntOffset.Zero,
                         pawnUiState = pawn,
                         isEnableForPlayer = true,
-                        onClick = { _, _ -> onPawnDrawer(pawn.idx, true) },
+                        onClick = { _, _ -> onPawnDrawer(pawn.pawnId, true) },
                     )
 
                     if (index != drawerUiState.lastIndex) {
@@ -87,7 +87,7 @@ fun DrawerUi(
                         offset = IntOffset.Zero,
                         pawnUiState = pawn,
                         isEnableForPlayer = true,
-                        onClick = { _, _ -> onPawnDrawer(pawn.idx, true) },
+                        onClick = { _, _ -> onPawnDrawer(pawn.pawnId, true) },
                     )
 
                     if (index != drawerUiState.lastIndex) {

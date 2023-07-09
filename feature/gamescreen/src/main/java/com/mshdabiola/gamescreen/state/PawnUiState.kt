@@ -4,7 +4,8 @@ import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.Pawn
 
 data class PawnUiState(
-    val idx: Int = 0,
+    val colorNumber: Int = 0,
+    val pawnId: Int = 0,
     val currentPos: Int = 0,
     val color: GameColor = GameColor.RED,
     val isEnable: Boolean = false,
@@ -12,9 +13,22 @@ data class PawnUiState(
 )
 
 fun Pawn.toPawnUiState() =
-    PawnUiState(idx, currentPos, color, isEnable, zIndex)
+    PawnUiState(
+        colorNumber = colorNumber,
+        pawnId = pawnId,
+        currentPos = currentPos,
+        color = color,
+        isEnable = isEnable,
+        zIndex = zIndex
+    )
 
 fun PawnUiState.toPawn() =
-    Pawn(idx, currentPos, color, isEnable, zIndex)
+    Pawn(
+        colorNumber = pawnId,
+        currentPos = currentPos,
+        color = color,
+        isEnable = isEnable,
+        zIndex = zIndex
+    )
 
 fun PawnUiState.showText() = zIndex.toInt() > 1 && currentPos < 56

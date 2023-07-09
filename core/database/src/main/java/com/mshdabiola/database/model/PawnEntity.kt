@@ -19,7 +19,7 @@ fun com.mshdabiola.naijaludo.model.Pawn.toPawnEntity(
     playerId: Int,
     gameId: Long,
 ) = PawnEntity(
-    this.idx,
+    this.pawnId,
     gameId,
     currentPos,
     playerId,

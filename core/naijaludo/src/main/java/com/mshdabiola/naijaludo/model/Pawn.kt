@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Pawn(
-    val indexx: Int = 0,
-    val currentPos: Int = indexx * -1,
+    val colorNumber: Int = 0,//1-4
+    val currentPos: Int = colorNumber * -1,
     val color: GameColor = GameColor.RED,
     val isEnable: Boolean = false,
     val zIndex: Float = 1f,
@@ -15,11 +15,11 @@ data class Pawn(
     fun isOnPath() = currentPos in 0..50
 
     fun isHome() = currentPos < 0
-    val idx
-        get() = color.ordinal * 4 + indexx - 1
+    val pawnId
+        get() = color.ordinal * 4 + colorNumber - 1
 
     fun isInSavePath() = currentPos in 51..55
     override fun toString(): String {
-        return " color-$color - index $indexx - id $idx pos $currentPos"
+        return " color-$color - index $colorNumber - id $pawnId pos $currentPos"
     }
 }

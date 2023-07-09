@@ -120,7 +120,7 @@ class LudoGameTest {
             .test {
 
                 val ludoGameState = awaitItem()
-                val pawn = ludoGameState.listOfPawn.single { it.idx == 9 }
+                val pawn = ludoGameState.listOfPawn.single { it.pawnId == 9 }
                 print(ludoGameState)
                 assertEquals(0, pawn.currentPos)
 

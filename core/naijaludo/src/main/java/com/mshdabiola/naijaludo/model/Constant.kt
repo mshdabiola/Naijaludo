@@ -32,9 +32,9 @@ object Constant {
         GameColor.values().forEach { gameColor ->
             (1..4).map { id ->
                 val pawn = if (id <= numberOfPawn2) {
-                    Pawn(indexx = id, color = gameColor)
+                    Pawn(colorNumber = id, color = gameColor)
                 } else {
-                    Pawn(indexx = id, color = gameColor, currentPos = 56)
+                    Pawn(colorNumber = id, color = gameColor, currentPos = 56)
                 }
                 listPawns.add(pawn)
             }
