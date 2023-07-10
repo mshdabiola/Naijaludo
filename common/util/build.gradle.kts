@@ -1,4 +1,3 @@
-
 plugins {
     //kotlin("multiplatform")
     id("mshdabiola.mpp.library")
@@ -8,11 +7,11 @@ plugins {
 android {
     namespace = "com.mshdabiola.util"
 }
-kotlin{
+kotlin { 
     sourceSets {
         val commonMain by getting {
             dependencies {
-
+            implementation(libs.kotlinx.coroutines.core)
             }
         }
 
@@ -24,10 +23,15 @@ kotlin{
 
         val androidMain by getting {
             dependencies {
+                //  implementation(platform(libs.firebase.bom))
+//                implementation(platform(libs.firebase.bom))
+//                implementation(libs.firebase.analytics)
+                implementation(project(":common:naijaludo"))
+//                implementation(libs.firebase.message)
+//                implementation(libs.firebase.cloud.messaging)
 //
             }
         }
-
 
 
         val desktopMain by getting {

@@ -32,7 +32,7 @@ dependencies {
     compileOnly(libs.firebase.crashlytics.gradle)
     compileOnly(libs.firebase.performance.gradle)
     compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.ksp.gradlePlugin)
+    //compileOnly(libs.ksp.gradlePlugin)
 
     implementation(libs.compose.gradlePlugin)
     //compileOnly(libs.compose.multiplatform.plugin)

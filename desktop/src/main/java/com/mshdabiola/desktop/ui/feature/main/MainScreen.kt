@@ -44,30 +44,30 @@ fun MainScreen(
 ) {
     val welcomeText by viewModel.welcomeText.collectAsState()
     var model by remember { mutableStateOf("") }
-    val items=viewModel.models.collectAsState()
+    val items = viewModel.models.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.weight(1f)) {
-          items(items = items.value){
-              Text(it.name)
-          }
+            items(items = items.value) {
+                Text(it.name)
+            }
         }
-        Row(modifier = Modifier.fillMaxWidth()){
+        Row(modifier = Modifier.fillMaxWidth()) {
             TextField(
                 modifier = Modifier.weight(1f),
                 value = model,
                 maxLines = 1,
-                onValueChange = {model=it},
+                onValueChange = { model = it },
                 label = { Text("Text") },
-                keyboardActions = KeyboardActions  (onSend = {
+                keyboardActions = KeyboardActions(onSend = {
                     viewModel.insertModel(model)
-                    model=""
+                    model = ""
                 })
             )
             Button(onClick = {
                 viewModel.insertModel(model)
-                model=""
-            }){
+                model = ""
+            }) {
                 Text("Send")
             }
         }
@@ -79,9 +79,9 @@ fun MainScreen(
 @Preview
 @Composable
 fun id() {
-    MaterialTheme{
+    MaterialTheme {
 
-        val state= rememberSplitPaneState(0.5f,true)
+        val state = rememberSplitPaneState(0.5f, true)
         HorizontalSplitPane(splitPaneState = state) {
             splitter {
                 this.visiblePart {
@@ -91,17 +91,20 @@ fun id() {
                     Box(Modifier.background(Color.Blue).width(20.dp).fillMaxHeight().markAsHandle())
                 }
             }
-          first {
+            first {
 
-              Image(painter = painterResource("drawables/logo.png"),"")
+                Image(painter = painterResource("drawables/logo.png"), "")
 
 
 
-              Text("Abiola")  }
-            second {    Button(onClick = {}, content = {
-                Text("Click")
-                Icon(Icons.Default.Android,contentDescription = null)
-            })}
+                Text("Abiola")
+            }
+            second {
+                Button(onClick = {}, content = {
+                    Text("Click")
+                    Icon(Icons.Default.Android, contentDescription = null)
+                })
+            }
         }
 
 

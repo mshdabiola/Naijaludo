@@ -6,11 +6,12 @@ import com.mshdabiola.desktop.ui.feature.splash.SplashViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-object Modules{
+object Modules {
 
 
 }
-val desktopModule = module{
+
+val desktopModule = module {
 
     factoryOf(::SplashViewModel);
     factoryOf(::MainViewModel)

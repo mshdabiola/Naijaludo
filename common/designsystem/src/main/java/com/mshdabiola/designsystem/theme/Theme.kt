@@ -69,8 +69,21 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
+private val NewLightColor = LightColors.copy(
+    secondaryContainer = LightColors.surface,
+    onSecondaryContainer = LightColors.onSurface,
+    secondary = LightColors.tertiary,
+    onSecondary = LightColors.onTertiary,
+)
+private val NewDarkColor = DarkColors.copy(
+    secondaryContainer = DarkColors.surface,
+    onSecondaryContainer = DarkColors.onSurface,
+    secondary = DarkColors.tertiary,
+    onSecondary = DarkColors.onTertiary,
+)
+
 @Composable
-fun SkeletonAppTheme(
+fun LudoAppTheme(
     useDarkTheme: Boolean = false, // isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
@@ -83,6 +96,44 @@ fun SkeletonAppTheme(
 
         useDarkTheme -> DarkColors
         else -> LightColors
+    }
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val activity = view.context as Activity
+    //   WindowCompat.setDecorFitsSystemWindows(activity.window, false)
+//            activity.window.apply {
+//                statusBarColor = Color.Transparent.toArgb()
+//                navigationBarColor = Color.Transparent.toArgb()
+//            }
+//
+//            WindowCompat.getInsetsController(activity.window, view).apply {
+//                isAppearanceLightStatusBars = !useDarkTheme
+//                isAppearanceLightNavigationBars = !useDarkTheme
+//            }
+//        }
+//    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = LudoTypography,
+        content = content,
+    )
+}
+
+@Composable
+fun FinishTheme(
+    useDarkTheme: Boolean = false, // isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+
+        useDarkTheme -> NewDarkColor
+        else -> NewLightColor
     }
 
     MaterialTheme(

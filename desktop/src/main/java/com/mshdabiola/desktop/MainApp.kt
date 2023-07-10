@@ -26,7 +26,7 @@ import org.koin.core.context.GlobalContext.startKoin
 //import com.toxicbakery.logging.Seedling
 
 @OptIn(ExperimentalDecomposeApi::class)
-fun mainApp(appArgs: AppArgs){
+fun mainApp(appArgs: AppArgs) {
 
     val life = LifecycleRegistry()
     application {
@@ -52,6 +52,7 @@ fun mainApp(appArgs: AppArgs){
 
     }
 }
+
 fun main() {
 
     startKoin {

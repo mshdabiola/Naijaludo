@@ -1,6 +1,8 @@
 package com.mshdabiola.ludo.screen.main
 
 import com.mshdabiola.naijaludo.model.Setting
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 data class SettingUiState(
     val language: Int = 1,
@@ -16,12 +18,12 @@ data class SettingUiState(
     val music: Boolean = false,
     val musicType: Int = 0,
 
-    val playerName: List<String> = listOf(
+    val playerName: ImmutableList<String> = listOf(
         "Human",
         "Amaka",
         "Hammed",
         "Alabi",
-    )
+    ).toImmutableList()
 )
 
 
@@ -35,7 +37,8 @@ fun SettingUiState.toSetting() = Setting(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType
+    musicType = musicType,
+    playerName = playerName
 
 )
 
@@ -49,6 +52,6 @@ fun Setting.toUi() = SettingUiState(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType
-
+    musicType = musicType,
+    playerName = playerName.toImmutableList()
 )

@@ -8,7 +8,9 @@ import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.ludo.screen.game.state.toLudoUiState
+import com.mshdabiola.ludo.screen.game.state.toPawn
 import com.mshdabiola.ludo.screen.game.state.toPointUiState
+import com.mshdabiola.ludo.screen.game.state.toSaverPlayer
 import com.mshdabiola.ludo.screen.main.SettingUiState
 import com.mshdabiola.ludo.screen.main.toSetting
 import com.mshdabiola.ludo.screen.main.toUi
@@ -35,7 +37,6 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -547,20 +548,16 @@ class GeneralViewModel(
     //save game logic
     var job: Job? = null
     private fun saveData() {
-        viewModelScope.launch {
-            if (gameType() == GameType.COMPUTER) {
-                val ludoGameState2 = game.gameState.first()
-                val players = ludoGameState2.listOfPlayer
-                val pawns = ludoGameState2.listOfPawn
-                job?.cancel()
-                job = viewModelScope.launch {
-                    setting.setGame(
-                        players, pawns
-                    )
-                }
+        if (gameType() == GameType.COMPUTER) {
+            val players = ludoGameState.value.listOfPlayer.map { it.toSaverPlayer() }
+            val pawns = ludoGameState.value.listOfPawn.map { it.toPawn() }
+            job?.cancel()
+            job = viewModelScope.launch {
+                setting.setGame(
+                    players, pawns
+                )
             }
         }
-
     }
 
     private fun getSavedGame(id: Int): LudoGameState? {

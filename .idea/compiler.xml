@@ -10,8 +10,6 @@
       <module name="Naija_Ludo.multiplayerblue" target="17" />
       <module name="Naija_Ludo.settingscreen" target="17" />
       <module name="Naija_Ludo.soundsystem" target="17" />
-      <module name="NaijaLudo.app" target="17" />
-      <module name="NaijaLudo.benchmark" target="17" />
       <module name="NaijaLudo.database" target="17" />
       <module name="NaijaLudo.designsystem" target="17" />
       <module name="NaijaLudo.mainScreen" target="17" />

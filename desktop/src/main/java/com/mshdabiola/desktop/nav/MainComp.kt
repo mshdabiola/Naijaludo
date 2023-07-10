@@ -1,3 +1,3 @@
 package com.mshdabiola.desktop.nav
 
-interface MainComp :ChildComponent
+interface MainComp : ChildComponent

@@ -8,7 +8,7 @@ android {
     namespace = "com.mshdabiola.navigation"
 }
 
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -29,7 +29,6 @@ kotlin{
 
             }
         }
-
 
 
         val desktopMain by getting {

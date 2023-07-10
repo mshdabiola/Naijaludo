@@ -6,9 +6,10 @@ import com.arkivanov.decompose.value.Value
 interface IRootComponent {
     val stack: Value<ChildStack<*, RootScreen>>
 
-    fun navigateToDetail()
+    fun navigateToGame()
+    fun pop()
     sealed class RootScreen {
         class MainRootScreen(val component: MainComponent) : RootScreen()
-        class DetailRootScreen(val component: DetailComponent) : RootScreen()
+        class GameRootScreen(val component: GameComponent) : RootScreen()
     }
 }

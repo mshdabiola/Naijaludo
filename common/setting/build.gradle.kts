@@ -9,7 +9,7 @@ android {
     //proguard here
 }
 
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -40,7 +40,6 @@ kotlin{
                 implementation(libs.androidx.dataStore.preferences)
             }
         }
-
 
 
         val desktopMain by getting {

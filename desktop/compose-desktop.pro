@@ -125,8 +125,6 @@
 -keep class org.slf4j.** { *; }
 -dontwarn org.slf4j.**
 
-# SQLite
--keep class org.sqlite.** { *; }
 
 # Prevent runtime crashes from use of class.java.getName()
 -dontwarn javax.naming.**

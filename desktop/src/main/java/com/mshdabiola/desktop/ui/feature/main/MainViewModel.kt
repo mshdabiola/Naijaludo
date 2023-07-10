@@ -17,7 +17,7 @@ class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val modelRepository: IModelRepository,
     private val networkRepository: INetworkRepository
-): ViewModel()  {
+) : ViewModel() {
     companion object {
         const val INIT_WELCOME_MSG = "Hello World! Skeleton"
     }
@@ -29,13 +29,13 @@ class MainViewModel(
         .getAllModel()
         .stateIn(viewModelScope, started = SharingStarted.WhileSubscribed(5000), emptyList())
 
-   init{
+    init {
 
 
         viewModelScope.launch {
             modelRepository
                 .getAllModel()
-                .collect{
+                .collect {
                     print(it)
                 }
         }
@@ -47,27 +47,27 @@ class MainViewModel(
         viewModelScope.launch {
 //            settingRepository.setName("Ademola")
         }
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 networkRepository.gotoGoogle()
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
         }
-        viewModelScope.launch(Dispatchers.IO){
-           settingRepository.setDummy(DummySetting("abiola","female"))
+        viewModelScope.launch(Dispatchers.IO) {
+            settingRepository.setDummy(DummySetting("abiola", "female"))
         }
     }
 
     fun onClickMeClicked() {
-        val platform="Clicking"
-        _welcomeText.value ="abiola $platform"// myRepo.getClickedWelcomeText()
+        val platform = "Clicking"
+        _welcomeText.value = "abiola $platform"// myRepo.getClickedWelcomeText()
     }
 
-    fun insertModel(name :String){
+    fun insertModel(name: String) {
         viewModelScope.launch {
-            modelRepository.insert(Model(4,name))
+            modelRepository.insert(Model(4, name))
         }
     }
 }

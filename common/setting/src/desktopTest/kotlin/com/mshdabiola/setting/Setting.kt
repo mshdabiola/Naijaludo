@@ -2,7 +2,6 @@ package com.mshdabiola.setting
 
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.setting.di.commonModule
-import com.mshdabiola.setting.di.settingModule
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.MapSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
@@ -20,10 +19,10 @@ class Setting : KoinTest {
     @OptIn(ExperimentalSettingsApi::class)
     @get:Rule
     val koinTestRule = KoinTestRule.create {
-        val module= module {
+        val module = module {
             single {
                 val settings = MapSettings()
-                 settings.toFlowSettings(get  ())
+                settings.toFlowSettings(get())
 
             }
 
@@ -32,10 +31,11 @@ class Setting : KoinTest {
         modules(module, commonModule)
 
     }
+
     @Test
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun getDummy()= runTest{
+    fun getDummy() = runTest {
         val stt by inject<MultiplatformSettings>()
-        stt.setDummy(DummySetting("Adde","male"))
+        stt.setDummy(DummySetting("Adde", "male"))
     }
 }

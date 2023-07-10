@@ -17,7 +17,7 @@ dependencyResolutionManagement {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
     }
 }
-rootProject.name = "LudoNew"
+rootProject.name = "NaijaLudo"
 include(":app")
 include(":benchmark")
 //include(":common:database")
@@ -35,3 +35,7 @@ include(":common:setting")
 include(":common:navigation")
 //include(":feature:detail")
 include(":common:util")
+include(":common:naijaludo")
+
+include(":common:naijaludo")
+

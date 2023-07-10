@@ -1,4 +1,3 @@
-
 plugins {
     //kotlin("multiplatform")
     id("mshdabiola.mpp.library")
@@ -9,7 +8,7 @@ plugins {
 android {
     namespace = "com.mshdabiola.ui"
 }
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -51,7 +50,6 @@ kotlin{
 //                add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
             }
         }
-
 
 
         val desktopMain by getting {
