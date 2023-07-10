@@ -1,76 +1,146 @@
 package com.mshdabiola.mainscreen
 
-import androidx.lifecycle.SavedStateHandle
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mshdabiola.data.repository.IModelRepository
-import com.mshdabiola.model.Model
-import kotlinx.collections.immutable.toImmutableList
+import com.mshdabiola.common.firebase.FireAnalyticsLog
+import com.mshdabiola.common.sound.SoundSystem
+import com.mshdabiola.datastore.UserPreferenceDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import kotlin.random.Random
+import javax.inject.Inject
 
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val userPreferenceDataSource: UserPreferenceDataSource,
+    private val soundSystem: SoundSystem,
 
-class MainViewModel constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val modelRepository: IModelRepository,
+    private val fireAnalyticsLog: FireAnalyticsLog
 ) : ViewModel() {
 
-    val modelState = modelRepository
-        .getAllModel()
-        .map { it.map { it.asModelUiState() }.toImmutableList() }
-      //  .cachedIn(viewModelScope)
-      //  .asResult()
-        .stateIn(scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(3000), initialValue = emptyList<ModelUiState>().toImmutableList()
+    val basic = userPreferenceDataSource
+        .getBasicSetting()
+        .map { it.toBasic() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Basic(),
+        )
+    val sound = userPreferenceDataSource
+        .getSoundSetting()
+        .map { it.toSound() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Sound(),
+        )
+    val board = userPreferenceDataSource
+        .getBoardSetting()
+        .map { it.toBoard() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Board(),
+        )
+    val profile = userPreferenceDataSource
+        .getProfileSetting()
+        .map { it.toProfile() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Profile(),
         )
 
-
-    private val _mainState = MutableStateFlow(MainState())
-    val mainState = _mainState.asStateFlow()
+    private val _profileState = mutableStateOf(Profile())
+    val profileState: State<Profile> = _profileState
 
     init {
         viewModelScope.launch {
-            delay(2000)
-            addNotify("Add Model")
-            addNotify("remove model")
+            val p = userPreferenceDataSource.getProfileSetting().first()
+            _profileState.value = p.toProfile()
         }
-
-    }
-
-    fun addName(name: String) {
-        insert(Model(name = name, id = Random(34).nextLong()))
-    }
-
-    fun insert(model: Model) {
         viewModelScope.launch(Dispatchers.IO) {
-           modelRepository.insert(model)
+            userPreferenceDataSource
+                .getSoundSetting().collectLatest {
+                    soundSystem.playSound = it.sound
+                    soundSystem.setPlayMusic(it.music)
+                }
+        }
+        viewModelScope.launch {
+            delay(6000)
+            soundSystem.play()
+        }
+
+        viewModelScope.launch {
+            if (!userPreferenceDataSource.isFirstTime()) {
+                userPreferenceDataSource.setBasicSetting(
+                    basic.value
+                        .copy(assistant = true).toBasicPref(),
+                )
+                userPreferenceDataSource.setBoardSetting(
+                    board.value
+                        .copy(pawnNumber = 4, rotate = true).toBoardPref(),
+                )
+                userPreferenceDataSource.setSoundSetting(
+                    sound.value
+                        .copy(sound = true).toSoundPref(),
+                )
+                userPreferenceDataSource.setIsFirstTime()
+            }
         }
     }
 
-    private fun addNotify(text: String) {
-        Timber.d("Add")
-//        val notifies = mainState.value.messages.toMutableList()
-//
-//        notifies.add(Notify(message = text, callback = ::onNotifyDelive))
-//        _mainState.update {
-//            it.copy(messages = notifies.toImmutableList())
-       // }
+    fun setBasic(basic: Basic) {
+        viewModelScope.launch {
+            userPreferenceDataSource.setBasicSetting(basic.toBasicPref())
+        }
     }
 
-    private fun onNotifyDelive() {
-        Timber.d("Remove")
-//        val notifies = mainState.value.messages.toMutableList()
-//
-//        notifies.removeFirst()
-//        _mainState.value = mainState.value.copy(messages = notifies.toImmutableList())
+    fun setSound(sound: Sound) {
+        viewModelScope.launch {
+            userPreferenceDataSource.setSoundSetting(sound.toSoundPref())
+        }
     }
 
+    fun uploadProfile() {
+        viewModelScope.launch {
+            userPreferenceDataSource.setProfileSetting(profileState.value.toProfilePref())
+        }
+    }
+
+    fun setProfile(profile: Profile) {
+        _profileState.value = profile
+    }
+
+    fun onPause() {
+        soundSystem.pause()
+    }
+
+    fun onResume() {
+        soundSystem.resume()
+    }
+
+    fun setBoard(board: Board) {
+        viewModelScope.launch {
+            userPreferenceDataSource.setBoardSetting(board.toBoardPref())
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        soundSystem.close()
+    }
+
+    fun logScreen(name: String) = fireAnalyticsLog.logScreen(name)
+    fun logFirebase(name: String, vararg pair: Pair<String, Any>) =
+        fireAnalyticsLog.log(name, *pair)
 }
