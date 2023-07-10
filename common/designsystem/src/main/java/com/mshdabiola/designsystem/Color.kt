@@ -1,5 +1,4 @@
-package com.mshdabiola.designsystem.theme
-
+package com.example.compose
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF406917)
@@ -66,13 +65,3 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF76A34B)
-
-val blue = Color(0xFF2764ae)
-val green = Color(0xFF2e7e34)
-val red = Color(0xFFb71e1d)
-val yellow = Color(0xFFf7a826)
-
-val blueBoard = Color(0xFF559fd7)
-val greenBoard = Color(0xFF84c69e)
-val redBoard = Color(0xFFef9a9a)
-val yellowBoard = Color(0xFFffee5a)
