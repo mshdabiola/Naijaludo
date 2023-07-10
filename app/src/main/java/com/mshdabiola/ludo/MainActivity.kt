@@ -24,12 +24,20 @@ import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.ConfigUpdate
+import com.google.firebase.remoteconfig.ConfigUpdateListener
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
@@ -46,14 +54,33 @@ import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
     private val settingUiState by inject<MultiplatformSettings>()
-    private var show by mutableStateOf(true)
+    private var show by mutableStateOf(false)
     private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
     private var listener: InstallStateUpdatedListener? = null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        //   val gameViewModel = viewModels<GameViewModel>().value
 
+        val remoteConfig = Firebase.remoteConfig
+        remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        })
+        remoteConfig.setDefaultsAsync(com.mshdabiola.ludo.R.xml.remote_config_defaults)
+        remoteConfig.fetchAndActivate()
+
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Timber.e("Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Timber.e(token)
+        })
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
