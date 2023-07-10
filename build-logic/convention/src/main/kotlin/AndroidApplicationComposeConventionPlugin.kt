@@ -25,13 +25,13 @@ import org.gradle.kotlin.dsl.getByType
 class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+           // val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             pluginManager.apply("com.android.application")
             val extension = extensions.getByType<ApplicationExtension>()
             configureAndroidCompose(extension)
 
             dependencies {
-                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
+
             }
         }
     }

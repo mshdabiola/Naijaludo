@@ -1,25 +1,30 @@
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
-    }
-}
-//buildscript {
-//    dependencies {
-//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-//    }
-//}
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application) apply false
-    // alias(libs.plugins.android.library) apply false
+   alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-//    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
+    alias(libs.plugins.gms) apply false
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.secrets) apply false
     alias(libs.plugins.manes)
     alias(libs.plugins.little)
 
 }
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
 
+    dependencies {
+        classpath(libs.moko.resources.plugin)
+    }
+}
+
+
+//./gradlew versionCatalogUpdate
 versionCatalogUpdate {
     // sort the catalog by key (default is true)
     sortByKey.set(true)
@@ -35,38 +40,31 @@ versionCatalogUpdate {
         keepUnusedPlugins.set(true)
     }
 }
-//  ./gradlew versionCatalogUpdate
-//apply("${project.rootDir}/gradle/toml_updater_config.gradle.kts")
-//task createSpotlessPreCommitHook() {
-//    def gitHooksDirectory = new File("$project.rootDir/.git/hooks/")
-//    if (!gitHooksDirectory.exists()) gitHooksDirectory.mkdirs()
-//    new File("$project.rootDir/.git/hooks", "pre-commit").text = """
+
+
+//tasks.create("add_spot"){
+//    val proj=project.rootDir
+//
+//  //  doFirst{
+//        print("add spotless to git")
+//        val gitHooksDirectory = File("$proj/.git/hooks/")
+//        if (!gitHooksDirectory.exists()) gitHooksDirectory.mkdirs()
+//        File("$proj/.git/hooks", "pre-commit").writeText(
+//            """
 //    #!/bin/bash
 //    echo "Running spotless check"
 //    ./gradlew spotlessApply --init-script gradle/init.gradle.kts
 //"""
-//    "chmod +x .git/hooks/pre-commit".execute()
-//}
-//task("spot"){
-//   // doLast {
-//        val gitHooksDirectory = File("$project.rootDir/.git/hooks/")
-//        if (!gitHooksDirectory.exists()) gitHooksDirectory.mkdirs()
-//        File("${project.rootDir}/.git/hooks", "pre-commit").writeText(
-//            """
-//    #!/bin/bash
-//    echo "Running spotless check"
-//
-//"""
 //        )
+//
 //        exec {
 //            commandLine("chmod","+x", ".git/hooks/pre-commit")
 //        }
-//        //   "chmod +x .git/hooks/pre-commit".execute()
-//   // }
+//
+//  //  }
+//
 //}
+//.gradlew add_spot
 
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
 // ./gradlew assembleDebug -PenableComposeCompilerMetrics=true
-
-
-

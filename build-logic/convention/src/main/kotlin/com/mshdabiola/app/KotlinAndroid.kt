@@ -19,10 +19,8 @@ package com.mshdabiola.app
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 /**
@@ -32,29 +30,34 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 33
+        compileSdk = 34
 
         defaultConfig {
-            minSdk = 24
+            minSdk = 21 //24
 
         }
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
+//            isCoreLibraryDesugaringEnabled = true
+        }
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            }
         }
 
-        kotlinOptions {
-            // Set JVM target to 1.8
-            jvmTarget = JavaVersion.VERSION_17.toString()
-
-        }
+//        kotlinOptions {
+//            jvmTarget = JavaVersion.VERSION_17.toString()
+//
+//        }
     }
 
-    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+//    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
     dependencies {
-      //  add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
+//        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
 
     }
 }

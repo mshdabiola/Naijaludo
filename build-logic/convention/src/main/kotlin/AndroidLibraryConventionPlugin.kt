@@ -14,8 +14,13 @@
  *   limitations under the License.
  */
 
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
+import com.mshdabiola.app.configureFlavors
+import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
+import com.mshdabiola.app.configurePrintApksTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -23,6 +28,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.withType
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -34,12 +40,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-//                compileSdk=33
-//                defaultConfig.minSdk=24
                 defaultConfig.targetSdk = 33
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                //  configureFlavors(this)
-
+                configureFlavors(this)
+                configureGradleManagedDevices(this)
+            }
+            extensions.configure<LibraryAndroidComponentsExtension> {
+                configurePrintApksTask(this)
             }
 
 //            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -52,10 +59,18 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 //            }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
+
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
                 add("implementation", libs.findLibrary("timber").get())
             }
+
+            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                kotlinOptions {
+                    jvmTarget = "17"
+                }
+            }
         }
+
     }
 }

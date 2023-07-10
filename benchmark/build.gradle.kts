@@ -1,6 +1,9 @@
+import com.mshdabiola.app.BuildType
+import com.mshdabiola.app.configureFlavors
+
 plugins {
-    id("com.android.test")
-    id("org.jetbrains.kotlin.android")
+
+    id("mshdabiola.android.test")
 }
 
 android {
@@ -18,6 +21,7 @@ android {
         targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "APP_BUILD_TYPE_SUFFIX", "\"\"")
     }
     buildFeatures {
         buildConfig = true
@@ -32,13 +36,44 @@ android {
             isDebuggable = true
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks.add("release")
+            buildConfigField(
+                "String",
+                "APP_BUILD_TYPE_SUFFIX",
+                "\"${BuildType.BENCHMARK.applicationIdSuffix ?: ""}\""
+            )
         }
+
+
     }
 
 
+// Use the same flavor dimensions as the application to allow generating Baseline Profiles on prod,
+    // which is more close to what will be shipped to users (no fake data), but has ability to run the
+    // benchmarks on demo, so we benchmark on stable data.
+    configureFlavors(this) { flavor ->
+        buildConfigField(
+            "String",
+            "APP_FLAVOR_SUFFIX",
+            "\"${flavor.applicationIdSuffix ?: ""}\""
+        )
+    }
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+
+//    testOptions {
+//        managedDevices {
+//            devices {
+//                create<ManagedVirtualDevice>("pixel4Api33") {
+//                    device = "Pixel 4"
+//                    apiLevel = 33
+//                    systemImageSource = "aosp"
+//                }
+//            }
+//        }
+//    }
+//    targetProjectPath = ":app"
+//    experimentalProperties["android.experimental.self-instrumenting"] = true
 }
 
 dependencies {

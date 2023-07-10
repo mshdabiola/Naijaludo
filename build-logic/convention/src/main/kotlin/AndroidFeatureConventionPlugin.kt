@@ -15,6 +15,7 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.mshdabiola.app.configureGradleManagedDevices
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -30,7 +31,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("mshdabiola.android.library")
                 apply("mshdabiola.android.library.compose")
-                apply("mshdabiola.android.hilt")
             }
             extensions.configure<LibraryExtension> {
 
@@ -38,18 +38,28 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 //                    testInstrumentationRunner =
 //                        "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
                 }
+                configureGradleManagedDevices(this)
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                add("implementation", project(":core:designsystem"))
-                add("implementation", project(":core:naijaludo"))
-                add("implementation", project(":core:common"))
-                add("implementation", project(":core:datastore"))
+                add("implementation", project(":common:model"))
+                add("implementation", project(":common:ui"))
+//                add("implementation", project(":common:designsystem"))
+                add("implementation", project(":common:data"))
+//                add("implementation", project(":core:common"))
+//                add("implementation", project(":common:domain"))
+                add("implementation", libs.findLibrary("koin.core").get())
+                add("implementation", libs.findLibrary("koin.android").get())
+                add("implementation", libs.findLibrary("koin.android.compose").get())
+                // add("implementation", libs.findLibrary("androidx.constraintlayout").get())
+                add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
 
                 add("testImplementation", kotlin("test"))
+                add("testImplementation", project(":common:testing"))
                 add("androidTestImplementation", kotlin("test"))
+                add("androidTestImplementation", project(":common:testing"))
                 add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test").get())
                 add(
                     "androidTestImplementation",
@@ -58,13 +68,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())
 
 
-                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.constraintlayout").get())
-                add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
-                add("implementation", libs.findLibrary("play-game").get())
-                add("implementation", libs.findLibrary("play-review").get())
-                add("implementation", libs.findLibrary("play-review-kts").get())
                 // add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
                 // add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
