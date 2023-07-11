@@ -101,9 +101,9 @@ fun GameScreenPhonePortrait(
                         end.linkTo(parent.end)
                     },
                 leadRes = if (numb == 2) {
-                    R.string.leaderboard_single_player
+                    com.mshdabiola.ludo.R.string.leaderboard_single_player
                 } else {
-                    R.string.leaderboard_multiplayer
+                    com.mshdabiola.ludo.R.string.leaderboard_multiplayer
                 }
             )
         }
@@ -237,9 +237,9 @@ fun GameScreenPhoneLand(
                         start.linkTo(parent.start)
                     },
                 leadRes = if (numb == 2) {
-                    R.string.leaderboard_single_player
+                    com.mshdabiola.ludo.   R.string.leaderboard_single_player
                 } else {
-                    R.string.leaderboard_multiplayer
+                    com.mshdabiola.ludo. R.string.leaderboard_multiplayer
                 }
             )
         }
@@ -384,9 +384,9 @@ fun GameScreeFoldPortrait(
                         end.linkTo(parent.end)
                     },
                 leadRes = if (numb == 2) {
-                    R.string.leaderboard_single_player
+                    com.mshdabiola.ludo. R.string.leaderboard_single_player
                 } else {
-                    R.string.leaderboard_multiplayer
+                    com.mshdabiola.ludo. R.string.leaderboard_multiplayer
                 }
             )
         }
@@ -521,9 +521,9 @@ fun GameScreenLarge(
                         end.linkTo(parent.end)
                     },
                 leadRes = if (numb == 2) {
-                    R.string.leaderboard_single_player
+                    com.mshdabiola.ludo. R.string.leaderboard_single_player
                 } else {
-                    R.string.leaderboard_multiplayer
+                    com.mshdabiola.ludo.R .string.leaderboard_multiplayer
                 }
             )
         }

@@ -6,6 +6,9 @@ plugins {
 
 android {
     namespace = "com.mshdabiola.setting"
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
     //proguard here
 }
 

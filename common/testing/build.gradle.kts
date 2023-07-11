@@ -16,8 +16,8 @@ kotlin {
                 api(libs.junit4)
                 api(libs.kotlinx.coroutines.test)
                 api(libs.turbine)
-//                api(libs.koin.test)
-//                api(libs.koin.test.junit)
+                api(libs.koin.test)
+                api(libs.koin.test.junit)
             }
         }
 
@@ -35,7 +35,7 @@ kotlin {
                 api(libs.androidx.test.runner)
                 api(libs.androidx.test.rules)
                 api(libs.androidx.compose.ui.test)
-                // api(libs.koin.android.test)
+                 api(libs.koin.android.test)
             }
         }
         val androidInstrumentedTest by getting {

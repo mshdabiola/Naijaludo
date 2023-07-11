@@ -24,6 +24,8 @@ import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.achievement.Achievement
+import com.google.android.gms.games.achievement.Achievement.AchievementState
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -38,7 +40,6 @@ import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
@@ -69,18 +70,18 @@ class MainActivity : ComponentActivity() {
         remoteConfig.fetchAndActivate()
 
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Timber.e("Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-            Timber.e(token)
-        })
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Timber.e("Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            // Log and toast
+//            Timber.e(token)
+//        })
 
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -105,14 +106,22 @@ class MainActivity : ComponentActivity() {
                 if (isAuthenticated) {
                     // Continue with Play Games Services
                     Timber.e("login")
+                    println("Login1 ${isAuthenticatedTask.result.isAuthenticated}")
                     updateScore()
                 } else {
                     // Disable your integration with Play Games Services or show a
                     // login button to ask  players to sign-in. Clicking it should
                     gamesSignInClient.signIn().addOnSuccessListener {
                         updateScore()
+                        println("Login2 ${it.isAuthenticated}")
+                    }.addOnFailureListener {
+                        it.printStackTrace()
+                        println("====== it.message1")
                     }
                 }
+            }.addOnFailureListener {
+                it.printStackTrace()
+                println("====== it.message2")
             }
 
 //        val sing=PlayGames.getGamesSignInClient(this)
@@ -222,7 +231,12 @@ class MainActivity : ComponentActivity() {
     private fun updateScore() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-
+                PlayGames.getAchievementsClient(this@MainActivity)
+                    .incrementImmediate(resources.getString(R.string.achievement_level),100)
+                PlayGames.getAchievementsClient(this@MainActivity).load(true)
+                    .addOnSuccessListener { annotatedData ->
+                        annotatedData.get()?.first { it.state== Achievement.STATE_HIDDEN }
+                    }
 
                 val leaderboardScore = FirebaseUtil.rank(
                     resources.getString(R.string.leaderboard_single_player),
@@ -236,7 +250,9 @@ class MainActivity : ComponentActivity() {
                         val compScore = FirebaseUtil
                             .get2Game(this@MainActivity, 2)
                             ?.split(", ")
-                            ?.map { it.toInt() }
+                            ?.map {
+                                it.toInt()
+                            }
                             ?.toIntArray()
                         compScore?.let {
                             players[0] = players[0].copy(win = it[0])
@@ -258,7 +274,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val leaderboardScore2 = FirebaseUtil.rank(
-                    resources.getString(com.mshdabiola.designsystem.R.string.leaderboard_multiplayer),
+                    resources.getString(R.string.leaderboard_multiplayer),
                     this@MainActivity
                 )!!
                 settingUiState.getGame(4)?.let { gameSaver ->
@@ -317,6 +333,7 @@ class MainActivity : ComponentActivity() {
 
     fun onGameFinish(players: List<PlayerUiState>) {
         lifecycleScope.launch {
+
             val single = resources.getString(R.string.leaderboard_single_player)
             val multi = resources.getString(R.string.leaderboard_multiplayer)
 
@@ -331,6 +348,8 @@ class MainActivity : ComponentActivity() {
                     .submitScoreImmediate(multi, score.toLong())
                 saveGame(players.map { it.win }.toIntArray(), 4)
             }
+
+
 
 
         }

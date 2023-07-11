@@ -130,9 +130,9 @@ koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin_android_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 koin_test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
-koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
-koin_test_junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
-koin_android_test = { module = "io.insert-koin:koin-android-test", version.ref = "koin" }
+koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTest" }
+koin_test_junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koinTest" }
+koin_android_test = { module = "io.insert-koin:koin-android-test", version.ref = "koinTest" }
 
 
 

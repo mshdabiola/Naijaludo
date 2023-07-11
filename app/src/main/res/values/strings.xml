@@ -1,5 +1,31 @@
 <resources>
-    <string name="app_name">Naija Ludo +</string>
+    <string name="app_name" translatable="false">Naija Ludo +</string>
 
     <string name="game_services_project_id" translatable="false"> 176586652338 </string>
+    
+    <!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
+
+        <!--app_id-->
+        <string name="app_id" translatable="false">176586652338</string>
+        <!--package_name-->
+        <string name="package_name" translatable="false">com.mshdabiola.ludo</string>
+        <!--achievement Level-->
+        <string name="achievement_level" translatable="false">CgkIsvWJ65EFEAIQDg</string>
+        <!--leaderboard Multi-Player-->
+        <string name="leaderboard_multiplayer" translatable="false">CgkIsvWJ65EFEAIQBA</string>
+        <!--leaderboard General Rank-->
+        <string name="leaderboard_general_rank" translatable="false">CgkIsvWJ65EFEAIQBQ</string>
+        <!--leaderboard Single Player-->
+        <string name="leaderboard_single_player" translatable="false">CgkIsvWJ65EFEAIQBg</string>
+        <!--leaderboard computer 1 single-->
+        <string name="leaderboard_computer_1_single" translatable="false">CgkIsvWJ65EFEAIQCA</string>
+        <!--leaderboard computer 1 multiple-->
+        <string name="leaderboard_computer_1_multiple" translatable="false">CgkIsvWJ65EFEAIQCQ</string>
+        <!--leaderboard computer 2 multiple-->
+        <string name="leaderboard_computer_2_multiple" translatable="false">CgkIsvWJ65EFEAIQCg</string>
+        <!--leaderboard computer 3 multiple-->
+        <string name="leaderboard_computer_3_multiple" translatable="false">CgkIsvWJ65EFEAIQCw</string>
+
+
+
 </resources>

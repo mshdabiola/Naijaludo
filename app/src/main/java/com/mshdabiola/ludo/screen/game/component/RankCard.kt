@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
-import com.mshdabiola.designsystem.R
+import com.mshdabiola.ludo.R
 
 @SuppressLint("VisibleForTests")
 @Composable

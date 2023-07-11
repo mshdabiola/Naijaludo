@@ -97,7 +97,7 @@ object FirebaseUtil {
                 val t=it.data?.snapshotContents?.readFully()
                 val string=t?.commonToUtf8String()
                 Timber.e("get game $string")
-               cont.resume(string)
+               cont.resume(string?.ifBlank { null })
 
             }
             .addOnFailureListener {
