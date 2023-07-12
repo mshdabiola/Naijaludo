@@ -115,6 +115,7 @@ object Constant {
         }
     }
 
+    //Todo("new dice")
     fun getDiceBox(level: Int) = when (level) {
         0 -> intArrayOf(1, 2, 3, 4, 5, 6)
         1 -> intArrayOf(1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6)

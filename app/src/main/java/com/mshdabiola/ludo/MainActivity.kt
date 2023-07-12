@@ -26,6 +26,7 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -36,6 +37,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.PlayGamesAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -61,63 +64,22 @@ class MainActivity : ComponentActivity() {
     private var listener: InstallStateUpdatedListener? = null
     var achievement: AchievementsClient? = null
     var analytics: FirebaseAnalytics? = null
+    private var remoteConfig:FirebaseRemoteConfig?=null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val remoteConfig = Firebase.remoteConfig
-        remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
-        })
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-        remoteConfig.fetchAndActivate()
+        installSplashScreen()
 
-        analytics = FirebaseAnalytics.getInstance(this)
         val gamesSignInClient = PlayGames.getGamesSignInClient(this)
         gamesSignInClient.requestServerSideAccess(
-            "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
-            true
-        )
+            getString(R.string.authe_id), true)
             .addOnSuccessListener {
                 firebaseAuthWithPlayGames(it)
             }
             .addOnFailureListener {
                 it.printStackTrace()
             }
-
-
-
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Timber.e("Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//
-//            // Get new FCM registration token
-//            val token = task.result
-//
-//            // Log and toast
-//            Timber.e(token)
-//        })
-
-
-        installSplashScreen()
-        // MobileAds.initialize(this)
-//       val config= RequestConfiguration
-//           .Builder()
-//           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
-//           .build()
-//        MobileAds.setRequestConfiguration(config)
-        val root =
-            RootComponent(
-                componentContext = defaultComponentContext()
-            )
-
-
-
-
-
-
         gamesSignInClient.isAuthenticated()
             .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
 
@@ -127,38 +89,58 @@ class MainActivity : ComponentActivity() {
                     // Continue with Play Games Services
                     Timber.e("login")
                     println("Login1 ${isAuthenticatedTask.result.isAuthenticated}")
-                    updateScore()
+                    onFinishLogin()
                 } else {
                     // Disable your integration with Play Games Services or show a
                     // login button to ask  players to sign-in. Clicking it should
                     gamesSignInClient.signIn().addOnSuccessListener {
-                        updateScore()
+                        onFinishLogin()
                         println("Login2 ${it.isAuthenticated}")
                     }.addOnFailureListener {
                         it.printStackTrace()
                         println("====== it.message1")
                     }
                 }
-            }.addOnFailureListener {
+            }
+            .addOnFailureListener {
                 it.printStackTrace()
                 println("====== it.message2")
             }
 
-//        val sing=PlayGames.getGamesSignInClient(this)
-//        sing.signIn()
-//
-//            .addOnFailureListener { it.printStackTrace() }
-//            .addOnSuccessListener {
-//                Timber.e("successful")
+        remoteConfig = Firebase.remoteConfig
+        remoteConfig?.setConfigSettingsAsync(remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600 })
+        remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
+        remoteConfig?.fetchAndActivate()
+
+        analytics = FirebaseAnalytics.getInstance(this)
+        logScoreToFirebase()
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//               // Timber.e("Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
 //            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            analytics?.setUserProperty("messageToken",token)
+//            // Log and toast
+//            Timber.e(token)
+//        })
+
+
+
+        // MobileAds.initialize(this)
+//       val config= RequestConfiguration
+//           .Builder()
+//           .setTestDeviceIds(listOf("F88052080148517BFFEBAE8E7F15692B"))
+//           .build()
+//        MobileAds.setRequestConfiguration(config)
+
+        val root =RootComponent(componentContext = defaultComponentContext())
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent {
-//            NaijaLudoTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.background
-//                ) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             LudoAppTheme {
                 Box {
@@ -187,7 +169,6 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
-
         }
     }
 
@@ -244,11 +225,7 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    private fun updateScore() {
+    private fun onFinishLogin() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 achievement = PlayGames.getAchievementsClient(this@MainActivity)
@@ -333,68 +310,35 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-    fun saveGame(compScore: IntArray, num: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            FirebaseUtil.saveGame(
-                compScore.joinToString(),
-                compScore.sum().toLong(),
-                num,
-                this@MainActivity
-            )
-
-        }
-    }
-
-    fun onGameFinish(players: List<PlayerUiState>) {
-        lifecycleScope.launch {
-
-            val single = resources.getString(R.string.leaderboard_solo_player_rank)
-            val multi = resources.getString(R.string.leaderboard_trio_player_rank)
-
-            val num = players.size
-            val score = players.last().win
-            if (num == 2) {
-                PlayGames.getLeaderboardsClient(this@MainActivity)
-                    .submitScoreImmediate(single, score.toLong())
-                saveGame(players.map { it.win }.toIntArray(), 2)
-            } else {
-                PlayGames.getLeaderboardsClient(this@MainActivity)
-                    .submitScoreImmediate(multi, score.toLong())
-                saveGame(players.map { it.win }.toIntArray(), 4)
+    private fun logScoreToFirebase(){
+        lifecycleScope.launch(Dispatchers.IO){
+           val game=settingUiState.getGame(2)
+            game?.let {
+                val players=it.getPlayer()
+                analytics?.setUserProperty("soloHuman", players[1].win.toString())
+                analytics?.setUserProperty("soloComputer", players[0].win.toString())
             }
-
-
+            val game2=settingUiState.getGame(4)
+            game2?.let {
+                val players=it.getPlayer()
+                analytics?.setUserProperty("trioHuman", players[3].win.toString())
+                analytics?.setUserProperty("trioComputer1", players[0].win.toString())
+                analytics?.setUserProperty("trioComputer2", players[1].win.toString())
+                analytics?.setUserProperty("trioComputer3", players[2].win.toString())
+            }
         }
 
     }
 
-
-    // Call this both in the silent sign-in task's OnCompleteListener and in the
-// Activity's onActivityResult handler.
     private fun firebaseAuthWithPlayGames(code: String) {
-
-        Timber.e("code $code")
         val auth = Firebase.auth
         val credential = PlayGamesAuthProvider.getCredential(code)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Timber.e("signInWithCredential:success")
+                   // Timber.e("signInWithCredential:success")
                     val user = auth.currentUser
-                    Timber.e(
-                        """
-                        name ${user?.displayName},
-                         phoneNo ${user?.phoneNumber}
-                          email ${user?.email}
-                           photoUri ${user?.photoUrl}
-                            proID ${user?.providerId}
-                             uid ${user?.uid}
-                              isEmail ${user?.isEmailVerified}
-                    """.trimIndent()
-                    )
                     user?.let {
                         analytics?.setUserId(it.uid)
                         it.photoUrl?.let { it1 -> downloadImage(it1.toString()) }
@@ -402,12 +346,10 @@ class MainActivity : ComponentActivity() {
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.e("signInWithCredential:failure")
+                    //Timber.e("signInWithCredential:failure")
                     task.exception?.printStackTrace()
 
                 }
-
-                // ...
             }
     }
 
@@ -431,7 +373,41 @@ class MainActivity : ComponentActivity() {
         }
 
     }
+    fun updateLeaderboard(players: List<PlayerUiState>) {
+        lifecycleScope.launch {
 
+            val single = resources.getString(R.string.leaderboard_solo_player_rank)
+            val multi = resources.getString(R.string.leaderboard_trio_player_rank)
+
+            val num = players.size
+            val score = players.last().win
+            if (num == 2) {
+                PlayGames.getLeaderboardsClient(this@MainActivity)
+                    .submitScoreImmediate(single, score.toLong())
+                saveGame(players.map { it.win }.toIntArray(), 2)
+            } else {
+                PlayGames.getLeaderboardsClient(this@MainActivity)
+                    .submitScoreImmediate(multi, score.toLong())
+                saveGame(players.map { it.win }.toIntArray(), 4)
+            }
+
+
+        }
+
+    }
+
+    private fun saveGame(compScore: IntArray, num: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            FirebaseUtil.saveGame(
+                compScore.joinToString(),
+                compScore.sum().toLong(),
+                num,
+                this@MainActivity
+            )
+
+        }
+    }
 
 }
 

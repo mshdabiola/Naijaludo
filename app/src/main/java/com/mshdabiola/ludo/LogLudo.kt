@@ -53,8 +53,13 @@ class LogLudo(soundInterface: SoundInterface) :
         notKill = true
         firstHumanPlayer = false
 
-        firebaseLog("GameType"){
+        firebaseLog("GameSetting"){
             param("type",ludoGameState.gameType.name)
+            param("difficulty",ludoSetting.gameLevel.toLong())
+            param("playerNumber",ludoGameState.listOfPlayer.size.toLong())
+            param("pawnNumber",ludoSetting.pawnNumber.toLong())
+            param("boardStyle",ludoSetting.boardStyle.toLong())
+
         }
 
         super.start(

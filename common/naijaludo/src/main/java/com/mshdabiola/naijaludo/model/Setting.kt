@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Setting(
     val language: Int = 1,
-    val gameLevel: Int = 1,
+    val gameLevel: Int = 0,
     val assistant: Boolean = true,
 
     val boardType: Int = 0,

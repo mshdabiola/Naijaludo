@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -55,7 +54,6 @@ import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -215,7 +213,7 @@ fun GameScreen(
     }
     LaunchedEffect(key1 = gameUiState.isRestartDialogOpen, block = {
         if (gameUiState.isRestartDialogOpen) {
-            (context as MainActivity).onGameFinish(ludoGameState.listOfPlayer)
+            (context as MainActivity).updateLeaderboard(ludoGameState.listOfPlayer)
         }
     })
 
