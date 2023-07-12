@@ -15,6 +15,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -75,9 +77,11 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun StartDialog(
     show: Boolean = true,
+    showMultiPlayer : Boolean=true,
     onBackPress: () -> Unit = {},
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
@@ -89,45 +93,49 @@ fun StartDialog(
             title = { Text(text = stringResource(id = R.string.start_game_dialog_title)) },
             onDismissRequest = { },
             content = {
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                ) {
-                    Row(Modifier.fillMaxWidth()) {
+
+                    FlowRow (
+                        modifier=Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
+                        //horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        //verticalArrangement = Arrangement.spacedBy(4.dp),
+                        maxItemsInEachRow = 2
+                    ){
                         GameCard(
-                            Modifier.weight(1f),
+                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
                             title = stringResource(id = R.string.vs_one_comp_detail),
                             onButtonClick = onYouAndComputer,
                             imageVector = ImageVector.vectorResource(id = R.drawable.computer),
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
 
                         GameCard(
-                            Modifier.weight(1f),
+                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
                             title = stringResource(id = R.string.vs_many_comp_detail),
                             onButtonClick = onTournament,
                             imageVector = ImageVector.vectorResource(id = R.drawable.computer_multiplayer),
                         )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(Modifier.fillMaxWidth()) {
+                        if (showMultiPlayer){
+                            GameCard(
+                                Modifier.fillMaxWidth(0.5f).padding(2.dp),
+                                title = stringResource(id = R.string.blutooth_multi_desc),
+                                onButtonClick = onJoinClick,
+                                imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
+                                buttonText = stringResource(id = R.string.connect),
+                            )
+                        }
+
+
                         GameCard(
-                            Modifier.weight(1f),
-                            title = stringResource(id = R.string.blutooth_multi_desc),
-                            onButtonClick = onJoinClick,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
-                            buttonText = stringResource(id = R.string.connect),
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        GameCard(
-                            Modifier.weight(1f),
+                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
                             title = stringResource(id = R.string.vs_friend),
                             onButtonClick = onFriend,
                             imageVector = ImageVector.vectorResource(id = R.drawable.friend),
                         )
+
                     }
-                }
+
+
             },
             buttons = {
                 TextButton(onClick = onBackPress) {

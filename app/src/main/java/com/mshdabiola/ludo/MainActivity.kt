@@ -38,7 +38,10 @@ import com.google.firebase.auth.PlayGamesAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.ConfigUpdate
+import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -64,7 +67,7 @@ class MainActivity : ComponentActivity() {
     private var listener: InstallStateUpdatedListener? = null
     var achievement: AchievementsClient? = null
     var analytics: FirebaseAnalytics? = null
-    private var remoteConfig:FirebaseRemoteConfig?=null
+     var remoteConfig:FirebaseRemoteConfig?=null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,10 +111,11 @@ class MainActivity : ComponentActivity() {
             }
 
         remoteConfig = Firebase.remoteConfig
+        remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
         remoteConfig?.setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600 })
-        remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
         remoteConfig?.fetchAndActivate()
+
 
         analytics = FirebaseAnalytics.getInstance(this)
         logScoreToFirebase()

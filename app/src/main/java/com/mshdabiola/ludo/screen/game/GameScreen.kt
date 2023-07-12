@@ -52,8 +52,10 @@ import com.mshdabiola.ludo.screen.game.component.getPermission
 import com.mshdabiola.ludo.screen.game.firework.FireworkView
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
+import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,11 +69,23 @@ fun GameScreen(
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
     val settingUiState by gameScreenViewModel.settingUiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-
+    var showMultiplayer by remember {
+        mutableStateOf(true)
+    }
     LaunchedEffect(key1 = Unit, block = {
-        val gameSaver = com.mshdabiola.ludo.database.GameSaver()
-        ///gameSaver.saveGame("lawal abiola".toByteArray(), 4, context as Activity)
-        gameSaver.get2Game(context as Activity)
+       val difficulty=context.asMainActivity().remoteConfig
+        ?.getLong("difficulty")
+        if (difficulty!=null){
+            Constant.difficulty=difficulty.toInt()
+        }
+
+
+       context.asMainActivity().remoteConfig
+            ?.getBoolean("multiplayer_feature")
+           ?.let {
+               showMultiplayer=it
+           }
+
 
     })
 
@@ -248,6 +262,7 @@ fun GameScreen(
         FireworkView(firstAppear = showConfetti.value/**/)
         StartDialog(
             show = gameUiState.isStartDialogOpen,
+            showMultiPlayer = showMultiplayer,
             onYouAndComputer = gameScreenViewModel::onYouAndComputer,
             onTournament = gameScreenViewModel::onTournament,
             onFriend = gameScreenViewModel::onFriend,

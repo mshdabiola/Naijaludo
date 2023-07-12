@@ -2,7 +2,6 @@ package com.mshdabiola.naijaludo
 
 import com.mshdabiola.naijaludo.model.Board
 import com.mshdabiola.naijaludo.model.Constant
-import com.mshdabiola.naijaludo.model.Constant.getDiceBox
 import com.mshdabiola.naijaludo.model.Dice
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
@@ -35,6 +34,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     private var onPlayerFinishPlaying: () -> Unit = {}
 
     private val _gameState = MutableStateFlow(LudoGameState(board = Board(colors = emptyList())))
+    private var randList= listOf(1,2,3,4,5,6)
 
     val gameState = _gameState.asStateFlow()
 
@@ -78,6 +78,16 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
         this.onPlayerFinishPlaying = onPlayerFinishPlaying
 
         this.ludoSetting = ludoSetting
+
+        randList=   (1..7).map { numb ->
+            when(numb){
+                    in 1..5-> List(9){numb}
+                    6-> List((3-ludoSetting.gameLevel)*2){6}
+                    else->List(Constant.difficulty){6}
+                }
+            }
+            .flatten()
+            .shuffled()
 
         val isHumanPlayer = defaultState.listOfPlayer.lastOrNull()?.isCurrent ?: false
         val colors = defaultState.listOfPlayer.map { it.colors }.flatten().toMutableList()
@@ -782,7 +792,8 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     private fun getDiceNumber(): Int {
-        return getDiceBox(ludoSetting.gameLevel).random()
+
+        return randList.random()
     }
 
     private fun getCurrentPlayerPawns(): List<Pawn> {
