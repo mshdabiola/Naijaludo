@@ -3,6 +3,7 @@ package com.mshdabiola.ludo.screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mshdabiola.ludo.LogLudo
 import com.mshdabiola.ludo.screen.game.GameUiState
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
@@ -51,7 +52,7 @@ class GeneralViewModel(
 ) : ViewModel() {
 
 
-    private val game by lazy { LudoGame(soundSystem) }
+    private val game by lazy { LogLudo(soundSystem) }
     private val showDialog = savedStateHandle.get<Boolean>(SHOW_DIALOG)
     private val gameId2 = savedStateHandle.get<Int>(GAME_ID) ?: 2
     private var currId = gameId2
@@ -235,7 +236,14 @@ class GeneralViewModel(
     //game screen lifecycle logic
 
 
-    fun onResume() {
+    fun onResume(
+        firebaseLog: (String, String) -> Unit = { _, _ -> },
+        unLockAchievement: (Int) -> Unit = {},
+        increaseAchievement: (Int) -> Unit = {}
+    ) {
+        game.increaseAchievement=increaseAchievement
+        game.unLockAchievement=unLockAchievement
+        game.firebaseLog =firebaseLog
         soundSystem.resume()
         game.resume()
     }

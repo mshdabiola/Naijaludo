@@ -3,6 +3,7 @@ package com.mshdabiola.naijaludo
 import com.mshdabiola.naijaludo.model.Board
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.Constant.getDiceBox
+import com.mshdabiola.naijaludo.model.Dice
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
 import com.mshdabiola.naijaludo.model.LudoGameState
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import java.util.Collections
 
-class LudoGame(private val soundInterface: SoundInterface? = null) {
+open class LudoGame(private val soundInterface: SoundInterface? = null) {
     private val numberOfDice = 3
     private val totalIndex = numberOfDice / 2
     private lateinit var defaultState: LudoGameState
@@ -39,6 +40,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     private val computerDelay = 500L
 
+    protected var lastDices :List<Dice> ?=null
+
     private var ludoSetting: Setting = Setting(playerName = listOf(
         "Human",
         "Amaka",
@@ -53,10 +56,10 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         }
     }
 
-    private fun getGameState() = gameState.value
+    protected fun getGameState() = gameState.value
 
     // start  game function
-    suspend fun start(
+    open suspend fun start(
         ludoGameState: LudoGameState,
         ludoSetting: Setting,
         isGameFinish: (List<Pawn>) -> Boolean = { currentPlayerPawn ->
@@ -140,7 +143,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(start = false))
     }
 
-    suspend fun restart() {
+    suspend open fun restart() {
         log("restart")
         // swap color
         val players = getGameState().listOfPlayer
@@ -185,12 +188,12 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         start(state, ludoSetting, isGameFinish, onGameFinish)
     }
 
-    fun resume() {
+    open fun resume() {
         log("resume")
         setGameState(getGameState().copy(isOnResume = true))
     }
 
-    fun pause() {
+   open fun pause() {
         log("pause")
         setGameState(getGameState().copy(isOnResume = false))
     }
@@ -265,7 +268,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         }
     }
 
-    suspend fun onDice(dices: IntArray? = null): IntArray? {
+    open suspend fun onDice(dices: IntArray? = null): IntArray? {
         if (getGameState().isOnResume && getGameState().start) {
             log("on dice")
             soundInterface?.onToss()
@@ -293,8 +296,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         return null
     }
 
-    private fun onDiceFinish(dices: IntArray? = null): IntArray? {
-        var intArray: IntArray = IntArray(3)
+    protected open fun onDiceFinish(dices: IntArray? = null): IntArray {
+        val intArray = IntArray(3)
         // disable animate
         log("on dice finish")
         val diceList = getGameState().listOfDice.toMutableList()
@@ -316,7 +319,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
             }
         }
         diceList[totalIndex] = diceList[totalIndex].copy(number = diceList.sumOf { it.number })
-
+        lastDices=diceList
         setGameState(getGameState().copy(listOfDice = diceList))
 
         // get dice value that can move pawn
@@ -376,7 +379,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     }
 
-    fun onCounter(counterId: Int) {
+   open fun onCounter(counterId: Int) {
         if (getGameState().isOnResume && getGameState().start) {
             if (getGameState().isHumanPlayer) {
                 soundInterface?.onSelect()
@@ -471,7 +474,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     // on pawn 1
-    fun onPawn(id: Int, isDrawer: Boolean) {
+    open fun onPawn(id: Int, isDrawer: Boolean) {
         val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == id }
         if (isDrawer) {
             onPawnDrawer(id)
@@ -578,7 +581,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     // on pawn 4
-    private fun onPawnFinish(pawnIndex: Int) {
+    protected open fun onPawnFinish(pawnIndex: Int) {
         val mutableListOfPawns = getGameState().listOfPawn.toMutableList()
         val pawn = mutableListOfPawns[pawnIndex]
         log("on Pawn finish $pawn")
@@ -682,7 +685,7 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         log("finish on pawn finish")
     }
 
-    private fun changePlayer() {
+    protected open fun changePlayer() {
         // set new current player
         val size = getGameState().listOfPlayer.size
         val indexOfCurrentPlayer = getGameState().listOfPlayer.indexOfFirst { it.isCurrent }
@@ -730,13 +733,13 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         return getPawnBox(originalPawn) == getPawnBox(pawn)
     }
 
-    private fun kill(originalPawn: Pawn, pawn: Pawn) {
-        log("kill $originalPawn, with $pawn")
+    protected open fun kill(killer: Pawn, kill: Pawn) {
+        log("kill $killer, with $kill")
         soundInterface?.onKill()
         val pawnList = getGameState().listOfPawn.toMutableList()
 
-        val originalIndex = pawnList.indexOf(originalPawn)
-        val index = pawnList.indexOf(pawn)
+        val originalIndex = pawnList.indexOf(killer)
+        val index = pawnList.indexOf(kill)
 
         // change to search by box position
         val zIndex = getGameState().listOfPawn.count { it.isOut() }
@@ -744,8 +747,8 @@ class LudoGame(private val soundInterface: SoundInterface? = null) {
         println("zindex is $zIndex")
 
         pawnList[originalIndex] =
-            originalPawn.copy(currentPos = 56, zIndex = zIndex.toFloat())
-        pawnList[index] = pawn.copy(currentPos = pawn.colorNumber * -1, zIndex = 1f)
+            killer.copy(currentPos = 56, zIndex = zIndex.toFloat())
+        pawnList[index] = kill.copy(currentPos = kill.colorNumber * -1, zIndex = 1f)
 
         setGameState(getGameState().copy(listOfPawn = pawnList))
     }

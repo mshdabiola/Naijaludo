@@ -34,7 +34,7 @@ import com.mshdabiola.ludo.R
 @Composable
 fun RankCard(
     modifier: Modifier = Modifier,
-    @StringRes leadRes: Int = R.string.leaderboard_single_player,
+    @StringRes leadRes: Int = R.string.leaderboard_solo_player_rank,
 ) {
     var rank by remember {
         mutableStateOf<Long?>(null)

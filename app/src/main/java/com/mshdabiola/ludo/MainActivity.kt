@@ -1,5 +1,6 @@
 package com.mshdabiola.ludo
 
+import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -22,6 +23,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.achievement.Achievement
@@ -58,10 +60,11 @@ class MainActivity : ComponentActivity() {
     private var show by mutableStateOf(false)
     private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
     private var listener: InstallStateUpdatedListener? = null
+    var achievement : AchievementsClient?=null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        super.onCreate(savedInstanceState)
         val remoteConfig = Firebase.remoteConfig
         remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
@@ -83,7 +86,7 @@ class MainActivity : ComponentActivity() {
 //            Timber.e(token)
 //        })
 
-        super.onCreate(savedInstanceState)
+
         installSplashScreen()
         // MobileAds.initialize(this)
 //       val config= RequestConfiguration
@@ -231,15 +234,11 @@ class MainActivity : ComponentActivity() {
     private fun updateScore() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                PlayGames.getAchievementsClient(this@MainActivity)
-                    .incrementImmediate(resources.getString(R.string.achievement_level),100)
-                PlayGames.getAchievementsClient(this@MainActivity).load(true)
-                    .addOnSuccessListener { annotatedData ->
-                        annotatedData.get()?.first { it.state== Achievement.STATE_HIDDEN }
-                    }
+                achievement=PlayGames.getAchievementsClient(this@MainActivity)
+
 
                 val leaderboardScore = FirebaseUtil.rank(
-                    resources.getString(R.string.leaderboard_single_player),
+                    resources.getString(R.string.leaderboard_solo_player_rank),
                     this@MainActivity
                 )!!
                 settingUiState.getGame(2)?.let { gameSaver ->
@@ -274,7 +273,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val leaderboardScore2 = FirebaseUtil.rank(
-                    resources.getString(R.string.leaderboard_multiplayer),
+                    resources.getString(R.string.leaderboard_trio_player_rank),
                     this@MainActivity
                 )!!
                 settingUiState.getGame(4)?.let { gameSaver ->
@@ -334,8 +333,8 @@ class MainActivity : ComponentActivity() {
     fun onGameFinish(players: List<PlayerUiState>) {
         lifecycleScope.launch {
 
-            val single = resources.getString(R.string.leaderboard_single_player)
-            val multi = resources.getString(R.string.leaderboard_multiplayer)
+            val single = resources.getString(R.string.leaderboard_solo_player_rank)
+            val multi = resources.getString(R.string.leaderboard_trio_player_rank)
 
             val num = players.size
             val score = players.last().win
@@ -358,3 +357,5 @@ class MainActivity : ComponentActivity() {
 
 
 }
+
+fun Context.asMainActivity()=this as MainActivity

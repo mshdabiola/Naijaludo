@@ -38,6 +38,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.MainActivity
+import com.mshdabiola.ludo.asMainActivity
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
 import com.mshdabiola.ludo.screen.game.component.DeviceListDialog
@@ -98,7 +99,17 @@ fun GameScreen(
                 showPermission = false
                 gameScreenViewModel.onJoin()
             }
-            gameScreenViewModel.onResume()
+            gameScreenViewModel.onResume(
+                firebaseLog = { _, _ ->},
+                unLockAchievement = {
+                    context.asMainActivity().achievement
+                        ?.unlockImmediate(context.resources.getString(it))
+                },
+                increaseAchievement = {
+                    context.asMainActivity().achievement
+                        ?.incrementImmediate(context.resources.getString(it),1)
+                }
+            )
         }
 
         override fun onPause(owner: LifecycleOwner) {
