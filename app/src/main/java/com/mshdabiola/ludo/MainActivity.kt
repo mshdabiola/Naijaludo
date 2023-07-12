@@ -26,9 +26,6 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
-import com.google.android.gms.games.achievement.Achievement
-import com.google.android.gms.games.achievement.Achievement.AchievementState
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -36,11 +33,9 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.PlayGamesAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.remoteconfig.ConfigUpdate
-import com.google.firebase.remoteconfig.ConfigUpdateListener
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
@@ -54,6 +49,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 
 
 class MainActivity : ComponentActivity() {
@@ -61,8 +59,8 @@ class MainActivity : ComponentActivity() {
     private var show by mutableStateOf(false)
     private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
     private var listener: InstallStateUpdatedListener? = null
-    var achievement : AchievementsClient?=null
-    var analytics:FirebaseAnalytics?=null
+    var achievement: AchievementsClient? = null
+    var analytics: FirebaseAnalytics? = null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +72,19 @@ class MainActivity : ComponentActivity() {
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
         remoteConfig.fetchAndActivate()
 
-        analytics= FirebaseAnalytics.getInstance(this)
+        analytics = FirebaseAnalytics.getInstance(this)
+        val gamesSignInClient = PlayGames.getGamesSignInClient(this)
+        gamesSignInClient.requestServerSideAccess(
+            "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
+            true
+        )
+            .addOnSuccessListener {
+                firebaseAuthWithPlayGames(it)
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+
 
 
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -103,11 +113,14 @@ class MainActivity : ComponentActivity() {
                 componentContext = defaultComponentContext()
             )
 
-        val gamesSignInClient = PlayGames.getGamesSignInClient(this)
+
+
+
 
 
         gamesSignInClient.isAuthenticated()
             .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
+
                 val isAuthenticated = isAuthenticatedTask.isSuccessful &&
                         isAuthenticatedTask.result.isAuthenticated
                 if (isAuthenticated) {
@@ -238,7 +251,7 @@ class MainActivity : ComponentActivity() {
     private fun updateScore() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                achievement=PlayGames.getAchievementsClient(this@MainActivity)
+                achievement = PlayGames.getAchievementsClient(this@MainActivity)
 
 
                 val leaderboardScore = FirebaseUtil.rank(
@@ -353,7 +366,67 @@ class MainActivity : ComponentActivity() {
             }
 
 
+        }
 
+    }
+
+
+    // Call this both in the silent sign-in task's OnCompleteListener and in the
+// Activity's onActivityResult handler.
+    private fun firebaseAuthWithPlayGames(code: String) {
+
+        Timber.e("code $code")
+        val auth = Firebase.auth
+        val credential = PlayGamesAuthProvider.getCredential(code)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Timber.e("signInWithCredential:success")
+                    val user = auth.currentUser
+                    Timber.e(
+                        """
+                        name ${user?.displayName},
+                         phoneNo ${user?.phoneNumber}
+                          email ${user?.email}
+                           photoUri ${user?.photoUrl}
+                            proID ${user?.providerId}
+                             uid ${user?.uid}
+                              isEmail ${user?.isEmailVerified}
+                    """.trimIndent()
+                    )
+                    user?.let {
+                        analytics?.setUserId(it.uid)
+                        it.photoUrl?.let { it1 -> downloadImage(it1.toString()) }
+                    }
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Timber.e("signInWithCredential:failure")
+                    task.exception?.printStackTrace()
+
+                }
+
+                // ...
+            }
+    }
+
+    private fun downloadImage(uri:String){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val dir=File(applicationContext.dataDir,"image")
+            if (dir.exists().not()){
+                dir.mkdirs()
+            }
+            val file=File(dir,"profile.png")
+            if (file.exists())
+                return@launch
+            val input= URL(uri).openStream()
+
+            val outputStream= FileOutputStream(file)
+            input.copyTo(outputStream)
+            outputStream.close()
+            input.close()
+            Timber.e("download")
 
         }
 
@@ -362,4 +435,4 @@ class MainActivity : ComponentActivity() {
 
 }
 
-fun Context.asMainActivity()=this as MainActivity
+fun Context.asMainActivity() = this as MainActivity

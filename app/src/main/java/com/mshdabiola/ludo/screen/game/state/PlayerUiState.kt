@@ -27,8 +27,3 @@ fun Player.toPlayerUiState() =
         isComputer = this is ComputerPlayer,
     )
 
-fun PlayerUiState.toSaverPlayer() =
-    if (isComputer)
-        RandomComputerPlayer(name, win, isCurrent, colors, iconIndex)
-    else
-        HumanPlayer(name, win, isCurrent, colors, iconIndex)

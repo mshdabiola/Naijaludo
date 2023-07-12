@@ -43,6 +43,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("firebase.cloud.messaging").get())
                 "implementation"(libs.findLibrary("firebase.remoteconfig").get())
                 "implementation"(libs.findLibrary("firebase.message").get())
+                "implementation"(libs.findLibrary("firebase.auth").get())
             }
 
             extensions.configure<ApplicationAndroidComponentsExtension> {

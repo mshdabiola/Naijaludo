@@ -106,6 +106,8 @@ firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-mes
 firebase-remoteconfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-message = { group = "com.google.firebase", name = "firebase-inappmessaging-display-ktx" }
 
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 
