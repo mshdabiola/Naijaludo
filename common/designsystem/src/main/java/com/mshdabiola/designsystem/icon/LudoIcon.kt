@@ -26,7 +26,7 @@ object LudoIcon {
         R.drawable.icon_6,
         R.drawable.icon_5,
         R.drawable.icon_1,
-        R.drawable.human,
+        R.drawable.icon_4,
     )
     private val robotIcon2 = intArrayOf()
 
