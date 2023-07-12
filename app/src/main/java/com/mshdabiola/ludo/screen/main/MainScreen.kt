@@ -53,6 +53,7 @@ import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
 import com.mshdabiola.ludo.screen.MainAd
+import com.mshdabiola.ludo.screen.game.LogScreen
 
 @Composable
 fun MainScreen(
@@ -70,9 +71,7 @@ fun MainScreen(
 //            mainViewModel.uploadProfile()
 //        },
 //    )
-    LaunchedEffect(key1 = Unit, block = {
-        mainViewModel.logScreen("mainscreen")
-    })
+    LogScreen(screenName = "MainScreen")
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 

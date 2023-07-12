@@ -35,6 +35,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ConfigUpdate
@@ -61,6 +62,7 @@ class MainActivity : ComponentActivity() {
     private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
     private var listener: InstallStateUpdatedListener? = null
     var achievement : AchievementsClient?=null
+    var analytics:FirebaseAnalytics?=null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,8 +71,10 @@ class MainActivity : ComponentActivity() {
         remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
         })
-        remoteConfig.setDefaultsAsync(com.mshdabiola.ludo.R.xml.remote_config_defaults)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
         remoteConfig.fetchAndActivate()
+
+        analytics= FirebaseAnalytics.getInstance(this)
 
 
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

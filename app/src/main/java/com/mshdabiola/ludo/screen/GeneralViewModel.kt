@@ -13,7 +13,6 @@ import com.mshdabiola.ludo.screen.game.state.toPointUiState
 import com.mshdabiola.ludo.screen.main.SettingUiState
 import com.mshdabiola.ludo.screen.main.toSetting
 import com.mshdabiola.ludo.screen.main.toUi
-import com.mshdabiola.naijaludo.LudoGame
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
@@ -220,7 +219,7 @@ class GeneralViewModel(
             val int = if (isDrawer) 1 else 0
             sendString("pawn,$index,$int")
         } catch (e: Exception) {
-            logFirebase("on pawn exception", Pair("exception", e.message ?: ""))
+
             _gameUiState.update {
                 it.copy(navigateBackBcosOfBlueError = true)
             }
@@ -237,13 +236,13 @@ class GeneralViewModel(
 
 
     fun onResume(
-        firebaseLog: (String, String) -> Unit = { _, _ -> },
+        firebaseLog: (event: String, block: com.google.firebase.analytics.ktx.ParametersBuilder.() -> kotlin.Unit) -> Unit = { _, _ -> },
         unLockAchievement: (Int) -> Unit = {},
         increaseAchievement: (Int) -> Unit = {}
     ) {
-        game.increaseAchievement=increaseAchievement
-        game.unLockAchievement=unLockAchievement
-        game.firebaseLog =firebaseLog
+        game.increaseAchievement = increaseAchievement
+        game.unLockAchievement = unLockAchievement
+        game.firebaseLog = firebaseLog
         soundSystem.resume()
         game.resume()
     }
@@ -543,12 +542,10 @@ class GeneralViewModel(
 
 
     //log logic
-    fun logScreen(name: String) {
-        // fireAnalyticsLog.logScreen(name)
-    }
+
 
     fun logFirebase(name: String, vararg pair: Pair<String, Any>) {
-        //   fireAnalyticsLog.log(name, *pair)
+        // fireAnalyticsLog.log(name, *pair)
     }
 
 

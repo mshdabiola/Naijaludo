@@ -33,9 +33,12 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.MainActivity
 import com.mshdabiola.ludo.asMainActivity
@@ -52,6 +55,7 @@ import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +104,10 @@ fun GameScreen(
                 gameScreenViewModel.onJoin()
             }
             gameScreenViewModel.onResume(
-                firebaseLog = { _, _ ->},
+                firebaseLog = { tag, str ->
+                              context.asMainActivity().analytics
+                                  ?.logEvent(tag, block = str)
+                },
                 unLockAchievement = {
                     context.asMainActivity().achievement
                         ?.unlockImmediate(context.resources.getString(it))
@@ -120,9 +127,7 @@ fun GameScreen(
     }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-    LaunchedEffect(key1 = Unit, block = {
-        gameScreenViewModel.logScreen("gamescreen")
-    })
+    LogScreen(screenName = "GameScreen")
 
     DisposableEffect(key1 = lifecycle) {
         lifecycle.addObserver(observer)
@@ -386,4 +391,17 @@ fun ShowPreview() {
     LudoAppTheme {
         Show()
     }
+}
+
+@Composable
+fun LogScreen( screenName:String) {
+    val context= LocalContext.current
+    LaunchedEffect(key1 = Unit, block = {
+        context.asMainActivity()
+            .analytics
+            ?.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+                param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+                param(FirebaseAnalytics.Param.SCREEN_CLASS, screenName)
+            }
+    })
 }
