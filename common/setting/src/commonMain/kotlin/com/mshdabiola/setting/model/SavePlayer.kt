@@ -1,6 +1,9 @@
-package com.mshdabiola.naijaludo.model.player
+package com.mshdabiola.setting.model
 
 import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
+import com.mshdabiola.naijaludo.model.player.Player
+import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -54,6 +54,7 @@ import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
 import com.mshdabiola.ludo.screen.MainAd
 import com.mshdabiola.ludo.screen.game.LogScreen
+import com.mshdabiola.naijaludo.model.Setting
 
 @Composable
 fun MainScreen(
@@ -113,7 +114,7 @@ fun MainScreen(
 fun MainScreen(
     onPlay: () -> Unit = {},
     onCloseApp: () -> Unit = {},
-    settingUiState: SettingUiState= SettingUiState(),
+    settingUiState: SettingUiState= Setting.default.toUi(),
     setSetting: (SettingUiState) -> Unit = {},
     deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE_PORT,
 ) {

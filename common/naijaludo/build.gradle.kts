@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    alias(libs.plugins.kotlin.serialization)
 }
 
 java {
@@ -16,6 +15,5 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
-    implementation(libs.kotlinx.serialization.json)
     //  androidTestImplementation 'org.junit.jupiter:junit-jupiter'
 }

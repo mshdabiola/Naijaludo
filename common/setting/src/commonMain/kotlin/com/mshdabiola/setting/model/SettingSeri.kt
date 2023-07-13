@@ -1,15 +1,15 @@
-package com.mshdabiola.ludo.screen.main
+package com.mshdabiola.setting.model
 
 import com.mshdabiola.naijaludo.model.Setting
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
+import kotlinx.serialization.Serializable
 
-data class SettingUiState(
+@Serializable
+internal data class SettingSeri(
     val language: Int ,
     val gameLevel: Int ,
-    val assistant: Boolean,
+    val assistant: Boolean ,
 
-    val boardType: Int ,
+    val boardType: Int,
     val boardStyle: Int,
     val pawnNumber: Int,
     val rotate: Boolean,
@@ -18,11 +18,10 @@ data class SettingUiState(
     val music: Boolean ,
     val musicType: Int ,
 
-    val playerName: ImmutableList<String>
+    val playerName: List<String>
 )
 
-
-fun SettingUiState.toSetting() = Setting(
+internal fun SettingSeri.toSetting()=Setting(
     language = language,
     gameLevel = gameLevel,
     assistant = assistant,
@@ -34,10 +33,9 @@ fun SettingUiState.toSetting() = Setting(
     music = music,
     musicType = musicType,
     playerName = playerName
-
 )
 
-fun Setting.toUi() = SettingUiState(
+internal fun Setting.toSettingSeri()=SettingSeri(
     language = language,
     gameLevel = gameLevel,
     assistant = assistant,
@@ -48,5 +46,6 @@ fun Setting.toUi() = SettingUiState(
     sound = sound,
     music = music,
     musicType = musicType,
-    playerName = playerName.toImmutableList()
+    playerName = playerName
 )
+

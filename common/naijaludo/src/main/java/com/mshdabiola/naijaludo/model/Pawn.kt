@@ -1,8 +1,6 @@
 package com.mshdabiola.naijaludo.model
 
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class Pawn(
     val colorNumber: Int = 0,//1-4
     val currentPos: Int = colorNumber * -1,

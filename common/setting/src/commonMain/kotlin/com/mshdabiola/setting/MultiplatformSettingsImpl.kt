@@ -1,14 +1,18 @@
 package com.mshdabiola.setting
 
-import com.mshdabiola.naijaludo.model.GameSaver
 import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.player.Player
-import com.mshdabiola.naijaludo.model.player.toSaver
+import com.mshdabiola.setting.model.GameSaver
+import com.mshdabiola.setting.model.SettingSeri
+import com.mshdabiola.setting.model.toPair
+import com.mshdabiola.setting.model.toPawnSeri
+import com.mshdabiola.setting.model.toSaver
+import com.mshdabiola.setting.model.toSetting
+import com.mshdabiola.setting.model.toSettingSeri
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toBlockingSettings
-import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.decodeValueOrNull
 import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
@@ -39,7 +43,7 @@ internal class MultiplatformSettingsImpl(
             setting
         }
         withContext(coroutineDispatcher) {
-            settings.toBlockingSettings().encodeValue(Setting.serializer(), Keys.setting, setting)
+            settings.toBlockingSettings().encodeValue(SettingSeri.serializer(), Keys.setting, setting.toSettingSeri())
         }
 
 
@@ -48,34 +52,28 @@ internal class MultiplatformSettingsImpl(
     @OptIn(ExperimentalSerializationApi::class)
      fun getGameSetting(): Setting {
         return settings.toBlockingSettings()
-            .decodeValue(
-                Setting.serializer(), Keys.setting,
-                Setting(
-                    playerName = listOf(
-                        "Human",
-                        "Amaka",
-                        "Hammed",
-                        "Alabi",
-                    )
-                )
-            )
+            .decodeValueOrNull(
+                SettingSeri.serializer(), Keys.setting
+            )?.toSetting() ?:Setting.default
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setGame(players: List<Player>, pawns: List<Pawn>) {
         withContext(coroutineDispatcher) {
             val key = "type_${players.size}"
-            val saver = GameSaver(players = players.map { it.toSaver() }, pawns = pawns)
+            val saver = GameSaver(players = players.map { it.toSaver() }, pawns = pawns.map { it.toPawnSeri() })
             settings.toBlockingSettings().encodeValue(GameSaver.serializer(), key, saver)
         }
     }
 
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getGame(type: Int): GameSaver? {
+    override fun getGame(type: Int): Pair<List<Player>,List<Pawn>>? {
         val key = "type_$type"
         return settings.toBlockingSettings()
             .decodeValueOrNull(GameSaver.serializer(), key)
+            ?.toPair()
+
     }
 
 }

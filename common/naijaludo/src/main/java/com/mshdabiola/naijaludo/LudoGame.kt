@@ -42,12 +42,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     protected var lastDices :List<Dice> ?=null
 
-    private var ludoSetting: Setting = Setting(playerName = listOf(
-        "Human",
-        "Amaka",
-        "Hammed",
-        "Alabi",
-    ))
+    private var ludoSetting: Setting = Setting.default
 
     private fun setGameState(gameState: LudoGameState) {
         log("update game state ${gameState.listOfPawn}")

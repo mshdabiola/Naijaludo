@@ -64,7 +64,11 @@ class GeneralViewModel(
     val settingUiState = setting.setting
         .map { it.toUi() }
         .distinctUntilChanged { old, new -> old == new }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingUiState())
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            Setting.default.toUi()
+        )
 
     private val _ludoGameState = MutableStateFlow(LudoUiState(board = BoardUiState()))
     val ludoGameState = _ludoGameState.asStateFlow()
@@ -312,6 +316,7 @@ class GeneralViewModel(
                         numberOfPawn = settingUiState.value.pawnNumber,
                         playerNames = settingUiState.value.playerName.toTypedArray(),
                     )
+            Timber.e("Loaded pawn ${ludoGameState.listOfPawn.joinToString { "color ${it.colorNumber}" }}")
 
             startGame(
                 ludoGameState,
@@ -569,8 +574,8 @@ class GeneralViewModel(
     private fun getSavedGame(id: Int): LudoGameState? {
         val ludoAndOthers = setting.getGame(id)
 
-        var pawns = ludoAndOthers?.pawns
-        val players = ludoAndOthers?.getPlayer()
+        var pawns = ludoAndOthers?.second
+        val players = ludoAndOthers?.first
 
         if (players.isNullOrEmpty())
             return null

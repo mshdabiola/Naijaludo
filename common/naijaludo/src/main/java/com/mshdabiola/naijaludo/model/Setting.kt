@@ -1,21 +1,43 @@
 package com.mshdabiola.naijaludo.model
 
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class Setting(
-    val language: Int = 1,
-    val gameLevel: Int = 0,
-    val assistant: Boolean = true,
+    val language: Int ,
+    val gameLevel: Int,
+    val assistant: Boolean ,
 
-    val boardType: Int = 0,
-    val boardStyle: Int = 0,
-    val pawnNumber: Int = 4,
-    val rotate: Boolean = true,
+    val boardType: Int ,
+    val boardStyle: Int,
+    val pawnNumber: Int,
+    val rotate: Boolean,
 
-    val sound: Boolean = false,
-    val music: Boolean = false,
-    val musicType: Int = 0,
+    val sound: Boolean ,
+    val music: Boolean ,
+    val musicType: Int ,
 
     val playerName: List<String>
-)
+
+){
+   companion object {
+        val default=Setting(
+            language = 1,
+            gameLevel = 0,
+            assistant = true,
+            boardType = 0,
+            boardStyle = 0,
+            pawnNumber = 4,
+            rotate = true,
+            sound = false,
+            music = false,
+            musicType = 0,
+            playerName= listOf(
+                "Human",
+                "Amaka",
+                "Hammed",
+                "Alabi",
+            )
+        )
+    }
+
+}
+

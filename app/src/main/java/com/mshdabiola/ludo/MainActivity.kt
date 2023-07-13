@@ -48,6 +48,8 @@ import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
+import com.mshdabiola.naijaludo.model.player.HumanPlayer
+import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.coroutines.Dispatchers
@@ -240,7 +242,7 @@ class MainActivity : ComponentActivity() {
                     this@MainActivity
                 )!!
                 settingUiState.getGame(2)?.let { gameSaver ->
-                    val players = gameSaver.getSaverPlayer().toMutableList()
+                    val players = gameSaver.first.toMutableList()
 
                     var player = players[1]
                     if (leaderboardScore.rawScore > player.win) {
@@ -252,9 +254,9 @@ class MainActivity : ComponentActivity() {
                             }
                             ?.toIntArray()
                         compScore?.let {
-                            players[0] = players[0].copy(win = it[0])
+                            players[0] = players[0].copyPlayer(win = it[0])
                         }
-                        player = player.copy(win = leaderboardScore.rawScore.toInt())
+                        player = player.copyPlayer(win = leaderboardScore.rawScore.toInt())
                         players[1] = player
                     }
 
@@ -267,7 +269,7 @@ class MainActivity : ComponentActivity() {
                         settingUiState.setGameSetting(settings.copy(playerName = playersName))
                     }
 
-                    settingUiState.setGame(players.map { it.toOriginal() }, gameSaver.pawns)
+                    settingUiState.setGame(players, gameSaver.second)
                 }
 
                 val leaderboardScore2 = FirebaseUtil.rank(
@@ -275,7 +277,7 @@ class MainActivity : ComponentActivity() {
                     this@MainActivity
                 )!!
                 settingUiState.getGame(4)?.let { gameSaver ->
-                    val players = gameSaver.getSaverPlayer().toMutableList()
+                    val players = gameSaver.first.toMutableList()
 
 
                     var player = players[3]
@@ -286,13 +288,13 @@ class MainActivity : ComponentActivity() {
                             ?.map { it.toInt() }
                             ?.toIntArray()
                         compScore?.let {
-                            players[0] = players[0].copy(win = it[0])
-                            players[1] = players[1].copy(win = it[1])
-                            players[2] = players[2].copy(win = it[2])
+                            players[0] = players[0].copyPlayer(win = it[0])
+                            players[1] = players[1].copyPlayer(win = it[1])
+                            players[2] = players[2].copyPlayer(win = it[2])
                         }
 
 
-                        player = player.copy(win = leaderboardScore2.rawScore.toInt())
+                        player = player.copyPlayer(win = leaderboardScore2.rawScore.toInt())
                         players[3] = player
                     }
 
@@ -305,7 +307,7 @@ class MainActivity : ComponentActivity() {
                         settingUiState.setGameSetting(settings.copy(playerName = playersName))
                     }
 
-                    settingUiState.setGame(players.map { it.toOriginal() }, gameSaver.pawns)
+                    settingUiState.setGame(players, gameSaver.second)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -318,13 +320,13 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO){
            val game=settingUiState.getGame(2)
             game?.let {
-                val players=it.getPlayer()
+                val players=it.first
                 analytics?.setUserProperty("soloHuman", players[1].win.toString())
                 analytics?.setUserProperty("soloComputer", players[0].win.toString())
             }
             val game2=settingUiState.getGame(4)
             game2?.let {
-                val players=it.getPlayer()
+                val players=it.first
                 analytics?.setUserProperty("trioHuman", players[3].win.toString())
                 analytics?.setUserProperty("trioComputer1", players[0].win.toString())
                 analytics?.setUserProperty("trioComputer2", players[1].win.toString())

@@ -45,7 +45,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun SettingDialog(
     show: Boolean = false,
-    settingUiState: SettingUiState= SettingUiState(),
+    settingUiState: SettingUiState,
     setSetting:(SettingUiState)->Unit={},
     onDismissRequest: () -> Unit = {},
     //  setLanguage: (Int) -> Unit = {},
@@ -222,6 +222,19 @@ fun DialogSettingPreview() {
         Column(Modifier.fillMaxSize()) {
             SettingDialog(
                 show = true,
+                settingUiState = SettingUiState(
+                    language = 0,
+                    gameLevel = 0,
+                    assistant = false,
+                    boardType = 0,
+                    boardStyle = 0,
+                    pawnNumber = 0,
+                    rotate = false,
+                    sound = false,
+                    music = false,
+                    musicType = 0,
+                    playerName = listOf("d").toImmutableList()
+                )
 
             )
         }
