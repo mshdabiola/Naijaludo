@@ -22,13 +22,6 @@ fun Pawn.toPawnUiState() =
         zIndex = zIndex
     )
 
-fun PawnUiState.toPawn() =
-    Pawn(
-        colorNumber = colorNumber,
-        currentPos = currentPos,
-        color = color,
-        isEnable = isEnable,
-        zIndex = zIndex
-    )
+
 
 fun PawnUiState.showText() = zIndex.toInt() > 1 && currentPos < 56

@@ -31,11 +31,11 @@ object Constant {
         val numberOfPawn2 = if (numberOfPawn < 2) 4 else numberOfPawn
 
         GameColor.values().forEach { gameColor ->
-            (1..4).map { id ->
-                val pawn = if (id <= numberOfPawn2) {
-                    Pawn(colorNumber = id, color = gameColor)
+            (1..4).map { colorNumber ->
+                val pawn = if (colorNumber <= numberOfPawn2) {
+                    Pawn(colorNumber = colorNumber, color = gameColor)
                 } else {
-                    Pawn(colorNumber = id, color = gameColor, currentPos = 56)
+                    Pawn(colorNumber = colorNumber, color = gameColor, currentPos = 56)
                 }
                 listPawns.add(pawn)
             }
