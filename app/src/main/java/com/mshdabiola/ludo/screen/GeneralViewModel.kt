@@ -138,12 +138,12 @@ class GeneralViewModel(
                     if (it) {
                         if (blueManager.state.value?.isServer == true) {
                             sendString(
-                                "setting,${settingUiState.value.playerName[0]}," +
+                                "setting,${setting.getName().first()}," +
                                         "${settingUiState.value.pawnNumber},${settingUiState.value.boardStyle}",
                             )
                         } else {
                             delay(500)
-                            sendString("client_name,${settingUiState.value.playerName[0]}")
+                            sendString("client_name,${setting.getName()}")
                         }
                     } else {
                         _gameUiState.value =
@@ -309,12 +309,12 @@ class GeneralViewModel(
 
         viewModelScope.launch(Dispatchers.Default) {
             currId = 2
-
+            val name=setting.getName().first()
             val ludoGameState =
-                getSavedGame(currId)
+                getSavedGame(currId,name)
                     ?: Constant.getDefaultGameState(
                         numberOfPawn = settingUiState.value.pawnNumber,
-                        playerNames = settingUiState.value.playerName.toTypedArray(),
+                        playerName = setting.getName().first(),
                     )
             Timber.e("Loaded pawn ${ludoGameState.listOfPawn.joinToString { "color ${it.colorNumber}" }}")
 
@@ -347,7 +347,7 @@ class GeneralViewModel(
             startGame(
                 Constant.getDefaultGameState(
                     numberOfPawn = ludoSetting.pawnNumber,
-                    playerNames = ludoSetting.playerName.toTypedArray(),
+                    playerName = setting.getName().first(),
                 ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
                 ludoSetting.toSetting(),
             )
@@ -360,12 +360,13 @@ class GeneralViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             currId = 4
 
+            val name=setting.getName().first()
             val ludoGameState =
-                getSavedGame(currId)
+                getSavedGame(currId,name)
                     ?: Constant.getDefaultGameState(
                         numberOfPlayer = 4,
                         numberOfPawn = ludoSetting.pawnNumber,
-                        playerNames = ludoSetting.playerName.toTypedArray(),
+                        playerName = name,
                     )
             startGame(
                 ludoGameState,
@@ -450,7 +451,7 @@ class GeneralViewModel(
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                 ),
                 HumanPlayer(
-                    name = ludoSetting.playerName[0],
+                    name = setting.getName().first(),
                     isCurrent = true,
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 6,
@@ -461,7 +462,7 @@ class GeneralViewModel(
                 Constant.getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = ludoSetting.pawnNumber,
-                    playerNames = ludoSetting.playerName.toTypedArray(),
+                    playerName = setting.getName().first(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(boardStyle = 0, gameLevel = 0),
             )
@@ -480,7 +481,7 @@ class GeneralViewModel(
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                 ),
                 HumanPlayer(
-                    name = ludoSetting.playerName[0],
+                    name = setting.getName().first(),
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6,
                 ),
@@ -490,7 +491,7 @@ class GeneralViewModel(
                 Constant.getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = noOfPawn,
-                    playerNames = ludoSetting.playerName.toTypedArray(),
+                    playerName = setting.getName().first(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(pawnNumber = noOfPawn, boardStyle = 0, gameLevel = 0),
             )
@@ -571,18 +572,18 @@ class GeneralViewModel(
 
     }
 
-    private fun getSavedGame(id: Int): LudoGameState? {
-        val ludoAndOthers = setting.getGame(id)
+    private fun getSavedGame(id: Int,playerName:String): LudoGameState? {
+        val ludoAndOthers = setting.getGame(id,playerName)
 
-        var pawns = ludoAndOthers?.second
-        val players = ludoAndOthers?.first
+        var pawns = ludoAndOthers.second
+        val players = ludoAndOthers.first
 
         if (players.isNullOrEmpty())
             return null
 
-        if (!pawns.isNullOrEmpty()) {
+        if (pawns.isNotEmpty()) {
             players.forEach { player ->
-                val isOut = pawns!!.filter { it.color in player.colors }.all { it.isOut() }
+                val isOut = pawns.filter { it.color in player.colors }.all { it.isOut() }
                 if (isOut) {
                     pawns = Constant.getDefaultPawns(settingUiState.value.pawnNumber)
                 }
@@ -591,8 +592,8 @@ class GeneralViewModel(
             pawns = Constant.getDefaultPawns(settingUiState.value.pawnNumber)
         }
 
-        return Constant.getDefaultGameState()
-            .copy(listOfPlayer = players, listOfPawn = pawns!!)
+        return Constant.getDefaultGameState(playerName = playerName)
+            .copy(listOfPlayer = players, listOfPawn = pawns)
     }
 
     private fun resumeFromDatabase() {

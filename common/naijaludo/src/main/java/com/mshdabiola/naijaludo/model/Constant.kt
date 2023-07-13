@@ -18,9 +18,9 @@ object Constant {
     fun getDefaultGameState(
         numberOfPlayer: Int = 2,
         numberOfPawn: Int = 4,
-        playerNames: Array<String> = arrayOf("Human", "Comp1", "Comp2", "Comp3"),
+        playerName : String="Ade",
     ) = LudoGameState(
-        listOfPlayer = getDefaultPlayers(numberOfPlayer, playerNames),
+        listOfPlayer = getDefaultPlayers(numberOfPlayer, playerName),
         listOfDice = geDefaultDice(),
         listOfPawn = getDefaultPawns(numberOfPawn),
         listOfCounter = getDefaultCounter(),
@@ -48,16 +48,16 @@ object Constant {
             .map { it.copy(currentPos = 56) }
     }
 
-    fun getDefaultPlayers(numberOfPlayer: Int, playerNames: Array<String>): List<Player> {
+    fun getDefaultPlayers(numberOfPlayer: Int,name:String): List<Player> {
         return if (numberOfPlayer == 2) {
             listOf(
                 RandomComputerPlayer(
-                    name = playerNames[1],
+                    name = "Robot 1",
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 0,
                 ),
                 HumanPlayer(
-                    name = playerNames[0],
+                    name = name,
                     isCurrent = true,
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6,
@@ -66,22 +66,22 @@ object Constant {
         } else {
             listOf(
                 RandomComputerPlayer(
-                    name = playerNames[1],
+                    name = "Robot 1",
                     colors = listOf(GameColor.values()[0]),
                     iconIndex = 0,
                 ),
                 RandomComputerPlayer(
-                    name = playerNames[2],
+                    name = "Robot 2",
                     colors = listOf(GameColor.values()[1]),
                     iconIndex = 1,
                 ),
                 RandomComputerPlayer(
-                    name = playerNames[3],
+                    name = "Robot 3",
                     colors = listOf(GameColor.values()[2]),
                     iconIndex = 2,
                 ),
                 HumanPlayer(
-                    name = playerNames[0],
+                    name = name,
                     isCurrent = true,
                     colors = listOf(GameColor.values()[3]),
                     iconIndex = 6,

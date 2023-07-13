@@ -18,7 +18,6 @@ data class SettingUiState(
     val music: Boolean ,
     val musicType: Int ,
 
-    val playerName: ImmutableList<String>
 )
 
 
@@ -32,8 +31,7 @@ fun SettingUiState.toSetting() = Setting(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType,
-    playerName = playerName
+    musicType = musicType
 
 )
 
@@ -47,6 +45,5 @@ fun Setting.toUi() = SettingUiState(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType,
-    playerName = playerName.toImmutableList()
+    musicType = musicType
 )

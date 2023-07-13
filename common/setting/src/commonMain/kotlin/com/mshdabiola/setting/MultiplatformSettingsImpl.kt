@@ -1,10 +1,12 @@
 package com.mshdabiola.setting
 
+import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.player.Player
 import com.mshdabiola.setting.model.GameSaver
 import com.mshdabiola.setting.model.SettingSeri
+import com.mshdabiola.setting.model.User
 import com.mshdabiola.setting.model.toPair
 import com.mshdabiola.setting.model.toPawnSeri
 import com.mshdabiola.setting.model.toSaver
@@ -68,12 +70,44 @@ internal class MultiplatformSettingsImpl(
 
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getGame(type: Int): Pair<List<Player>,List<Pawn>>? {
+    override fun getGame(type: Int,name: String): Pair<List<Player>,List<Pawn>> {
         val key = "type_$type"
+
+
         return settings.toBlockingSettings()
             .decodeValueOrNull(GameSaver.serializer(), key)
-            ?.toPair()
+            ?.toPair() ?: getDefaultPlayer(type,name)
 
+    }
+
+    override fun getName(): Flow<String> {
+       return settings.getStringFlow("name","Human")
+    }
+
+    override suspend fun setName(name: String) {
+        withContext(coroutineDispatcher){
+            settings.putString("name",name)
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun getUser(): User? {
+       return settings.toBlockingSettings()
+            .decodeValueOrNull(User.serializer(),"user")
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun setUser(user: User) {
+        withContext(coroutineDispatcher){
+            settings.toBlockingSettings()
+                .encodeValue(User.serializer(),"user",user)
+        }
+    }
+
+    private fun getDefaultPlayer(type: Int,name: String):Pair<List<Player>,List<Pawn>>{
+       val player= Constant.getDefaultPlayers(type,name)
+        val pawns=Constant.getDefaultPawns(4)
+        return Pair(player,pawns)
     }
 
 }

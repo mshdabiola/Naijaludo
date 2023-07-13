@@ -16,9 +16,8 @@ internal data class SettingSeri(
 
     val sound: Boolean ,
     val music: Boolean ,
-    val musicType: Int ,
+    val musicType: Int
 
-    val playerName: List<String>
 )
 
 internal fun SettingSeri.toSetting()=Setting(
@@ -31,8 +30,7 @@ internal fun SettingSeri.toSetting()=Setting(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType,
-    playerName = playerName
+    musicType = musicType
 )
 
 internal fun Setting.toSettingSeri()=SettingSeri(
@@ -45,7 +43,6 @@ internal fun Setting.toSettingSeri()=SettingSeri(
     rotate = rotate,
     sound = sound,
     music = music,
-    musicType = musicType,
-    playerName = playerName
+    musicType = musicType
 )
 

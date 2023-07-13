@@ -15,8 +15,6 @@ data class Setting(
     val music: Boolean ,
     val musicType: Int ,
 
-    val playerName: List<String>
-
 ){
    companion object {
         val default=Setting(
@@ -30,12 +28,6 @@ data class Setting(
             sound = false,
             music = false,
             musicType = 0,
-            playerName= listOf(
-                "Human",
-                "Amaka",
-                "Hammed",
-                "Alabi",
-            )
         )
     }
 

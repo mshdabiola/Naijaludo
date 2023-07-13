@@ -24,36 +24,26 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.games.AchievementsClient
-import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.PlayGamesAuthProvider
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.remoteconfig.ConfigUpdate
-import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
+import com.mshdabiola.ludo.database.toUser
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
-import com.mshdabiola.naijaludo.model.player.HumanPlayer
-import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
+import com.mshdabiola.setting.model.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -69,58 +59,25 @@ class MainActivity : ComponentActivity() {
     private var listener: InstallStateUpdatedListener? = null
     var achievement: AchievementsClient? = null
     var analytics: FirebaseAnalytics? = null
-     var remoteConfig:FirebaseRemoteConfig?=null
+    var remoteConfig: FirebaseRemoteConfig? = null
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
-        val gamesSignInClient = PlayGames.getGamesSignInClient(this)
-        gamesSignInClient.requestServerSideAccess(
-            getString(R.string.authe_id), true)
-            .addOnSuccessListener {
-                firebaseAuthWithPlayGames(it)
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-        gamesSignInClient.isAuthenticated()
-            .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
-
-                val isAuthenticated = isAuthenticatedTask.isSuccessful &&
-                        isAuthenticatedTask.result.isAuthenticated
-                if (isAuthenticated) {
-                    // Continue with Play Games Services
-                    Timber.e("login")
-                    println("Login1 ${isAuthenticatedTask.result.isAuthenticated}")
-                    onFinishLogin()
-                } else {
-                    // Disable your integration with Play Games Services or show a
-                    // login button to ask  players to sign-in. Clicking it should
-                    gamesSignInClient.signIn().addOnSuccessListener {
-                        onFinishLogin()
-                        println("Login2 ${it.isAuthenticated}")
-                    }.addOnFailureListener {
-                        it.printStackTrace()
-                        println("====== it.message1")
-                    }
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                FirebaseUtil.login(this@MainActivity) {
+                    setUp()
                 }
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-                println("====== it.message2")
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
-        remoteConfig = Firebase.remoteConfig
-        remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
-        remoteConfig?.setConfigSettingsAsync(remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600 })
-        remoteConfig?.fetchAndActivate()
+        }
 
 
-        analytics = FirebaseAnalytics.getInstance(this)
-        logScoreToFirebase()
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
 //            if (!task.isSuccessful) {
 //               // Timber.e("Fetching FCM registration token failed", task.exception)
@@ -136,7 +93,6 @@ class MainActivity : ComponentActivity() {
 //        })
 
 
-
         // MobileAds.initialize(this)
 //       val config= RequestConfiguration
 //           .Builder()
@@ -144,7 +100,7 @@ class MainActivity : ComponentActivity() {
 //           .build()
 //        MobileAds.setRequestConfiguration(config)
 
-        val root =RootComponent(componentContext = defaultComponentContext())
+        val root = RootComponent(componentContext = defaultComponentContext())
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -231,102 +187,84 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private fun onFinishLogin() {
+    private fun setUp() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
+                val oldUser = settingUiState.getUser()
                 achievement = PlayGames.getAchievementsClient(this@MainActivity)
+                remoteConfig = Firebase.remoteConfig
+                analytics = FirebaseAnalytics.getInstance(this@MainActivity)
 
+                remoteConfig?.setDefaultsAsync(R.xml.remote_config_defaults)
+                remoteConfig?.setConfigSettingsAsync(remoteConfigSettings {
+                    minimumFetchIntervalInSeconds = 3600
+                })
+                remoteConfig?.fetchAndActivate()
 
-                val leaderboardScore = FirebaseUtil.rank(
-                    resources.getString(R.string.leaderboard_solo_player_rank),
-                    this@MainActivity
-                )!!
-                settingUiState.getGame(2)?.let { gameSaver ->
-                    val players = gameSaver.first.toMutableList()
-
-                    var player = players[1]
-                    if (leaderboardScore.rawScore > player.win) {
-                        val compScore = FirebaseUtil
-                            .get2Game(this@MainActivity, 2)
-                            ?.split(", ")
-                            ?.map {
-                                it.toInt()
-                            }
-                            ?.toIntArray()
-                        compScore?.let {
-                            players[0] = players[0].copyPlayer(win = it[0])
-                        }
-                        player = player.copyPlayer(win = leaderboardScore.rawScore.toInt())
-                        players[1] = player
-                    }
-
-                    val settings = settingUiState.setting.first()
-                    val playersName = settings.playerName.toMutableList()
-                    Timber.e("name :${playersName[0]} ")
-                    if (playersName[0] == "Human") {
-                        Timber.e("set name :${playersName[0]} ")
-                        playersName[0] = leaderboardScore.scoreHolderDisplayName
-                        settingUiState.setGameSetting(settings.copy(playerName = playersName))
-                    }
-
-                    settingUiState.setGame(players, gameSaver.second)
+                if (oldUser != null) {
+                    analytics?.setUserId(oldUser.id)
                 }
 
-                val leaderboardScore2 = FirebaseUtil.rank(
-                    resources.getString(R.string.leaderboard_trio_player_rank),
-                    this@MainActivity
-                )!!
-                settingUiState.getGame(4)?.let { gameSaver ->
-                    val players = gameSaver.first.toMutableList()
+                logScoreToFirebase()
+                val name = FirebaseUtil.getName(this@MainActivity)
+                Timber.e("name :$name")
+                settingUiState.setName(name)
 
-
-                    var player = players[3]
-                    if (leaderboardScore2.rawScore > player.win) {
-                        val compScore = FirebaseUtil
-                            .get2Game(this@MainActivity, 4)
-                            ?.split(", ")
-                            ?.map { it.toInt() }
-                            ?.toIntArray()
-                        compScore?.let {
-                            players[0] = players[0].copyPlayer(win = it[0])
-                            players[1] = players[1].copyPlayer(win = it[1])
-                            players[2] = players[2].copyPlayer(win = it[2])
-                        }
-
-
-                        player = player.copyPlayer(win = leaderboardScore2.rawScore.toInt())
-                        players[3] = player
+                val game2 = settingUiState.getGame(2,name)
+                val score2 = FirebaseUtil.get2Game(this@MainActivity, 2)
+                if (score2.sum() > game2.first.sumOf { it.win }) {
+                    val newPlay2 = game2.first.mapIndexed { index, player ->
+                        player.copyPlayer(win = score2[index])
                     }
-
-                    val settings = settingUiState.setting.first()
-                    val playersName = settings.playerName.toMutableList()
-                    Timber.e("name :${playersName[0]} ")
-                    if (playersName[0] == "Human") {
-                        Timber.e("set name :${playersName[0]} ")
-                        playersName[0] = leaderboardScore.scoreHolderDisplayName
-                        settingUiState.setGameSetting(settings.copy(playerName = playersName))
-                    }
-
-                    settingUiState.setGame(players, gameSaver.second)
+                    settingUiState.setGame(newPlay2, game2.second)
                 }
+
+                val game4 = settingUiState.getGame(4,name)
+                val score4 = FirebaseUtil.get2Game(this@MainActivity, 4)
+                if (score4.sum() > game4.first.sumOf { it.win }) {
+                    val newPlay4 = game4.first.mapIndexed { index, player ->
+                        player.copyPlayer(win = score4[index])
+                    }
+                    settingUiState.setGame(newPlay4, game4.second)
+                }
+
+
+                FirebaseUtil.loginForFirebase(this@MainActivity, getString(R.string.authe_id)) {
+                    if (oldUser == null || it.toUser() !== oldUser) {
+                        launch { firebaseSetUp(it.toUser()) }
+                    }
+
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
         }
+
     }
 
-    private fun logScoreToFirebase(){
-        lifecycleScope.launch(Dispatchers.IO){
-           val game=settingUiState.getGame(2)
-            game?.let {
-                val players=it.first
+    private suspend fun firebaseSetUp(user: User) {
+
+        settingUiState.setUser(user)
+        downloadImage(user.photoUri)
+        analytics?.setUserId(user.id)
+
+    }
+
+
+    private fun logScoreToFirebase() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val name = FirebaseUtil.getName(this@MainActivity)
+            val game = settingUiState.getGame(2,name)
+            game.let {
+                val players = it.first
                 analytics?.setUserProperty("soloHuman", players[1].win.toString())
                 analytics?.setUserProperty("soloComputer", players[0].win.toString())
             }
-            val game2=settingUiState.getGame(4)
-            game2?.let {
-                val players=it.first
+            val game4 = settingUiState.getGame(4,name )
+            game4.let {
+                val players = it.first
                 analytics?.setUserProperty("trioHuman", players[3].win.toString())
                 analytics?.setUserProperty("trioComputer1", players[0].win.toString())
                 analytics?.setUserProperty("trioComputer2", players[1].win.toString())
@@ -336,49 +274,33 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private fun firebaseAuthWithPlayGames(code: String) {
-        val auth = Firebase.auth
-        val credential = PlayGamesAuthProvider.getCredential(code)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                   // Timber.e("signInWithCredential:success")
-                    val user = auth.currentUser
-                    user?.let {
-                        analytics?.setUserId(it.uid)
-                        it.photoUrl?.let { it1 -> downloadImage(it1.toString()) }
-                    }
 
-                } else {
-                    // If sign in fails, display a message to the user.
-                    //Timber.e("signInWithCredential:failure")
-                    task.exception?.printStackTrace()
-
-                }
-            }
-    }
-
-    private fun downloadImage(uri:String){
+    private fun downloadImage(uri: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val dir=File(applicationContext.dataDir,"image")
-            if (dir.exists().not()){
-                dir.mkdirs()
-            }
-            val file=File(dir,"profile.png")
-            if (file.exists())
-                return@launch
-            val input= URL(uri).openStream()
+            try {
+                val dir = File(applicationContext.dataDir, "image")
+                if (dir.exists().not()) {
+                    dir.mkdirs()
+                }
+                val file = File(dir, "profile.png")
+                if (file.exists())
+                    return@launch
+                val input = URL(uri).openStream()
 
-            val outputStream= FileOutputStream(file)
-            input.copyTo(outputStream)
-            outputStream.close()
-            input.close()
-            Timber.e("download")
+                val outputStream = FileOutputStream(file)
+                input.copyTo(outputStream)
+                outputStream.close()
+                input.close()
+                Timber.e("download")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
 
         }
 
     }
+
     fun updateLeaderboard(players: List<PlayerUiState>) {
         lifecycleScope.launch {
 

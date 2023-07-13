@@ -120,53 +120,7 @@ fun SettingDialog(
                             })
                         }
                     }
-                    Title(title = stringResource(id = R.string.profile_setting))
-                    SettingContainer {
-                        SettingItem2(title = R.string.player_name) { modifier ->
-                            MyTextField(
-                                modifier = modifier,
-                                current = settingUiState.playerName[0],
-                                onValueChange = {
-                                    val players=settingUiState.playerName.toMutableList()
-                                    players[0]=it
-                                    setSetting(settingUiState.copy(playerName = players.toImmutableList()))
-                                },
-                            )
-                        }
-                        SettingItem2(title = R.string.robot_one) { modifier ->
-                            MyTextField(
-                                modifier = modifier,
-                                current = settingUiState.playerName[1],
-                                onValueChange = {
-                                    val players=settingUiState.playerName.toMutableList()
-                                    players[1]=it
-                                    setSetting(settingUiState.copy(playerName = players.toImmutableList()))
-                                },
-                            )
-                        }
-                        SettingItem2(title = R.string.robot_two) { modifier ->
-                            MyTextField(
-                                modifier = modifier,
-                                current = settingUiState.playerName[2],
-                                onValueChange = {
-                                    val players=settingUiState.playerName.toMutableList()
-                                    players[2]=it
-                                    setSetting(settingUiState.copy(playerName = players.toImmutableList()))
-                                },
-                            )
-                        }
-                        SettingItem2(title = R.string.robot_three) { modifier ->
-                            MyTextField(
-                                modifier = modifier,
-                                current = settingUiState.playerName[3],
-                                onValueChange = {
-                                    val players=settingUiState.playerName.toMutableList()
-                                    players[3]=it
-                                    setSetting(settingUiState.copy(playerName = players.toImmutableList()))
-                                },
-                            )
-                        }
-                    }
+
                     Title(title = stringResource(id = R.string.board_setting))
                     SettingContainer {
                         SettingItem2(title = R.string.style) { modi ->
@@ -233,7 +187,6 @@ fun DialogSettingPreview() {
                     sound = false,
                     music = false,
                     musicType = 0,
-                    playerName = listOf("d").toImmutableList()
                 )
 
             )
@@ -349,38 +302,4 @@ fun ExposeBox(
             }
         }
     }
-}
-
-//@Preview
-//@Composable
-//fun ExposeBoxPreview() {
-//// Column(modifier=Modifier.fillMaxSize()) {
-//    // val options = (1..6).map { " Item $it" }
-//
-//    var curr by remember {
-//        mutableStateOf(1)
-//    }
-//    ExposeBox(current = curr, onValueChange = { curr = 0 }, stringArrayRes = R.array.language)
-//// }
-//}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTextField(
-    modifier: Modifier = Modifier,
-    current: String,
-    onValueChange: (String) -> Unit,
-) {
-    TextField(
-        modifier = modifier,
-        value = current,
-        onValueChange = onValueChange,
-        singleLine = true,
-    )
-}
-
-@Preview
-@Composable
-fun MyTextFieldPreview() {
-    MyTextField(current = "Abiola slsldi sldi", onValueChange = {})
 }

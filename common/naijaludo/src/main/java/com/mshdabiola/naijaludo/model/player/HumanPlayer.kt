@@ -4,7 +4,7 @@ import com.mshdabiola.naijaludo.model.GameColor
 
 
 data class HumanPlayer(
-    override val name: String = "Human",
+    override val name: String,
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
     override val colors: List<GameColor> = emptyList(),

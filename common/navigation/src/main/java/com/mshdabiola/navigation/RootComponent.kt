@@ -20,7 +20,12 @@ class RootComponent(
         get() = _stack
 
     override fun navigateToGame() {
-        navigation.push(Config.Game)
+        try {
+            navigation.push(Config.Game)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
     }
 
     override fun pop() {
