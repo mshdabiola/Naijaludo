@@ -65,11 +65,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.google.android.gms.games.achievement.Achievement
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.FinishTheme
+import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.log
 import kotlinx.collections.immutable.ImmutableList
@@ -161,9 +163,11 @@ fun StartDialogPreview() {
 fun GameOverDialog(
     show: Boolean = true,
     players: ImmutableList<PlayerUiState>,
+    achievementData: ArchievementData?,
     onRestart: () -> Unit = {},
     onHome: () -> Unit = {},
     onShare: () -> Unit = {},
+    onShowMore:()->Unit={}
 ) {
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
@@ -214,6 +218,11 @@ fun GameOverDialog(
                         } else {
                             Text(text = stringResource(id = R.string.player_loss_msg))
                         }
+                        if (achievementData!=null){
+                            Spacer(modifier = Modifier.height(8.dp))
+                            AchievementUi(achievementData, onClick = onShowMore)
+                        }
+
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -264,6 +273,7 @@ fun GameOverPreview() {
             PlayerUiState(),
             PlayerUiState(isCurrent = true),
         ).toImmutableList(),
+        achievementData =ArchievementData("King of Ludo",0.6f)
     )
 }
 

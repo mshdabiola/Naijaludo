@@ -50,6 +50,7 @@ import com.mshdabiola.ludo.screen.game.component.WaitingDialog
 import com.mshdabiola.ludo.screen.game.component.WifiPermission
 import com.mshdabiola.ludo.screen.game.component.getPermission
 import com.mshdabiola.ludo.screen.game.firework.FireworkView
+import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.naijaludo.model.Constant
@@ -68,6 +69,9 @@ fun GameScreen(
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
     val settingUiState by gameScreenViewModel.settingUiState.collectAsStateWithLifecycle()
+    var archievementData by remember {
+        mutableStateOf<ArchievementData?>(null)
+    }
     val context = LocalContext.current
     var showMultiplayer by remember {
         mutableStateOf(true)
@@ -225,9 +229,14 @@ fun GameScreen(
                     gameUiState.isRestartDialogOpen
         }
     }
+
     LaunchedEffect(key1 = gameUiState.isRestartDialogOpen, block = {
         if (gameUiState.isRestartDialogOpen) {
-            (context as MainActivity).updateLeaderboard(ludoGameState.listOfPlayer)
+           val activity= (context as MainActivity)
+
+               activity .updateLeaderboard(ludoGameState.listOfPlayer)
+           archievementData= activity.getArchi()
+
         }
     })
 
@@ -298,7 +307,11 @@ fun GameScreen(
                 intent.type = "text/*"
                 context.startActivity(Intent.createChooser(intent, "NaijaLudo Score"))
             },
+            achievementData = archievementData,
             onHome = onBack,
+            onShowMore = {
+                context.asMainActivity().acheveUi()
+            }
         )
 
         WaitingDialog(

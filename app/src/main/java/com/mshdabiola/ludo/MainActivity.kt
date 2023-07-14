@@ -5,11 +5,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -35,6 +38,7 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.achievement.Achievement
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -48,6 +52,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.database.toUser
+import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.navigation.RootComponent
@@ -342,6 +347,26 @@ class MainActivity : ComponentActivity() {
 
             }
         }, Uri.parse(user))
+    }
+
+    suspend fun getArchi():ArchievementData?{
+      return FirebaseUtil.getRandAchievement(achievement)
+    }
+    fun acheveUi(){
+        achievement
+            ?.achievementsIntent
+            ?.addOnSuccessListener {
+                startActivityForResult(it,48)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
+//
+//                     //   result.resultCode== RESULT_OK
+//                    }
+//                }
+            }
+            ?.addOnFailureListener {
+                it.printStackTrace()
+            }
     }
 
 }

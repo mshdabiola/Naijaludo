@@ -1,17 +1,12 @@
 package com.mshdabiola.ludo.database
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.common.images.ImageManager
+import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.Player
 import com.google.android.gms.games.SnapshotsClient
+import com.google.android.gms.games.achievement.Achievement
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange
 import com.google.android.gms.tasks.Task
@@ -21,9 +16,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mshdabiola.ludo.MainActivity
 import com.mshdabiola.ludo.R
+import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.setting.model.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import okio.internal.commonToUtf8String
 import timber.log.Timber
 import java.io.File
@@ -213,31 +207,49 @@ object FirebaseUtil {
     }
 
     private fun downloadImage(uri: String) {
-            try {
-                val dir = File("", "image")
-                if (dir.exists().not()) {
-                    dir.mkdirs()
-                }
-                val file = File(dir, "profile.png")
-                if (file.exists())
-                    return
-                val input = URL(uri).openStream()
-
-                val outputStream = FileOutputStream(file)
-                input.copyTo(outputStream)
-                outputStream.close()
-                input.close()
-                Timber.e("download")
-            } catch (e: Exception) {
-                e.printStackTrace()
+        try {
+            val dir = File("", "image")
+            if (dir.exists().not()) {
+                dir.mkdirs()
             }
+            val file = File(dir, "profile.png")
+            if (file.exists())
+                return
+            val input = URL(uri).openStream()
 
-
-
+            val outputStream = FileOutputStream(file)
+            input.copyTo(outputStream)
+            outputStream.close()
+            input.close()
+            Timber.e("download")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 
+    suspend fun getRandAchievement(achievement: AchievementsClient?) = suspendCoroutine { counti->
+        achievement?.load(true)
+            ?.addOnSuccessListener { annotatedData ->
+                val ach = annotatedData.get()
+                    ?.filter {
+                        it.type == Achievement.TYPE_INCREMENTAL
+                                && it.state == Achievement.STATE_REVEALED
+                    }
+                    ?.random()
+                val data= if (ach == null) null else ArchievementData(
+                ach.name,
+                ach.currentSteps.toFloat() / ach.totalSteps.toFloat()
+            )
+                counti.resume(data)
+            }
+            ?.addOnFailureListener {
+                counti.resume(null)
+                it.printStackTrace()
+            }
 
+
+    }
 
 
 }
