@@ -49,18 +49,20 @@ object Constant {
     }
 
     fun getDefaultPlayers(numberOfPlayer: Int,name:String): List<Player> {
+        val icon =IntArray(6){it-1}
+        icon.shuffle()
         return if (numberOfPlayer == 2) {
             listOf(
                 RandomComputerPlayer(
                     name = "Robot 1",
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
-                    iconIndex = 0,
+                    iconIndex = icon[0],
                 ),
                 HumanPlayer(
                     name = name,
                     isCurrent = true,
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
-                    iconIndex = 6,
+                    iconIndex = icon[1],
                 ),
             )
         } else {
@@ -68,23 +70,23 @@ object Constant {
                 RandomComputerPlayer(
                     name = "Robot 1",
                     colors = listOf(GameColor.values()[0]),
-                    iconIndex = 0,
+                    iconIndex = icon[0],
                 ),
                 RandomComputerPlayer(
                     name = "Robot 2",
                     colors = listOf(GameColor.values()[1]),
-                    iconIndex = 1,
+                    iconIndex = icon[1],
                 ),
                 RandomComputerPlayer(
                     name = "Robot 3",
                     colors = listOf(GameColor.values()[2]),
-                    iconIndex = 2,
+                    iconIndex = icon[2],
                 ),
                 HumanPlayer(
                     name = name,
                     isCurrent = true,
                     colors = listOf(GameColor.values()[3]),
-                    iconIndex = 6,
+                    iconIndex = icon[3],
                 ),
             )
         }
