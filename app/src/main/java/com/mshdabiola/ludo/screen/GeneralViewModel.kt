@@ -22,6 +22,7 @@ import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.log
 import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.setting.MultiplatformSettings
+import com.mshdabiola.setting.model.LogLudoData
 import com.mshdabiola.util.multiplayer.P2pManager
 import com.mshdabiola.util.sound.SoundSystem
 import kotlinx.collections.immutable.toImmutableList
@@ -272,6 +273,8 @@ class GeneralViewModel(
     private suspend fun startGame(
         ludoGameState: LudoGameState,
         ludoSetting: Setting,
+        logLudoData: LogLudoData?,
+        saveLog :(LogLudoData)->Unit
     ) {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -279,11 +282,13 @@ class GeneralViewModel(
         }
 
         delay(300)
-        game.start(
+        game.start2(
+            logLudo = logLudoData,
             ludoGameState = ludoGameState,
             ludoSetting = ludoSetting,
             onGameFinish = this@GeneralViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GeneralViewModel::onPlayerFinishPlaying,
+            saveLog = saveLog
         )
     }
 
@@ -321,6 +326,12 @@ class GeneralViewModel(
             startGame(
                 ludoGameState,
                 settingUiState.value.toSetting(),
+                logLudoData = setting.getLog2(),
+                saveLog = {
+                    viewModelScope.launch {
+                        setting.setLog2(it)
+                    }
+                }
             )
             launch(Dispatchers.IO) { savedStateHandle[GAME_ID] = currId }
         }
@@ -350,6 +361,8 @@ class GeneralViewModel(
                     playerName = setting.getName(),
                 ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
                 ludoSetting.toSetting(),
+                logLudoData = null,
+                saveLog = {}
             )
         }
     }
@@ -371,6 +384,12 @@ class GeneralViewModel(
             startGame(
                 ludoGameState,
                 ludoSetting.toSetting(),
+                logLudoData = setting.getLog4(),
+                saveLog = {
+                    viewModelScope.launch {
+                        setting.setLog4(it)
+                    }
+                }
             )
             launch(Dispatchers.IO) { savedStateHandle[GAME_ID] = currId }
         }
@@ -465,6 +484,8 @@ class GeneralViewModel(
                     playerName = setting.getName(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(boardStyle = 0, gameLevel = 0),
+                logLudoData = null,
+                saveLog = {}
             )
         }
     }
@@ -494,6 +515,8 @@ class GeneralViewModel(
                     playerName = setting.getName(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(pawnNumber = noOfPawn, boardStyle = 0, gameLevel = 0),
+                logLudoData = null,
+                saveLog = {}
             )
         }
     }

@@ -3,6 +3,7 @@ package com.mshdabiola.setting
 import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.player.Player
+import com.mshdabiola.setting.model.LogLudoData
 import com.mshdabiola.setting.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -22,5 +23,13 @@ interface MultiplatformSettings {
 
      fun getUser():User
     suspend fun setUser(user:User)
+
+    suspend fun setLog2(ludoLog:LogLudoData)
+
+    fun getLog2():LogLudoData
+
+    suspend fun setLog4(ludoLog:LogLudoData)
+
+    fun getLog4():LogLudoData
 
 }

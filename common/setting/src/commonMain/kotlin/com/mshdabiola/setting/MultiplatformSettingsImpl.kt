@@ -5,6 +5,7 @@ import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.player.Player
 import com.mshdabiola.setting.model.GameSaver
+import com.mshdabiola.setting.model.LogLudoData
 import com.mshdabiola.setting.model.SettingSeri
 import com.mshdabiola.setting.model.User
 import com.mshdabiola.setting.model.toPair
@@ -39,73 +40,118 @@ internal class MultiplatformSettingsImpl(
         get() = _setting.asStateFlow()
 
 
-
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setGameSetting(setting: Setting) {
         _setting.update {
             setting
         }
         withContext(coroutineDispatcher) {
-            settings.toBlockingSettings().encodeValue(SettingSeri.serializer(), Keys.setting, setting.toSettingSeri())
+            settings.toBlockingSettings()
+                .encodeValue(SettingSeri.serializer(), Keys.setting, setting.toSettingSeri())
         }
 
 
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-     fun getGameSetting(): Setting {
+    fun getGameSetting(): Setting {
         return settings.toBlockingSettings()
             .decodeValueOrNull(
                 SettingSeri.serializer(), Keys.setting
-            )?.toSetting() ?:Setting.default
+            )?.toSetting() ?: Setting.default
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setGame(players: List<Player>, pawns: List<Pawn>) {
         withContext(coroutineDispatcher) {
             val key = "type_${players.size}"
-            val saver = GameSaver(players = players.map { it.toSaver() }, pawns = pawns.map { it.toPawnSeri() })
+            val saver = GameSaver(players = players.map { it.toSaver() },
+                pawns = pawns.map { it.toPawnSeri() })
             settings.toBlockingSettings().encodeValue(GameSaver.serializer(), key, saver)
         }
     }
 
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getGame(type: Int,name: String): Pair<List<Player>,List<Pawn>> {
+    override fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
         val key = "type_$type"
 
 
         return settings.toBlockingSettings()
             .decodeValueOrNull(GameSaver.serializer(), key)
-            ?.toPair() ?: getDefaultPlayer(type,name)
+            ?.toPair() ?: getDefaultPlayer(type, name)
 
     }
 
     override fun getName(): String {
-      val name=  getUser().name
-       return name
-        }
+        val name = getUser().name
+        return name
+    }
 
 
     @OptIn(ExperimentalSerializationApi::class)
     override fun getUser(): User {
-       return settings.toBlockingSettings()
-            .decodeValue(User.serializer(),"user", defaultValue =
-            User(id = "", photoUri = "", name = "Human"))
+        return settings.toBlockingSettings()
+            .decodeValue(
+                User.serializer(), "user", defaultValue =
+                User(id = "", photoUri = "", name = "Human")
+            )
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setUser(user: User) {
-        withContext(coroutineDispatcher){
+        withContext(coroutineDispatcher) {
             settings.toBlockingSettings()
-                .encodeValue(User.serializer(),"user",user)
+                .encodeValue(User.serializer(), "user", user)
         }
     }
 
-    private fun getDefaultPlayer(type: Int,name: String):Pair<List<Player>,List<Pawn>>{
-       val player= Constant.getDefaultPlayers(type,name)
-        val pawns=Constant.getDefaultPawns(4)
-        return Pair(player,pawns)
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun setLog2(ludoLog: LogLudoData) {
+        withContext(coroutineDispatcher) {
+            settings.toBlockingSettings()
+                .encodeValue(LogLudoData.serializer(), "log2", ludoLog)
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun getLog2(): LogLudoData {
+        return settings.toBlockingSettings()
+            .decodeValue(
+                LogLudoData.serializer(), "log2",
+                LogLudoData(
+                    neverKillInGame = true,
+                    numberOfTimeKill = 0,
+                    startTime = System.currentTimeMillis() * 1000
+                )
+            )
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun setLog4(ludoLog: LogLudoData) {
+        withContext(coroutineDispatcher) {
+            settings.toBlockingSettings()
+                .encodeValue(LogLudoData.serializer(), "log4", ludoLog)
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun getLog4(): LogLudoData {
+        return settings.toBlockingSettings()
+            .decodeValue(
+                LogLudoData.serializer(), "log4",
+                LogLudoData(
+                    neverKillInGame = true,
+                    numberOfTimeKill = 0,
+                    startTime = System.currentTimeMillis() * 1000
+                )
+            )
+    }
+
+    private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+        val player = Constant.getDefaultPlayers(type, name)
+        val pawns = Constant.getDefaultPawns(4)
+        return Pair(player, pawns)
     }
 
 }

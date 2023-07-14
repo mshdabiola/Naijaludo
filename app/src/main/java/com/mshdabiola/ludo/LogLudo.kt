@@ -7,6 +7,7 @@ import com.mshdabiola.naijaludo.model.Pawn
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.SoundInterface
 import com.mshdabiola.naijaludo.model.log
+import com.mshdabiola.setting.model.LogLudoData
 
 class LogLudo(soundInterface: SoundInterface) :
     LudoGame(soundInterface = soundInterface) {
@@ -16,41 +17,68 @@ class LogLudo(soundInterface: SoundInterface) :
     var unLockAchievement: (Int) -> Unit = {}
     var increaseAchievement: (Int) -> Unit = {}
 
-    private var startTime: Long = 0
-    private var finishTime: Long = Long.MAX_VALUE
-
-    private var notKill = true
+    private var logLudoData:LogLudoData=  LogLudoData(
+        neverKillInGame = true,
+        numberOfTimeKill = 0,
+        startTime = System.currentTimeMillis() * 1000
+    )
+    private var saveLog :(LogLudoData)->Unit={}
+    
     private var firstHumanPlayer = false
-    private var noOfKill = 0
+    
+    
+    suspend fun start2(
+        logLudo: LogLudoData?,
+        ludoGameState: LudoGameState,
+        ludoSetting: Setting,
+        onGameFinish: () -> Unit,
+        onPlayerFinishPlaying: () -> Unit,
+        saveLog :(LogLudoData)->Unit
+    ){
+        this.saveLog=saveLog
+        if (logLudo != null) {
+            this.logLudoData=logLudo
+        }
+        start(
+            ludoGameState = ludoGameState,
+            ludoSetting = ludoSetting,
+            onGameFinish = onGameFinish,
+            onPlayerFinishPlaying = onPlayerFinishPlaying
+        )
+    }
 
     override suspend fun start(
         ludoGameState: LudoGameState,
         ludoSetting: Setting,
         isGameFinish: (List<Pawn>) -> Boolean,
         onGameFinish: () -> Unit,
-        onPlayerFinishPlaying: () -> Unit
+        onPlayerFinishPlaying: () -> Unit,
     ) {
         val newOnGameFinish = {
             onGameFinish()
-            val totalTime = finishTime - startTime
+            val finishTime = System.currentTimeMillis() * 1000
+            val totalTime = finishTime - logLudoData.startTime
             //FastFinisher
             if (totalTime < 600) {
                 unLockAchievement(R.string.achievement_fast_finisher)
             }
             //Defencive master and Flawless victory
-            if (notKill) {
+            if (logLudoData.neverKillInGame) {
                 unLockAchievement(R.string.achievement_defensive_master)
                 unLockAchievement(R.string.achievement_flawless_victory)
             }
             //no mercy
-            if (noOfKill > 3) {
+            if (logLudoData.numberOfTimeKill > 3) {
                 unLockAchievement(R.string.achievement_no_mercy)
             }
 
             increaseGame()
-            finishTime = System.currentTimeMillis() * 1000
+           logLudoData= LogLudoData(
+               neverKillInGame = true,
+               numberOfTimeKill = 0,
+               startTime = System.currentTimeMillis() * 1000
+           )
         }
-        notKill = true
         firstHumanPlayer = false
 
         firebaseLog("GameSetting"){
@@ -70,7 +98,6 @@ class LogLudo(soundInterface: SoundInterface) :
             onPlayerFinishPlaying
         )
 
-        startTime = System.currentTimeMillis() * 1000
         //social ludo
         if (ludoGameState.gameType == GameType.FRIEND) {
             unLockAchievement(R.string.achievement_social_ludo)
@@ -164,10 +191,11 @@ class LogLudo(soundInterface: SoundInterface) :
     override fun kill(killer: Pawn, kill: Pawn) {
         super.kill(killer, kill)
         if (isHumanPlaying() && getHumanPawn().contains(kill)) {
-            notKill = false
+            logLudoData=logLudoData.copy(neverKillInGame = false)
         }
         if (isHumanPlaying() && getHumanPawn().contains(killer)) {
-            noOfKill += 1
+           val noOfKill = 1+logLudoData.numberOfTimeKill
+            logLudoData=logLudoData.copy(numberOfTimeKill = noOfKill)
         }
         //lucky combo
         if (isHumanPlaying() && getHumanPawn().all { it.isOut() }) {
@@ -192,6 +220,11 @@ class LogLudo(soundInterface: SoundInterface) :
         return getGameState().listOfPawn.filter {
             colors.contains(it.color).not()
         }
+    }
+
+    override fun changePlayer() {
+        super.changePlayer()
+        saveLog(logLudoData)
     }
 
     private fun isHumanPlaying() = getGameState().isHumanPlayer
