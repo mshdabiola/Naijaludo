@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toPawnColor
+import com.mshdabiola.ludo.asMainActivity
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
@@ -72,17 +73,17 @@ fun PlayerUi(
     }
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
-        withContext(Dispatchers.IO){
+        //withContext(Dispatchers.IO){
             if (player.isComputer.not()) {
                 try {
-                    val file = File(context.dataDir, "image/profile.png")
-
-                    imageBitmap = BitmapFactory.decodeFile(file.path).asImageBitmap()
+                   context.asMainActivity().loadImage {
+                       imageBitmap=it
+                   }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
-        }
+       // }
 
     }
     )

@@ -18,10 +18,9 @@ interface MultiplatformSettings {
    )
     fun getGame(type: Int,name: String):Pair<List<Player>,List<Pawn>>
 
-    fun getName():Flow<String>
-    suspend fun setName(name:String)
+    fun getName():String
 
-     fun getUser():User?
+     fun getUser():User
     suspend fun setUser(user:User)
 
 }

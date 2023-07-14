@@ -1,8 +1,16 @@
 package com.mshdabiola.ludo.database
 
 import android.app.Activity
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.Player
 import com.google.android.gms.games.SnapshotsClient
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange
@@ -12,9 +20,15 @@ import com.google.firebase.auth.PlayGamesAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mshdabiola.ludo.MainActivity
+import com.mshdabiola.ludo.R
 import com.mshdabiola.setting.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okio.internal.commonToUtf8String
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -22,7 +36,7 @@ import kotlin.coroutines.suspendCoroutine
 object FirebaseUtil {
 
 
-    suspend fun getLeaderScore(path: String, activity: MainActivity) =
+    private suspend fun getLeaderScore(path: String, activity: MainActivity) =
         suspendCoroutine { countinueation ->
             PlayGames.getLeaderboardsClient(activity)
                 .loadCurrentPlayerLeaderboardScore(
@@ -38,16 +52,27 @@ object FirebaseUtil {
                 }
         }
 
+    suspend fun getLeaderScore(type: Int, activity: MainActivity): Long {
+        val path = if (type == 2)
+            activity.resources.getString(R.string.leaderboard_solo_player_rank)
+        else
+            activity.resources.getString(R.string.leaderboard_trio_player_rank)
+
+        return getLeaderScore(path, activity)?.rawScore ?: 0
+
+    }
+
     suspend fun getName(activity: MainActivity) =
         suspendCoroutine { continuation ->
-           PlayGames.getPlayersClient(activity)
-               .currentPlayer
-               .addOnSuccessListener {
-                   continuation.resume(it.displayName)
-               }
-               .addOnFailureListener {
-                   continuation.resumeWithException(it)
-               }
+            PlayGames.getPlayersClient(activity)
+                .currentPlayer
+                .addOnSuccessListener {
+
+                    continuation.resume(it.toUser())
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
         }
 
     fun saveGame(string: String, totalScore: Long, numb: Int, activity: Activity) {
@@ -86,7 +111,19 @@ object FirebaseUtil {
 
     }
 
-    suspend fun get2Game(activity: Activity, numb: Int) = suspendCoroutine { cont ->
+    suspend fun getSaveScore(type: Int, activity: MainActivity): IntArray {
+        val rankScore = getLeaderScore(type, activity).toInt()
+        val saveScore = get2Game(activity, type)
+
+        return saveScore.mapIndexed { index, numb ->
+            if (index == saveScore.lastIndex)
+                rankScore
+            else
+                numb
+        }.toIntArray()
+    }
+
+    private suspend fun get2Game(activity: MainActivity, numb: Int) = suspendCoroutine { cont ->
 
         val snap = PlayGames.getSnapshotsClient(activity)
 
@@ -175,11 +212,38 @@ object FirebaseUtil {
 
     }
 
+    private fun downloadImage(uri: String) {
+            try {
+                val dir = File("", "image")
+                if (dir.exists().not()) {
+                    dir.mkdirs()
+                }
+                val file = File(dir, "profile.png")
+                if (file.exists())
+                    return
+                val input = URL(uri).openStream()
+
+                val outputStream = FileOutputStream(file)
+                input.copyTo(outputStream)
+                outputStream.close()
+                input.close()
+                Timber.e("download")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+
+
+
+    }
+
+
+
 
 }
 
-fun FirebaseUser.toUser()= User(
-    id = this.uid,
-    photoUri = this.photoUrl?.toString()?:"",
-    name = this.displayName ?:""
+fun Player.toUser() = User(
+    id = "",
+    photoUri = this.hiResImageUri?.toString() ?: "",
+    name = this.displayName
 )

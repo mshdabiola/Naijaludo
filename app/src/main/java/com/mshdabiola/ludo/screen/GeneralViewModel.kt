@@ -309,12 +309,12 @@ class GeneralViewModel(
 
         viewModelScope.launch(Dispatchers.Default) {
             currId = 2
-            val name=setting.getName().first()
+            val name=setting.getName()
             val ludoGameState =
                 getSavedGame(currId,name)
                     ?: Constant.getDefaultGameState(
                         numberOfPawn = settingUiState.value.pawnNumber,
-                        playerName = setting.getName().first(),
+                        playerName = setting.getName(),
                     )
             Timber.e("Loaded pawn ${ludoGameState.listOfPawn.joinToString { "color ${it.colorNumber}" }}")
 
@@ -347,7 +347,7 @@ class GeneralViewModel(
             startGame(
                 Constant.getDefaultGameState(
                     numberOfPawn = ludoSetting.pawnNumber,
-                    playerName = setting.getName().first(),
+                    playerName = setting.getName(),
                 ).copy(gameType = GameType.FRIEND, listOfPlayer = players),
                 ludoSetting.toSetting(),
             )
@@ -360,7 +360,7 @@ class GeneralViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             currId = 4
 
-            val name=setting.getName().first()
+            val name=setting.getName()
             val ludoGameState =
                 getSavedGame(currId,name)
                     ?: Constant.getDefaultGameState(
@@ -451,7 +451,7 @@ class GeneralViewModel(
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                 ),
                 HumanPlayer(
-                    name = setting.getName().first(),
+                    name = setting.getName(),
                     isCurrent = true,
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                     iconIndex = 6,
@@ -462,7 +462,7 @@ class GeneralViewModel(
                 Constant.getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = ludoSetting.pawnNumber,
-                    playerName = setting.getName().first(),
+                    playerName = setting.getName(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(boardStyle = 0, gameLevel = 0),
             )
@@ -481,7 +481,7 @@ class GeneralViewModel(
                     colors = listOf(GameColor.values()[0], GameColor.values()[1]),
                 ),
                 HumanPlayer(
-                    name = setting.getName().first(),
+                    name = setting.getName(),
                     colors = listOf(GameColor.values()[2], GameColor.values()[3]),
                     iconIndex = 6,
                 ),
@@ -491,7 +491,7 @@ class GeneralViewModel(
                 Constant.getDefaultGameState(
                     numberOfPlayer = 2,
                     numberOfPawn = noOfPawn,
-                    playerName = setting.getName().first(),
+                    playerName = setting.getName(),
                 ).copy(listOfPlayer = player, gameType = GameType.REMOTE),
                 ludoSetting.toSetting().copy(pawnNumber = noOfPawn, boardStyle = 0, gameLevel = 0),
             )
@@ -547,12 +547,7 @@ class GeneralViewModel(
     }
 
 
-    //log logic
 
-
-    fun logFirebase(name: String, vararg pair: Pair<String, Any>) {
-        // fireAnalyticsLog.log(name, *pair)
-    }
 
 
     //save game logic
@@ -576,9 +571,9 @@ class GeneralViewModel(
         val ludoAndOthers = setting.getGame(id,playerName)
 
         var pawns = ludoAndOthers.second
-        val players = ludoAndOthers.first
+        val players = ludoAndOthers.first.toMutableList()
 
-        if (players.isNullOrEmpty())
+        if (players.isEmpty())
             return null
 
         if (pawns.isNotEmpty()) {
@@ -592,6 +587,8 @@ class GeneralViewModel(
             pawns = Constant.getDefaultPawns(settingUiState.value.pawnNumber)
         }
 
+        val index=players.lastIndex
+        players[index]=players[index].copyPlayer(name = playerName)
         return Constant.getDefaultGameState(playerName = playerName)
             .copy(listOfPlayer = players, listOfPawn = pawns)
     }

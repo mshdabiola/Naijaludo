@@ -1,8 +1,13 @@
 package com.mshdabiola.ludo
 
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -18,11 +23,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -201,17 +211,16 @@ class MainActivity : ComponentActivity() {
                 })
                 remoteConfig?.fetchAndActivate()
 
-                if (oldUser != null) {
-                    analytics?.setUserId(oldUser.id)
-                }
+                analytics?.setUserId(oldUser.id)
 
                 logScoreToFirebase()
-                val name = FirebaseUtil.getName(this@MainActivity)
-                Timber.e("name :$name")
-                settingUiState.setName(name)
+                val user = FirebaseUtil.getName(this@MainActivity)
+                Timber.e("name :$user old $oldUser")
+                settingUiState.setUser(oldUser.copy(name = user.name, photoUri = user.photoUri))
 
-                val game2 = settingUiState.getGame(2,name)
-                val score2 = FirebaseUtil.get2Game(this@MainActivity, 2)
+
+                val game2 = settingUiState.getGame(2,user.name)
+                val score2 = FirebaseUtil.getSaveScore(2,this@MainActivity, )
                 if (score2.sum() > game2.first.sumOf { it.win }) {
                     val newPlay2 = game2.first.mapIndexed { index, player ->
                         player.copyPlayer(win = score2[index])
@@ -219,8 +228,8 @@ class MainActivity : ComponentActivity() {
                     settingUiState.setGame(newPlay2, game2.second)
                 }
 
-                val game4 = settingUiState.getGame(4,name)
-                val score4 = FirebaseUtil.get2Game(this@MainActivity, 4)
+                val game4 = settingUiState.getGame(4,user.name)
+                val score4 = FirebaseUtil.getSaveScore(4,this@MainActivity)
                 if (score4.sum() > game4.first.sumOf { it.win }) {
                     val newPlay4 = game4.first.mapIndexed { index, player ->
                         player.copyPlayer(win = score4[index])
@@ -230,8 +239,8 @@ class MainActivity : ComponentActivity() {
 
 
                 FirebaseUtil.loginForFirebase(this@MainActivity, getString(R.string.authe_id)) {
-                    if (oldUser == null || it.toUser() !== oldUser) {
-                        launch { firebaseSetUp(it.toUser()) }
+                    if (it.uid != oldUser.id) {
+                        launch { firebaseSetUp(it.uid) }
                     }
 
                 }
@@ -244,11 +253,11 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private suspend fun firebaseSetUp(user: User) {
+    private suspend fun firebaseSetUp(id:String) {
 
-        settingUiState.setUser(user)
-        downloadImage(user.photoUri)
-        analytics?.setUserId(user.id)
+        val user=settingUiState.getUser()
+        settingUiState.setUser(user.copy(id=id))
+        analytics?.setUserId(id)
 
     }
 
@@ -256,13 +265,13 @@ class MainActivity : ComponentActivity() {
     private fun logScoreToFirebase() {
         lifecycleScope.launch(Dispatchers.IO) {
             val name = FirebaseUtil.getName(this@MainActivity)
-            val game = settingUiState.getGame(2,name)
+            val game = settingUiState.getGame(2,name.name)
             game.let {
                 val players = it.first
                 analytics?.setUserProperty("soloHuman", players[1].win.toString())
                 analytics?.setUserProperty("soloComputer", players[0].win.toString())
             }
-            val game4 = settingUiState.getGame(4,name )
+            val game4 = settingUiState.getGame(4,name.name )
             game4.let {
                 val players = it.first
                 analytics?.setUserProperty("trioHuman", players[3].win.toString())
@@ -275,31 +284,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun downloadImage(uri: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val dir = File(applicationContext.dataDir, "image")
-                if (dir.exists().not()) {
-                    dir.mkdirs()
-                }
-                val file = File(dir, "profile.png")
-                if (file.exists())
-                    return@launch
-                val input = URL(uri).openStream()
 
-                val outputStream = FileOutputStream(file)
-                input.copyTo(outputStream)
-                outputStream.close()
-                input.close()
-                Timber.e("download")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-
-        }
-
-    }
 
     fun updateLeaderboard(players: List<PlayerUiState>) {
         lifecycleScope.launch {
@@ -335,6 +320,28 @@ class MainActivity : ComponentActivity() {
             )
 
         }
+    }
+
+    fun loadImage(getImage:(ImageBitmap)->Unit) {
+
+        val user =settingUiState.getUser().photoUri
+        val image = ImageManager.create(this)
+        image.loadImage({ _: Uri, drawable: Drawable?, isRequestDrawable: Boolean ->
+
+            if (isRequestDrawable && drawable != null) {
+                val image2 = ImageBitmap(100, 100, ImageBitmapConfig.Argb8888)
+                val canvas = Canvas(image2)
+
+                drawable.bounds= Rect(0,0,image2.width,image2.height)
+
+                drawable.draw(canvas.nativeCanvas)
+
+                Timber.e("load image")
+
+                getImage(image2)
+
+            }
+        }, Uri.parse(user))
     }
 
 }

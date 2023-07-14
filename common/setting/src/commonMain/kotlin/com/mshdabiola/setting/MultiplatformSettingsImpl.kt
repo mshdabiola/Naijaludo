@@ -15,6 +15,7 @@ import com.mshdabiola.setting.model.toSettingSeri
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toBlockingSettings
+import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.decodeValueOrNull
 import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
@@ -80,20 +81,17 @@ internal class MultiplatformSettingsImpl(
 
     }
 
-    override fun getName(): Flow<String> {
-       return settings.getStringFlow("name","Human")
-    }
-
-    override suspend fun setName(name: String) {
-        withContext(coroutineDispatcher){
-            settings.putString("name",name)
+    override fun getName(): String {
+      val name=  getUser().name
+       return name
         }
-    }
+
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getUser(): User? {
+    override fun getUser(): User {
        return settings.toBlockingSettings()
-            .decodeValueOrNull(User.serializer(),"user")
+            .decodeValue(User.serializer(),"user", defaultValue =
+            User(id = "", photoUri = "", name = "Human"))
     }
 
     @OptIn(ExperimentalSerializationApi::class)
