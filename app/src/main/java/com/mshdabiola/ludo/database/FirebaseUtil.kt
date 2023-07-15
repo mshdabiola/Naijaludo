@@ -27,6 +27,7 @@ import com.mshdabiola.ludo.MainActivity
 import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.setting.model.User
+import kotlinx.coroutines.tasks.await
 import okio.internal.commonToUtf8String
 import timber.log.Timber
 import java.io.File
@@ -277,6 +278,12 @@ object FirebaseUtil {
                 it.resume(image2)
             }
         }, Uri.parse(path))
+    }
+
+    suspend fun test(){
+//        val cli=PlayGames.getAchievementsClient()
+//          val we=  cli.load(true)
+//                .await()
     }
 
 

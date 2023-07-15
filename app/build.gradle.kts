@@ -84,13 +84,6 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.android.compose)
 
-    implementation(libs.play.game)
-    implementation(libs.play.update)
-    implementation(libs.play.update.kts)
-    implementation(libs.admob.service)
-    implementation(libs.play.review)
-    implementation(libs.play.review.kts)
-
 
     implementation((libs.androidx.constraintlayout))
 

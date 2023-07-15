@@ -44,6 +44,7 @@ composePlugin = "1.4.0"
 
 playGame = "17.0.0"
 playReview = "2.0.1"
+playCoroutine = "1.7.2"
 
 koin = "3.4.2"
 koinTest = "3.4.1"
@@ -114,6 +115,13 @@ firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 firebase-performance-gradle = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 
+play-game = { module = "com.google.android.gms:play-services-games-v2", version.ref = "playGame" }
+play-review = { module = "com.google.android.play:review", version.ref = "playReview" }
+play-review-kts = { module = "com.google.android.play:review-ktx", version.ref = "playReview" }
+play-update = { module = "com.google.android.play:app-update", version.ref = "playReview" }
+play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
+play-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playCoroutine" }
+
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
@@ -135,14 +143,6 @@ koin_test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
 koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTest" }
 koin_test_junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koinTest" }
 koin_android_test = { module = "io.insert-koin:koin-android-test", version.ref = "koinTest" }
-
-
-
-play-game = { module = "com.google.android.gms:play-services-games-v2", version.ref = "playGame" }
-play-review = { module = "com.google.android.play:review", version.ref = "playReview" }
-play-review-kts = { module = "com.google.android.play:review-ktx", version.ref = "playReview" }
-play-update = { module = "com.google.android.play:app-update", version.ref = "playReview" }
-play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
 
 multiplatform_settings_core = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform_settings" }
 multiplatform_settings_noArg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform_settings" }

@@ -44,6 +44,14 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("firebase.remoteconfig").get())
                 "implementation"(libs.findLibrary("firebase.message").get())
                 "implementation"(libs.findLibrary("firebase.auth").get())
+
+                "implementation"(libs.findLibrary("play.game").get())
+                "implementation"(libs.findLibrary("play.update").get())
+                "implementation"(libs.findLibrary("play.update.kts").get())
+                "implementation"(libs.findLibrary("admob.service").get())
+                "implementation"(libs.findLibrary("play.review").get())
+                "implementation"(libs.findLibrary("play.review.kts").get())
+               // "implementation"(libs.findLibrary("play.coroutine").get())
             }
 
             extensions.configure<ApplicationAndroidComponentsExtension> {
