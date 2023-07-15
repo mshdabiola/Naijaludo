@@ -2,12 +2,15 @@ package com.mshdabiola.ludo.screen.game.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -22,21 +25,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.mshdabiola.designsystem.icon.LudoIcon.DiceImage
 import com.mshdabiola.designsystem.icon.LudoIcon.DiceRollImage
 import com.mshdabiola.ludo.screen.game.getInitOfDice
 import com.mshdabiola.ludo.screen.game.randDiceOffSet
 import com.mshdabiola.ludo.screen.game.state.DiceUiState
-import com.mshdabiola.ludo.screen.game.state.toBoardUiState
-import com.mshdabiola.ludo.screen.game.state.toDiceUiState
-import com.mshdabiola.naijaludo.model.Constant.getDefaultGameState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,6 +48,7 @@ fun DiceUi(
     rotate: () -> Float = { 0f },
     offset: () -> Offset = { Offset.Zero },
     onDiceClick: () -> Unit = {},
+    scale: () -> Float = { 1f }
 ) {
     val unitDp = LocalUnitDP.current
 
@@ -65,6 +67,9 @@ fun DiceUi(
             }
             .graphicsLayer {
                 rotationZ = rotate()
+                this.transformOrigin = TransformOrigin.Center
+                scaleX = scale()
+                scaleY = scale()
             }
             .clickable(enabled = diceUiState.isEnable && isEnableForPlayer) {
                 onDiceClick()
@@ -73,23 +78,6 @@ fun DiceUi(
         contentDescription = "dice",
 
         )
-}
-
-@Preview
-@Composable
-fun DiceUiPreview() {
-    val ludoGameState = getDefaultGameState()
-    val board = ludoGameState.board.toBoardUiState()
-
-    BoardUi(boardUiStateProvider = { board }) {
-        DicesUi(
-            diceUiStateListProvider = {
-                ludoGameState.listOfDice.map {
-                    it.toDiceUiState()
-                }.toImmutableList()
-            },
-        )
-    }
 }
 
 @Composable
@@ -119,6 +107,9 @@ fun DicesUi(
     }
 }
 
+
+
+
 @Composable
 fun AnimateDiceUi(
     modifier: Modifier = Modifier,
@@ -134,13 +125,40 @@ fun AnimateDiceUi(
     val off = remember {
         Animatable(iniOff, Offset.VectorConverter)
     }
-    val rot = remember {
-        Animatable(0f)
-    }
+    val float = rememberInfiniteTransition(label = "infinite")
 
-    LaunchedEffect(key1 = diceUiState.animate) {
-        if (diceUiState.animate) {
-            launch {
+    val value = float.animateFloat(
+        initialValue = 0f, targetValue = 360f, animationSpec = infiniteRepeatable(
+            tween(100, easing = FastOutLinearInEasing),
+
+            ), label = "rotate"
+    )
+    val scale = float.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            tween(500),
+            repeatMode = RepeatMode.Reverse
+        ), label = "scale"
+    )
+
+
+
+    LaunchedEffect(key1 = diceUiState) {
+
+        when {
+            diceUiState.isEnable && isHuman -> {
+                off.animateTo(
+                    iniOff,
+                    animationSpec = spring(
+                        Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium,
+                    ),
+                )
+
+            }
+
+            diceUiState.animate -> {
                 off.animateTo(
                     randDiceOffSet(),
                     animationSpec = tween(
@@ -150,23 +168,7 @@ fun AnimateDiceUi(
                 )
             }
 
-            launch {
-                rot.animateTo(
-                    360f,
-                    animationSpec = repeatable(
-                        12,
-                        keyframes {
-                            durationMillis = 50
-                            0f at 0
-                            180f at 25
-                            360f at 50
-                        },
-                    ),
-                )
-            }
-        } else {
-            launch {
-                rot.snapTo(0f)
+            else -> {
                 off.animateTo(
                     iniOff,
                     animationSpec = spring(
@@ -175,35 +177,37 @@ fun AnimateDiceUi(
                     ),
                 )
             }
+
         }
     }
 
-    LaunchedEffect(key1 = diceUiState.isEnable, key2 = isHuman, block = {
-        if (diceUiState.isEnable && isHuman) {
-            launch {
-                rot.animateTo(
-                    360f,
-                    animationSpec = infiniteRepeatable(
-                        repeatMode = RepeatMode.Reverse,
-                        animation = keyframes {
-                            durationMillis = 2000
 
-                            180f atFraction 0.5f
-                            359f atFraction 0.999f
-                            0f atFraction 1f
-                        },
-                    ),
-                )
-            }
-        }
-    })
 
     DiceUi(
-        modifier = modifier.zIndex(40f),
+        modifier = modifier
+            .zIndex(40f),
         diceUiState = diceUiState,
         isEnableForPlayer = isHuman,
-        rotate = { rot.value },
+        rotate = { if (diceUiState.animate) value.value else 0f },
         offset = { off.value },
+        scale = { if (diceUiState.isEnable && isHuman) scale.value else 1f },
         onDiceClick = onClick,
     )
+}
+
+@Preview
+@Composable
+fun DiceUiPreview() {
+    Box(modifier = Modifier.size(200.dp)) {
+        AnimateDiceUi(
+            modifier = Modifier.size(50.dp),
+            diceUiState = DiceUiState(
+                animate = false,
+                isEnable = true,
+            ),
+            numberOfDice = 0,
+            isHuman = true
+        )
+    }
+
 }

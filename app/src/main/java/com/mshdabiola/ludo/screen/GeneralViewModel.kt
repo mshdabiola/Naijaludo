@@ -267,7 +267,7 @@ class GeneralViewModel(
             }
             closeBlue()
             _gameUiState.update {
-                it.copy(isStartDialogOpen = false)
+                GameUiState().copy(isStartDialogOpen = false)
             }
             delay(250)
             _gameUiState.update {

@@ -242,13 +242,14 @@ fun GameScreen(
 
     Scaffold { paddingValues ->
         if (showText) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "Loading...",
-
-                    style = MaterialTheme.typography.headlineMedium,
-                )
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                Text(
+//                    modifier = Modifier.align(Alignment.Center),
+//                    text = "Loading...",
+//
+//                    style = MaterialTheme.typography.headlineMedium,
+//                )
+                Loading()
             }
         } else {
             GameScreen(
