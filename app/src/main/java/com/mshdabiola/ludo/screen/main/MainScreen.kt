@@ -99,6 +99,7 @@ fun MainScreen(
             // navController.popBackStack()
             //  navController.navigate("game")
             navigateTo()
+            mainViewModel.onPlayGame()
         },
         onCloseApp = {
             activity.finish()

@@ -150,7 +150,7 @@ fun GameScreen(
 
         onDispose {
             lifecycle.removeObserver(observer)
-            gameScreenViewModel.onDestroy()
+            //gameScreenViewModel.onDestroy()
         }
     }
 

@@ -49,7 +49,7 @@ object Constant {
     }
 
     fun getDefaultPlayers(numberOfPlayer: Int,name:String): List<Player> {
-        val icon =IntArray(6){it-1}
+        val icon =IntArray(6){it}
         icon.shuffle()
         return if (numberOfPlayer == 2) {
             listOf(

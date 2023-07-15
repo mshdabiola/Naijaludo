@@ -54,10 +54,10 @@ class GeneralViewModel(
 
     private val game by lazy { LogLudo(soundSystem) }
     private val showDialog = savedStateHandle.get<Boolean>(SHOW_DIALOG)
-    private val gameId2 = savedStateHandle.get<Int>(GAME_ID) ?: 2
-    private var currId = gameId2
+    private val gameId2 = savedStateHandle.get<Int>(GAME_ID)
+    private var currId = gameId2 ?: 2
     private val _gameUiState =
-        MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: true))
+        MutableStateFlow(GameUiState(isStartDialogOpen = showDialog ?: false))
     val gameUiState = _gameUiState.asStateFlow()
 
     private var clientServerJob: Job? = null
@@ -258,15 +258,23 @@ class GeneralViewModel(
         saveData()
     }
 
-    fun onDestroy() {
-        Timber.e("destroy game")
-        _gameUiState.update {
-            it.copy(isStartDialogOpen = true)
+    fun onPlayGame() {
+        viewModelScope.launch {
+            Timber.e("destroy game")
+
+            _ludoGameState.update {
+                LudoUiState(board = BoardUiState())
+            }
+            closeBlue()
+            _gameUiState.update {
+                it.copy(isStartDialogOpen = false)
+            }
+            delay(250)
+            _gameUiState.update {
+                it.copy(isStartDialogOpen = true)
+            }
         }
-        _ludoGameState.update {
-            LudoUiState(board = BoardUiState())
-        }
-        closeBlue()
+
     }
 
     //on start game logic
@@ -618,10 +626,12 @@ class GeneralViewModel(
 
     private fun resumeFromDatabase() {
         viewModelScope.launch {
-            if (gameId2 == 2)
-                onYouAndComputer()
-            else
-                onTournament()
+            if (gameId2!=null) {
+                if (gameId2 == 2)
+                    onYouAndComputer()
+                else
+                    onTournament()
+            }
 
         }
     }
