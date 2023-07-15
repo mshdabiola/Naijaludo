@@ -292,26 +292,27 @@ class MainActivity : ComponentActivity() {
 
 
     fun updateLeaderboard(players: List<PlayerUiState>) {
-        lifecycleScope.launch {
+        if (players.isNotEmpty()) {
+            lifecycleScope.launch {
 
-            val single = resources.getString(R.string.leaderboard_solo_player_rank)
-            val multi = resources.getString(R.string.leaderboard_trio_player_rank)
+                val single = resources.getString(R.string.leaderboard_solo_player_rank)
+                val multi = resources.getString(R.string.leaderboard_trio_player_rank)
 
-            val num = players.size
-            val score = players.last().win
-            if (num == 2) {
-                PlayGames.getLeaderboardsClient(this@MainActivity)
-                    .submitScoreImmediate(single, score.toLong())
-                saveGame(players.map { it.win }.toIntArray(), 2)
-            } else {
-                PlayGames.getLeaderboardsClient(this@MainActivity)
-                    .submitScoreImmediate(multi, score.toLong())
-                saveGame(players.map { it.win }.toIntArray(), 4)
+                val num = players.size
+                val score = players.last().win
+                if (num == 2) {
+                    PlayGames.getLeaderboardsClient(this@MainActivity)
+                        .submitScoreImmediate(single, score.toLong())
+                    saveGame(players.map { it.win }.toIntArray(), 2)
+                } else {
+                    PlayGames.getLeaderboardsClient(this@MainActivity)
+                        .submitScoreImmediate(multi, score.toLong())
+                    saveGame(players.map { it.win }.toIntArray(), 4)
+                }
+
+
             }
-
-
         }
-
     }
 
     private fun saveGame(compScore: IntArray, num: Int) {

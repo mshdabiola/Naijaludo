@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.ludo.asMainActivity
+import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
@@ -78,9 +79,7 @@ fun PlayerUi(
         //withContext(Dispatchers.IO){
             if (player.isComputer.not()) {
                 try {
-                   context.asMainActivity().loadImage {
-                       imageBitmap=it
-                   }
+                imageBitmap=   FirebaseUtil.loadImage(context,Constant.photoUri)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

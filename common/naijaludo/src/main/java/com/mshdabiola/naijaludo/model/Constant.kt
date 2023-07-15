@@ -15,6 +15,8 @@ object Constant {
     private const val numberOfDice = 3
     private const val totalIndex = numberOfDice / 2
     var difficulty=6
+
+    var photoUri:String?=null
     fun getDefaultGameState(
         numberOfPlayer: Int = 2,
         numberOfPawn: Int = 4,

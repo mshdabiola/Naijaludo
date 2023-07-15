@@ -322,12 +322,14 @@ class GeneralViewModel(
 
         viewModelScope.launch(Dispatchers.Default) {
             currId = 2
-            val name=setting.getName()
+            val user=setting.getUser()
+            Constant.photoUri=user.photoUri
+
             val ludoGameState =
-                getSavedGame(currId,name)
+                getSavedGame(currId,user.name)
                     ?: Constant.getDefaultGameState(
                         numberOfPawn = settingUiState.value.pawnNumber,
-                        playerName = setting.getName(),
+                        playerName = user.name,
                     )
             Timber.e("Loaded pawn ${ludoGameState.listOfPawn.joinToString { "color ${it.colorNumber}" }}")
 
@@ -381,13 +383,14 @@ class GeneralViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             currId = 4
 
-            val name=setting.getName()
+            val user=setting.getUser()
+            Constant.photoUri=user.photoUri
             val ludoGameState =
-                getSavedGame(currId,name)
+                getSavedGame(currId,user.name)
                     ?: Constant.getDefaultGameState(
                         numberOfPlayer = 4,
                         numberOfPawn = ludoSetting.pawnNumber,
-                        playerName = name,
+                        playerName = user.name,
                     )
             startGame(
                 ludoGameState,

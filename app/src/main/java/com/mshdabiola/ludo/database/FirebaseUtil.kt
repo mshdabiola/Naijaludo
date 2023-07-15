@@ -1,6 +1,15 @@
 package com.mshdabiola.ludo.database
 
 import android.app.Activity
+import android.content.Context
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.nativeCanvas
+import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.AuthenticationResult
 import com.google.android.gms.games.PlayGames
@@ -247,8 +256,27 @@ object FirebaseUtil {
                 counti.resume(null)
                 it.printStackTrace()
             }
+    }
+    suspend fun loadImage(context: Context,path: String?)= suspendCoroutine {
 
+        if (path==null)
+            it.resume(null)
+        val image = ImageManager.create(context)
+        image.loadImage({ _: Uri, drawable: Drawable?, isRequestDrawable: Boolean ->
 
+            if (isRequestDrawable && drawable != null) {
+                val image2 = ImageBitmap(100, 100, ImageBitmapConfig.Argb8888)
+                val canvas = Canvas(image2)
+
+                drawable.bounds= Rect(0,0,image2.width,image2.height)
+
+                drawable.draw(canvas.nativeCanvas)
+
+                Timber.e("load image")
+
+                it.resume(image2)
+            }
+        }, Uri.parse(path))
     }
 
 
