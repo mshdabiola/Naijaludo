@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.mshdabiola.benchmark"
-    compileSdk = 33
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_BUILD_TYPE_SUFFIX", "\"\"")
@@ -84,7 +84,7 @@ dependencies {
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.androidx.benchmark.macro)
-    implementation(libs.androidx.profileinstaller)
+    //implementation(libs.androidx.profileinstaller)
 }
 
 androidComponents {

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -65,6 +66,7 @@ fun DiceUi(
             .offset {
                 IntOffset((unitDp * offset().x).roundToPx(), (unitDp * offset().y).roundToPx())
             }
+            .testTag("dice${diceUiState.id}")
             .graphicsLayer {
                 rotationZ = rotate()
                 this.transformOrigin = TransformOrigin.Center
@@ -75,7 +77,7 @@ fun DiceUi(
                 onDiceClick()
             },
         painter = painterResource(id = res),
-        contentDescription = "dice",
+        contentDescription = "dice${diceUiState.id}",
 
         )
 }

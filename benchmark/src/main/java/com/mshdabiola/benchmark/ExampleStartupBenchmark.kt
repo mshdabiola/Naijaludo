@@ -30,7 +30,7 @@ class ExampleStartupBenchmark {
 
     @Test
     fun startup() = benchmarkRule.measureRepeated(
-        packageName = "com.mshdabiola.xnotepad",
+        packageName = "com.mshdabiola.ludo.benchmark",
         metrics = listOf(StartupTimingMetric()),
         iterations = 5,
         startupMode = StartupMode.COLD,

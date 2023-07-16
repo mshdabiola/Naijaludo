@@ -84,7 +84,10 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 FirebaseUtil.login(this@MainActivity) {
-                    setUp()
+                    if (it){
+                        setUp()
+                    }
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
