@@ -5,12 +5,10 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.mshdabiola.ludo.screen.DEVICE_TYPE
 
 class LudoAppState(
-    val windowSizeClass: WindowSizeClass,
-    val navHostController: NavHostController,
+    private val windowSizeClass: WindowSizeClass,
 ) {
 
 
@@ -29,14 +27,14 @@ class LudoAppState(
 
     private fun isTabletPort() = windowSizeClass.heightSizeClass == WindowHeightSizeClass.Expanded
 
-    fun getDevietype(): com.mshdabiola.common.navigation.DEVICE_TYPE {
+    fun getDevietype(): DEVICE_TYPE {
         val dev = when {
-            isPhonePort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.PHONE_PORT
-            isPhoneLand() -> com.mshdabiola.common.navigation.DEVICE_TYPE.PHONE_LAND
-            isFondPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.FOLD_PORT
-            isFondLandAndTabletPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
-            isTabletPort() -> com.mshdabiola.common.navigation.DEVICE_TYPE.TABLET_PORT
-            else -> com.mshdabiola.common.navigation.DEVICE_TYPE.DEFAULT
+            isPhonePort() -> DEVICE_TYPE.PHONE_PORT
+            isPhoneLand() -> DEVICE_TYPE.PHONE_LAND
+            isFondPort() -> DEVICE_TYPE.FOLD_PORT
+            isFondLandAndTabletPort() -> DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
+            isTabletPort() -> DEVICE_TYPE.TABLET_PORT
+            else -> DEVICE_TYPE.DEFAULT
         }
         // log("device $dev height- ${windowSizeClass.heightSizeClass}, width- ${windowSizeClass.widthSizeClass}")
         return dev
@@ -45,11 +43,10 @@ class LudoAppState(
 }
 
 @Composable
-fun rememBerLudoAppState(
+fun rememberLudoAppState(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController = rememberNavController(),
 ): LudoAppState {
-    return remember(key1 = navController, key2 = windowSizeClass) {
-        LudoAppState(windowSizeClass, navController)
+    return remember(key1 = windowSizeClass) {
+        LudoAppState(windowSizeClass)
     }
 }

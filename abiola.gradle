@@ -8,3 +8,6 @@ task createSpotlessPreCommitHook() {
 """
     "chmod +x .git/hooks/pre-commit".execute()
 }
+
+//adb shell setprop debug.firebase.analytics.app com.mshdabiola.ludo.debug
+//adb shell setprop debug.firebase.analytics.app .none.

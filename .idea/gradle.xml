@@ -16,8 +16,6 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
@@ -27,16 +25,15 @@
             <option value="$PROJECT_DIR$/benchmark" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/common" />
-            <option value="$PROJECT_DIR$/core/database" />
-            <option value="$PROJECT_DIR$/core/datastore" />
-            <option value="$PROJECT_DIR$/core/designsystem" />
-            <option value="$PROJECT_DIR$/core/naijaludo" />
-            <option value="$PROJECT_DIR$/core/worker" />
-            <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/gamescreen" />
-            <option value="$PROJECT_DIR$/feature/mainScreen" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common/designsystem" />
+            <option value="$PROJECT_DIR$/common/naijaludo" />
+            <option value="$PROJECT_DIR$/common/navigation" />
+            <option value="$PROJECT_DIR$/common/setting" />
+            <option value="$PROJECT_DIR$/common/testing" />
+            <option value="$PROJECT_DIR$/common/ui" />
+            <option value="$PROJECT_DIR$/common/util" />
+            <option value="$PROJECT_DIR$/desktop" />
           </set>
         </option>
       </GradleProjectSettings>
