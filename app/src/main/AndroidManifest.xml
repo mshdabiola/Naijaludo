@@ -56,7 +56,7 @@
             android:value="@string/game_services_project_id" />
         <meta-data
             android:name="firebase_performance_logcat_enabled"
-            android:value="true" />
+            android:value="false" />
 
         <activity
             android:name=".MainActivity"

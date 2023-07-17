@@ -51,7 +51,7 @@ android {
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             // Todo: comment code before release
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             versionNameSuffix = BuildType.RELEASE.versionNameSuffix
         }
