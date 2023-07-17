@@ -35,7 +35,7 @@ fun AchievementUi(
     ) {
         CircularProgressIndicator(
             progress = achData.progress,
-            trackColor = MaterialTheme.colorScheme.surface
+            trackColor = MaterialTheme.colorScheme.secondaryContainer
         )
         Column(
             modifier = Modifier.weight(1f),
