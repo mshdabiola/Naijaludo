@@ -18,10 +18,8 @@ import com.android.build.gradle.LibraryExtension
 import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class MppLibraryComposeConventionPlugin : Plugin<Project> {
@@ -35,7 +33,7 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
             configureAndroidCompose(extension)
             extensions.configure<KotlinMultiplatformExtension> {
                 //val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-                with(sourceSets){
+                with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {

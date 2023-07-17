@@ -51,7 +51,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("admob.service").get())
                 "implementation"(libs.findLibrary("play.review").get())
                 "implementation"(libs.findLibrary("play.review.kts").get())
-               // "implementation"(libs.findLibrary("play.coroutine").get())
+                // "implementation"(libs.findLibrary("play.coroutine").get())
             }
 
             extensions.configure<ApplicationAndroidComponentsExtension> {

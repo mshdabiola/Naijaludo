@@ -65,7 +65,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import com.google.android.gms.games.achievement.Achievement
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
@@ -83,7 +82,7 @@ import kotlin.random.Random
 @Composable
 fun StartDialog(
     show: Boolean = true,
-    showMultiPlayer : Boolean=true,
+    showMultiPlayer: Boolean = true,
     onBackPress: () -> Unit = {},
     onYouAndComputer: () -> Unit = {},
     onTournament: () -> Unit = {},
@@ -96,46 +95,54 @@ fun StartDialog(
             onDismissRequest = { },
             content = {
 
-                    FlowRow (
-                        modifier=Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState()),
-                        //horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        //verticalArrangement = Arrangement.spacedBy(4.dp),
-                        maxItemsInEachRow = 2
-                    ){
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    //horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    //verticalArrangement = Arrangement.spacedBy(4.dp),
+                    maxItemsInEachRow = 2
+                ) {
+                    GameCard(
+                        Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(2.dp),
+                        title = stringResource(id = R.string.vs_one_comp_detail),
+                        onButtonClick = onYouAndComputer,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.computer),
+                    )
+
+                    GameCard(
+                        Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(2.dp),
+                        title = stringResource(id = R.string.vs_many_comp_detail),
+                        onButtonClick = onTournament,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.computer_multiplayer),
+                    )
+                    if (showMultiPlayer) {
                         GameCard(
-                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
-                            title = stringResource(id = R.string.vs_one_comp_detail),
-                            onButtonClick = onYouAndComputer,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computer),
+                            Modifier
+                                .fillMaxWidth(0.5f)
+                                .padding(2.dp),
+                            title = stringResource(id = R.string.blutooth_multi_desc),
+                            onButtonClick = onJoinClick,
+                            imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
+                            buttonText = stringResource(id = R.string.connect),
                         )
-
-                        GameCard(
-                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
-                            title = stringResource(id = R.string.vs_many_comp_detail),
-                            onButtonClick = onTournament,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.computer_multiplayer),
-                        )
-                        if (showMultiPlayer){
-                            GameCard(
-                                Modifier.fillMaxWidth(0.5f).padding(2.dp),
-                                title = stringResource(id = R.string.blutooth_multi_desc),
-                                onButtonClick = onJoinClick,
-                                imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
-                                buttonText = stringResource(id = R.string.connect),
-                            )
-                        }
-
-
-                        GameCard(
-                            Modifier.fillMaxWidth(0.5f).padding(2.dp),
-                            title = stringResource(id = R.string.vs_friend),
-                            onButtonClick = onFriend,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.friend),
-                        )
-
                     }
+
+
+                    GameCard(
+                        Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(2.dp),
+                        title = stringResource(id = R.string.vs_friend),
+                        onButtonClick = onFriend,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.friend),
+                    )
+
+                }
 
 
             },
@@ -167,7 +174,7 @@ fun GameOverDialog(
     onRestart: () -> Unit = {},
     onHome: () -> Unit = {},
     onShare: () -> Unit = {},
-    onShowMore:()->Unit={}
+    onShowMore: () -> Unit = {}
 ) {
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
@@ -218,7 +225,7 @@ fun GameOverDialog(
                         } else {
                             Text(text = stringResource(id = R.string.player_loss_msg))
                         }
-                        if (achievementData!=null){
+                        if (achievementData != null) {
                             Spacer(modifier = Modifier.height(8.dp))
                             AchievementUi(achievementData, onClick = onShowMore)
                         }
@@ -273,7 +280,7 @@ fun GameOverPreview() {
             PlayerUiState(),
             PlayerUiState(isCurrent = true),
         ).toImmutableList(),
-        achievementData =ArchievementData("King of Ludo",0.6f)
+        achievementData = ArchievementData("King of Ludo", 0.6f)
     )
 }
 

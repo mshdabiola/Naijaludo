@@ -94,7 +94,7 @@ compose.desktop {
             version = "1.0.1"
             licenseFile.set(rootProject.file("LICENSE"))
 
-           // modules("java.net.http", "java.sql")
+            // modules("java.net.http", "java.sql")
 
             linux {
                 iconFile.set(iconsRoot.resolve("linux.png"))

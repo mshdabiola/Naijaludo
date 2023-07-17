@@ -1,17 +1,25 @@
 package com.mshdabiola.ludo.database
 
-import kotlinx.coroutines.Runnable
-
 /*
  * Copyright 2016-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
 
 
 
-import com.google.android.gms.tasks.*
-import kotlinx.coroutines.*
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.RuntimeExecutionException
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.Executor
-import kotlin.coroutines.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 /**
  * Converts this deferred to the instance of [Task].

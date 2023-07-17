@@ -282,7 +282,7 @@ class GeneralViewModel(
         ludoGameState: LudoGameState,
         ludoSetting: Setting,
         logLudoData: LogLudoData?,
-        saveLog :(LogLudoData)->Unit
+        saveLog: (LogLudoData) -> Unit
     ) {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -322,11 +322,11 @@ class GeneralViewModel(
 
         viewModelScope.launch(Dispatchers.Default) {
             currId = 2
-            val user=setting.getUser()
-            Constant.photoUri=user.photoUri
+            val user = setting.getUser()
+            Constant.photoUri = user.photoUri
 
             val ludoGameState =
-                getSavedGame(currId,user.name)
+                getSavedGame(currId, user.name)
                     ?: Constant.getDefaultGameState(
                         numberOfPawn = settingUiState.value.pawnNumber,
                         playerName = user.name,
@@ -383,10 +383,10 @@ class GeneralViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             currId = 4
 
-            val user=setting.getUser()
-            Constant.photoUri=user.photoUri
+            val user = setting.getUser()
+            Constant.photoUri = user.photoUri
             val ludoGameState =
-                getSavedGame(currId,user.name)
+                getSavedGame(currId, user.name)
                     ?: Constant.getDefaultGameState(
                         numberOfPlayer = 4,
                         numberOfPawn = ludoSetting.pawnNumber,
@@ -581,9 +581,6 @@ class GeneralViewModel(
     }
 
 
-
-
-
     //save game logic
     var job: Job? = null
     private fun saveData() {
@@ -601,8 +598,8 @@ class GeneralViewModel(
 
     }
 
-    private fun getSavedGame(id: Int,playerName:String): LudoGameState? {
-        val ludoAndOthers = setting.getGame(id,playerName)
+    private fun getSavedGame(id: Int, playerName: String): LudoGameState? {
+        val ludoAndOthers = setting.getGame(id, playerName)
 
         var pawns = ludoAndOthers.second
         val players = ludoAndOthers.first.toMutableList()
@@ -621,15 +618,15 @@ class GeneralViewModel(
             pawns = Constant.getDefaultPawns(settingUiState.value.pawnNumber)
         }
 
-        val index=players.lastIndex
-        players[index]=players[index].copyPlayer(name = playerName)
+        val index = players.lastIndex
+        players[index] = players[index].copyPlayer(name = playerName)
         return Constant.getDefaultGameState(playerName = playerName)
             .copy(listOfPlayer = players, listOfPawn = pawns)
     }
 
     private fun resumeFromDatabase() {
         viewModelScope.launch {
-            if (gameId2!=null) {
+            if (gameId2 != null) {
                 if (gameId2 == 2)
                     onYouAndComputer()
                 else

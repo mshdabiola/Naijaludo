@@ -1,6 +1,5 @@
 package com.mshdabiola.ludo.screen.game.component
 
-import android.graphics.BitmapFactory
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -34,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,17 +42,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toPawnColor
-import com.mshdabiola.ludo.asMainActivity
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.io.File
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -77,14 +70,14 @@ fun PlayerUi(
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         //withContext(Dispatchers.IO){
-            if (player.isComputer.not()) {
-                try {
-                imageBitmap=   FirebaseUtil.loadImage(context,Constant.photoUri)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        if (player.isComputer.not()) {
+            try {
+                imageBitmap = FirebaseUtil.loadImage(context, Constant.photoUri)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-       // }
+        }
+        // }
 
     }
     )
@@ -107,7 +100,9 @@ fun PlayerUi(
                 )
             } else {
                 Image(
-                    modifier = Modifier.size(24.dp).clip(CircleShape),
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape),
                     bitmap = imageBitmap!!,
                     contentDescription = "player Icon",
                 )

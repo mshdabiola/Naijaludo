@@ -12,7 +12,7 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-class MppLibraryConventionPlugin: Plugin<Project> {
+class MppLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
@@ -45,7 +45,7 @@ class MppLibraryConventionPlugin: Plugin<Project> {
                 android()
                 jvm("desktop")
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-                with(sourceSets){
+                with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
@@ -64,15 +64,15 @@ class MppLibraryConventionPlugin: Plugin<Project> {
                     }
                     getByName("androidMain") {
                         this.dependencies {
-                             implementation(libs.findLibrary("timber").get())
+                            implementation(libs.findLibrary("timber").get())
 
                         }
 
                     }
                     getByName("androidInstrumentedTest") {
                         this.dependencies {
-                             implementation(kotlin("test"))
-                          //  implementation(project(":core:testing"))
+                            implementation(kotlin("test"))
+                            //  implementation(project(":core:testing"))
                         }
 
                     }

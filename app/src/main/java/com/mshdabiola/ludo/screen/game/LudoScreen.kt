@@ -237,9 +237,9 @@ fun GameScreenPhoneLand(
                         start.linkTo(parent.start)
                     },
                 leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo.   R.string.leaderboard_solo_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
                 } else {
-                    com.mshdabiola.ludo. R.string.leaderboard_trio_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
                 }
             )
         }
@@ -384,9 +384,9 @@ fun GameScreeFoldPortrait(
                         end.linkTo(parent.end)
                     },
                 leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo. R.string.leaderboard_solo_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
                 } else {
-                    com.mshdabiola.ludo. R.string.leaderboard_trio_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
                 }
             )
         }
@@ -521,9 +521,9 @@ fun GameScreenLarge(
                         end.linkTo(parent.end)
                     },
                 leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo. R.string.leaderboard_solo_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
                 } else {
-                    com.mshdabiola.ludo.R .string.leaderboard_trio_player_rank
+                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
                 }
             )
         }

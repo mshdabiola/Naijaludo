@@ -3,11 +3,9 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.getting
-import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-class Desktop: Plugin<Project> {
+class Desktop : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
@@ -20,25 +18,25 @@ class Desktop: Plugin<Project> {
                 android()
                 jvm("desktop")
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-                with(sourceSets){
+                with(sourceSets) {
 
-                   getByName("commonMain") {
-                       this.dependencies {
-                          implementation(libs.findLibrary("koin.core").get())
+                    getByName("commonMain") {
+                        this.dependencies {
+                            implementation(libs.findLibrary("koin.core").get())
 
-                       }
+                        }
 
                     }
                     getByName("commonTest") {
                         this.dependencies {
-                           // implementation(libs.findLibrary("koin.core").get())
+                            // implementation(libs.findLibrary("koin.core").get())
 
                         }
 
                     }
                     getByName("androidMain") {
                         this.dependencies {
-                           // implementation(libs.findLibrary("koin.core").get())
+                            // implementation(libs.findLibrary("koin.core").get())
 
                         }
 
@@ -67,7 +65,6 @@ class Desktop: Plugin<Project> {
                 }
 
             }
-
 
 
         }

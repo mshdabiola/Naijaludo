@@ -35,7 +35,7 @@ kotlin {
                 api(libs.androidx.test.runner)
                 api(libs.androidx.test.rules)
                 api(libs.androidx.compose.ui.test)
-                 api(libs.koin.android.test)
+                api(libs.koin.android.test)
             }
         }
         val androidInstrumentedTest by getting {
