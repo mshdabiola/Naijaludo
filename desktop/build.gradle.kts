@@ -7,6 +7,10 @@ plugins {
 
 
 }
+compose {
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin("1.8.0"))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.22")
+}
 
 dependencies {
     // Compose
