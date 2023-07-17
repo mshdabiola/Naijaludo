@@ -2,9 +2,12 @@ plugins {
     //kotlin("multiplatform")
     id("mshdabiola.mpp.library")
     id("mshdabiola.mpp.library.compose")
-    id("org.jetbrains.compose") version "1.4.0"
+    id("org.jetbrains.compose") version "1.4.1"
 }
-
+compose {
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin("1.8.20"))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.22")
+}
 android {
     namespace = "com.mshdabiola.ui"
 }

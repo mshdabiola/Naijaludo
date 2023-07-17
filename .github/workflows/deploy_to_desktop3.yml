@@ -2,8 +2,7 @@ name: Deploy multiPlatform
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "test" ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

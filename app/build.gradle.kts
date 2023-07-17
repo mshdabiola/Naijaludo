@@ -60,7 +60,7 @@ android {
             initWith(release)
             matchingFallbacks.add("release")
             // Debug key signing is available to everyone.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             // Only use benchmark proguard rules
             proguardFiles("benchmark-rules.pro")
             //  FIXME enabling minification breaks access to demo backend.

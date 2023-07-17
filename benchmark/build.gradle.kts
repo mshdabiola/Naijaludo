@@ -1,5 +1,6 @@
 import com.mshdabiola.app.BuildType
 import com.mshdabiola.app.configureFlavors
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
 
@@ -26,6 +27,21 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    signingConfigs {
+        val properties = Properties()
+        properties.load(
+            project.rootProject.file("local.properties")
+                .reader()
+        )
+
+        create("release") {
+
+            this.keyAlias = properties["key.alias"] as String
+            keyPassword = properties["key.password"] as String
+            storeFile = file(properties["key.store"] as String)
+            storePassword = properties["key.store.password"] as String
+        }
+    }
 
     buildTypes {
         // This benchmark buildType is used for benchmarking, and should function like your
@@ -34,7 +50,7 @@ android {
         val benchmark by creating {
             // Keep the build type debuggable so we can attach a debugger if needed.
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             matchingFallbacks.add("release")
             buildConfigField(
                 "String",
@@ -50,13 +66,13 @@ android {
 // Use the same flavor dimensions as the application to allow generating Baseline Profiles on prod,
     // which is more close to what will be shipped to users (no fake data), but has ability to run the
     // benchmarks on demo, so we benchmark on stable data.
-    configureFlavors(this) { flavor ->
-        buildConfigField(
-            "String",
-            "APP_FLAVOR_SUFFIX",
-            "\"${flavor.applicationIdSuffix ?: ""}\""
-        )
-    }
+//    configureFlavors(this) { flavor ->
+//        buildConfigField(
+//            "String",
+//            "APP_FLAVOR_SUFFIX",
+//            "\"${flavor.applicationIdSuffix ?: ""}\""
+//        )
+//    }
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
