@@ -14,7 +14,7 @@ class BaselineGenerator {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun startUp() = baselineProfileRule.collectBaselineProfile(
+    fun startUp() = baselineProfileRule.collect(
         packageName = "com.mshdabiola.ludo",
     ) {
         pressHome()
