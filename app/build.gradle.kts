@@ -19,21 +19,21 @@ android {
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 
-    signingConfigs {
-        val properties = Properties()
-        properties.load(
-            project.rootProject.file("local.properties")
-                .reader()
-        )
-
-        create("release") {
-
-            this.keyAlias = properties["key.alias"] as String
-            keyPassword = properties["key.password"] as String
-            storeFile = file(properties["key.store"] as String)
-            storePassword = properties["key.store.password"] as String
-        }
-    }
+//    signingConfigs {
+//        val properties = Properties()
+//        properties.load(
+//            project.rootProject.file("local.properties")
+//                .reader()
+//        )
+//
+//        create("release") {
+//
+//            this.keyAlias = properties["key.alias"] as String
+//            keyPassword = properties["key.password"] as String
+//            storeFile = file(properties["key.store"] as String)
+//            storePassword = properties["key.store.password"] as String
+//        }
+//    }
 
     buildTypes {
         val debug by getting {
