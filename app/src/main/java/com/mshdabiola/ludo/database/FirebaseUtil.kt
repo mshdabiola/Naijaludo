@@ -134,14 +134,20 @@ object FirebaseUtil {
         snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
 
             .addOnSuccessListener {
-                val t = it.data?.snapshotContents?.readFully()
-                val string =
-                    t?.commonToUtf8String()
-                val intArray = string?.split(", ")?.map {
-                    it.toInt()
-                }?.toIntArray() ?: IntArray(numb) { 0 }
-                Timber.e("get game ${intArray.joinToString()}")
-                cont.resume(intArray)
+                try {
+                    val t = it.data?.snapshotContents?.readFully()
+                    val string =
+                        t?.commonToUtf8String()
+                    val intArray = string?.split(", ")?.map {
+                        it.toInt()
+                    }?.toIntArray() ?: IntArray(numb) { 0 }
+                    Timber.e("get game ${intArray.joinToString()}")
+                    cont.resume(intArray)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                    cont.resume(IntArray(numb) { 0 })
+                }
+
 
             }
             .addOnFailureListener {
