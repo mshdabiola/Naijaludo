@@ -179,6 +179,9 @@ fun GameOverDialog(
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
     }
+    val players2= remember (players){
+        players.reversed().toImmutableList()
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -215,7 +218,7 @@ fun GameOverDialog(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            items(players) {
+                            items(players2) {
                                 PlayerUi(player = it)
                             }
                         }
@@ -273,6 +276,7 @@ fun GameOverDialog(
 @Preview
 @Composable
 fun GameOverPreview() {
+
     GameOverDialog(
         players = listOf(
             PlayerUiState(),
