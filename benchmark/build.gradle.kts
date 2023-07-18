@@ -27,21 +27,21 @@ android {
     buildFeatures {
         buildConfig = true
     }
-    signingConfigs {
-        val properties = Properties()
-        properties.load(
-            project.rootProject.file("local.properties")
-                .reader()
-        )
-
-        create("release") {
-
-            this.keyAlias = properties["key.alias"] as String
-            keyPassword = properties["key.password"] as String
-            storeFile = file(properties["key.store"] as String)
-            storePassword = properties["key.store.password"] as String
-        }
-    }
+//    signingConfigs {
+//        val properties = Properties()
+//        properties.load(
+//            project.rootProject.file("local.properties")
+//                .reader()
+//        )
+//
+//        create("release") {
+//
+//            this.keyAlias = properties["key.alias"] as String
+//            keyPassword = properties["key.password"] as String
+//            storeFile = file(properties["key.store"] as String)
+//            storePassword = properties["key.store.password"] as String
+//        }
+//    }
 
     buildTypes {
         // This benchmark buildType is used for benchmarking, and should function like your
@@ -50,7 +50,7 @@ android {
         val benchmark by creating {
             // Keep the build type debuggable so we can attach a debugger if needed.
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks.add("release")
             buildConfigField(
                 "String",
