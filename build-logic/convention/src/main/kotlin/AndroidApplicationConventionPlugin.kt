@@ -21,6 +21,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 //                compileSdk=33
 //                defaultConfig.targetSdk = 33
 //                compileSdkPreview = "UpsideDownCake"
+                defaultConfig.targetSdk = 34
                 defaultConfig.minSdk = 24
                 defaultConfig.versionName = "2.0.7"
                 defaultConfig.versionCode = 26
