@@ -75,15 +75,9 @@ gradlePlugin {
             id = "mshdabiola.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
-        register("androidHilt") {
-            id = "mshdabiola.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
-        }
 
-        register("androidRoom") {
-            id = "mshdabiola.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
-        }
+
+
         register("desktop") {
             id = "mshdabiola.mpp.desktop"
             implementationClass = "Desktop"
