@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -32,7 +34,9 @@ fun AchievementUi(
     ) {
         CircularProgressIndicator(
             progress = achData.progress,
-            trackColor = MaterialTheme.colorScheme.secondaryContainer
+            trackColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+            strokeWidth = 16.dp,
+            color = MaterialTheme.colorScheme.secondary
         )
         Column(
             modifier = Modifier.weight(1f),
@@ -63,5 +67,8 @@ fun AchievementUi(
 @Preview
 @Composable
 fun ArchUiPreview() {
-    AchievementUi(achData = ArchievementData("King of Ludo", 0.6f))
+    LudoAppTheme {
+        AchievementUi(achData = ArchievementData("King of Ludo", 0.6f))
+    }
+
 }
