@@ -9,9 +9,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -39,7 +37,6 @@ import com.mshdabiola.ludo.screen.game.getInitOfDice
 import com.mshdabiola.ludo.screen.game.randDiceOffSet
 import com.mshdabiola.ludo.screen.game.state.DiceUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.launch
 
 @Composable
 fun DiceUi(
@@ -108,8 +105,6 @@ fun DicesUi(
         }
     }
 }
-
-
 
 
 @Composable

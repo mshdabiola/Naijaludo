@@ -9,27 +9,28 @@ import kotlinx.coroutines.flow.Flow
 
 interface MultiplatformSettings {
 
-    val setting:Flow<Setting>
+    val setting: Flow<Setting>
     suspend fun setGameSetting(setting: Setting)
-   // fun getGameSetting(): Setting
+    // fun getGameSetting(): Setting
 
-   suspend fun setGame(
-       players:List<Player>,
-       pawns:List<Pawn>
-   )
-    fun getGame(type: Int,name: String):Pair<List<Player>,List<Pawn>>
+    suspend fun setGame(
+        players: List<Player>,
+        pawns: List<Pawn>
+    )
 
-    fun getName():String
+    fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>>
 
-     fun getUser():User
-    suspend fun setUser(user:User)
+    fun getName(): String
 
-    suspend fun setLog2(ludoLog:LogLudoData)
+    fun getUser(): User
+    suspend fun setUser(user: User)
 
-    fun getLog2():LogLudoData
+    suspend fun setLog2(ludoLog: LogLudoData)
 
-    suspend fun setLog4(ludoLog:LogLudoData)
+    fun getLog2(): LogLudoData
 
-    fun getLog4():LogLudoData
+    suspend fun setLog4(ludoLog: LogLudoData)
+
+    fun getLog4(): LogLudoData
 
 }

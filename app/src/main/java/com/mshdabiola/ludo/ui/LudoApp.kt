@@ -7,7 +7,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.navigation.LudoNavHost
 import com.mshdabiola.navigation.IRootComponent
 
@@ -19,16 +18,15 @@ fun LudoApp(
     appState: LudoAppState = rememberLudoAppState(windowSizeClass = windowSizeClass),
 ) {
 
-        LudoNavHost(
-            iRootComponent = iRootComponent,
-            modifier = Modifier.
-            fillMaxSize()
-                .semantics {
-                    testTagsAsResourceId=true
-                }
-            ,
-            deviceType = appState.getDevietype()
-        )
-        // change display here
+    LudoNavHost(
+        iRootComponent = iRootComponent,
+        modifier = Modifier
+            .fillMaxSize()
+            .semantics {
+                testTagsAsResourceId = true
+            },
+        deviceType = appState.getDevietype()
+    )
+    // change display here
 
 }

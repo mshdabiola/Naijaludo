@@ -26,7 +26,7 @@ jobs:
           path: distribution
 
   deploy-play-store:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       # 1

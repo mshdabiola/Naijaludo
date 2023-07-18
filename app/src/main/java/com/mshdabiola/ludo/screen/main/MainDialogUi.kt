@@ -40,13 +40,12 @@ import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.theme.LudoAppTheme
-import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SettingDialog(
     show: Boolean = false,
     settingUiState: SettingUiState,
-    setSetting:(SettingUiState)->Unit={},
+    setSetting: (SettingUiState) -> Unit = {},
     onDismissRequest: () -> Unit = {},
     //  setLanguage: (Int) -> Unit = {},
 ) {
@@ -87,7 +86,7 @@ fun SettingDialog(
                                 modifier = modifier,
                                 current = settingUiState.gameLevel,
                                 onValueChange = {
-                                   setSetting(settingUiState.copy(gameLevel = it))
+                                    setSetting(settingUiState.copy(gameLevel = it))
                                 },
                                 stringArrayRes = R.array.level,
                             )
@@ -110,14 +109,20 @@ fun SettingDialog(
                     Title(title = stringResource(id = R.string.sound_setting))
                     SettingContainer {
                         SettingItem(title = R.string.sound) { modifier ->
-                            Switch(modifier = modifier, checked = settingUiState.sound, onCheckedChange = {
-                                setSetting(settingUiState.copy(sound = it))
-                            })
+                            Switch(
+                                modifier = modifier,
+                                checked = settingUiState.sound,
+                                onCheckedChange = {
+                                    setSetting(settingUiState.copy(sound = it))
+                                })
                         }
                         SettingItem(title = R.string.music) { modifier ->
-                            Switch(modifier = modifier, checked = settingUiState.music, onCheckedChange = {
-                                setSetting(settingUiState.copy(music = it))
-                            })
+                            Switch(
+                                modifier = modifier,
+                                checked = settingUiState.music,
+                                onCheckedChange = {
+                                    setSetting(settingUiState.copy(music = it))
+                                })
                         }
                     }
 
@@ -157,9 +162,12 @@ fun SettingDialog(
                             //
                         }
                         SettingItem(title = R.string.rotate) { modifier ->
-                            Switch(modifier = modifier, checked = settingUiState.rotate, onCheckedChange = {
-                                setSetting(settingUiState.copy(rotate = it))
-                            })
+                            Switch(
+                                modifier = modifier,
+                                checked = settingUiState.rotate,
+                                onCheckedChange = {
+                                    setSetting(settingUiState.copy(rotate = it))
+                                })
                         }
                     }
                 }

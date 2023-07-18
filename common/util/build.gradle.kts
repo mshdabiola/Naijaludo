@@ -7,11 +7,11 @@ plugins {
 android {
     namespace = "com.mshdabiola.util"
 }
-kotlin { 
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-            implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 

@@ -2,14 +2,13 @@ package com.mshdabiola.ludo.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
-import com.mshdabiola.ludo.screen.game.GameScreenNav
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
+import com.mshdabiola.ludo.screen.game.GameScreenNav
 import com.mshdabiola.ludo.screen.main.MainScreenNav
 import com.mshdabiola.navigation.IRootComponent
 

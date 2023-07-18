@@ -3,7 +3,6 @@ package com.mshdabiola.ludo.screen.game.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -24,17 +23,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,7 +57,7 @@ fun CounterUi(
             repeatMode = RepeatMode.Reverse
         ), label = "rotate"
     )
-    val color=MaterialTheme.colorScheme.primary
+    val color = MaterialTheme.colorScheme.primary
 
     GameButton(
         modifier = modifier
@@ -72,7 +68,7 @@ fun CounterUi(
             .drawWithContent {
 
                 this.drawContent()
-                val radius =if(isHuman&&counterUiState.isEnable) value.value/2f else 0f
+                val radius = if (isHuman && counterUiState.isEnable) value.value / 2f else 0f
                 drawCircle(color = color.copy(alpha = 0.25f), radius = radius)
             },
         onClick = {

@@ -24,7 +24,7 @@ class AndroidApplicationFlavorsConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             extensions.configure<ApplicationExtension> {
-                configureFlavors(this)
+                //configureFlavors(this)
             }
         }
     }

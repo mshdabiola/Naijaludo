@@ -20,18 +20,18 @@ android {
     }
 
     signingConfigs {
-    val properties=Properties()
+        val properties = Properties()
         properties.load(
             project.rootProject.file("local.properties")
                 .reader()
         )
 
-        create("release"){
+        create("release") {
 
-            this.keyAlias=properties["key.alias"] as String
-            keyPassword=properties["key.password"] as String
-            storeFile=file(properties["key.store"] as String)
-            storePassword=properties["key.store.password"] as String
+            this.keyAlias = properties["key.alias"] as String
+            keyPassword = properties["key.password"] as String
+            storeFile = file(properties["key.store"] as String)
+            storePassword = properties["key.store.password"] as String
         }
     }
 
@@ -51,7 +51,7 @@ android {
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             // Todo: comment code before release
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             versionNameSuffix = BuildType.RELEASE.versionNameSuffix
         }
@@ -60,7 +60,7 @@ android {
             initWith(release)
             matchingFallbacks.add("release")
             // Debug key signing is available to everyone.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             // Only use benchmark proguard rules
             proguardFiles("benchmark-rules.pro")
             //  FIXME enabling minification breaks access to demo backend.

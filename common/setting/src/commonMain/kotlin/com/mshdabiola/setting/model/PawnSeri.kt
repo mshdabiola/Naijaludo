@@ -6,14 +6,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class PawnSeri(
-    val colorNumber: Int ,
+    val colorNumber: Int,
     val currentPos: Int,
     val color: GameColor,
     val isEnable: Boolean,
     val zIndex: Float
 )
 
-internal fun PawnSeri.toPawn()=Pawn(
+internal fun PawnSeri.toPawn() = Pawn(
     colorNumber = colorNumber,
     currentPos = currentPos,
     color = color,
@@ -21,7 +21,7 @@ internal fun PawnSeri.toPawn()=Pawn(
     zIndex = zIndex
 )
 
-internal fun Pawn.toPawnSeri()=PawnSeri(
+internal fun Pawn.toPawnSeri() = PawnSeri(
     colorNumber = colorNumber,
     currentPos = currentPos,
     color = color,

@@ -1,7 +1,6 @@
 package com.mshdabiola.ludo.screen.game
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
@@ -15,9 +14,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -56,7 +53,6 @@ import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,18 +73,18 @@ fun GameScreen(
         mutableStateOf(true)
     }
     LaunchedEffect(key1 = Unit, block = {
-       val difficulty=context.asMainActivity().remoteConfig
-        ?.getLong("difficulty")
-        if (difficulty!=null){
-            Constant.difficulty=difficulty.toInt()
+        val difficulty = context.asMainActivity().remoteConfig
+            ?.getLong("difficulty")
+        if (difficulty != null) {
+            Constant.difficulty = difficulty.toInt()
         }
 
 
-       context.asMainActivity().remoteConfig
+        context.asMainActivity().remoteConfig
             ?.getBoolean("multiplayer_feature")
-           ?.let {
-               showMultiplayer=it
-           }
+            ?.let {
+                showMultiplayer = it
+            }
 
 
     })
@@ -121,8 +117,8 @@ fun GameScreen(
             }
             gameScreenViewModel.onResume(
                 firebaseLog = { tag, str ->
-                              context.asMainActivity().analytics
-                                  ?.logEvent(tag, block = str)
+                    context.asMainActivity().analytics
+                        ?.logEvent(tag, block = str)
                 },
                 unLockAchievement = {
                     context.asMainActivity().achievement
@@ -130,7 +126,7 @@ fun GameScreen(
                 },
                 increaseAchievement = {
                     context.asMainActivity().achievement
-                        ?.incrementImmediate(context.resources.getString(it),1)
+                        ?.incrementImmediate(context.resources.getString(it), 1)
                 }
             )
         }
@@ -232,10 +228,10 @@ fun GameScreen(
 
     LaunchedEffect(key1 = gameUiState.isRestartDialogOpen, block = {
         if (gameUiState.isRestartDialogOpen) {
-           val activity= (context as MainActivity)
+            val activity = (context as MainActivity)
 
-               activity .updateLeaderboard(ludoGameState.listOfPlayer)
-           archievementData= activity.getArchi()
+            activity.updateLeaderboard(ludoGameState.listOfPlayer)
+            archievementData = activity.getArchi()
 
         }
     })
@@ -421,8 +417,8 @@ fun ShowPreview() {
 }
 
 @Composable
-fun LogScreen( screenName:String) {
-    val context= LocalContext.current
+fun LogScreen(screenName: String) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         context.asMainActivity()
             .analytics
