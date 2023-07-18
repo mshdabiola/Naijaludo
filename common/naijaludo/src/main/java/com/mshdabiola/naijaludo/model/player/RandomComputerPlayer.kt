@@ -16,14 +16,14 @@ data class RandomComputerPlayer(
     override val iconIndex: Int,
 ) : ComputerPlayer {
 
-    private var pawnId =1
+    private var pawnId = 1
 
     override fun chooseCounter(
         gameState: LudoGameState,
     ): Int {
-        val (pawnId,counterId) = counterLogic(gameState)
+        val (pawnId, counterId) = counterLogic(gameState)
         log("selected is counter id $counterId")
-        this.pawnId=pawnId
+        this.pawnId = pawnId
         return counterId
     }
 

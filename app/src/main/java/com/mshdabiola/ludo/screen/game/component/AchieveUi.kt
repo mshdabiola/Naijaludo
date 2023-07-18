@@ -7,17 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
@@ -29,7 +25,8 @@ fun AchievementUi(
     onClick: () -> Unit = {}
 ) {
 
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -40,7 +37,7 @@ fun AchievementUi(
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
+        ) {
             Text(
                 text = achData.name,
                 maxLines = 1,
@@ -56,8 +53,8 @@ fun AchievementUi(
         }
         ElevatedButton(
             onClick = onClick,
-            shape = RoundedCornerShape(0f,50f,50f,0f)
-        ){
+            shape = RoundedCornerShape(0f, 50f, 50f, 0f)
+        ) {
             Text(text = "More")
         }
     }

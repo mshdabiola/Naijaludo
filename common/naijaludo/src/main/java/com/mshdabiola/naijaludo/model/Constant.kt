@@ -14,13 +14,13 @@ fun log(msg: String) {
 object Constant {
     private const val numberOfDice = 3
     private const val totalIndex = numberOfDice / 2
-    var difficulty=6
+    var difficulty = 6
 
-    var photoUri:String?=null
+    var photoUri: String? = null
     fun getDefaultGameState(
         numberOfPlayer: Int = 2,
         numberOfPawn: Int = 4,
-        playerName : String="Ade",
+        playerName: String = "Ade",
     ) = LudoGameState(
         listOfPlayer = getDefaultPlayers(numberOfPlayer, playerName),
         listOfDice = geDefaultDice(),
@@ -50,8 +50,8 @@ object Constant {
             .map { it.copy(currentPos = 56) }
     }
 
-    fun getDefaultPlayers(numberOfPlayer: Int,name:String): List<Player> {
-        val icon =IntArray(6){it}
+    fun getDefaultPlayers(numberOfPlayer: Int, name: String): List<Player> {
+        val icon = IntArray(6) { it }
         icon.shuffle()
         return if (numberOfPlayer == 2) {
             listOf(

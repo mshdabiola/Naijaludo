@@ -7,85 +7,84 @@
 
     <!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
 
-        <!--app_id-->
-        <string name="app_id" translatable="false">176586652338</string>
-        <!--package_name-->
-        <string name="package_name" translatable="false">com.mshdabiola.ludo</string>
-        <!--achievement Ludo Master-->
-        <string name="achievement_ludo_master" translatable="false">CgkIsvWJ65EFEAIQDg</string>
-        <!--achievement Beginner's Luck-->
-        <string name="achievement_beginners_luck" translatable="false">CgkIsvWJ65EFEAIQEA</string>
-        <!--achievement Early Bird-->
-        <string name="achievement_early_bird" translatable="false">CgkIsvWJ65EFEAIQEQ</string>
-        <!--achievement Social Ludo:-->
-        <string name="achievement_social_ludo" translatable="false">CgkIsvWJ65EFEAIQEg</string>
-        <!--achievement Fast Finisher-->
-        <string name="achievement_fast_finisher" translatable="false">CgkIsvWJ65EFEAIQEw</string>
-        <!--achievement Defensive Master-->
-        <string name="achievement_defensive_master" translatable="false">CgkIsvWJ65EFEAIQFA</string>
-        <!--achievement King's Court-->
-        <string name="achievement_kings_court" translatable="false">CgkIsvWJ65EFEAIQFQ</string>
-        <!--achievement Lucky Combo-->
-        <string name="achievement_lucky_combo" translatable="false">CgkIsvWJ65EFEAIQFg</string>
-        <!--achievement Impenetrable Defense-->
-        <string name="achievement_impenetrable_defense" translatable="false">CgkIsvWJ65EFEAIQFw</string>
-        <!--achievement Flawless Victory-->
-        <string name="achievement_flawless_victory" translatable="false">CgkIsvWJ65EFEAIQGA</string>
-        <!--achievement Perfect Start-->
-        <string name="achievement_perfect_start" translatable="false">CgkIsvWJ65EFEAIQGQ</string>
-        <!--achievement Ambush-->
-        <string name="achievement_ambush" translatable="false">CgkIsvWJ65EFEAIQGg</string>
-        <!--achievement No Mercy-->
-        <string name="achievement_no_mercy" translatable="false">CgkIsvWJ65EFEAIQGw</string>
-        <!--achievement Amateur of Solo-->
-        <string name="achievement_amateur_of_solo" translatable="false">CgkIsvWJ65EFEAIQHA</string>
-        <!--achievement Master of Solo-->
-        <string name="achievement_master_of_solo" translatable="false">CgkIsvWJ65EFEAIQHQ</string>
-        <!--achievement Legend of Solo-->
-        <string name="achievement_legend_of_solo" translatable="false">CgkIsvWJ65EFEAIQHg</string>
-        <!--achievement King of Solo-->
-        <string name="achievement_king_of_solo" translatable="false">CgkIsvWJ65EFEAIQHw</string>
-        <!--achievement Amateur of Trio-->
-        <string name="achievement_amateur_of_trio" translatable="false">CgkIsvWJ65EFEAIQIA</string>
-        <!--achievement Master of Trio-->
-        <string name="achievement_master_of_trio" translatable="false">CgkIsvWJ65EFEAIQIQ</string>
-        <!--achievement Legend of Trio-->
-        <string name="achievement_legend_of_trio" translatable="false">CgkIsvWJ65EFEAIQIg</string>
-        <!--achievement King of Trio-->
-        <string name="achievement_king_of_trio" translatable="false">CgkIsvWJ65EFEAIQIw</string>
-        <!--achievement Amateur of Naija Ludo-->
-        <string name="achievement_amateur_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJA</string>
-        <!--achievement Master of Naija Ludo-->
-        <string name="achievement_master_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJQ</string>
-        <!--achievement Legend of Naija Ludo-->
-        <string name="achievement_legend_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJg</string>
-        <!--achievement King of Naija Ludo-->
-        <string name="achievement_king_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJw</string>
-        <!--achievement Amateur of Dice-->
-        <string name="achievement_amateur_of_dice" translatable="false">CgkIsvWJ65EFEAIQKA</string>
-        <!--achievement Semi-Pro of Dice-->
-        <string name="achievement_semipro_of_dice" translatable="false">CgkIsvWJ65EFEAIQKQ</string>
-        <!--achievement Pro of Dice-->
-        <string name="achievement_pro_of_dice" translatable="false">CgkIsvWJ65EFEAIQKg</string>
-        <!--achievement Master of Dice-->
-        <string name="achievement_master_of_dice" translatable="false">CgkIsvWJ65EFEAIQKw</string>
-        <!--achievement Epic of Dice-->
-        <string name="achievement_epic_of_dice" translatable="false">CgkIsvWJ65EFEAIQLg</string>
-        <!--achievement GrandMaster of Dice-->
-        <string name="achievement_grandmaster_of_dice" translatable="false">CgkIsvWJ65EFEAIQLA</string>
-        <!--achievement Hero of Dice-->
-        <string name="achievement_hero_of_dice" translatable="false">CgkIsvWJ65EFEAIQLQ</string>
-        <!--achievement Legend of Dice-->
-        <string name="achievement_legend_of_dice" translatable="false">CgkIsvWJ65EFEAIQLw</string>
-        <!--achievement Elite of Dice-->
-        <string name="achievement_elite_of_dice" translatable="false">CgkIsvWJ65EFEAIQMA</string>
-        <!--achievement Warrior of Dice-->
-        <string name="achievement_warrior_of_dice" translatable="false">CgkIsvWJ65EFEAIQMQ</string>
-        <!--leaderboard Trio Player Rank-->
-        <string name="leaderboard_trio_player_rank" translatable="false">CgkIsvWJ65EFEAIQBA</string>
-        <!--leaderboard Solo Player Rank-->
-        <string name="leaderboard_solo_player_rank" translatable="false">CgkIsvWJ65EFEAIQBg</string>
-
+    <!--app_id-->
+    <string name="app_id" translatable="false">176586652338</string>
+    <!--package_name-->
+    <string name="package_name" translatable="false">com.mshdabiola.ludo</string>
+    <!--achievement Ludo Master-->
+    <string name="achievement_ludo_master" translatable="false">CgkIsvWJ65EFEAIQDg</string>
+    <!--achievement Beginner's Luck-->
+    <string name="achievement_beginners_luck" translatable="false">CgkIsvWJ65EFEAIQEA</string>
+    <!--achievement Early Bird-->
+    <string name="achievement_early_bird" translatable="false">CgkIsvWJ65EFEAIQEQ</string>
+    <!--achievement Social Ludo:-->
+    <string name="achievement_social_ludo" translatable="false">CgkIsvWJ65EFEAIQEg</string>
+    <!--achievement Fast Finisher-->
+    <string name="achievement_fast_finisher" translatable="false">CgkIsvWJ65EFEAIQEw</string>
+    <!--achievement Defensive Master-->
+    <string name="achievement_defensive_master" translatable="false">CgkIsvWJ65EFEAIQFA</string>
+    <!--achievement King's Court-->
+    <string name="achievement_kings_court" translatable="false">CgkIsvWJ65EFEAIQFQ</string>
+    <!--achievement Lucky Combo-->
+    <string name="achievement_lucky_combo" translatable="false">CgkIsvWJ65EFEAIQFg</string>
+    <!--achievement Impenetrable Defense-->
+    <string name="achievement_impenetrable_defense" translatable="false">CgkIsvWJ65EFEAIQFw</string>
+    <!--achievement Flawless Victory-->
+    <string name="achievement_flawless_victory" translatable="false">CgkIsvWJ65EFEAIQGA</string>
+    <!--achievement Perfect Start-->
+    <string name="achievement_perfect_start" translatable="false">CgkIsvWJ65EFEAIQGQ</string>
+    <!--achievement Ambush-->
+    <string name="achievement_ambush" translatable="false">CgkIsvWJ65EFEAIQGg</string>
+    <!--achievement No Mercy-->
+    <string name="achievement_no_mercy" translatable="false">CgkIsvWJ65EFEAIQGw</string>
+    <!--achievement Amateur of Solo-->
+    <string name="achievement_amateur_of_solo" translatable="false">CgkIsvWJ65EFEAIQHA</string>
+    <!--achievement Master of Solo-->
+    <string name="achievement_master_of_solo" translatable="false">CgkIsvWJ65EFEAIQHQ</string>
+    <!--achievement Legend of Solo-->
+    <string name="achievement_legend_of_solo" translatable="false">CgkIsvWJ65EFEAIQHg</string>
+    <!--achievement King of Solo-->
+    <string name="achievement_king_of_solo" translatable="false">CgkIsvWJ65EFEAIQHw</string>
+    <!--achievement Amateur of Trio-->
+    <string name="achievement_amateur_of_trio" translatable="false">CgkIsvWJ65EFEAIQIA</string>
+    <!--achievement Master of Trio-->
+    <string name="achievement_master_of_trio" translatable="false">CgkIsvWJ65EFEAIQIQ</string>
+    <!--achievement Legend of Trio-->
+    <string name="achievement_legend_of_trio" translatable="false">CgkIsvWJ65EFEAIQIg</string>
+    <!--achievement King of Trio-->
+    <string name="achievement_king_of_trio" translatable="false">CgkIsvWJ65EFEAIQIw</string>
+    <!--achievement Amateur of Naija Ludo-->
+    <string name="achievement_amateur_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJA</string>
+    <!--achievement Master of Naija Ludo-->
+    <string name="achievement_master_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJQ</string>
+    <!--achievement Legend of Naija Ludo-->
+    <string name="achievement_legend_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJg</string>
+    <!--achievement King of Naija Ludo-->
+    <string name="achievement_king_of_naija_ludo" translatable="false">CgkIsvWJ65EFEAIQJw</string>
+    <!--achievement Amateur of Dice-->
+    <string name="achievement_amateur_of_dice" translatable="false">CgkIsvWJ65EFEAIQKA</string>
+    <!--achievement Semi-Pro of Dice-->
+    <string name="achievement_semipro_of_dice" translatable="false">CgkIsvWJ65EFEAIQKQ</string>
+    <!--achievement Pro of Dice-->
+    <string name="achievement_pro_of_dice" translatable="false">CgkIsvWJ65EFEAIQKg</string>
+    <!--achievement Master of Dice-->
+    <string name="achievement_master_of_dice" translatable="false">CgkIsvWJ65EFEAIQKw</string>
+    <!--achievement Epic of Dice-->
+    <string name="achievement_epic_of_dice" translatable="false">CgkIsvWJ65EFEAIQLg</string>
+    <!--achievement GrandMaster of Dice-->
+    <string name="achievement_grandmaster_of_dice" translatable="false">CgkIsvWJ65EFEAIQLA</string>
+    <!--achievement Hero of Dice-->
+    <string name="achievement_hero_of_dice" translatable="false">CgkIsvWJ65EFEAIQLQ</string>
+    <!--achievement Legend of Dice-->
+    <string name="achievement_legend_of_dice" translatable="false">CgkIsvWJ65EFEAIQLw</string>
+    <!--achievement Elite of Dice-->
+    <string name="achievement_elite_of_dice" translatable="false">CgkIsvWJ65EFEAIQMA</string>
+    <!--achievement Warrior of Dice-->
+    <string name="achievement_warrior_of_dice" translatable="false">CgkIsvWJ65EFEAIQMQ</string>
+    <!--leaderboard Trio Player Rank-->
+    <string name="leaderboard_trio_player_rank" translatable="false">CgkIsvWJ65EFEAIQBA</string>
+    <!--leaderboard Solo Player Rank-->
+    <string name="leaderboard_solo_player_rank" translatable="false">CgkIsvWJ65EFEAIQBg</string>
 
 
 </resources>

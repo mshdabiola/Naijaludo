@@ -3,9 +3,7 @@ package com.mshdabiola.ludo.screen.game.state
 import androidx.compose.runtime.Immutable
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.player.ComputerPlayer
-import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.naijaludo.model.player.Player
-import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 
 @Immutable
 data class PlayerUiState(

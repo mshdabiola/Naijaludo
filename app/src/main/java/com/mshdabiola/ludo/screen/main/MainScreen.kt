@@ -22,7 +22,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,8 +41,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -106,7 +103,7 @@ fun MainScreen(
         onCloseApp = {
             activity.finish()
         },
-      settingUiState=settingUiState,
+        settingUiState = settingUiState,
         setSetting = mainViewModel::setSetting,
         deviceType = deviceType,
     )
@@ -117,7 +114,7 @@ fun MainScreen(
 fun MainScreen(
     onPlay: () -> Unit = {},
     onCloseApp: () -> Unit = {},
-    settingUiState: SettingUiState= Setting.default.toUi(),
+    settingUiState: SettingUiState = Setting.default.toUi(),
     setSetting: (SettingUiState) -> Unit = {},
     deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE_PORT,
 ) {
@@ -271,7 +268,7 @@ fun MainScreen(
         }
         SettingDialog(
             show = showDialog,
-           settingUiState, setSetting,
+            settingUiState, setSetting,
             onDismissRequest = { showDialog = false }
         )
     }

@@ -7,6 +7,10 @@ plugins {
 
 
 }
+compose {
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin("1.8.0"))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.22")
+}
 
 dependencies {
     // Compose
@@ -94,7 +98,7 @@ compose.desktop {
             version = "1.0.1"
             licenseFile.set(rootProject.file("LICENSE"))
 
-           // modules("java.net.http", "java.sql")
+            // modules("java.net.http", "java.sql")
 
             linux {
                 iconFile.set(iconsRoot.resolve("linux.png"))

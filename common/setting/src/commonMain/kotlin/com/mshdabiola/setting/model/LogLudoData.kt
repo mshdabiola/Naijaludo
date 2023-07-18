@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LogLudoData(
-    val neverKillInGame:Boolean,
-    val numberOfTimeKill:Int,
-    val startTime:Long,
+    val neverKillInGame: Boolean,
+    val numberOfTimeKill: Int,
+    val startTime: Long,
 )

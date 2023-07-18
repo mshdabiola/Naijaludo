@@ -26,7 +26,7 @@ import java.util.Locale
  */
 //./gradlew pixel4api30aospatdDemoDebugAndroidTest
 internal fun configureGradleManagedDevices(
-    commonExtension: CommonExtension<*, *, *, *,*>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     val deviceConfigs = listOf(
         DeviceConfig("Pixel 4", 30, "aosp-atd"),

@@ -5,22 +5,22 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class SettingSeri(
-    val language: Int ,
-    val gameLevel: Int ,
-    val assistant: Boolean ,
+    val language: Int,
+    val gameLevel: Int,
+    val assistant: Boolean,
 
     val boardType: Int,
     val boardStyle: Int,
     val pawnNumber: Int,
     val rotate: Boolean,
 
-    val sound: Boolean ,
-    val music: Boolean ,
+    val sound: Boolean,
+    val music: Boolean,
     val musicType: Int
 
 )
 
-internal fun SettingSeri.toSetting()=Setting(
+internal fun SettingSeri.toSetting() = Setting(
     language = language,
     gameLevel = gameLevel,
     assistant = assistant,
@@ -33,7 +33,7 @@ internal fun SettingSeri.toSetting()=Setting(
     musicType = musicType
 )
 
-internal fun Setting.toSettingSeri()=SettingSeri(
+internal fun Setting.toSettingSeri() = SettingSeri(
     language = language,
     gameLevel = gameLevel,
     assistant = assistant,

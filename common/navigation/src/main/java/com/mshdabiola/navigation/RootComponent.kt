@@ -22,7 +22,7 @@ class RootComponent(
     override fun navigateToGame() {
         try {
             navigation.push(Config.Game)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

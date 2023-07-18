@@ -1,18 +1,13 @@
 package com.mshdabiola.ludo
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -38,7 +33,6 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
-import com.google.android.gms.games.achievement.Achievement
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -51,20 +45,15 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
-import com.mshdabiola.ludo.database.toUser
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
-import com.mshdabiola.setting.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.io.File
-import java.io.FileOutputStream
-import java.net.URL
 
 
 class MainActivity : ComponentActivity() {
@@ -84,7 +73,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 FirebaseUtil.login(this@MainActivity) {
-                    if (it){
+                    if (it) {
                         setUp()
                     }
 
@@ -227,8 +216,8 @@ class MainActivity : ComponentActivity() {
                 settingUiState.setUser(oldUser.copy(name = user.name, photoUri = user.photoUri))
 
 
-                val game2 = settingUiState.getGame(2,user.name)
-                val score2 = FirebaseUtil.getSaveScore(2,this@MainActivity, )
+                val game2 = settingUiState.getGame(2, user.name)
+                val score2 = FirebaseUtil.getSaveScore(2, this@MainActivity)
                 if (score2.sum() > game2.first.sumOf { it.win }) {
                     val newPlay2 = game2.first.mapIndexed { index, player ->
                         player.copyPlayer(win = score2[index])
@@ -236,8 +225,8 @@ class MainActivity : ComponentActivity() {
                     settingUiState.setGame(newPlay2, game2.second)
                 }
 
-                val game4 = settingUiState.getGame(4,user.name)
-                val score4 = FirebaseUtil.getSaveScore(4,this@MainActivity)
+                val game4 = settingUiState.getGame(4, user.name)
+                val score4 = FirebaseUtil.getSaveScore(4, this@MainActivity)
                 if (score4.sum() > game4.first.sumOf { it.win }) {
                     val newPlay4 = game4.first.mapIndexed { index, player ->
                         player.copyPlayer(win = score4[index])
@@ -261,10 +250,10 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private suspend fun firebaseSetUp(id:String) {
+    private suspend fun firebaseSetUp(id: String) {
 
-        val user=settingUiState.getUser()
-        settingUiState.setUser(user.copy(id=id))
+        val user = settingUiState.getUser()
+        settingUiState.setUser(user.copy(id = id))
         analytics?.setUserId(id)
 
     }
@@ -273,13 +262,13 @@ class MainActivity : ComponentActivity() {
     private fun logScoreToFirebase() {
         lifecycleScope.launch(Dispatchers.IO) {
             val name = FirebaseUtil.getName(this@MainActivity)
-            val game = settingUiState.getGame(2,name.name)
+            val game = settingUiState.getGame(2, name.name)
             game.let {
                 val players = it.first
                 analytics?.setUserProperty("soloHuman", players[1].win.toString())
                 analytics?.setUserProperty("soloComputer", players[0].win.toString())
             }
-            val game4 = settingUiState.getGame(4,name.name )
+            val game4 = settingUiState.getGame(4, name.name)
             game4.let {
                 val players = it.first
                 analytics?.setUserProperty("trioHuman", players[3].win.toString())
@@ -290,8 +279,6 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-
-
 
 
     fun updateLeaderboard(players: List<PlayerUiState>) {
@@ -331,9 +318,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun loadImage(getImage:(ImageBitmap)->Unit) {
+    fun loadImage(getImage: (ImageBitmap) -> Unit) {
 
-        val user =settingUiState.getUser().photoUri
+        val user = settingUiState.getUser().photoUri
         val image = ImageManager.create(this)
         image.loadImage({ _: Uri, drawable: Drawable?, isRequestDrawable: Boolean ->
 
@@ -341,7 +328,7 @@ class MainActivity : ComponentActivity() {
                 val image2 = ImageBitmap(100, 100, ImageBitmapConfig.Argb8888)
                 val canvas = Canvas(image2)
 
-                drawable.bounds= Rect(0,0,image2.width,image2.height)
+                drawable.bounds = Rect(0, 0, image2.width, image2.height)
 
                 drawable.draw(canvas.nativeCanvas)
 
@@ -353,14 +340,15 @@ class MainActivity : ComponentActivity() {
         }, Uri.parse(user))
     }
 
-    suspend fun getArchi():ArchievementData?{
-      return FirebaseUtil.getRandAchievement(achievement)
+    suspend fun getArchi(): ArchievementData? {
+        return FirebaseUtil.getRandAchievement(achievement)
     }
-    fun acheveUi(){
+
+    fun acheveUi() {
         achievement
             ?.achievementsIntent
             ?.addOnSuccessListener {
-                startActivityForResult(it,48)
+                startActivityForResult(it, 48)
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
 //

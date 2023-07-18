@@ -27,7 +27,6 @@ import com.mshdabiola.ludo.MainActivity
 import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.setting.model.User
-import kotlinx.coroutines.tasks.await
 import okio.internal.commonToUtf8String
 import timber.log.Timber
 import java.io.File
@@ -238,7 +237,7 @@ object FirebaseUtil {
 
     }
 
-    suspend fun getRandAchievement(achievement: AchievementsClient?) = suspendCoroutine { counti->
+    suspend fun getRandAchievement(achievement: AchievementsClient?) = suspendCoroutine { counti ->
         achievement?.load(true)
             ?.addOnSuccessListener { annotatedData ->
                 val ach = annotatedData.get()
@@ -247,10 +246,10 @@ object FirebaseUtil {
                                 && it.state == Achievement.STATE_REVEALED
                     }
                     ?.random()
-                val data= if (ach == null) null else ArchievementData(
-                ach.name,
-                ach.currentSteps.toFloat() / ach.totalSteps.toFloat()
-            )
+                val data = if (ach == null) null else ArchievementData(
+                    ach.name,
+                    ach.currentSteps.toFloat() / ach.totalSteps.toFloat()
+                )
                 counti.resume(data)
             }
             ?.addOnFailureListener {
@@ -258,9 +257,10 @@ object FirebaseUtil {
                 it.printStackTrace()
             }
     }
-    suspend fun loadImage(context: Context,path: String?)= suspendCoroutine {
 
-        if (path==null)
+    suspend fun loadImage(context: Context, path: String?) = suspendCoroutine {
+
+        if (path == null)
             it.resume(null)
         val image = ImageManager.create(context)
         image.loadImage({ _: Uri, drawable: Drawable?, isRequestDrawable: Boolean ->
@@ -269,7 +269,7 @@ object FirebaseUtil {
                 val image2 = ImageBitmap(100, 100, ImageBitmapConfig.Argb8888)
                 val canvas = Canvas(image2)
 
-                drawable.bounds= Rect(0,0,image2.width,image2.height)
+                drawable.bounds = Rect(0, 0, image2.width, image2.height)
 
                 drawable.draw(canvas.nativeCanvas)
 
@@ -280,7 +280,7 @@ object FirebaseUtil {
         }, Uri.parse(path))
     }
 
-    suspend fun test(){
+    suspend fun test() {
 //        val cli=PlayGames.getAchievementsClient()
 //          val we=  cli.load(true)
 //                .await()

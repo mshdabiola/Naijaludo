@@ -34,13 +34,13 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     private var onPlayerFinishPlaying: () -> Unit = {}
 
     private val _gameState = MutableStateFlow(LudoGameState(board = Board(colors = emptyList())))
-    private var randList= listOf(1,2,3,4,5,6)
+    private var randList = listOf(1, 2, 3, 4, 5, 6)
 
     val gameState = _gameState.asStateFlow()
 
     private val computerDelay = 500L
 
-    protected var lastDices :List<Dice> ?=null
+    protected var lastDices: List<Dice>? = null
 
     private var ludoSetting: Setting = Setting.default
 
@@ -74,13 +74,13 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         this.ludoSetting = ludoSetting
 
-        randList=   (1..7).map { numb ->
-            when(numb){
-                    in 1..5-> List(9){numb}
-                    6-> List((3-ludoSetting.gameLevel)*2){6}
-                    else->List(Constant.difficulty){6}
-                }
+        randList = (1..7).map { numb ->
+            when (numb) {
+                in 1..5 -> List(9) { numb }
+                6 -> List((3 - ludoSetting.gameLevel) * 2) { 6 }
+                else -> List(Constant.difficulty) { 6 }
             }
+        }
             .flatten()
             .shuffled()
 
@@ -198,7 +198,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(isOnResume = true))
     }
 
-   open fun pause() {
+    open fun pause() {
         log("pause")
         setGameState(getGameState().copy(isOnResume = false))
     }
@@ -324,7 +324,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
             }
         }
         diceList[totalIndex] = diceList[totalIndex].copy(number = diceList.sumOf { it.number })
-        lastDices=diceList
+        lastDices = diceList
         setGameState(getGameState().copy(listOfDice = diceList))
 
         // get dice value that can move pawn
@@ -384,7 +384,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
     }
 
-   open fun onCounter(counterId: Int) {
+    open fun onCounter(counterId: Int) {
         if (getGameState().isOnResume && getGameState().start) {
             if (getGameState().isHumanPlayer) {
                 soundInterface?.onSelect()
@@ -516,7 +516,8 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
             } else {
                 // same color, select upper pawn
                 val upperPawn = pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
-                val upperIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == upperPawn.pawnId }
+                val upperIndex =
+                    getGameState().listOfPawn.indexOfFirst { it.pawnId == upperPawn.pawnId }
                 onPawnLogic(upperIndex)
             }
         } else {

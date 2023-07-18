@@ -75,7 +75,7 @@ fun RankCard(
             }
     })
 
-    if (showCard &&rank!=null) {
+    if (showCard && rank != null) {
         Column(
             modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -129,6 +129,6 @@ fun RankCardPreview() {
     RankCard(
         Modifier.width(70.dp),
         leadRes = 343,
-       // updateScore = { _, _ -> }
+        // updateScore = { _, _ -> }
     )
 }

@@ -13,31 +13,31 @@ class LogLudo(soundInterface: SoundInterface) :
     LudoGame(soundInterface = soundInterface) {
 
     var firebaseLog: (event: String, block: com.google.firebase.analytics.ktx.ParametersBuilder.() -> Unit) -> Unit =
-        {_,_->}
+        { _, _ -> }
     var unLockAchievement: (Int) -> Unit = {}
     var increaseAchievement: (Int) -> Unit = {}
 
-    private var logLudoData:LogLudoData=  LogLudoData(
+    private var logLudoData: LogLudoData = LogLudoData(
         neverKillInGame = true,
         numberOfTimeKill = 0,
         startTime = System.currentTimeMillis() * 1000
     )
-    private var saveLog :(LogLudoData)->Unit={}
-    
+    private var saveLog: (LogLudoData) -> Unit = {}
+
     private var firstHumanPlayer = false
-    
-    
+
+
     suspend fun start2(
         logLudo: LogLudoData?,
         ludoGameState: LudoGameState,
         ludoSetting: Setting,
         onGameFinish: () -> Unit,
         onPlayerFinishPlaying: () -> Unit,
-        saveLog :(LogLudoData)->Unit
-    ){
-        this.saveLog=saveLog
+        saveLog: (LogLudoData) -> Unit
+    ) {
+        this.saveLog = saveLog
         if (logLudo != null) {
-            this.logLudoData=logLudo
+            this.logLudoData = logLudo
         }
         start(
             ludoGameState = ludoGameState,
@@ -73,20 +73,20 @@ class LogLudo(soundInterface: SoundInterface) :
             }
 
             increaseGame()
-           logLudoData= LogLudoData(
-               neverKillInGame = true,
-               numberOfTimeKill = 0,
-               startTime = System.currentTimeMillis() * 1000
-           )
+            logLudoData = LogLudoData(
+                neverKillInGame = true,
+                numberOfTimeKill = 0,
+                startTime = System.currentTimeMillis() * 1000
+            )
         }
         firstHumanPlayer = false
 
-        firebaseLog("GameSetting"){
-            param("type",ludoGameState.gameType.name)
-            param("difficulty",ludoSetting.gameLevel.toLong())
-            param("playerNumber",ludoGameState.listOfPlayer.size.toLong())
-            param("pawnNumber",ludoSetting.pawnNumber.toLong())
-            param("boardStyle",ludoSetting.boardStyle.toLong())
+        firebaseLog("GameSetting") {
+            param("type", ludoGameState.gameType.name)
+            param("difficulty", ludoSetting.gameLevel.toLong())
+            param("playerNumber", ludoGameState.listOfPlayer.size.toLong())
+            param("pawnNumber", ludoSetting.pawnNumber.toLong())
+            param("boardStyle", ludoSetting.boardStyle.toLong())
 
         }
 
@@ -191,11 +191,11 @@ class LogLudo(soundInterface: SoundInterface) :
     override fun kill(killer: Pawn, kill: Pawn) {
         super.kill(killer, kill)
         if (isHumanPlaying() && getHumanPawn().contains(kill)) {
-            logLudoData=logLudoData.copy(neverKillInGame = false)
+            logLudoData = logLudoData.copy(neverKillInGame = false)
         }
         if (isHumanPlaying() && getHumanPawn().contains(killer)) {
-           val noOfKill = 1+logLudoData.numberOfTimeKill
-            logLudoData=logLudoData.copy(numberOfTimeKill = noOfKill)
+            val noOfKill = 1 + logLudoData.numberOfTimeKill
+            logLudoData = logLudoData.copy(numberOfTimeKill = noOfKill)
         }
         //lucky combo
         if (isHumanPlaying() && getHumanPawn().all { it.isOut() }) {
