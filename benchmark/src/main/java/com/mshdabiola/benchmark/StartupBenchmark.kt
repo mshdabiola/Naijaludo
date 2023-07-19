@@ -76,7 +76,7 @@ abstract class AbstractStartupBenchmark(private val startupMode: StartupMode) {
     fun startupFullCompilation() = startup(CompilationMode.Full())
 
     private fun startup(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
-        packageName = "com.mshdabiola.ludo.benchmark",
+        packageName = "com.mshdabiola.ludo",
         metrics = listOf(StartupTimingMetric()),
         compilationMode = compilationMode,
         iterations = 10,
