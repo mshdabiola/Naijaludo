@@ -2,6 +2,8 @@ package com.mshdabiola.ludo.database
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -239,6 +241,23 @@ object FirebaseUtil {
             Timber.e("download")
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+    }
+
+     fun getBitmap(uri: String) :Bitmap?{
+      return  try {
+
+            val input = URL(uri).openStream()
+
+           val bitmap= BitmapFactory.decodeStream(input)
+
+            input.close()
+            Timber.e("download")
+            bitmap
+        } catch (e: Exception) {
+            e.printStackTrace()
+          null
         }
 
     }

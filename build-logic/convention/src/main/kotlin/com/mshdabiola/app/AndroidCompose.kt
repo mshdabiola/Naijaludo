@@ -41,9 +41,9 @@ internal fun Project.configureAndroidCompose(
                 libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
-        }
+//        kotlinOptions {
+//            freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
+//        }
 
         dependencies {
             add("implementation", libs.findLibrary("androidx.compose.material3").get())

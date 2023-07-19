@@ -3,6 +3,7 @@
 
     <string name="game_services_project_id" translatable="false"> 176586652338 </string>
     <string name="authe_id" translatable="false">176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
 
     <!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
