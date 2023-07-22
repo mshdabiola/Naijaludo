@@ -122,7 +122,7 @@ fun DrawerBoardPreview() {
             },
 
             getPositionIntOffset = { x: Int, y: GameColor ->
-                Constant.getBoxByIndex(x, y).toPointUiState()            },
+                board.getBoxByIndex(x, y).toPointUiState()            },
         )
 
         DrawerUi(
@@ -134,7 +134,7 @@ fun DrawerBoardPreview() {
             },
 
             getPositionIntOffset = { x: Int, y: GameColor ->
-                Constant.getBoxByIndex(x, y).toPointUiState()            },
+                board.getBoxByIndex(x, y).toPointUiState()            },
         )
     }
 }

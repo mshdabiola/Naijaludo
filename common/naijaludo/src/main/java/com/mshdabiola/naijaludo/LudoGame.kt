@@ -800,10 +800,10 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     private fun getPawnBox(pawn: Pawn) =
-        Constant.getBoxByIndex(pawn.currentPos, pawn.color)
+        getGameState().board.getBoxByIndex(pawn.currentPos, pawn.color)
 
     fun getPositionIntOffset(id: Int, gameColor: GameColor): Point {
-        return Constant.getBoxByIndex(id, gameColor)
+        return getGameState().board.getBoxByIndex(id, gameColor)
     }
 
 

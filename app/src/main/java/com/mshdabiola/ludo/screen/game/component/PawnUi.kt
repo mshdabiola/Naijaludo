@@ -35,6 +35,7 @@ import com.mshdabiola.ludo.screen.game.state.PawnUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.ludo.screen.game.state.showText
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
+import com.mshdabiola.ludo.screen.game.state.toIntOffset
 import com.mshdabiola.ludo.screen.game.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Board
 import com.mshdabiola.naijaludo.model.Constant
@@ -105,13 +106,12 @@ fun MovablePawnUi(
     getPositionIntOffset: (Int, GameColor) -> PointUiState,
     // onMoveFinish: (Pawn) -> Unit = {}
 ) {
-    val intOffsetAnimatable by remember(pawnUiState.currentPos) {
-        mutableStateOf(
+    val intOffsetAnimatable = remember(pawnUiState.currentPos) {
             getPositionIntOffset(
                 pawnUiState.currentPos,
-                pawnUiState.color,
-            ).toIntOffset(),
-        )
+                pawnUiState.color
+            ).toIntOffset()
+
     }
 
     val scale = remember {
@@ -174,7 +174,7 @@ fun PawnsUi(
 fun PawnsUiPreview() {
     val board = Board()
     val getOffset = { x: Int, y: GameColor ->
-        Constant.getBoxByIndex(x, y).toPointUiState()    }
+        board.getBoxByIndex(x, y).toPointUiState()    }
     BoardUi(boardUiStateProvider = { board.toBoardUiState() }) {
         PawnsUi(
             pawnUiStateListProvider = {

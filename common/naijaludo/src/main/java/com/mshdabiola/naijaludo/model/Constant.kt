@@ -16,7 +16,6 @@ object Constant {
     private const val numberOfDice = 3
     private const val totalIndex = numberOfDice / 2
     var difficulty = 6
-    var colors =GameColor.entries.toList()
 
     var photoUri: String? = null
     fun getDefaultGameState(
@@ -193,44 +192,17 @@ object Constant {
 
 
 
-    fun getBoxByIndex(index: Int, gameColor: GameColor): Point {
-        // home -1 to -4
-
-        // start point 0
-
-        // path 1 to 50
-
-        // safe path 51 to 55
-
-        // out 56
-        val color= colors.indexOf(gameColor)
-        return when (index) {
-            0 -> getStartBox(color)
-            in 1..50 -> {
-                val generalIndex = specificToGeneral(index, gameColor)
-
-                getBoxByIndex(generalIndex)
-            }
-
-            in 51..55 -> {
-                val safeIndex = index - 51
-                getSafeBox(safeIndex, color)
-            }
-
-            56 -> getLastBox()
-            else -> getHomeBox(abs(index + 1), color) // because home is -1 to -4
-        }
-    }
 
 
 
-    private fun getBoxByIndex(index: Int) :Point{
+
+    fun getBoxByIndex(index: Int) :Point{
         val x=pathX[index]
         val y=pathY[index]
         return Point(x.toFloat(),y.toFloat())
     }
 
-    private fun getSafeBox(index: Int,colorIndex:Int): Point {
+    fun getSafeBox(index: Int,colorIndex:Int): Point {
 
 
         val x=safeX[colorIndex][index]
@@ -239,8 +211,8 @@ object Constant {
 
     }
 
-    private fun getLastBox() = Point(7f, 7f)
-    private fun getStartBox(colorIndex:Int): Point {
+    fun getLastBox() = Point(7f, 7f)
+    fun getStartBox(colorIndex:Int): Point {
 
 
         val x=startX[colorIndex]
@@ -248,21 +220,16 @@ object Constant {
         return Point(x.toFloat(),y.toFloat())
     }
 
-    private fun getHomeBox(index: Int, colorIndex:Int): Point {
+    fun getHomeBox(index: Int, colorIndex:Int): Point {
 
         val x=homeX[colorIndex][index]
         val y=homeY[colorIndex][index]
         return Point(x.toFloat(),y.toFloat())
     }
 
-    fun specificToGeneral(index: Int, color:GameColor): Int {
-        val colorIndex= colors.indexOf(color)
-        val homeOfColor = getCurrentIndex(getStartBox(colorIndex))
 
-        return if (index > (51 - homeOfColor)) homeOfColor + index - 52 else index + homeOfColor
-    }
 
-    private fun getCurrentIndex(point: Point): Int {
+    fun getCurrentIndex(point: Point): Int {
         return pathX.zip(pathY).indexOfFirst {
             it.first==point.x.toInt() && it.second==point.y.toInt()
         }
