@@ -29,8 +29,9 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
                 getSafeBox(safeIndex, color)
             }
 
-            56 -> getLastBox()
-            else -> getHomeBox(abs(index + 1), color) // because home is -1 to -4
+            in -1 downTo -4 ->getHomeBox(abs(index + 1), color) // because home is -1 to -4
+            else -> getLastBox()
+
         }
     }
 
