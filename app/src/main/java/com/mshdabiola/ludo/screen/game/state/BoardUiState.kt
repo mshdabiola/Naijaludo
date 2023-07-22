@@ -18,7 +18,7 @@ data class BoardUiState(
 fun Board.toBoardUiState() = BoardUiState(
     boardType = boardType,
     colors = colors,
-    homeBoxes = bigHomeBoxes.map { it.toBoxUiState() },
-    pathBoxes = paths.map { it.toBoxUiState() },
-    heavenBoxes = safePath.map { it.toBoxUiState() },
+//    homeBoxes = bigHomeBoxes.map { it.toBoxUiState() },
+//    pathBoxes = paths.map { it.toBoxUiState() },
+//    heavenBoxes = safePath.map { it.toBoxUiState() },
 )

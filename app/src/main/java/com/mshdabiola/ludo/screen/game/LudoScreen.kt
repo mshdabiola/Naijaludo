@@ -625,7 +625,7 @@ fun GameScreenPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         }
     )
 }
@@ -638,7 +638,7 @@ fun GameScreenLandPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.PHONE_LAND
 
@@ -653,7 +653,7 @@ fun GameScreenFoldPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_PORT
     )
@@ -667,7 +667,7 @@ fun GameScreenFoldLandPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
@@ -681,7 +681,7 @@ fun GameScreenTabletPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.TABLET_PORT
     )
@@ -695,7 +695,7 @@ fun GameScreenTabletLandPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
+            Constant.getBoxByIndex(x, y).toPointUiState()
         },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )

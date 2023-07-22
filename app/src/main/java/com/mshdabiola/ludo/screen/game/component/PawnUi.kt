@@ -37,6 +37,7 @@ import com.mshdabiola.ludo.screen.game.state.showText
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
 import com.mshdabiola.ludo.screen.game.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Board
+import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.log
 import kotlinx.collections.immutable.ImmutableList
@@ -173,8 +174,7 @@ fun PawnsUi(
 fun PawnsUiPreview() {
     val board = Board()
     val getOffset = { x: Int, y: GameColor ->
-        board.getPositionIntPoint(x, y).toPointUiState()
-    }
+        Constant.getBoxByIndex(x, y).toPointUiState()    }
     BoardUi(boardUiStateProvider = { board.toBoardUiState() }) {
         PawnsUi(
             pawnUiStateListProvider = {

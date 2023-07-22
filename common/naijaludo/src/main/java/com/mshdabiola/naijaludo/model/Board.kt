@@ -2,9 +2,48 @@ package com.mshdabiola.naijaludo.model
 
 import kotlin.math.abs
 
-class Board(val colors: List<GameColor> = GameColor.values().toList(), val boardType: Int = 0) {
+class Board2(val colors: List<GameColor> = GameColor.values().toList(), val boardType: Int = 0) {
 
-    private
+
+    //first box property
+    val safeX=
+        listOf(
+            intArrayOf(1,2,3,4,5),
+            intArrayOf(7,7,7,7,7),
+            intArrayOf(13,12,11,10,9),
+            intArrayOf(7,7,7,7,7)
+        )
+
+    val safeY=
+        listOf(
+            intArrayOf(7,7,7,7,7),
+            intArrayOf(1,2,3,4,5),
+            intArrayOf(7,7,7,7,7),
+            intArrayOf(13,12,11,10,9)
+        )
+
+    // 11   41
+    // 14   44
+    val homeX= listOf(
+            intArrayOf(1,4,1,4),
+            intArrayOf(10,13,10,13),
+            intArrayOf(10,13,10,13),
+            intArrayOf(1,4,1,4)
+        )
+    val homeY= listOf(
+            intArrayOf(1,1,4,4),
+            intArrayOf(1,1,4,4),
+            intArrayOf(10,10,13,13),
+            intArrayOf(10,10,13,13)
+        )
+
+    val startX= intArrayOf(1,8,13,6)
+    val startY= intArrayOf(6,1,8,13)
+
+
+
+
+
     // Starting point <col,row>, and number of box
     val homeStartPoint = listOf(Point(0f, 0f), Point(9f, 0f), Point(9f, 9f), Point(0f, 9f))
     val paths = if (colors.isNotEmpty()) initPathBox() else emptyList()

@@ -1,6 +1,7 @@
 package com.mshdabiola.naijaludo.model.player
 
 import com.mshdabiola.naijaludo.model.Board
+import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.Counter
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.LudoGameState
@@ -82,7 +83,7 @@ data class RandomComputerPlayer(
         val board = ludoGameState.board
         val oppPawnOn = getOpponentPawns(ludoGameState)
             .filter { it.isOnPath() }
-            .map { board.getBoxByIndex(it.currentPos, it.color) }
+            .map { Constant.getBoxByIndex(it.currentPos, it.color) }
 
         //kill from home
         val homeKill = counterAndPawns
@@ -91,7 +92,7 @@ data class RandomComputerPlayer(
                 val number =
                     if (it.first.number == 6 && it.first.isTotal.not()) 0 else it.second.currentPos + it.first.number
                 val pawnCopy = it.second.copy(currentPos = number)
-                board.getBoxByIndex(pawnCopy.currentPos, pawnCopy.color) in oppPawnOn
+                Constant.getBoxByIndex(pawnCopy.currentPos, pawnCopy.color) in oppPawnOn
             }
 
         if (homeKill.isNotEmpty()) {
@@ -105,7 +106,7 @@ data class RandomComputerPlayer(
                 val number =
                     if (it.first.number == 6 && it.first.isTotal.not()) 0 else it.second.currentPos + it.first.number
                 val pawnCopy = it.second.copy(currentPos = number)
-                board.getBoxByIndex(pawnCopy.currentPos, pawnCopy.color) in oppPawnOn
+                Constant.getBoxByIndex(pawnCopy.currentPos, pawnCopy.color) in oppPawnOn
             }
 
         if (pathKill.isNotEmpty()) {
@@ -180,10 +181,10 @@ data class RandomComputerPlayer(
         val newPosition = if (currentPawn.isHome()) 0 else currentPawn.currentPos + currentDiceNumb
         val projectPawn = currentPawn.copy(currentPos = newPosition)
         val oppHome = oppColorPawnAtHome
-            .map { board.specificToGeneral(0, it) }
+            .map { Constant.specificToGeneral(0, it) }
             .toIntArray()
-        val actualProjectPos = board.specificToGeneral(projectPawn.currentPos, projectPawn.color)
-        val actualCurrentPos = board.specificToGeneral(currentPawn.currentPos, currentPawn.color)
+        val actualProjectPos = Constant.specificToGeneral(projectPawn.currentPos, projectPawn.color)
+        val actualCurrentPos = Constant.specificToGeneral(currentPawn.currentPos, currentPawn.color)
 
         return when {
             currentPawn.isInSavePath() -> getPoint(50)
@@ -253,8 +254,8 @@ data class RandomComputerPlayer(
             return -1
         }
 
-        val distance1 = board.specificToGeneral(pawn1.currentPos, pawn1.color)
-        val distance2 = board.specificToGeneral(pawn2.currentPos, pawn2.color)
+        val distance1 = Constant.specificToGeneral(pawn1.currentPos, pawn1.color)
+        val distance2 = Constant.specificToGeneral(pawn2.currentPos, pawn2.color)
 
         val distance = distance2 - distance1
         return if (distance < 0) -1 else distance
@@ -334,7 +335,7 @@ data class RandomComputerPlayer2(
 
         val oppPawn = getOpponentPawns(ludoGameState)
             .filter { it.isOnPath() }
-            .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
+            .map { Constant.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
 
         val playerPawn = ludoGameState.listOfPawn
@@ -346,10 +347,10 @@ data class RandomComputerPlayer2(
                 .map {
                     // is home and have six
                     if (it.isHome() && counter.number == 6 && counter.id != 1) {
-                        ludoGameState.board.specificToGeneral(0, it.color)
+                        Constant.specificToGeneral(0, it.color)
                     } else {
                         // is move
-                        ludoGameState.board.specificToGeneral(
+                        Constant.specificToGeneral(
                             it.currentPos + counter.number,
                             it.color,
                         )
@@ -386,7 +387,7 @@ data class RandomComputerPlayer2(
 
         val pawnIntArray = allOppPawns
             .filter { it.isOnPath() }
-            .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
+            .map { Constant.specificToGeneral(it.currentPos, it.color) }
             .toIntArray()
 
         val currentDiceNumber = ludoGameState.currentDiceNumber
@@ -403,9 +404,9 @@ data class RandomComputerPlayer2(
         enablePawn.forEach {
             val currentPawnPoss =
                 if (it.isHome() && currentDiceNumber == 6) {
-                    ludoGameState.board.specificToGeneral(0, it.color)
+                    Constant.specificToGeneral(0, it.color)
                 } else {
-                    ludoGameState.board.specificToGeneral(
+                    Constant.specificToGeneral(
                         it.currentPos + currentDiceNumber,
                         it.color,
                     )
@@ -479,10 +480,10 @@ data class RandomComputerPlayer2(
         val newPosition = if (currentPawn.isHome()) 0 else currentPawn.currentPos + currentDiceNumb
         val projectPawn = currentPawn.copy(currentPos = newPosition)
         val oppHome = oppColorPawnAtHome
-            .map { board.specificToGeneral(0, it) }
+            .map { Constant.specificToGeneral(0, it) }
             .toIntArray()
-        val actualProjectPos = board.specificToGeneral(projectPawn.currentPos, projectPawn.color)
-        val actualCurrentPos = board.specificToGeneral(currentPawn.currentPos, currentPawn.color)
+        val actualProjectPos = Constant.specificToGeneral(projectPawn.currentPos, projectPawn.color)
+        val actualCurrentPos = Constant.specificToGeneral(currentPawn.currentPos, currentPawn.color)
 
         return when {
             currentPawn.isInSavePath() -> getPoint(50)
@@ -552,8 +553,8 @@ data class RandomComputerPlayer2(
             return -1
         }
 
-        val distance1 = board.specificToGeneral(pawn1.currentPos, pawn1.color)
-        val distance2 = board.specificToGeneral(pawn2.currentPos, pawn2.color)
+        val distance1 = Constant.specificToGeneral(pawn1.currentPos, pawn1.color)
+        val distance2 = Constant.specificToGeneral(pawn2.currentPos, pawn2.color)
 
         val distance = distance2 - distance1
         return if (distance < 0) -1 else distance
