@@ -123,7 +123,7 @@ object Constant {
 
 
     //first box property
-    private val safeX=
+    val safeX=
         listOf(
             intArrayOf(1,2,3,4,5),
             intArrayOf(7,7,7,7,7),
@@ -131,7 +131,7 @@ object Constant {
             intArrayOf(7,7,7,7,7)
         )
 
-    private val safeY=
+    val safeY=
         listOf(
             intArrayOf(7,7,7,7,7),
             intArrayOf(1,2,3,4,5),
@@ -141,13 +141,13 @@ object Constant {
 
     // 11   41
     // 14   44
-    private val homeX= listOf(
+    val homeX= listOf(
         intArrayOf(1,4,1,4),
         intArrayOf(10,13,10,13),
         intArrayOf(10,13,10,13),
         intArrayOf(1,4,1,4)
     )
-    private val homeY= listOf(
+    val homeY= listOf(
         intArrayOf(1,1,4,4),
         intArrayOf(1,1,4,4),
         intArrayOf(10,10,13,13),
@@ -157,7 +157,7 @@ object Constant {
     val startX= intArrayOf(1,8,13,6)
     val startY= intArrayOf(6,1,8,13)
 
-    private val pathX=
+    val pathX=
         intArrayOf(
             0,1,2,3,4,5,
             6,6,6,6,6,6,
@@ -172,7 +172,7 @@ object Constant {
             5,4,3,2,1,0,
             0
         )
-    private val pathY=
+    val pathY=
         intArrayOf(
             6,6,6,6,6,6,
             5,4,3,2,1,0,
@@ -192,46 +192,4 @@ object Constant {
 
 
 
-
-
-
-
-    fun getBoxByIndex(index: Int) :Point{
-        val x=pathX[index]
-        val y=pathY[index]
-        return Point(x.toFloat(),y.toFloat())
-    }
-
-    fun getSafeBox(index: Int,colorIndex:Int): Point {
-
-
-        val x=safeX[colorIndex][index]
-        val y=safeY[colorIndex][index]
-        return Point(x.toFloat(),y.toFloat())
-
-    }
-
-    fun getLastBox() = Point(7f, 7f)
-    fun getStartBox(colorIndex:Int): Point {
-
-
-        val x=startX[colorIndex]
-        val y=startY[colorIndex]
-        return Point(x.toFloat(),y.toFloat())
-    }
-
-    fun getHomeBox(index: Int, colorIndex:Int): Point {
-
-        val x=homeX[colorIndex][index]
-        val y=homeY[colorIndex][index]
-        return Point(x.toFloat(),y.toFloat())
-    }
-
-
-
-    fun getCurrentIndex(point: Point): Int {
-        return pathX.zip(pathY).indexOfFirst {
-            it.first==point.x.toInt() && it.second==point.y.toInt()
-        }
-    }
 }
