@@ -36,7 +36,7 @@ object Constant {
         GameColor.values().forEach { gameColor ->
             (1..4).map { colorNumber ->
                 val pawn = if (colorNumber <= numberOfPawn2) {
-                    Pawn(colorNumber = colorNumber, color = gameColor)
+                    Pawn(colorNumber = colorNumber,colorNumber.times(-1) ,color = gameColor)
                 } else {
                     Pawn(colorNumber = colorNumber, color = gameColor, currentPos = 56)
                 }

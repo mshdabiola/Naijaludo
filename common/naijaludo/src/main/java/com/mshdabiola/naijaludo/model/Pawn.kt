@@ -2,8 +2,8 @@ package com.mshdabiola.naijaludo.model
 
 
 data class Pawn(
-    val colorNumber: Int = 0,//1-4
-    val currentPos: Int = colorNumber * -1,
+    val colorNumber: Int, //= 0,//1-4
+    val currentPos: Int ,//= colorNumber * -1,
     val color: GameColor = GameColor.RED,
     val isEnable: Boolean = false,
     val zIndex: Float = 1f,

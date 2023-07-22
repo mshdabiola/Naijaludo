@@ -616,7 +616,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                 // count finish if index is -1
                 if (indexOfCounterNotUsed == -1) {
                     // kill
-                    kill(pawnCopy, oppoPawn)
+                    kill(killer = pawnCopy, kill = oppoPawn)
                     break
                 } else {
                     val counter = getGameState().listOfCounter[indexOfCounterNotUsed]
@@ -625,7 +625,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
                     if (secondDiceCanMoveAnyOtherPawn) {
                         // kill
-                        kill(pawnCopy, oppoPawn)
+                        kill(killer = pawnCopy, kill = oppoPawn)
                         break
                     }
                 }
