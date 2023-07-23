@@ -4,21 +4,9 @@ import com.mshdabiola.designsystem.R
 
 object LudoIcon {
 
-    val ArrowIcon = R.drawable.arrow
     val Wifi = R.drawable.baseline_wifi_24
 
-    private val defaultBoardType = intArrayOf(
-        R.drawable.red,
-        R.drawable.green,
-        R.drawable.yellow,
-        R.drawable.blue,
-    )
-    private val defaultBoardType2 = intArrayOf(
-        R.drawable.red,
-        R.drawable.green,
-        R.drawable.yellow,
-        R.drawable.blue,
-    )
+
     val robotIcon = intArrayOf(
         R.drawable.icon_4,
         R.drawable.icon_2,
@@ -27,9 +15,7 @@ object LudoIcon {
         R.drawable.icon_5,
         R.drawable.icon_1,
     )
-    private val robotIcon2 = intArrayOf()
 
-    val BoardImage = arrayOf(defaultBoardType, defaultBoardType2)
 
     val DiceImage = intArrayOf(
         R.drawable.dice_1,
