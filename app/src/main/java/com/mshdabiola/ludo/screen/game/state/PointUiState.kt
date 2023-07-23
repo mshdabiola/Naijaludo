@@ -1,5 +1,7 @@
 package com.mshdabiola.ludo.screen.game.state
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.IntOffset
 import com.mshdabiola.naijaludo.model.Point
 
 data class PointUiState(val x: Float, val y: Float) {
@@ -9,3 +11,5 @@ data class PointUiState(val x: Float, val y: Float) {
 }
 
 fun Point.toPointUiState() = PointUiState(x, y)
+
+fun PointUiState.toIntOffset()= IntOffset(x.toInt(),y.toInt())

@@ -495,8 +495,7 @@ fun GameScreenMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.PHONE_PORT
     )
 }
@@ -515,8 +514,7 @@ fun GameScreenLandMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.PHONE_LAND
 
     )
@@ -536,8 +534,7 @@ fun GameScreenFoldMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.FOLD_PORT
     )
 }
@@ -556,8 +553,7 @@ fun GameScreenFoldLandMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }
@@ -576,8 +572,7 @@ fun GameScreenTabletMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.TABLET_PORT
     )
 }
@@ -596,8 +591,7 @@ fun GameScreenTabletLandMPreview() {
     GameScreen(
         gameUiState = state,
         getPositionIntOffset = { x: Int, y: GameColor ->
-            game.board.getPositionIntPoint(x, y).toPointUiState()
-        },
+            game.board.getBoxByIndex(x, y).toPointUiState()        },
         deviceType = DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
     )
 }

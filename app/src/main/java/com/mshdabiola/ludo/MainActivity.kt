@@ -1,5 +1,7 @@
 package com.mshdabiola.ludo
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -345,20 +347,28 @@ class MainActivity : ComponentActivity() {
     }
 
     fun acheveUi() {
-        achievement
-            ?.achievementsIntent
-            ?.addOnSuccessListener {
-                startActivityForResult(it, 48)
+        try {
+            achievement
+                ?.achievementsIntent
+                ?.addOnSuccessListener {
+                    startActivityForResult(it, 48)
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
 //
 //                     //   result.resultCode== RESULT_OK
 //                    }
 //                }
-            }
-            ?.addOnFailureListener {
-                it.printStackTrace()
-            }
+                }
+                ?.addOnFailureListener {
+                    it.printStackTrace()
+                }
+
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
 }

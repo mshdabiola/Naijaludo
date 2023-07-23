@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.icon.LudoIcon
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.ludo.database.FirebaseUtil
@@ -95,7 +96,7 @@ fun PlayerUi(
             if (imageBitmap == null) {
                 Image(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = LudoIcon.robotIcon[player.iconIndex]),
+                    painter = painterResource(id = LudoIcon.robotIcon.getOrNull(player.iconIndex)?:R.drawable.icon_2),
                     contentDescription = "player Icon",
                 )
             } else {

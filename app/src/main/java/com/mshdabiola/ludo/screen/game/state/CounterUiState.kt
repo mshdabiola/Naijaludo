@@ -8,4 +8,4 @@ data class CounterUiState(
     val number: Int = 0,
 )
 
-fun Counter.toCounterUiState() = CounterUiState(id, isEnable, number)
+fun Counter.toCounterUiState() = CounterUiState(id = id, isEnable = isEnable, number = number)

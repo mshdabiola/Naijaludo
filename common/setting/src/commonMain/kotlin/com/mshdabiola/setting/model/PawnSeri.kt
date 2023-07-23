@@ -25,6 +25,6 @@ internal fun Pawn.toPawnSeri() = PawnSeri(
     colorNumber = colorNumber,
     currentPos = currentPos,
     color = color,
-    isEnable = isEnable,
+    isEnable = false,
     zIndex = zIndex
 )
