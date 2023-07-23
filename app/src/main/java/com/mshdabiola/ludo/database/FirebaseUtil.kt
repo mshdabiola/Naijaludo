@@ -53,7 +53,7 @@ object FirebaseUtil {
                     countinueation.resume(scoreAnnotatedData.get())
                 }
                 .addOnFailureListener {
-                    countinueation.resumeWithException(it)
+                    it.printStackTrace()
                 }
         }
 
@@ -76,7 +76,7 @@ object FirebaseUtil {
                     continuation.resume(it.toUser())
                 }
                 .addOnFailureListener {
-                    continuation.resumeWithException(it)
+                    it.printStackTrace()
                 }
         }
 
@@ -153,7 +153,7 @@ object FirebaseUtil {
 
             }
             .addOnFailureListener {
-                cont.resumeWithException(it)
+               it.printStackTrace()
             }
     }
 
@@ -180,7 +180,7 @@ object FirebaseUtil {
                     }
                 }
                 .addOnFailureListener {
-                    cont.resumeWithException(it)
+                   it.printStackTrace()
                 }
 
         }
@@ -191,34 +191,39 @@ object FirebaseUtil {
         onSigning: (FirebaseUser) -> Unit = {}
     ) = suspendCoroutine<Unit> { cont ->
 
-        val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
-        gamesSignInClient.requestServerSideAccess(
-            requestCode, true
-        )
-            .addOnSuccessListener { code ->
-                val auth = Firebase.auth
-                val credential = PlayGamesAuthProvider.getCredential(code)
-                auth.signInWithCredential(credential)
-                    .addOnCompleteListener(activity) { task ->
-                        if (task.isSuccessful) {
+        try {
+            val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
+            gamesSignInClient.requestServerSideAccess(
+                requestCode, true
+            )
+                .addOnSuccessListener { code ->
+                    val auth = Firebase.auth
+                    val credential = PlayGamesAuthProvider.getCredential(code)
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener(activity) { task ->
+                            if (task.isSuccessful) {
 
-                            val user = auth.currentUser
-                            user?.let {
-                                onSigning(it)
+                                val user = auth.currentUser
+                                user?.let {
+                                    onSigning(it)
+                                }
+
+                            } else {
+                                task.exception?.let {
+                                    cont.resumeWithException(it)
+
+                                }
+
                             }
-
-                        } else {
-                            task.exception?.let {
-                                cont.resumeWithException(it)
-
-                            }
-
                         }
-                    }
-            }
-            .addOnFailureListener {
-                cont.resumeWithException(it)
-            }
+                }
+                .addOnFailureListener {
+                   it.printStackTrace()
+                }
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
 
     }
