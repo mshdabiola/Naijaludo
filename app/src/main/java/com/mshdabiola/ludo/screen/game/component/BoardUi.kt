@@ -1,23 +1,18 @@
 package com.mshdabiola.ludo.screen.game.component
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -26,6 +21,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,11 +35,12 @@ import com.mshdabiola.designsystem.theme.blueBoard
 import com.mshdabiola.designsystem.theme.greenBoard
 import com.mshdabiola.designsystem.theme.redBoard
 import com.mshdabiola.designsystem.theme.yellowBoard
+import com.mshdabiola.ludo.screen.game.component.board.All
+import com.mshdabiola.ludo.screen.game.component.board.Default
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
 import com.mshdabiola.naijaludo.model.Board
 import com.mshdabiola.naijaludo.model.GameColor
-import com.mshdabiola.naijaludo.model.Point
 
 @Composable
 fun BoardUi(
@@ -68,16 +65,17 @@ fun BoardUi(
         yellowBoard,
         blueBoard
     )
-    val vectors= listOf(
-        ImageVector.vectorResource(id = R.drawable.red),
-        ImageVector.vectorResource(id = R.drawable.green),
-        ImageVector.vectorResource(id = R.drawable.yellow),
-        ImageVector.vectorResource(id = R.drawable.blue)
-    )
+
+
+    val vectors= Default.All
     val painters=vectors
         .map {
             rememberVectorPainter(image = it)
         }
+    val rotate= remember (boardUiState.colors){
+        boardUiState.colors.indexOf(GameColor.RED)*90f
+    }
+
 
 
     val thirdHouse= colors[boardUiState.colors[2].ordinal]
@@ -96,17 +94,21 @@ fun BoardUi(
 //        visible = boardUiState.pathBoxes.isNotEmpty(),
 //    ) {
         BoxWithConstraints(
-            modifier=modifier
+            modifier= modifier
                 .aspectRatio(1f)
                 .drawBehind {
                     val unit = size.width.div(15)
-                    val strokeWidth=unit.times(0.07f)
+                    val strokeWidth = unit.times(0.07f)
                     drawRect(bgColor)
                     drawRect(pathColor, style = Stroke(width = strokeWidth))
 
                     //read safe path
                     drawRect(firstHouse, Offset(unit.times(1f), unit.times(6)), Size(unit, unit))
-                    drawRect(firstHouse, Offset(unit.times(1f), unit.times(7)), Size(unit.times(5), unit))
+                    drawRect(
+                        firstHouse,
+                        Offset(unit.times(1f), unit.times(7)),
+                        Size(unit.times(5), unit)
+                    )
                     repeat(5) {
                         val first = it + 1
                         drawCircle(
@@ -114,7 +116,7 @@ fun BoardUi(
                             Offset(unit.times(first + 0.5f), unit.times(7.5f))
                         )
                         drawCircle(
-                            pathColor, unit.div(3f) ,
+                            pathColor, unit.div(3f),
                             Offset(unit.times(first + 0.5f), unit.times(7.5f)),
                             style = Stroke(width = strokeWidth)
                         )
@@ -122,7 +124,11 @@ fun BoardUi(
 
                     //blue safe path
                     drawRect(fourthHouse, Offset(unit.times(6), unit.times(13)), Size(unit, unit))
-                    drawRect(fourthHouse, Offset(unit.times(7f), unit.times(9)), Size(unit, unit.times(5)))
+                    drawRect(
+                        fourthHouse,
+                        Offset(unit.times(7f), unit.times(9)),
+                        Size(unit, unit.times(5))
+                    )
                     repeat(5) {
                         val first = it + 9
 
@@ -131,7 +137,7 @@ fun BoardUi(
                             Offset(unit.times(7.5f), unit.times(first + 0.5f))
                         )
                         drawCircle(
-                            pathColor, unit.div(3f) ,
+                            pathColor, unit.div(3f),
                             Offset(unit.times(7.5f), unit.times(first + 0.5f)),
                             style = Stroke(width = strokeWidth)
                         )
@@ -139,7 +145,11 @@ fun BoardUi(
 
                     //green safe path
                     drawRect(secondHouse, Offset(unit.times(8), unit.times(1)), Size(unit, unit))
-                    drawRect(secondHouse, Offset(unit.times(7f), unit.times(1)), Size(unit, unit.times(5)))
+                    drawRect(
+                        secondHouse,
+                        Offset(unit.times(7f), unit.times(1)),
+                        Size(unit, unit.times(5))
+                    )
 
                     repeat(5) {
                         val first = it + 1
@@ -149,7 +159,7 @@ fun BoardUi(
                             Offset(unit.times(7.5f), unit.times(first + 0.5f))
                         )
                         drawCircle(
-                            pathColor, unit.div(3f) ,
+                            pathColor, unit.div(3f),
                             Offset(unit.times(7.5f), unit.times(first + 0.5f)),
                             style = Stroke(width = strokeWidth)
                         )
@@ -157,7 +167,11 @@ fun BoardUi(
 
                     //yellow safe path
                     drawRect(thirdHouse, Offset(unit.times(13), unit.times(8)), Size(unit, unit))
-                    drawRect(thirdHouse, Offset(unit.times(9), unit.times(7)), Size(unit.times(5), unit))
+                    drawRect(
+                        thirdHouse,
+                        Offset(unit.times(9), unit.times(7)),
+                        Size(unit.times(5), unit)
+                    )
                     repeat(5) {
                         val first = it + 9
                         drawCircle(
@@ -165,7 +179,7 @@ fun BoardUi(
                             Offset(unit.times(first + 0.5f), unit.times(7.5f))
                         )
                         drawCircle(
-                            pathColor, unit.div(3f) ,
+                            pathColor, unit.div(3f),
                             Offset(unit.times(first + 0.5f), unit.times(7.5f)),
                             style = Stroke(width = strokeWidth)
                         )
@@ -194,21 +208,52 @@ fun BoardUi(
 
                     //home rectangle
                     drawShadowRect(firstHouse, Offset.Zero, Size(unit.times(6), unit.times(6)))
-                    drawHomeImage(painters[boardUiState.colors[0].ordinal], Offset(unit.times(1f), unit.times(1f)), Size(unit.times(4), unit.times(4)))
 
-                    drawShadowRect(fourthHouse, Offset(0f, unit.times(9)), Size(unit.times(6), unit.times(6)))
-                    drawHomeImage(painters[boardUiState.colors[3].ordinal], Offset(unit.times(1f), unit.times(10f)), Size(unit.times(4), unit.times(4)))
 
-                    drawShadowRect(secondHouse, Offset(unit.times(9), 0f), Size(unit.times(6), unit.times(6)))
-                    drawHomeImage(painters[boardUiState.colors[1].ordinal], Offset(unit.times(10f), unit.times(1f)), Size(unit.times(4), unit.times(4)))
+                    drawShadowRect(
+                        fourthHouse,
+                        Offset(0f, unit.times(9)),
+                        Size(unit.times(6), unit.times(6))
+                    )
+
+
+                    drawShadowRect(
+                        secondHouse,
+                        Offset(unit.times(9), 0f),
+                        Size(unit.times(6), unit.times(6))
+                    )
+
 
                     drawShadowRect(
                         thirdHouse,
                         Offset(unit.times(9), unit.times(9)),
                         Size(unit.times(6), unit.times(6))
                     )
+                    rotate(rotate) {
+                        drawHomeImage(
+                            painters[0],
+                            Offset(unit.times(1f), unit.times(1f)),
+                            Size(unit.times(4), unit.times(4))
+                        )
+                        drawHomeImage(
+                            painters[1],
+                            Offset(unit.times(10f), unit.times(1f)),
+                            Size(unit.times(4), unit.times(4))
+                        )
+                        drawHomeImage(
+                            painters[2],
+                            Offset(unit.times(10f), unit.times(10f)),
+                            Size(unit.times(4), unit.times(4))
+                        )
+                        drawHomeImage(
+                            painters[3],
+                            Offset(unit.times(1f), unit.times(10f)),
+                            Size(unit.times(4), unit.times(4))
+                        )
 
-                    drawHomeImage(painters[boardUiState.colors[2].ordinal], Offset(unit.times(10f), unit.times(10f)), Size(unit.times(4), unit.times(4)))
+
+                    }
+
 
                     //center rectanle
                     drawRect(
@@ -216,14 +261,15 @@ fun BoardUi(
                         Offset(unit.times(6), unit.times(6)),
                         Size(unit.times(3), unit.times(3))
                     )
-                    drawHomeImage(middlePainter,
+                    drawHomeImage(
+                        middlePainter,
                         Offset(unit.times(6), unit.times(6)),
                         Size(unit.times(3), unit.times(3))
                     )
 
 
                     //arrows
-                    drawArrows(unit,pathColor, strokeWidth)
+                    drawArrows(unit, pathColor, strokeWidth)
                     // shadow()
 
                 }) {
@@ -472,6 +518,12 @@ fun DrawScope.drawShadowRect(
 @Composable
 fun BoardPreview() {
 
+    val color= listOf(
+        GameColor.YELLOW,
+        GameColor.BLUE,
+        GameColor.RED,
+        GameColor.GREEN
+    )
 
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -482,12 +534,13 @@ fun BoardPreview() {
 //
 //        )
         val board = Board(
-            listOf(
-                GameColor.GREEN,  //270
-                GameColor.YELLOW, //180
-                GameColor.BLUE, //90
-                GameColor.RED, //0
-            ),
+           GameColor.entries.toList()
+//            listOf(
+//                GameColor.GREEN,  //270
+//                GameColor.YELLOW, //180
+//                GameColor.BLUE, //90
+//                GameColor.RED, //0
+//            ),
         ).toBoardUiState()
         BoardUi(modifier = Modifier, boardUiStateProvider = { board }) {
         }
