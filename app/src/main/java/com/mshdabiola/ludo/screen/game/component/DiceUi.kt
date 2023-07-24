@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
@@ -50,11 +51,18 @@ fun DiceUi(
 ) {
     val unitDp = LocalUnitDP.current
 
-    val res = remember(diceUiState.number) {
-        if (diceUiState.animate) {
-            DiceRollImage
-        } else {
-            DiceImage[diceUiState.number - 1]
+    val color= Color.Gray
+
+    val imageVector= remember(diceUiState.number,diceUiState.animate) {
+        when{
+            diceUiState.animate-> getDiceRoll(color)
+            diceUiState.number==2-> getDiceTwo(color)
+            diceUiState.number==3-> getDiceThree(color)
+            diceUiState.number==4-> getDiceFour(color)
+            diceUiState.number==5-> getDiceFive(color)
+            diceUiState.number==6-> getDiceSix(color)
+
+            else -> getDiceOne(color)
         }
     }
     Image(
@@ -73,7 +81,7 @@ fun DiceUi(
             .clickable(enabled = diceUiState.isEnable && isEnableForPlayer) {
                 onDiceClick()
             },
-        painter = painterResource(id = res),
+       imageVector = imageVector,
         contentDescription = "dice${diceUiState.id}",
 
         )
@@ -199,7 +207,7 @@ fun DiceUiPreview() {
         AnimateDiceUi(
             modifier = Modifier.size(50.dp),
             diceUiState = DiceUiState(
-                animate = false,
+                animate = true,
                 isEnable = true,
             ),
             numberOfDice = 0,

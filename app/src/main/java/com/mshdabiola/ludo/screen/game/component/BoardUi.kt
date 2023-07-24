@@ -55,7 +55,9 @@ fun BoardUi(
 
 
     val boardUiState=boardUiStateProvider()
-    val colors= board.getHouseColor(boardUiState.colors)
+    val colors= remember(boardUiState.colors) {
+        board.getHouseColor(boardUiState.colors)
+    }
 
 
 
@@ -69,10 +71,10 @@ fun BoardUi(
 
 
 
-    val thirdHouse= colors[boardUiState.colors[2].ordinal]
-    val firstHouse= colors[boardUiState.colors[0].ordinal]
-    val secondHouse= colors[boardUiState.colors[1].ordinal]
-    val fourthHouse= colors[boardUiState.colors[3].ordinal]
+    val thirdHouse= colors[2]
+    val firstHouse= colors[0]
+    val secondHouse= colors[1]
+    val fourthHouse= colors[3]
 
 
     val middleVector=ImageVector.vectorResource(id = R.drawable.middle)
@@ -525,7 +527,7 @@ fun BoardPreview() {
 //
 //        )
         val board = Board(
-           GameColor.entries.toList()
+         color//GameColor.entries.toList()
 //            listOf(
 //                GameColor.GREEN,  //270
 //                GameColor.YELLOW, //180

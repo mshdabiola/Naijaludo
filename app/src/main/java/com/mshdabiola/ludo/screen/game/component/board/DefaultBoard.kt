@@ -27,14 +27,7 @@ sealed class UBoard(private val colors:List<UColor>){
         return map(gameColor).pawnColor
     }
 
-    fun changeColor(color:Color):GameColor{
-        return when(colors.indexOfFirst { it.pawnColor==color }){
-           0-> GameColor.RED
-          1->  GameColor.GREEN
-           2-> GameColor.YELLOW
-            else->GameColor.BLUE
-        }
-    }
+
 
     abstract fun getHouseColor(gameColors: List<GameColor>):List<Color>
     abstract fun getPawnColor(gameColors: List<GameColor>):Map<GameColor,Color>
