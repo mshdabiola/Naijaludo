@@ -31,12 +31,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.R
-import com.mshdabiola.designsystem.theme.blueBoard
-import com.mshdabiola.designsystem.theme.greenBoard
-import com.mshdabiola.designsystem.theme.redBoard
-import com.mshdabiola.designsystem.theme.yellowBoard
-import com.mshdabiola.ludo.screen.game.component.board.All
-import com.mshdabiola.ludo.screen.game.component.board.Default
+import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
+import com.mshdabiola.ludo.screen.game.component.board.UBoard
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
 import com.mshdabiola.naijaludo.model.Board
@@ -48,7 +44,7 @@ fun BoardUi(
     boardUiStateProvider: () -> BoardUiState,
     content: @Composable BoxScope.() -> Unit = {},
 ) {
-
+    val board= LocalBoard.current
 
     val pathColor= MaterialTheme.colorScheme
         .onSecondaryContainer
@@ -59,16 +55,11 @@ fun BoardUi(
 
 
     val boardUiState=boardUiStateProvider()
-    val colors= listOf(
-        redBoard,
-        greenBoard,
-        yellowBoard,
-        blueBoard
-    )
+    val colors= board.getHouseColor(boardUiState.colors)
 
 
-    val vectors= Default.All
-    val painters=vectors
+
+    val painters=board.getIcons()
         .map {
             rememberVectorPainter(image = it)
         }
@@ -85,7 +76,7 @@ fun BoardUi(
 
 
     val middleVector=ImageVector.vectorResource(id = R.drawable.middle)
-    val middlePainter= rememberVectorPainter(image = middleVector)
+    val middlePainter = rememberVectorPainter(image = middleVector)
 
 //    val boardUiState = boardUiStateProvider()
 //    AnimatedVisibility(
@@ -551,6 +542,6 @@ fun BoardPreview() {
 
 
 val LocalUnitDP = compositionLocalOf { 10.dp }
-
+val LocalBoard = compositionLocalOf<UBoard> {DefaultBoard }
 
 

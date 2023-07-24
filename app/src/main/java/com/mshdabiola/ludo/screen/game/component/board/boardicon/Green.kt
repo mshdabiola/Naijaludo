@@ -1,12 +1,9 @@
-package com.mshdabiola.ludo.screen.game.component.board.default
+package com.mshdabiola.ludo.screen.game.component.board.boardicon
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,14 +11,14 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.screen.game.component.board.Default
 
-public val Default.Green: ImageVector
-    get() {
+fun Default.getGreen(iconColor:Color,accentColor:Color): ImageVector
+    {
         if (_green != null) {
             return _green!!
         }
         _green = Builder(name = "Green", defaultWidth = 139.4.dp, defaultHeight = 140.89.dp,
                 viewportWidth = 139.4f, viewportHeight = 140.89f).apply {
-            path(fill = SolidColor(Color(0xFF4daf50)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(48.12f, 16.39f)
@@ -64,7 +61,7 @@ public val Default.Green: ImageVector
                 curveTo(16.0f, 47.05f, 35.6f, 30.16f, 58.22f, 34.09f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF67b86a)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(accentColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(119.47f, 26.76f)
@@ -84,7 +81,7 @@ public val Default.Green: ImageVector
                 curveTo(119.25f, 22.64f, 119.54f, 24.86f, 119.47f, 26.76f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF4daf50)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(67.63f, 69.38f)
@@ -96,7 +93,7 @@ public val Default.Green: ImageVector
                 curveToRelative(0.13f, -2.65f, 0.0f, -5.31f, 0.0f, -8.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF67b86a)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(accentColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(18.29f, 51.57f)
@@ -120,7 +117,7 @@ public val Default.Green: ImageVector
                 arcTo(8.25f, 8.25f, 0.0f, false, true, 56.44f, 48.93f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF4daf50)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(42.24f, 88.9f)
@@ -130,7 +127,7 @@ public val Default.Green: ImageVector
                 reflectiveCurveTo(42.71f, 90.09f, 42.24f, 88.9f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF4daf50)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(48.07f, 45.73f)

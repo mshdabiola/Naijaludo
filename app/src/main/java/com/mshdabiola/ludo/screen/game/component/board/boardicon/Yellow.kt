@@ -1,12 +1,9 @@
-package com.mshdabiola.ludo.screen.game.component.board.default
+package com.mshdabiola.ludo.screen.game.component.board.boardicon
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
@@ -14,14 +11,14 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ludo.screen.game.component.board.Default
 
-public val Default.Yellow: ImageVector
-    get() {
+fun Default.getYellow(iconColor:Color,accentColor:Color): ImageVector
+    {
         if (_yellow != null) {
             return _yellow!!
         }
         _yellow = Builder(name = "Yellow", defaultWidth = 136.22.dp, defaultHeight = 130.5.dp,
                 viewportWidth = 136.22f, viewportHeight = 130.5f).apply {
-            path(fill = SolidColor(Color(0xFFc6bb01)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(124.0f, 105.16f)
@@ -40,7 +37,7 @@ public val Default.Yellow: ImageVector
                 curveTo(106.39f, 88.44f, 116.56f, 95.0f, 124.0f, 105.16f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFffec2d)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(accentColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(135.72f, 47.38f)
@@ -93,7 +90,7 @@ public val Default.Yellow: ImageVector
                 curveTo(97.88f, 53.41f, 100.68f, 59.42f, 97.76f, 64.19f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFFf3e600)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(79.24f, 75.12f)

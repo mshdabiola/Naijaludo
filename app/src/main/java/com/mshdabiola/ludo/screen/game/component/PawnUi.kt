@@ -68,7 +68,7 @@ fun PawnUi(
                 onClick(pawnUiState.pawnId, false)
             },
         shape = CircleShape,
-        color = pawnUiState.color.toPawnColor(),
+        color =  LocalBoard.current.getColor(pawnUiState.color),
         border = BorderStroke(
             2.dp,
             Brush.radialGradient(
@@ -88,7 +88,7 @@ fun PawnUi(
                 Text(
                     text = "${pawnUiState.zIndex.toInt()}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = pawnUiState.color.toPawnTextColor(),
+                    color = Color.White,
                     modifier = Modifier.align(Alignment.Center),
 
                     )

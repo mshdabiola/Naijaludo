@@ -61,9 +61,12 @@ fun PlayerUi(
     bottomEnd: Int = 0,
 ) {
     val colorBrush = if (player.colors.size == 1) {
-        (1..2).map { player.colors[0].toPawnColor() }
+        (1..2).map {
+            LocalBoard.current.getColor(player.colors[0])
+            }
     } else {
-        player.colors.map { it.toPawnColor() }
+        player.colors.map {
+            LocalBoard.current.getColor(it)}
     }
     var imageBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)

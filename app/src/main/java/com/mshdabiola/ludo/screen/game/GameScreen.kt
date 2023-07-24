@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -42,9 +43,11 @@ import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
 import com.mshdabiola.ludo.screen.game.component.DeviceListDialog
 import com.mshdabiola.ludo.screen.game.component.GameOverDialog
+import com.mshdabiola.ludo.screen.game.component.LocalBoard
 import com.mshdabiola.ludo.screen.game.component.StartDialog
 import com.mshdabiola.ludo.screen.game.component.WaitingDialog
 import com.mshdabiola.ludo.screen.game.component.WifiPermission
+import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
 import com.mshdabiola.ludo.screen.game.component.getPermission
 import com.mshdabiola.ludo.screen.game.firework.FireworkView
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
@@ -248,22 +251,25 @@ fun GameScreen(
                 Loading()
             }
         } else {
-            GameScreen(
-                paddingValues = paddingValues,
-                gameUiState = ludoGameState,
-                music = settingUiState.music,
-                sound = settingUiState.sound,
-                rotateF = rotateF.value,
-                deviceType = deviceType,
-                onCounter = gameScreenViewModel::onCounter,
-                onDice = gameScreenViewModel::onDice,
-                onPawn = gameScreenViewModel::onPawn,
-                getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
-                onBack = onBack,
-                onSetMusic = gameScreenViewModel::setMusic,
-                onSetSound = gameScreenViewModel::setSound,
-                onForceRestart = gameScreenViewModel::restartGame
-            )
+            CompositionLocalProvider (LocalBoard provides DefaultBoard ){
+                GameScreen(
+                    paddingValues = paddingValues,
+                    gameUiState = ludoGameState,
+                    music = settingUiState.music,
+                    sound = settingUiState.sound,
+                    rotateF = rotateF.value,
+                    deviceType = deviceType,
+                    onCounter = gameScreenViewModel::onCounter,
+                    onDice = gameScreenViewModel::onDice,
+                    onPawn = gameScreenViewModel::onPawn,
+                    getPositionIntOffset = gameScreenViewModel::getPositionIntOffset,
+                    onBack = onBack,
+                    onSetMusic = gameScreenViewModel::setMusic,
+                    onSetSound = gameScreenViewModel::setSound,
+                    onForceRestart = gameScreenViewModel::restartGame
+                )
+            }
+
         }
         FireworkView(firstAppear = showConfetti.value/**/)
         StartDialog(
