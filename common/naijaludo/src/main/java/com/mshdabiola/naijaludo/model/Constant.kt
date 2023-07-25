@@ -5,7 +5,6 @@ import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.naijaludo.model.player.Player
 import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import java.util.logging.Logger
-import kotlin.math.abs
 
 fun log(msg: String) {
     Logger.getLogger("Ludo game ").severe(msg)
