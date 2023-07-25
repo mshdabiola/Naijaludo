@@ -27,13 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.mshdabiola.designsystem.icon.LudoIcon.DiceImage
-import com.mshdabiola.designsystem.icon.LudoIcon.DiceRollImage
 import com.mshdabiola.ludo.screen.game.getInitOfDice
 import com.mshdabiola.ludo.screen.game.randDiceOffSet
 import com.mshdabiola.ludo.screen.game.state.DiceUiState

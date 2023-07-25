@@ -130,58 +130,68 @@ object FirebaseUtil {
 
     private suspend fun get2Game(activity: MainActivity, numb: Int) = suspendCoroutine { cont ->
 
-        val snap = PlayGames.getSnapshotsClient(activity)
+        try {
+            val snap = PlayGames.getSnapshotsClient(activity)
+            snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
+
+                .addOnSuccessListener {
+                    try {
+                        val t = it.data?.snapshotContents?.readFully()
+                        val string =
+                            t?.commonToUtf8String()
+                        val intArray = string?.split(", ")?.map {
+                            it.toInt()
+                        }?.toIntArray() ?: IntArray(numb) { 0 }
+                        Timber.e("get game ${intArray.joinToString()}")
+                        cont.resume(intArray)
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                        cont.resume(IntArray(numb) { 0 })
+                    }
 
 
-        snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
-
-            .addOnSuccessListener {
-                try {
-                    val t = it.data?.snapshotContents?.readFully()
-                    val string =
-                        t?.commonToUtf8String()
-                    val intArray = string?.split(", ")?.map {
-                        it.toInt()
-                    }?.toIntArray() ?: IntArray(numb) { 0 }
-                    Timber.e("get game ${intArray.joinToString()}")
-                    cont.resume(intArray)
-                }catch (e:Exception){
-                    e.printStackTrace()
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
                     cont.resume(IntArray(numb) { 0 })
                 }
+        }catch (e : Exception){
+            e.printStackTrace()
+            cont.resume(IntArray(numb) { 0 })
+        }
 
-
-            }
-            .addOnFailureListener {
-               it.printStackTrace()
-            }
     }
 
     suspend fun login(activity: Activity, onSigning: (Boolean) -> Unit = {}) =
         suspendCoroutine<Unit> { cont ->
+            try {
+                val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
 
-            val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
+                gamesSignInClient.isAuthenticated()
+                    .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
 
-            gamesSignInClient.isAuthenticated()
-                .addOnCompleteListener { isAuthenticatedTask: Task<AuthenticationResult> ->
-
-                    val isAuthenticated = isAuthenticatedTask.isSuccessful &&
-                            isAuthenticatedTask.result.isAuthenticated
-                    if (isAuthenticated) {
-                        onSigning(true)
-                    } else {
-                        // Disable your integration with Play Games Services or show a
-                        // login button to ask  players to sign-in. Clicking it should
-                        gamesSignInClient.signIn().addOnSuccessListener {
-                            onSigning(it.isAuthenticated)
-                        }.addOnFailureListener {
-                            cont.resumeWithException(it)
+                        val isAuthenticated = isAuthenticatedTask.isSuccessful &&
+                                isAuthenticatedTask.result.isAuthenticated
+                        if (isAuthenticated) {
+                            onSigning(true)
+                        } else {
+                            // Disable your integration with Play Games Services or show a
+                            // login button to ask  players to sign-in. Clicking it should
+                            gamesSignInClient.signIn().addOnSuccessListener {
+                                onSigning(it.isAuthenticated)
+                            }.addOnFailureListener {
+                                cont.resumeWithException(it)
+                            }
                         }
                     }
-                }
-                .addOnFailureListener {
-                   it.printStackTrace()
-                }
+                    .addOnFailureListener {
+                        it.printStackTrace()
+                    }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
+
 
         }
 

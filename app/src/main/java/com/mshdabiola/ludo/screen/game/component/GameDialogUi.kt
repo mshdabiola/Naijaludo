@@ -59,16 +59,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.DialogUi
-import com.mshdabiola.designsystem.icon.LudoIcon
+import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.drawable.BaselineWifi24
+import com.mshdabiola.designsystem.icon.drawable.Computer
+import com.mshdabiola.designsystem.icon.drawable.ComputerMultiplayer
+import com.mshdabiola.designsystem.icon.drawable.Friend
+import com.mshdabiola.designsystem.icon.drawable.Mutiplay
 import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
@@ -109,7 +112,7 @@ fun StartDialog(
                             .padding(2.dp),
                         title = stringResource(id = R.string.vs_one_comp_detail),
                         onButtonClick = onYouAndComputer,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.computer),
+                        imageVector = Drawable.Computer,
                     )
 
                     GameCard(
@@ -118,7 +121,7 @@ fun StartDialog(
                             .padding(2.dp),
                         title = stringResource(id = R.string.vs_many_comp_detail),
                         onButtonClick = onTournament,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.computer_multiplayer),
+                        imageVector =Drawable.ComputerMultiplayer,
                     )
                     if (showMultiPlayer) {
                         GameCard(
@@ -127,7 +130,7 @@ fun StartDialog(
                                 .padding(2.dp),
                             title = stringResource(id = R.string.blutooth_multi_desc),
                             onButtonClick = onJoinClick,
-                            imageVector = ImageVector.vectorResource(id = R.drawable.mutiplay),
+                            imageVector = Drawable.Mutiplay,
                             buttonText = stringResource(id = R.string.connect),
                         )
                     }
@@ -139,7 +142,7 @@ fun StartDialog(
                             .padding(2.dp),
                         title = stringResource(id = R.string.vs_friend),
                         onButtonClick = onFriend,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.friend),
+                        imageVector = Drawable.Friend,
                     )
 
                 }
@@ -556,7 +559,7 @@ fun WifiPermission(
                 if (!isWifiEnable) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            painter = painterResource(id = LudoIcon.Wifi),
+                            imageVector = Drawable.BaselineWifi24,
                             contentDescription = "wifi",
                             tint = MaterialTheme.colorScheme.primary,
                         )
