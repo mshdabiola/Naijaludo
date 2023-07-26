@@ -319,7 +319,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
                 changePlayer()
             }
-            return intArrayOf(dice1,dice1+dice2 ,dice2)
+            return intArrayOf(dice1, dice1 + dice2, dice2)
 
         } else {
             log("on dice pause")
@@ -385,8 +385,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
                 onPawn(pawn.pawnId, false)
 
-            }
-            else {
+            } else {
                 val enabledPawn = getGameState()
                     .listOfPawn
                     .map {
@@ -404,8 +403,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                     )
                 )
             }
-        }
-        else {
+        } else {
             log("Counter $counterId pause")
         }
     }
@@ -414,34 +412,32 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     // on pawn 1
     open fun onPawn(id: Int, isDrawer: Boolean) {
         var pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == id }
-        if (isDrawer)
-        {
+        var pawn = getGameState().listOfPawn[pawnIndex]
+        if (isDrawer) {
             log("colorId is $id ${getGameState().listOfPawnDrawer}")
-            val pawn = getGameState().listOfPawn[id]
+            // val pawn = getGameState().listOfPawn[pawnIndex]
             // listOfPawnDrawer!!.single { it.idx == idx }
             val selectedPawn = getCurrentPlayerPawns().filter {
-                    getPawnBox(it) == getPawnBox(pawn) &&
+                getPawnBox(it) == getPawnBox(pawn) &&
 
-                            it.color == pawn.color
-                }.maxBy { it.zIndex }
-
+                        it.color == pawn.color
+            }.maxBy { it.zIndex }
+            pawn = selectedPawn
             setGameState(getGameState().copy(listOfPawnDrawer = null))
             val pawnIndex2 =
                 getGameState().listOfPawn.indexOfFirst { it.pawnId == selectedPawn.pawnId }
-            pawnIndex=pawnIndex2
-        }
-        else
-        {
+            pawnIndex = pawnIndex2
+
+        } else {
             if (getGameState().listOfPawnDrawer != null) {
                 setGameState(getGameState().copy(listOfPawnDrawer = null))
             }
 
-            val pawn = getGameState().listOfPawn[pawnIndex]
+
             val pawnOnSamePos =
                 getCurrentPlayerPawns().filter { getPawnBox(it) == getPawnBox(pawn) }
 
-            if (pawnOnSamePos.size > 1)
-            {
+            if (pawnOnSamePos.size > 1) {
                 val sameColor = pawnOnSamePos.distinctBy { it.color }
 
                 // different color
@@ -460,7 +456,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                         pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
                     val upperIndex =
                         getGameState().listOfPawn.indexOfFirst { it.pawnId == upperPawn.pawnId }
-                    pawnIndex=upperIndex
+                    pawnIndex = upperIndex
                 }
             }
 //            else
@@ -469,7 +465,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 //            }
         }
 
-        var pawn = getGameState().listOfPawn[pawnIndex]
+        // pawn = getGameState().listOfPawn[pawnIndex]
         log("on pawn logic $pawn")
 
         // disable pawn and set old pawn position z index
@@ -519,7 +515,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
         }
 
         val mutableListOfPawns = getGameState().listOfPawn.toMutableList()
-         pawn = mutableListOfPawns[pawnIndex]
+        pawn = mutableListOfPawns[pawnIndex]
         log("on Pawn finish $pawn")
 
         // set new  z index
@@ -591,8 +587,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 //            }
 
             onGameFinish()
-        }
-        else {
+        } else {
             val index = getGameState().listOfCounter.indexOfFirst { it.number != 0 }
 
             // check if player has count finish
@@ -601,8 +596,7 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                 // counter change player
 
                 changePlayer()
-            }
-            else {
+            } else {
                 // enable second counter
 
                 val counter = getGameState().listOfCounter[index]
@@ -707,12 +701,12 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     private fun getAllThePawnMovable(currentNumberSelected: Int, isTotal: Boolean): List<Pawn> {
         val pairOfPairDiceCanMoveAndOnPath = getCurrentPlayerPawns()
         return pairOfPairDiceCanMoveAndOnPath.filter {
-                canPawnMove(
-                    it,
-                    currentNumberSelected,
-                    isTotal
-                )
-            }
+            canPawnMove(
+                it,
+                currentNumberSelected,
+                isTotal
+            )
+        }
 //            // get pawn that is out
 //            // get pawn that is in range of counter distance
 //            .filter { !it.isHome() && currentNumberSelected in 1..it.getDistanceRemain() }

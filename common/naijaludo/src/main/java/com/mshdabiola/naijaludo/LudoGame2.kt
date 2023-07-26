@@ -351,17 +351,19 @@ open class LudoGame2(private val soundInterface: SoundInterface? = null) {
                 .filter {getPawnBox(it) == getPawnBox(pawn2) && it != pawn2 }
                 .sortedByDescending { it.zIndex }
 
-            val disablePawn = listPawn
-                .map {
-                    if (it in pawnInSamePos) {
-                        val zIndex = pawnInSamePos.indexOf(it) + 1f
-                        it.copy(isEnable = false, zIndex = zIndex)
-                    } else {
-                        it.copy(isEnable = false)
+            repeat(listPawn.size) { index ->
+                when (val onePawn = listPawn[index]) {
+                    in pawnInSamePos -> {
+                        val zIndex = pawnInSamePos.indexOf(onePawn) + 1f
+                        listPawn[index] = onePawn.copy(isEnable = false, zIndex = zIndex)
+                    }
+
+                    in listOfEnable -> {
+                        listPawn[index] = onePawn.copy(isEnable = false)
                     }
                 }
-            listPawn = disablePawn.toMutableList()
-            setGameState(getGameState().copy(listOfPawn = disablePawn))
+            }
+            setGameState(getGameState().copy(listOfPawn = listPawn))
 
 
             //move pawn
