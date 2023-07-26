@@ -3,10 +3,12 @@ plugins {
     id("mshdabiola.mpp.library")
     id("mshdabiola.mpp.library.compose")
     id("org.jetbrains.compose") version "1.4.0"
+
+
 }
 compose {
-    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin("1.8.0"))
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.22")
+    kotlinCompilerPlugin.set("1.4.8-beta")
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.0")
 }
 android {
     namespace = "com.mshdabiola.ui"
