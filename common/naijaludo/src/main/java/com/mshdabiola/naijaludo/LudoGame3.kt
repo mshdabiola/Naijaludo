@@ -271,87 +271,55 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     open suspend fun onDice(dices: IntArray? = null): IntArray? {
         if (getGameState().isOnResume && getGameState().start) {
             log("on dice")
-            soundInterface?.onToss()
-            // disable dice and set toss number
-            val listDice = gameState.value.listOfDice.toMutableList()
-            repeat(listDice.size) {
-                val dice = listDice[it]
-                if (dice.isTotal) {
-                    // for total dice
-                    listDice[it] = dice.copy(isEnable = false, number = 0)
-                } else {
-                    // set toss for all dices
-                    listDice[it] = dice.copy(isEnable = false, animate = true, number = 0)
-                }
-            }
-            // set total dice with total dice
+            val dice1 = dices?.getOrNull(0) ?: randList.random()
+            val dice2 = dices?.getOrNull(1) ?: randList.random()
 
-            setGameState(gameState = gameState.value.copy(listOfDice = listDice))
+            val rolledDice = intArrayOf(dice1, (dice1 + dice2), dice2)
+            val listOfDice = getGameState().listOfDice.toMutableList()
+
+            var newList = listOfDice
+                .mapIndexed { index, dice ->
+                    dice.copy(isEnable = false, number = rolledDice[index], animate = true)
+                }
+
+            soundInterface?.onToss()
+            setGameState(getGameState().copy(listOfDice = newList))
 
             delay(700)
 
-            val intArray = IntArray(3)
             // disable animate
-            log("on dice finish")
-            val diceList = getGameState().listOfDice.toMutableList()
-            repeat(diceList.size) {
-                val dice = diceList[it]
-                if (!dice.isTotal) {
-                    diceList[it] = diceList[it].copy(
-                        animate = false,
-                        number = if (dices == null) {
-                            val diceRoll = getDiceNumber()
-                            intArray[it] = diceRoll
-                            diceRoll
-                        } else {
-                            dices[it]
-                        },
-                    )
-                } else {
-                    diceList[it] = diceList[it].copy(animate = false, number = 0)
-                }
+            newList = newList.map {
+                it.copy(animate = false)
             }
-            diceList[totalIndex] = diceList[totalIndex].copy(number = diceList.sumOf { it.number })
-            lastDices = diceList
-            setGameState(getGameState().copy(listOfDice = diceList))
+            setGameState(getGameState().copy(listOfDice = newList))
 
             // get dice value that can move pawn
-            val useableDice = getGameState().listOfDice.map {
-                    val canMove = getAllThePawnMovable(it.number, it.isTotal).isNotEmpty()
-//                val canMove = if (!it.isTotal) {
-//                    getAllThePawnMovable(it.number)
-//                        .isNotEmpty()
-//                } else {
-//                    val all = getAllThePawnMovable(it.number).filter { !it.isHome() }
-//                    all.isNotEmpty()
-//                }
-                    Pair(it, canMove)
+            val movableDices =
+                newList.map { dice ->
+                    val canMove = getAllThePawnMovable(dice.number, dice.isTotal).isNotEmpty()
+                    Pair(canMove, dice.number)
                 }
 
-            val isAnyOneMovable = useableDice.any {
-                it.second
-            }
 
             // player cannot move any  pawn
-            if (isAnyOneMovable) {
-                // enable counter and set number
-                val listCounter = gameState.value.listOfCounter.toMutableList()
+            if (movableDices.any { it.first }) {
+                val listOfCounter =
+                    getGameState()
+                        .listOfCounter
+                        .mapIndexed { index, counter ->
+                            counter.copy(
+                                isEnable = movableDices[index].first,
+                                number = movableDices[index].second
+                            )
+                        }
+                setGameState(getGameState().copy(listOfCounter = listOfCounter))
 
-                useableDice.forEachIndexed { index, (dice, canMove) ->
-
-                    listCounter[index] = listCounter[index].copy(
-                        isEnable = canMove,
-                        number = dice.number,
-                    )
-                }
-
-                setGameState(gameState = gameState.value.copy(listOfCounter = listCounter))
             } else {
                 // nextPlayer and toss
 
                 changePlayer()
             }
-            return intArray
+            return intArrayOf(dice1,dice1+dice2 ,dice2)
 
         } else {
             log("on dice pause")
