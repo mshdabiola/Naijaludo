@@ -204,7 +204,7 @@ class GeneralViewModel(
             val intArray = game.onDice()
 
             intArray?.let {
-                sendString("dice,${it[0]},${it[2]}")
+                sendString("dice,${it[0]},${it[1]}")
             }
         }
     }
@@ -423,10 +423,13 @@ class GeneralViewModel(
     //multiplayer logic
 
     private fun sendString(str: String) {
-        log("send string $str")
-        viewModelScope.launch(Dispatchers.IO) {
-            blueManager.sendString(str)
-        }
+       if ( ludoGameState.value.gameType==GameType.REMOTE){
+           log("send string $str")
+           viewModelScope.launch(Dispatchers.IO) {
+               blueManager.sendString(str)
+           }
+       }
+
     }
 
     private fun onRemoteClick(str: String) {
@@ -621,7 +624,7 @@ class GeneralViewModel(
         val index = players.lastIndex
         players[index] = players[index].copyPlayer(name = playerName)
         return Constant.getDefaultGameState(playerName = playerName)
-            .copy(listOfPlayer = players, listOfPawn = pawns)
+            .copy(listOfPlayer = players, listOfPawn = pawns.sortedBy { it.pawnId })
     }
 
     private fun resumeFromDatabase() {
