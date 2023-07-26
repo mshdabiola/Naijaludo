@@ -51,7 +51,7 @@ sealed class UBoard(private val colors:List<UColor>){
     }
 }
 
- data object DefaultBoard :UBoard(listOf(UColor.Purple,UColor.LightGreen,UColor.LightRed,UColor.Orange)){
+ data object DefaultBoard :UBoard(listOf(UColor.Red,UColor.Green,UColor.Blue,UColor.Yellow)){
 
      override fun getHouseColor(gameColors: List<GameColor>):List<Color>{
          return convert(gameColors)
