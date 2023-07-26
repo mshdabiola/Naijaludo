@@ -409,10 +409,19 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
 
+    fun print(no:Int,id:Int,index:Int,pawns:List<Pawn>){
+        log("printer $no--- id $id index $index list ${pawns.joinToString { it.pawnId.toString() }}")
+    }
+    fun print(mst:String){
+        log("pmsg $mst")
+    }
     // on pawn 1
     open fun onPawn(id: Int, isDrawer: Boolean) {
-        var pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == id }
-        var pawn = getGameState().listOfPawn[pawnIndex]
+        var idx =id// getGameState().listOfPawn.indexOfFirst { it.pawnId == id }
+        var pawn = getGameState().listOfPawn[idx]
+        print("pawn1 $pawn")
+        print(1,id,idx,getGameState().listOfPawn)
+
         if (isDrawer) {
             log("colorId is $id ${getGameState().listOfPawnDrawer}")
             // val pawn = getGameState().listOfPawn[pawnIndex]
@@ -423,10 +432,12 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                         it.color == pawn.color
             }.maxBy { it.zIndex }
             pawn = selectedPawn
+            print("pawn2 $pawn")
             setGameState(getGameState().copy(listOfPawnDrawer = null))
             val pawnIndex2 =
                 getGameState().listOfPawn.indexOfFirst { it.pawnId == selectedPawn.pawnId }
-            pawnIndex = pawnIndex2
+            idx = pawnIndex2
+            print(2,pawn.pawnId,idx,getGameState().listOfPawn)
 
         } else {
             if (getGameState().listOfPawnDrawer != null) {
@@ -454,9 +465,11 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
                     // same color, select upper pawn
                     val upperPawn =
                         pawnOnSamePos.filter { it.color == pawn.color }.maxBy { it.zIndex }
+                    print("pawn3 $upperPawn")
                     val upperIndex =
                         getGameState().listOfPawn.indexOfFirst { it.pawnId == upperPawn.pawnId }
-                    pawnIndex = upperIndex
+                    idx = upperIndex
+                    print(3,upperPawn.pawnId,idx,getGameState().listOfPawn)
                 }
             }
 //            else
@@ -492,30 +505,31 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
         setGameState(getGameState().copy(listOfPawn = listPawn))
 
         // move pawn
-        pawn = getGameState().listOfPawn[pawnIndex]
+        pawn = getGameState().listOfPawn[idx]
+        print("pawn4 $pawn")
         val numberOnDice = getGameState().currentDiceNumber
-
+        print(4,pawn.pawnId,idx,getGameState().listOfPawn)
         if (pawn.isHome()) {
             soundInterface?.onMoveOut()
 
             pawn = pawn.copy(currentPos = 0, zIndex = 9f)
-
-            listPawn[pawnIndex] = pawn
+            print("pawn5 $pawn")
+            listPawn[idx] = pawn
             setGameState(getGameState().copy(listOfPawn = listPawn))
         } else {
             // repeat(numberOnDice) {
 
             soundInterface?.onMoving()
             pawn = pawn.copy(currentPos = pawn.currentPos + numberOnDice, zIndex = 9f)
-
-            listPawn[pawnIndex] = pawn
-
+            print("pawn6 $pawn")
+            listPawn[idx] = pawn
+            print(5,pawn.pawnId,idx,getGameState().listOfPawn)
             setGameState(getGameState().copy(listOfPawn = listPawn))
             // }
         }
 
         val mutableListOfPawns = getGameState().listOfPawn.toMutableList()
-        pawn = mutableListOfPawns[pawnIndex]
+        pawn = mutableListOfPawns[idx]
         log("on Pawn finish $pawn")
 
         // set new  z index
@@ -523,8 +537,8 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
 
         val pawnCopy = pawn.copy(zIndex = zIndex.toFloat())
 
-        mutableListOfPawns[pawnIndex] = pawnCopy
-
+        mutableListOfPawns[idx] = pawnCopy
+        print(6,pawnCopy.pawnId,idx,getGameState().listOfPawn)
         log("sent ${mutableListOfPawns.joinToString()}")
         setGameState(getGameState().copy(listOfPawn = mutableListOfPawns)) // finish
 
