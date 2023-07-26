@@ -283,6 +283,7 @@ fun MainScreen(
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Preview()
 @Composable
 fun MainScreenPreview() {

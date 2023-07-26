@@ -35,6 +35,7 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -42,6 +43,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -87,19 +89,19 @@ class MainActivity : ComponentActivity() {
         }
 
 
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//               // Timber.e("Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//
-//            // Get new FCM registration token
-//            val token = task.result
-//
-//            analytics?.setUserProperty("messageToken",token)
-//            // Log and toast
-//            Timber.e(token)
-//        })
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+               // Timber.e("Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            analytics?.setUserProperty("messageToken",token)
+            // Log and toast
+            Timber.e("token $token")
+        })
 
 
         // MobileAds.initialize(this)
