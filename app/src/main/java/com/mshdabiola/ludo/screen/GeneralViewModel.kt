@@ -624,7 +624,7 @@ class GeneralViewModel(
         val index = players.lastIndex
         players[index] = players[index].copyPlayer(name = playerName)
         return Constant.getDefaultGameState(playerName = playerName)
-            .copy(listOfPlayer = players, listOfPawn = pawns)
+            .copy(listOfPlayer = players, listOfPawn = pawns.sortedBy { it.pawnId })
     }
 
     private fun resumeFromDatabase() {
