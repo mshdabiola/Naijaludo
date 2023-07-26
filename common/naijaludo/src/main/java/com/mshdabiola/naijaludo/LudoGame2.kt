@@ -244,6 +244,7 @@ open class LudoGame2(private val soundInterface: SoundInterface? = null) {
             val listOfCounter = getGameState().listOfCounter.toMutableList()
             val isTotal = listOfCounter[counterId].isTotal
             val counterNumber = listOfCounter[counterId].number
+            log("Counter number $counterNumber isTotal $isTotal")
 
             val disableCounters = listOfCounter.map { counter ->
 
@@ -262,17 +263,20 @@ open class LudoGame2(private val soundInterface: SoundInterface? = null) {
             val movable = getAllThePawnMovable(counterNumber, isTotal)
 
 
-            if (ludoSetting.assistant && movable.count { it.isEnable } == 1) {
+            if (ludoSetting.assistant && movable.size == 1) {
                 setGameState(
                     getGameState().copy(
                         listOfCounter = disableCounters,
                         pressedCounterId = counterId
                     )
                 )
+                val pawn = movable.first()
+                log("assist $pawn ${pawn.colorNumber}")
 
-                onPawn(movable.first().pawnId, false)
+                onPawn(pawn.pawnId, false)
 
-            } else {
+            }
+            else {
                 val enabledPawn = getGameState()
                     .listOfPawn
                     .map {

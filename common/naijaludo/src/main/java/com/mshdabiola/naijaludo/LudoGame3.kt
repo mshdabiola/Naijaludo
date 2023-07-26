@@ -350,69 +350,62 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
             if (getGameState().isHumanPlayer) {
                 soundInterface?.onSelect()
             }
-            // disable all counter
-            val listOfCounterMutable = getGameState().listOfCounter.toMutableList()
-            val counter = listOfCounterMutable[counterId]
-            log("Counter $counter")
-            repeat(listOfCounterMutable.size) {
-                listOfCounterMutable[it] = listOfCounterMutable[it].copy(isEnable = false)
-            }
 
-            if (counter.isTotal) {
-                // if is middle index total change all to 0
-                repeat(listOfCounterMutable.size) {
-                    listOfCounterMutable[it] = listOfCounterMutable[it].copy(number = 0)
+            val listOfCounter = getGameState().listOfCounter.toMutableList()
+            val isTotal = listOfCounter[counterId].isTotal
+            val counterNumber = listOfCounter[counterId].number
+            log("Counter number $counterNumber isTotal $isTotal")
+
+            val disableCounters = listOfCounter.map { counter ->
+
+                val number = when {
+                    isTotal || counter.isTotal || counter.id == counterId -> 0
+                    else -> counter.number
                 }
-            } else {
-                // else change the index to 0 and total
 
-                val index = getGameState().listOfCounter.indexOfFirst { it === counter }
-                listOfCounterMutable[totalIndex] = listOfCounterMutable[totalIndex].copy(number = 0)
-                listOfCounterMutable[index] = listOfCounterMutable[index].copy(number = 0)
+                counter.copy(
+                    isEnable = false,
+                    number = number
+                )
             }
-
             // get movable pawn and enable
 
-            val allMovablePawns = getAllThePawnMovable(counter.number, counter.isTotal)
-//                if (counter.number == 6 && counter.isTotal) {
-//                val filterHome = getAllThePawnMovable(counter.number).filter { !it.isHome() }
-//                filterHome
-//            } else {
-//                getAllThePawnMovable(counter.number)
-//            }
+            val movable = getAllThePawnMovable(counterNumber, isTotal)
 
-            val allPawnsMutableList = getGameState().listOfPawn.toMutableList()
 
-            if (ludoSetting.assistant && allMovablePawns.size == 1) {
+            if (ludoSetting.assistant && movable.size == 1) {
                 setGameState(
                     getGameState().copy(
-                        listOfCounter = listOfCounterMutable,
-                        pressedCounterId = counterId,
-                    ),
+                        listOfCounter = disableCounters,
+                        pressedCounterId = counterId
+                    )
                 )
-                val pawn = allPawnsMutableList.first { it == allMovablePawns.first() }
+                val pawn = movable.first()
                 log("assist $pawn ${pawn.colorNumber}")
-                val pawnIndex = getGameState().listOfPawn.indexOfFirst { it.pawnId == pawn.pawnId }
+
                 onPawn(pawn.pawnId, false)
-            } else {
-                repeat(allPawnsMutableList.size) {
-                    val pawn = allPawnsMutableList[it]
-                    if (pawn in allMovablePawns) {
-                        allPawnsMutableList[it] = pawn.copy(isEnable = true)
-                    } else {
-                        allPawnsMutableList[it] = pawn.copy(isEnable = false)
+
+            }
+            else {
+                val enabledPawn = getGameState()
+                    .listOfPawn
+                    .map {
+                        if (it in movable)
+                            it.copy(isEnable = true)
+                        else
+                            it.copy(isEnable = false)
                     }
-                }
 
                 setGameState(
                     getGameState().copy(
-                        listOfCounter = listOfCounterMutable,
-                        listOfPawn = allPawnsMutableList,
+                        listOfCounter = disableCounters,
                         pressedCounterId = counterId,
-                    ),
+                        listOfPawn = enabledPawn
+                    )
                 )
             }
-        } else {
+        }
+        else {
             log("Counter $counterId pause")
         }
     }
