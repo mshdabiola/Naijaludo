@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import java.util.Collections
 
-open class LudoGame(private val soundInterface: SoundInterface? = null) {
+open class LudoGame3(private val soundInterface: SoundInterface? = null) {
     private val numberOfDice = 3
     private val totalIndex = numberOfDice / 2
     private lateinit var defaultState: LudoGameState
