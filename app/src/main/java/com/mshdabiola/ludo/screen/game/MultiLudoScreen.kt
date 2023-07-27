@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
-import com.mshdabiola.ludo.screen.GameAd
 import com.mshdabiola.ludo.screen.game.component.BoardUi
 import com.mshdabiola.ludo.screen.game.component.CounterGroupUi
 import com.mshdabiola.ludo.screen.game.component.CounterGroupUiVertical
@@ -79,7 +78,7 @@ fun GameScreenMultiLand(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -95,16 +94,7 @@ fun GameScreenMultiLand(
 
             )
 
-        GameAd(
-            Modifier
-                .constrainAs(adRef) {
-                    top.linkTo(parent.top, 16.dp)
-                    bottom.linkTo(boardRef.top, 16.dp)
-                    start.linkTo(boardRef.start)
-                    end.linkTo(boardRef.end)
-                },
 
-            )
 
         BoardUi(
             modifier = Modifier
@@ -112,7 +102,7 @@ fun GameScreenMultiLand(
                 .constrainAs(boardRef) {
                     linkTo(parent.start, parent.end)
                     bottom.linkTo(parent.bottom)
-                    top.linkTo(adRef.bottom)
+                    top.linkTo(parent.top)
                     height = Dimension.fillToConstraints
                 },
             { gameUiState.board },
@@ -230,7 +220,7 @@ fun GameScreenMultiPhoneLand(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -246,15 +236,6 @@ fun GameScreenMultiPhoneLand(
 
             )
 
-        GameAd(
-            Modifier
-                .constrainAs(adRef) {
-                    linkTo(parent.top, parent.bottom)
-                    linkTo(counterRef.end, parent.end)
-                }
-                .rotate(90f),
-
-            )
 
         BoardUi(
             modifier = Modifier
@@ -380,7 +361,7 @@ fun GameScreenMultiPort(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, counterRef2, textRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -396,14 +377,6 @@ fun GameScreenMultiPort(
 
             )
 
-        GameAd(
-            Modifier
-                .constrainAs(adRef) {
-                    centerHorizontallyTo(parent)
-                    bottom.linkTo(parent.bottom)
-                },
-
-            )
 
         BoardUi(
             modifier = Modifier

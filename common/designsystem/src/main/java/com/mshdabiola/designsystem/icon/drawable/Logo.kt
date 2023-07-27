@@ -21,7 +21,7 @@ public val Drawable.Logo: ImageVector
         }
         _logo = Builder(name = "Logo", defaultWidth = 426.5.dp, defaultHeight = 418.13.dp,
                 viewportWidth = 426.5f, viewportHeight = 418.13f).apply {
-            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFF000000)),
+            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFFCBD5CB)),
                     strokeLineWidth = 6.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(8.94f, 3.0f)
@@ -36,7 +36,7 @@ public val Drawable.Logo: ImageVector
                 horizontalLineTo(8.94f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFF000000)),
+            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFFCBD5CB)),
                     strokeLineWidth = 6.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(176.26f, 119.66f)
@@ -55,7 +55,7 @@ public val Drawable.Logo: ImageVector
                 lineToRelative(-6.81f, 45.39f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFF000000)),
+            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFFCBD5CB)),
                     strokeLineWidth = 6.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(199.25f, 23.44f)
@@ -64,7 +64,7 @@ public val Drawable.Logo: ImageVector
                 horizontalLineTo(199.25f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFF000000)),
+            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFFCBD5CB)),
                     strokeLineWidth = 6.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(241.66f, 133.54f)
@@ -79,7 +79,7 @@ public val Drawable.Logo: ImageVector
                 reflectiveQuadToRelative(-36.79f, -32.44f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFF000000)),
+            path(fill = SolidColor(Color(0xFF009640)), stroke = SolidColor(Color(0xFFCBD5CB)),
                     strokeLineWidth = 6.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                     strokeLineMiter = 4.0f, pathFillType = NonZero) {
                 moveTo(409.0f, 119.66f)

@@ -41,7 +41,7 @@ public val Drawable.Bg: ImageVector
                 close()
             }
             group {
-                path(fill = SolidColor(Color(0xFF352d35)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFF464B46)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(700.8f, 1115.6f)
@@ -62,7 +62,7 @@ public val Drawable.Bg: ImageVector
                     horizontalLineToRelative(0.0f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(702.7f, 1115.0f)
@@ -162,7 +162,7 @@ public val Drawable.Bg: ImageVector
                     arcToRelative(332.6f, 332.6f, 0.0f, false, true, 52.4f, -20.1f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(1.3f, 1436.1f)
@@ -224,7 +224,7 @@ public val Drawable.Bg: ImageVector
                     curveToRelative(-6.0f, 2.1f, -11.9f, 4.6f, -17.8f, 7.1f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(1.2f, 1507.0f)
@@ -237,7 +237,7 @@ public val Drawable.Bg: ImageVector
                     curveToRelative(-7.2f, 2.8f, -14.3f, 6.1f, -21.3f, 9.5f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(149.5f, 1476.1f)
@@ -248,7 +248,7 @@ public val Drawable.Bg: ImageVector
                     arcTo(462.9f, 462.9f, 0.0f, false, true, 150.0f, 1479.4f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(331.5f, 1386.0f)
@@ -267,7 +267,7 @@ public val Drawable.Bg: ImageVector
                     curveToRelative(-5.0f, 7.2f, -10.3f, 14.2f, -15.9f, 20.9f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(468.4f, 1230.8f)
@@ -286,7 +286,7 @@ public val Drawable.Bg: ImageVector
                     reflectiveCurveToRelative(-13.8f, 10.6f, -20.7f, 15.9f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(647.1f, 1125.7f)
@@ -1932,7 +1932,7 @@ public val Drawable.Bg2: ImageVector
                 horizontalLineToRelative(-1.2f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF1d1d1b)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFF464B46)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(786.6f, 720.0f)
@@ -1946,7 +1946,7 @@ public val Drawable.Bg2: ImageVector
                 curveTo(894.7f, 627.9f, 786.6f, 720.0f, 786.6f, 720.0f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(1497.8f, 400.3f)
@@ -1955,7 +1955,7 @@ public val Drawable.Bg2: ImageVector
                 quadTo(1485.9f, 420.6f, 1497.8f, 400.3f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(1425.7f, 514.9f)
@@ -1970,7 +1970,7 @@ public val Drawable.Bg2: ImageVector
                 curveToRelative(4.7f, -5.6f, 9.2f, -11.5f, 13.6f, -17.4f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(1272.8f, 592.0f)
@@ -1979,7 +1979,7 @@ public val Drawable.Bg2: ImageVector
                 curveToRelative(29.3f, -2.8f, 58.6f, -5.8f, 87.7f, -10.2f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(1097.2f, 612.7f)
@@ -2004,7 +2004,7 @@ public val Drawable.Bg2: ImageVector
                 curveToRelative(14.5f, -3.2f, 29.1f, -5.3f, 43.8f, -7.2f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(938.7f, 682.3f)
@@ -2039,7 +2039,7 @@ public val Drawable.Bg2: ImageVector
                 curveToRelative(3.1f, -2.5f, 6.3f, -4.8f, 9.5f, -7.1f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(1477.9f, 399.8f)
@@ -2090,7 +2090,7 @@ public val Drawable.Bg2: ImageVector
                 quadTo(1448.7f, 438.6f, 1477.9f, 399.8f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFCBD5CB)), stroke = null, strokeLineWidth = 0.0f,
                 strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                 pathFillType = NonZero) {
                 moveTo(983.9f, 710.0f)
