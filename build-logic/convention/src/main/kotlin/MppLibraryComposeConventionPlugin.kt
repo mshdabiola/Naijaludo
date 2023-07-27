@@ -18,8 +18,10 @@ import com.android.build.gradle.LibraryExtension
 import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.compose.ComposeExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class MppLibraryComposeConventionPlugin : Plugin<Project> {
@@ -27,17 +29,25 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("kotlin-multiplatform")
             pluginManager.apply("com.android.library")
+            pluginManager.apply("org.jetbrains.compose")
 
+
+            val compose=extensions.getByType<ComposeExtension>()
 
             val extension = extensions.getByType<LibraryExtension>()
             configureAndroidCompose(extension)
             extensions.configure<KotlinMultiplatformExtension> {
-                //val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+                val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-
+                            implementation(compose.dependencies.runtime)
+                            implementation(compose.dependencies.ui)
+                            implementation(compose.dependencies.foundation)
+                            implementation(compose.dependencies.materialIconsExtended)
+                            implementation(compose.dependencies.material3)
+                            implementation(libs.findLibrary("kotlinx.collection.immutable").get())
 
                         }
 

@@ -26,8 +26,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.designsystem.icon.Drawable
-import com.mshdabiola.designsystem.icon.drawable.Bg
-import com.mshdabiola.designsystem.icon.drawable.Bg2
 import com.mshdabiola.designsystem.icon.drawable.BgL
 import com.mshdabiola.designsystem.icon.drawable.BgP
 import com.mshdabiola.ludo.screen.DEVICE_TYPE

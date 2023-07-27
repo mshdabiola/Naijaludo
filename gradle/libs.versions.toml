@@ -39,7 +39,7 @@ timber = "5.0.1"
 firebaseCrashlyticsPlugin = "2.9.7"
 firebasePerfPlugin = "1.4.2"
 gmsPlugin = "4.3.14"
-composePlugin = "1.4.1"
+composePlugin = "1.4.3"
 
 playGame = "17.0.0"
 playReview = "2.0.1"
@@ -48,6 +48,8 @@ playCoroutine = "1.7.2"
 koin = "3.4.2"
 koinTest = "3.4.1"
 koinCompose = "3.4.5"
+
+billingClient="6.0.1"
 
 
 multiplatform_settings = "1.0.0"
@@ -120,6 +122,8 @@ play-review-kts = { module = "com.google.android.play:review-ktx", version.ref =
 play-update = { module = "com.google.android.play:app-update", version.ref = "playReview" }
 play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
 play-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playCoroutine" }
+
+play-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "billingClient" }
 
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

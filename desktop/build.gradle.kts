@@ -3,14 +3,14 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
 //    kotlin("kapt")
-    id("org.jetbrains.compose") version "1.5.0-dev1094"
+    id("org.jetbrains.compose") version libs.versions.composePlugin
 
 
 }
-compose {
-    kotlinCompilerPlugin.set("1.4.8-beta")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.0")
-}
+//compose {
+//    kotlinCompilerPlugin.set("1.4.8-beta")
+//    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.0")
+//}
 
 dependencies {
     // Compose
