@@ -28,6 +28,15 @@ class RootComponent(
 
     }
 
+    override fun navigateToMarket() {
+        try {
+            navigation.push(Config.Market)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
     override fun pop() {
         navigation.pop()
     }
@@ -43,10 +52,13 @@ class RootComponent(
     private sealed interface Config : Parcelable {
 
         @Parcelize
-        object Main : Config
+        data object Main : Config
 
         @Parcelize
-        object Game : Config
+        data object Game : Config
+
+        @Parcelize
+        data object Market : Config
 
     }
 
@@ -56,7 +68,13 @@ class RootComponent(
     ): IRootComponent.RootScreen {
         return when (config) {
             is Config.Game -> IRootComponent.RootScreen.GameRootScreen(
-                navigateToSplash(
+                navigateToGame(
+                    componentContext
+                )
+            )
+
+            is Config.Market -> IRootComponent.RootScreen.MarketRootRootScreen(
+                navigateToGame(
                     componentContext
                 )
             )
@@ -73,7 +91,7 @@ class RootComponent(
         return MainComponent(componentContext)
     }
 
-    private fun navigateToSplash(componentContext: ComponentContext): GameComponent {
+    private fun navigateToGame(componentContext: ComponentContext): GameComponent {
         return GameComponent(
             componentContext,
             //  onSplashFinished = {navigation.replaceCurrent(Config.Main)}

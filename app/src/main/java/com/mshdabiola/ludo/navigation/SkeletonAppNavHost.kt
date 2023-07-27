@@ -10,6 +10,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stac
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.game.GameScreenNav
 import com.mshdabiola.ludo.screen.main.MainScreenNav
+import com.mshdabiola.ludo.screen.market.MarketScreenNav
 import com.mshdabiola.navigation.IRootComponent
 
 
@@ -30,13 +31,20 @@ fun LudoNavHost(
         when (it.instance) {
             is IRootComponent.RootScreen.MainRootScreen -> {
                 MainScreenNav(
-                    navigateTo = { iRootComponent.navigateToGame() },
+                    navigateToGame =  iRootComponent::navigateToGame ,
+                    navigateToMarket = iRootComponent::navigateToMarket,
                     deviceType = deviceType
                 )
             }
 
             is IRootComponent.RootScreen.GameRootScreen -> {
                 GameScreenNav(deviceType = deviceType) {
+                    iRootComponent.pop()
+                }
+            }
+
+            is IRootComponent.RootScreen.MarketRootRootScreen -> {
+                MarketScreenNav(deviceType = deviceType) {
                     iRootComponent.pop()
                 }
             }

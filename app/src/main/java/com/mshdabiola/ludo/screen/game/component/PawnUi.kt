@@ -17,8 +17,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,8 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.mshdabiola.designsystem.theme.toPawnColor
-import com.mshdabiola.designsystem.theme.toPawnTextColor
 import com.mshdabiola.ludo.screen.game.state.PawnUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.ludo.screen.game.state.showText
@@ -38,7 +34,6 @@ import com.mshdabiola.ludo.screen.game.state.toBoardUiState
 import com.mshdabiola.ludo.screen.game.state.toIntOffset
 import com.mshdabiola.ludo.screen.game.state.toPointUiState
 import com.mshdabiola.naijaludo.model.Board
-import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.log
 import kotlinx.collections.immutable.ImmutableList

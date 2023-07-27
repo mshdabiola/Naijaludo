@@ -48,7 +48,6 @@ import com.mshdabiola.designsystem.icon.drawable.Icon3
 import com.mshdabiola.designsystem.icon.drawable.Icon4
 import com.mshdabiola.designsystem.icon.drawable.Icon5
 import com.mshdabiola.designsystem.icon.drawable.Icon6
-import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.Constant
