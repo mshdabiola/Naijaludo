@@ -28,7 +28,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
-import com.mshdabiola.ludo.screen.GameAd
 import com.mshdabiola.ludo.screen.game.component.BoardUi
 import com.mshdabiola.ludo.screen.game.component.CounterGroupUi
 import com.mshdabiola.ludo.screen.game.component.CounterGroupUiVertical
@@ -77,7 +76,7 @@ fun GameScreenPhonePortrait(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -107,12 +106,7 @@ fun GameScreenPhonePortrait(
                 }
             )
         }
-        GameAd(
-            Modifier.constrainAs(adRef) {
-                linkTo(parent.start, parent.end)
-                bottom.linkTo(parent.bottom)
-            },
-        )
+
         PlayersUi(
             modifier = Modifier
                 .constrainAs(playerRef) {
@@ -214,7 +208,7 @@ fun GameScreenPhoneLand(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
         Show(
             modifier = Modifier.constrainAs(iconRef) {
                 top.linkTo(parent.top)
@@ -244,14 +238,7 @@ fun GameScreenPhoneLand(
             )
         }
 
-        GameAd(
-            Modifier
-                .constrainAs(adRef) {
-                    linkTo(parent.top, parent.bottom)
-                    linkTo(counterRef.end, parent.end)
-                }
-                .rotate(90f),
-        )
+
 
         PlayersUiVertical(
             modifier = Modifier
@@ -358,7 +345,7 @@ fun GameScreeFoldPortrait(
             .padding(paddingValues),
 
         ) {
-        val (iconRef, boardRef, counterRef, playerRef, rankRef, adRef) = createRefs()
+        val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
         Show(
@@ -391,12 +378,7 @@ fun GameScreeFoldPortrait(
             )
         }
 
-        GameAd(
-            Modifier.constrainAs(adRef) {
-                linkTo(parent.start, parent.end)
-                bottom.linkTo(parent.bottom)
-            },
-        )
+
 
         BoardUi(
             modifier = Modifier
@@ -450,7 +432,7 @@ fun GameScreeFoldPortrait(
 
         CounterGroupUi(
             modifier = Modifier.constrainAs(counterRef) {
-                linkTo(barrier, adRef.top)
+                linkTo(barrier, parent.bottom)
             },
             counterUiStateListProvider = { gameUiState.listOfCounter },
             isHumanProvider = { gameUiState.isHumanPlayer },
@@ -459,7 +441,7 @@ fun GameScreeFoldPortrait(
 
         PlayersUiVertical(
             modifier = Modifier.constrainAs(playerRef) {
-                linkTo(barrier, adRef.top)
+                linkTo(barrier, parent.bottom)
             },
             playerProvider = { gameUiState.listOfPlayer },
             isFold = true,
@@ -496,7 +478,7 @@ fun GameScreenLarge(
             .fillMaxSize()
             .padding(paddingValues),
     ) {
-        val (iconRef, playerRef, boardRef, counterRef, rankRef, adRef) = createRefs()
+        val (iconRef, playerRef, boardRef, counterRef, rankRef) = createRefs()
 
         Show(
             modifier = Modifier.constrainAs(iconRef) {
@@ -528,14 +510,7 @@ fun GameScreenLarge(
             )
         }
 
-        GameAd(
-            Modifier
-                .constrainAs(adRef) {
-                    linkTo(parent.top, parent.bottom)
-                    centerHorizontallyTo(iconRef)
-                }
-                .rotate(270f),
-        )
+
 
         PlayersUi(
             modifier = Modifier

@@ -141,40 +141,39 @@ class LogLudo(soundInterface: SoundInterface) :
     }
 
     override suspend fun onDice(dices: IntArray?): IntArray? {
-        return super.onDice(dices)
-    }
 
-    override fun onDiceFinish(dices: IntArray?): IntArray {
-        val intArray = super.onDiceFinish(dices)
+        val intArray = super.onDice(dices)
         //perfect start
-        if (
-            !firstHumanPlayer
-            && isHumanPlaying()
-            && intArray.contains(6)
-        ) {
-            unLockAchievement(R.string.achievement_perfect_start)
-        }
-        firstHumanPlayer = true
-        //double six
-        log("log dice ${intArray.joinToString()}")
-        if (isHumanPlaying() && intArray.sum() == 12) {
-            increaseAchievement(R.string.achievement_amateur_of_dice)
-            increaseAchievement(R.string.achievement_elite_of_dice)
-            increaseAchievement(R.string.achievement_epic_of_dice)
-            increaseAchievement(R.string.achievement_hero_of_dice)
-            increaseAchievement(R.string.achievement_grandmaster_of_dice)
-            increaseAchievement(R.string.achievement_legend_of_dice)
-            increaseAchievement(R.string.achievement_master_of_dice)
-            increaseAchievement(R.string.achievement_semipro_of_dice)
-            increaseAchievement(R.string.achievement_warrior_of_dice)
-            increaseAchievement(R.string.achievement_pro_of_dice)
+        if (intArray!=null) {
+            if (
+                !firstHumanPlayer
+                && isHumanPlaying()
+                && intArray.contains(6)
+            ) {
+                unLockAchievement(R.string.achievement_perfect_start)
+            }
+            firstHumanPlayer = true
+            //double six
+            log("log dice ${intArray.joinToString()}")
+            if (isHumanPlaying() && intArray.sum() == 12) {
+                increaseAchievement(R.string.achievement_amateur_of_dice)
+                increaseAchievement(R.string.achievement_elite_of_dice)
+                increaseAchievement(R.string.achievement_epic_of_dice)
+                increaseAchievement(R.string.achievement_hero_of_dice)
+                increaseAchievement(R.string.achievement_grandmaster_of_dice)
+                increaseAchievement(R.string.achievement_legend_of_dice)
+                increaseAchievement(R.string.achievement_master_of_dice)
+                increaseAchievement(R.string.achievement_semipro_of_dice)
+                increaseAchievement(R.string.achievement_warrior_of_dice)
+                increaseAchievement(R.string.achievement_pro_of_dice)
+            }
         }
         return intArray
     }
 
 
-    override fun onPawnFinish(pawnIndex: Int) {
-        super.onPawnFinish(pawnIndex)
+    override fun onPawn(id: Int, isDrawer: Boolean) {
+        super.onPawn(id, isDrawer)
 
         //early bird
         if (isHumanPlaying() && getHumanPawn().all {

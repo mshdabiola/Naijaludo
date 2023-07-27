@@ -31,12 +31,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.R
-import com.mshdabiola.designsystem.theme.blueBoard
-import com.mshdabiola.designsystem.theme.greenBoard
-import com.mshdabiola.designsystem.theme.redBoard
-import com.mshdabiola.designsystem.theme.yellowBoard
-import com.mshdabiola.ludo.screen.game.component.board.All
-import com.mshdabiola.ludo.screen.game.component.board.Default
+import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.drawable.Middle
+import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
+import com.mshdabiola.ludo.screen.game.component.board.UBoard
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
 import com.mshdabiola.naijaludo.model.Board
@@ -48,7 +46,7 @@ fun BoardUi(
     boardUiStateProvider: () -> BoardUiState,
     content: @Composable BoxScope.() -> Unit = {},
 ) {
-
+    val board= LocalBoard.current
 
     val pathColor= MaterialTheme.colorScheme
         .onSecondaryContainer
@@ -59,16 +57,13 @@ fun BoardUi(
 
 
     val boardUiState=boardUiStateProvider()
-    val colors= listOf(
-        redBoard,
-        greenBoard,
-        yellowBoard,
-        blueBoard
-    )
+    val colors= remember(boardUiState.colors) {
+        board.getHouseColor(boardUiState.colors)
+    }
 
 
-    val vectors= Default.All
-    val painters=vectors
+
+    val painters=board.getIcons()
         .map {
             rememberVectorPainter(image = it)
         }
@@ -78,14 +73,14 @@ fun BoardUi(
 
 
 
-    val thirdHouse= colors[boardUiState.colors[2].ordinal]
-    val firstHouse= colors[boardUiState.colors[0].ordinal]
-    val secondHouse= colors[boardUiState.colors[1].ordinal]
-    val fourthHouse= colors[boardUiState.colors[3].ordinal]
+    val thirdHouse= colors[2]
+    val firstHouse= colors[0]
+    val secondHouse= colors[1]
+    val fourthHouse= colors[3]
 
 
-    val middleVector=ImageVector.vectorResource(id = R.drawable.middle)
-    val middlePainter= rememberVectorPainter(image = middleVector)
+    val middleVector=Drawable.Middle
+    val middlePainter = rememberVectorPainter(image = middleVector)
 
 //    val boardUiState = boardUiStateProvider()
 //    AnimatedVisibility(
@@ -534,7 +529,7 @@ fun BoardPreview() {
 //
 //        )
         val board = Board(
-           GameColor.entries.toList()
+         color//GameColor.entries.toList()
 //            listOf(
 //                GameColor.GREEN,  //270
 //                GameColor.YELLOW, //180
@@ -551,6 +546,6 @@ fun BoardPreview() {
 
 
 val LocalUnitDP = compositionLocalOf { 10.dp }
-
+val LocalBoard = compositionLocalOf<UBoard> {DefaultBoard }
 
 

@@ -2,7 +2,7 @@ plugins {
     //kotlin("multiplatform")
     id("mshdabiola.mpp.library")
     id("mshdabiola.mpp.library.compose")
-    id("org.jetbrains.compose") version "1.5.0-dev1094"
+    id("org.jetbrains.compose") version "1.4.0"
 }
 compose {
     kotlinCompilerPlugin.set("1.4.8-beta")

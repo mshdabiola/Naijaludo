@@ -41,7 +41,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.R
-import com.mshdabiola.designsystem.icon.LudoIcon
+import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.drawable.Icon1
+import com.mshdabiola.designsystem.icon.drawable.Icon2
+import com.mshdabiola.designsystem.icon.drawable.Icon3
+import com.mshdabiola.designsystem.icon.drawable.Icon4
+import com.mshdabiola.designsystem.icon.drawable.Icon5
+import com.mshdabiola.designsystem.icon.drawable.Icon6
 import com.mshdabiola.designsystem.theme.toPawnColor
 import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
@@ -61,9 +67,12 @@ fun PlayerUi(
     bottomEnd: Int = 0,
 ) {
     val colorBrush = if (player.colors.size == 1) {
-        (1..2).map { player.colors[0].toPawnColor() }
+        (1..2).map {
+            LocalBoard.current.getColor(player.colors[0])
+            }
     } else {
-        player.colors.map { it.toPawnColor() }
+        player.colors.map {
+            LocalBoard.current.getColor(it)}
     }
     var imageBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
@@ -83,6 +92,14 @@ fun PlayerUi(
     }
     )
 
+    val playerIcon= when(player.iconIndex){
+        0->Drawable.Icon1
+        1->Drawable.Icon2
+        2->Drawable.Icon3
+        3->Drawable.Icon4
+        4->Drawable.Icon5
+        else->Drawable.Icon6
+    }
     val image = @Composable {
         Box(
             modifier = Modifier
@@ -96,7 +113,7 @@ fun PlayerUi(
             if (imageBitmap == null) {
                 Image(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = LudoIcon.robotIcon.getOrNull(player.iconIndex)?:R.drawable.icon_2),
+                    imageVector = playerIcon,
                     contentDescription = "player Icon",
                 )
             } else {

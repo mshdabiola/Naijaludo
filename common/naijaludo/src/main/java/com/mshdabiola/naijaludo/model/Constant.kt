@@ -5,11 +5,12 @@ import com.mshdabiola.naijaludo.model.player.HumanPlayer
 import com.mshdabiola.naijaludo.model.player.Player
 import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 import java.util.logging.Logger
-import kotlin.math.abs
 
+var isDebug=true
 fun log(msg: String) {
-    Logger.getLogger("Ludo game ").severe(msg)
-//     Log.d(, msg)
+    if (isDebug) {
+        Logger.getLogger("Ludo game ").severe(msg)
+    }
 }
 
 object Constant {

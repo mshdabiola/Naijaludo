@@ -24,55 +24,38 @@ import com.mshdabiola.designsystem.R
 @Composable
 internal fun BannerAdmob(
     modifier: Modifier = Modifier,
-    appUnitId: Int = 0,
+    appUnitId: String,
+    show :Boolean=false
 ) {
     val isInEditMode = LocalInspectionMode.current
-    val context = LocalContext.current
-    val unitId = remember {
-        val packagename = context.applicationContext.packageName
+   if (show){
+       Column(modifier) {
+           if (isInEditMode) {
+               Text(
+                   text = "Advert is here",
+                   modifier = Modifier
+                       .background(Color.Red)
+                       .padding(8.dp),
+                   textAlign = TextAlign.Center,
+                   color = Color.White,
 
-        val p = "com.mshdabiola.ludo.debug"
-        if (packagename == p) {
-            R.string.ad_test_id
-        } else {
-            appUnitId
-        }
-    }
-    Column(modifier) {
-        if (isInEditMode) {
-            Text(
-                text = "Advert is here",
-                modifier = Modifier
-                    .background(Color.Red)
-                    .padding(8.dp),
-                textAlign = TextAlign.Center,
-                color = Color.White,
+                   )
+           } else {
+               AndroidView(factory = {
+                   AdView(it).apply {
+                       setAdSize(AdSize.BANNER)
+                       adUnitId =appUnitId
+                       loadAd(AdRequest.Builder().build())
+                   }
+               })
+           }
+       }
+   }
 
-                )
-        } else {
-            AndroidView(factory = {
-                AdView(it).apply {
-                    setAdSize(AdSize.BANNER)
-                    adUnitId = context.getString(unitId)
-                    loadAd(AdRequest.Builder().build())
-                }
-            })
-        }
-    }
 }
 
-@Composable
-fun GameAd(modifier: Modifier) {
-    BannerAdmob(modifier, R.string.game_ad_banner)
-}
-
-@Composable
-fun MainAd(modifier: Modifier) {
-    BannerAdmob(modifier, R.string.main_ad_banner)
-}
 
 @Preview
 @Composable
 fun AdmobPrev() {
-    BannerAdmob()
 }

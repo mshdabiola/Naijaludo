@@ -1,6 +1,8 @@
 package com.mshdabiola.ludo.screen.main
 
 import android.app.Activity
+import android.content.res.Configuration
+import android.util.LayoutDirection
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,26 +36,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.component.GameButton
-import com.mshdabiola.designsystem.icon.LudoIcon
+import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.drawable.Bg
+import com.mshdabiola.designsystem.icon.drawable.Bg2
+import com.mshdabiola.designsystem.icon.drawable.Logo
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
-import com.mshdabiola.ludo.screen.MainAd
 import com.mshdabiola.ludo.screen.game.LogScreen
 import com.mshdabiola.naijaludo.model.Setting
 
@@ -121,11 +124,15 @@ fun MainScreen(
     var showDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val configuration = LocalConfiguration.current
 
-    val vector = ImageVector.vectorResource(id = LudoIcon.bg)
+    val vector = if (configuration.orientation==Configuration.ORIENTATION_PORTRAIT)
+        Drawable.Bg
+    else
+        Drawable.Bg2
 
     val painter = rememberVectorPainter(image = vector)
-    val configuration = LocalConfiguration.current
+
     val context = LocalContext.current
     val coroutine = rememberCoroutineScope()
 
@@ -206,7 +213,7 @@ fun MainScreen(
                     Image(
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.logo_size)),
-                        painter = painterResource(id = LudoIcon.logo),
+                        imageVector = Drawable.Logo,
                         contentDescription = stringResource(id = R.string.logo),
                     )
                 }
@@ -222,12 +229,11 @@ fun MainScreen(
 
                     ) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
+                        imageVector = Icons.Default.PlayArrow,
                         contentDescription = stringResource(id = R.string.play),
                         modifier = Modifier.size(dimensionResource(id = R.dimen.base_4)),
                     )
                 }
-                MainAd(Modifier.align(Alignment.BottomCenter))
             } else {
                 Row(
                     modifier = Modifier.align(Alignment.Center),
@@ -236,7 +242,7 @@ fun MainScreen(
                     ) {
                     Image(
                         modifier = Modifier.width(dimensionResource(id = R.dimen.logo_size)),
-                        painter = painterResource(id = LudoIcon.logo),
+                        imageVector = Drawable.Logo,
                         contentDescription = stringResource(id = R.string.logo),
                     )
                     Spacer(
@@ -252,7 +258,7 @@ fun MainScreen(
 
                         ) {
                         Icon(
-                            imageVector = ImageVector.vectorResource(id = LudoIcon.PlayIcon),
+                            imageVector = Icons.Rounded.PlayArrow,
                             contentDescription = stringResource(id = R.string.play),
                             modifier = Modifier.size(dimensionResource(id = R.dimen.base_4)),
                         )
@@ -263,7 +269,6 @@ fun MainScreen(
                     )
 
                 }
-                MainAd(Modifier.align(Alignment.BottomEnd))
             }
         }
         SettingDialog(
@@ -275,6 +280,7 @@ fun MainScreen(
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(device = "spec:parent=pixel_5,orientation=landscape")
 @Preview()
 @Composable
 fun MainScreenPreview() {

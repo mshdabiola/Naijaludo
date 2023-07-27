@@ -50,7 +50,7 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
     private fun getBoxByIndex(index: Int) :Point{
         val x= Constant.pathX[index]
         val y= Constant.pathY[index]
-        return Point(x.toFloat(),y.toFloat())
+        return Point(x,y)
     }
 
     private fun getSafeBox(index: Int, colorIndex:Int): Point {
@@ -58,31 +58,31 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
 
         val x= Constant.safeX[colorIndex][index]
         val y= Constant.safeY[colorIndex][index]
-        return Point(x.toFloat(),y.toFloat())
+        return Point(x,y)
 
     }
 
-    private fun getLastBox() = Point(7f, 7f)
+    private fun getLastBox() = Point(7, 7)
     private fun getStartBox(colorIndex:Int): Point {
 
 
         val x= Constant.startX[colorIndex]
         val y= Constant.startY[colorIndex]
-        return Point(x.toFloat(),y.toFloat())
+        return Point(x,y)
     }
 
     private fun getHomeBox(index: Int, colorIndex:Int): Point {
 
         val x= Constant.homeX[colorIndex][index]
         val y= Constant.homeY[colorIndex][index]
-        return Point(x.toFloat(),y.toFloat())
+        return Point(x,y)
     }
 
 
 
     private fun getCurrentIndex(point: Point): Int {
         return Constant.pathX.zip(Constant.pathY).indexOfFirst {
-            it.first==point.x.toInt() && it.second==point.y.toInt()
+            it.first== point.x && it.second== point.y
         }
     }
 }

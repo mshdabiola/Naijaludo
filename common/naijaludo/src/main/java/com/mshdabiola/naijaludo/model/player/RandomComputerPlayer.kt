@@ -69,19 +69,8 @@ data class RandomComputerPlayer(
             }
             .flatten()
 
-        // move out
-        val canMoveOutList = counterAndPawns
-            .filter {
-                it.first.isTotal.not() && it.first.number == 6
-                        && it.second.isHome()
-            }
-        if (canMoveOutList.isNotEmpty()) {
-            return getPoints(canMoveOutList, ludoGameState)
-        }
-
-//
+        //
 //        //kill
-        val board = ludoGameState.board
         val oppPawnOn = getOpponentPawns(ludoGameState)
             .filter { it.isOnPath() }
             .map { ludoGameState.board.getBoxByIndex(it.currentPos, it.color) }
@@ -112,6 +101,16 @@ data class RandomComputerPlayer(
 
         if (pathKill.isNotEmpty()) {
             return getPoints(pathKill, ludoGameState)
+        }
+
+        // move out
+        val canMoveOutList = counterAndPawns
+            .filter {
+                it.first.isTotal.not() && it.first.number == 6
+                        && it.second.isHome()
+            }
+        if (canMoveOutList.isNotEmpty()) {
+            return getPoints(canMoveOutList, ludoGameState)
         }
 
 

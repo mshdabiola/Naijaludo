@@ -15,7 +15,7 @@ class Desktop : Plugin<Project> {
             }
 
             extensions.configure<KotlinMultiplatformExtension> {
-                android()
+                //android()
                 jvm("desktop")
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
