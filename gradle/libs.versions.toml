@@ -123,7 +123,7 @@ play-update = { module = "com.google.android.play:app-update", version.ref = "pl
 play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
 play-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playCoroutine" }
 
-play-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "billingClient" }
+play-billing-kts = { module = "com.android.billingclient:billing-ktx", version.ref = "billingClient" }
 
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

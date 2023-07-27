@@ -178,14 +178,14 @@ fun MainScreen(
                     )
                 }
 
-                IconButton(
-                    onClick = onMarket,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "market",
-                    )
-                }
+//                IconButton(
+//                    onClick = onMarket,
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Default.ShoppingCart,
+//                        contentDescription = "market",
+//                    )
+//                }
             }
 
             if (deviceType == DEVICE_TYPE.PHONE_PORT || deviceType == DEVICE_TYPE.TABLET_PORT) {
