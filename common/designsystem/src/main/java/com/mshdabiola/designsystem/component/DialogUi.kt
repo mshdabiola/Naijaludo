@@ -50,7 +50,7 @@ fun DialogUi(
     title: @Composable (RowScope.() -> Unit)? = null,
     content: (@Composable ColumnScope.() -> Unit)? = null,
     shape: Shape = AlertDialogDefaults.shape,
-    containerColor: Color = AlertDialogDefaults.containerColor,
+    containerColor: Color = MaterialTheme.colorScheme.inversePrimary,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(),
 ) {
@@ -105,7 +105,7 @@ fun DialogUiPreview() {
                 Text(text = "Buttons")
             }
         },
-        containerColor = Color.Blue,
+        //containerColor = Color.Blue,
 
         )
 }
@@ -284,7 +284,7 @@ fun DialogUiPreview2() {
                 Text(text = "Buttons")
             }
         },
-        containerColor = Color.Blue,
+      //  containerColor = Color.Blue,
 
         )
 }
@@ -331,7 +331,10 @@ fun DialogContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 title?.let {
-                    val textStyle = MaterialTheme.typography.headlineSmall
+                    val textStyle = MaterialTheme
+                        .typography
+                        .headlineSmall
+                        .copy(color = MaterialTheme.colorScheme.primary)
                     ProvideTextStyle(textStyle) {
                         Row(
                             // Align the title to the center when an icon is present.
