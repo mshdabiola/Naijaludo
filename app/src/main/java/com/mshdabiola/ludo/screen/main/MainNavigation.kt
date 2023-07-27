@@ -7,10 +7,19 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun MainScreenNav(navigateTo: () -> Unit, deviceType: DEVICE_TYPE) {
+fun MainScreenNav(
+    navigateToGame: () -> Unit,
+    navigateToMarket: () -> Unit,
+    deviceType: DEVICE_TYPE
+) {
 
     val viewModel: GeneralViewModel = koinViewModel()
-    MainScreen(mainViewModel = viewModel, navigateTo = navigateTo, deviceType = deviceType)
+    MainScreen(
+        mainViewModel = viewModel,
+        navigateToGame = navigateToGame,
+        navigateToMarket = navigateToMarket,
+        deviceType = deviceType
+    )
 
 }
 

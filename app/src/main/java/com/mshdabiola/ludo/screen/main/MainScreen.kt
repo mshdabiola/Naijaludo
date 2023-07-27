@@ -2,8 +2,8 @@ package com.mshdabiola.ludo.screen.main
 
 import android.app.Activity
 import android.content.res.Configuration
-import android.util.LayoutDirection
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,6 +44,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,7 +63,8 @@ import com.mshdabiola.naijaludo.model.Setting
 @Composable
 fun MainScreen(
     mainViewModel: GeneralViewModel,
-    navigateTo: () -> Unit,
+    navigateToGame: () -> Unit,
+    navigateToMarket: () -> Unit,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
 ) {
     val activity = LocalContext.current as Activity
@@ -100,9 +103,10 @@ fun MainScreen(
         onPlay = {
             // navController.popBackStack()
             //  navController.navigate("game")
-            navigateTo()
+            navigateToGame()
             mainViewModel.onPlayGame()
         },
+        onMarket = navigateToMarket,
         onCloseApp = {
             activity.finish()
         },
@@ -116,6 +120,7 @@ fun MainScreen(
 @Composable
 fun MainScreen(
     onPlay: () -> Unit = {},
+    onMarket: () -> Unit = {},
     onCloseApp: () -> Unit = {},
     settingUiState: SettingUiState = Setting.default.toUi(),
     setSetting: (SettingUiState) -> Unit = {},
@@ -133,8 +138,6 @@ fun MainScreen(
 
     val painter = rememberVectorPainter(image = vector)
 
-    val context = LocalContext.current
-    val coroutine = rememberCoroutineScope()
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -161,52 +164,30 @@ fun MainScreen(
                     Modifier.rotate(45f),
                 )
             }
-//            IconButton(
-//                modifier = Modifier.align(Alignment.TopCenter),
-//                onClick = {
-//                    val actvity=context as Activity
-//                          PlayGames.getGamesSignInClient(actvity)
-//                              .signIn()
-//                              .addOnSuccessListener {
-//                                  if(it.isAuthenticated){
-//                                      Log.e("is Authentication","")
-//                                  }
-//                                  Log.e("succefull","loging")
-//                              }
-//                              .addOnFailureListener {
-//                                  it.printStackTrace()
-//                              }
-//                    PlayGames.getLeaderboardsClient(actvity)
-//                        .submitScoreImmediate("CgkIsvWJ65EFEAIQAA",3)
-//                    PlayGames.getLeaderboardsClient(actvity)
-//                        .loadCurrentPlayerLeaderboardScore("CgkIsvWJ65EFEAIQAA",LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
-//                        .addOnSuccessListener {
-//                           val rand= it.get()?.rank
-//                            Log.e("rank","rank $rand")
-//                        }
-//                    PlayGames.getLeaderboardsClient(actvity)
-//                        .getLeaderboardIntent("CgkIsvWJ65EFEAIQAA")
-//                        .addOnSuccessListener{
-//                            context.startActivityForResult(it,34)
-//                        }
-//
-//                },
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Add,
-//                    contentDescription = stringResource(id = R.string.close),
-//                    Modifier.rotate(45f),
-//                )
-//            }
-            IconButton(
-                modifier = Modifier.align(Alignment.TopEnd),
-                onClick = { showDialog = true },
+
+            Column(modifier = Modifier
+                .align(Alignment.TopEnd),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = stringResource(id = R.string.setting),
-                )
+                IconButton(
+                    onClick = { showDialog = true },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(id = R.string.setting),
+                    )
+                }
+
+                IconButton(
+                    onClick = onMarket,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "market",
+                    )
+                }
             }
+
             if (deviceType == DEVICE_TYPE.PHONE_PORT || deviceType == DEVICE_TYPE.TABLET_PORT) {
                 Column(Modifier.align(Alignment.TopCenter)) {
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.base_4)))
