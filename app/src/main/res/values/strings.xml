@@ -5,6 +5,9 @@
     <string name="authe_id" translatable="false">176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
+    <string name="ad_id" translatable="false">ca-app-pub-6910875849525121~7058327087</string>
+    <string name="main_ad_banner" translatable="false">ca-app-pub-6910875849525121/1915302303</string>
+    <string name="ad_test_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
     <!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
 

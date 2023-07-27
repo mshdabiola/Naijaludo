@@ -331,6 +331,6 @@ object FirebaseUtil {
 
 fun Player.toUser() = User(
     id = "",
-    photoUri = this.hiResImageUri?.toString() ?: "",
+    photoUri = this.iconImageUri?.toString() ?: "",
     name = this.displayName
 )

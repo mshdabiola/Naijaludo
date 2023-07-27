@@ -55,7 +55,6 @@ import com.mshdabiola.designsystem.icon.drawable.Logo
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.GeneralViewModel
-import com.mshdabiola.ludo.screen.MainAd
 import com.mshdabiola.ludo.screen.game.LogScreen
 import com.mshdabiola.naijaludo.model.Setting
 
@@ -235,7 +234,6 @@ fun MainScreen(
                         modifier = Modifier.size(dimensionResource(id = R.dimen.base_4)),
                     )
                 }
-                MainAd(Modifier.align(Alignment.BottomCenter))
             } else {
                 Row(
                     modifier = Modifier.align(Alignment.Center),
@@ -271,7 +269,6 @@ fun MainScreen(
                     )
 
                 }
-                MainAd(Modifier.align(Alignment.BottomEnd))
             }
         }
         SettingDialog(
