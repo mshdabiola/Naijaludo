@@ -37,7 +37,7 @@ android {
 
     buildTypes {
         val debug by getting {
-            applicationIdSuffix = BuildType.DEBUG.applicationIdSuffix
+          //  applicationIdSuffix = BuildType.DEBUG.applicationIdSuffix
             versionNameSuffix = BuildType.DEBUG.versionNameSuffix
         }
         val release by getting {

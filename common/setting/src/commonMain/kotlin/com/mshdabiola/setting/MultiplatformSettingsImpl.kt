@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -146,6 +147,55 @@ internal class MultiplatformSettingsImpl(
                     startTime = System.currentTimeMillis() * 1000
                 )
             )
+    }
+
+    override  fun getCurrentBoard() =
+            settings
+                .getStringFlow(Keys.currentBoard,"default")
+                .flowOn(coroutineDispatcher)
+
+
+    override suspend fun setCurrentBoard(string: String) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.currentBoard,string)
+        }
+    }
+
+    override  fun getCurrentDice()=
+            settings.getStringFlow(Keys.currentDice,"default")
+                .flowOn(coroutineDispatcher)
+
+
+    override suspend fun setCurrentDice(string: String) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.currentDice,string)
+        }
+    }
+
+    override suspend fun getPurchaseBoards(): List<String> {
+        return withContext(coroutineDispatcher){
+          val p=  settings.getString(Keys.purchaseBoard,"default")
+            p.split(",")
+        }
+    }
+
+    override suspend fun setPurchaseBoards(strBoard: List<String>) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.purchaseBoard,strBoard.joinToString())
+        }
+    }
+
+    override suspend fun getPurchaseDices(): List<String> {
+        return withContext(coroutineDispatcher){
+            val p=  settings.getString(Keys.purchaseDice,"default")
+            p.split(",")
+        }
+    }
+
+    override suspend fun setPurchaseDices(strDices: List<String>) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.purchaseDice,strDices.joinToString())
+        }
     }
 
     private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {

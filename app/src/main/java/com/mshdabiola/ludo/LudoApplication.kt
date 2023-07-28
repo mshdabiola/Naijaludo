@@ -21,10 +21,11 @@ class LudoApplication : Application() {
             androidContext(this@LudoApplication)
             modules(appModule)
         }
-
+        Timber.plant(Timber.DebugTree())
+        Timber.e("package name $packageName")
 
         if (packageName.contains("debug")) {
-            Timber.plant(Timber.DebugTree())
+            Timber.e("package name $packageName")
             Timber.e("log on app create")
             isDebug=true
         }else{
