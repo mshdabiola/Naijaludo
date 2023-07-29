@@ -48,18 +48,16 @@ fun DiceUi(
 ) {
     val unitDp = LocalUnitDP.current
 
-    val color= Color.Gray
-
     val imageVector= remember(diceUiState.number,diceUiState.animate) {
         when{
-            diceUiState.animate-> getDiceRoll(color)
-            diceUiState.number==2-> getDiceTwo(color)
-            diceUiState.number==3-> getDiceThree(color)
-            diceUiState.number==4-> getDiceFour(color)
-            diceUiState.number==5-> getDiceFive(color)
-            diceUiState.number==6-> getDiceSix(color)
+            diceUiState.animate-> getDiceRoll(Color( diceUiState.color))
+            diceUiState.number==2-> getDiceTwo(Color( diceUiState.color))
+            diceUiState.number==3-> getDiceThree(Color( diceUiState.color))
+            diceUiState.number==4-> getDiceFour(Color( diceUiState.color))
+            diceUiState.number==5-> getDiceFive(Color( diceUiState.color))
+            diceUiState.number==6-> getDiceSix(Color( diceUiState.color))
 
-            else -> getDiceOne(color)
+            else -> getDiceOne(Color( diceUiState.color))
         }
     }
     Image(

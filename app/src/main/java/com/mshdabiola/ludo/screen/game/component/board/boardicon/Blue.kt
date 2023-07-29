@@ -14,10 +14,7 @@ import com.mshdabiola.ludo.screen.game.component.board.Default
 
  fun Default.getBlue(iconColor:Color,accentColor:Color): ImageVector
     {
-        if (_blue != null) {
-            return _blue!!
-        }
-        _blue = Builder(name = "Blue", defaultWidth = 114.53.dp, defaultHeight = 140.99.dp,
+       return Builder(name = "Blue", defaultWidth = 114.53.dp, defaultHeight = 140.99.dp,
                 viewportWidth = 114.53f, viewportHeight = 140.99f).apply {
             path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
@@ -158,7 +155,5 @@ import com.mshdabiola.ludo.screen.game.component.board.Default
             }
         }
         .build()
-        return _blue!!
-    }
 
-private var _blue: ImageVector? = null
+    }

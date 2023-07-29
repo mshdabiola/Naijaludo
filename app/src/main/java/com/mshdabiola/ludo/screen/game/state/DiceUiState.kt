@@ -7,6 +7,7 @@ data class DiceUiState(
     val isEnable: Boolean = false,
     val animate: Boolean = false,
     val number: Int = 1,
+    val color:Long=0xFF00FF00
 )
 
 fun Dice.toDiceUiState() = DiceUiState(

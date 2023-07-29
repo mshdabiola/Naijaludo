@@ -4,15 +4,26 @@ package com.mshdabiola.ludo.screen.market
 import android.app.Activity
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -28,6 +39,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
@@ -62,10 +75,15 @@ import com.mshdabiola.designsystem.icon.drawable.BgL
 import com.mshdabiola.designsystem.icon.drawable.BgP
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.game.component.BoardUi
+import com.mshdabiola.ludo.screen.game.component.DiceUi
+import com.mshdabiola.ludo.screen.game.component.LocalBoard
 import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
 import com.mshdabiola.ludo.screen.game.component.board.UBoard
-import com.mshdabiola.ludo.screen.game.component.getAllBoards
+import com.mshdabiola.ludo.screen.game.component.board.UDice
+import com.mshdabiola.ludo.screen.game.component.board.UItem
+import com.mshdabiola.ludo.screen.game.component.board.getAllItem
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
+import com.mshdabiola.ludo.screen.game.state.DiceUiState
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.collections.immutable.ImmutableList
@@ -88,7 +106,7 @@ internal fun MarketScreen(
     var isEnable by remember {
         mutableStateOf(false)
     }
-    val allboard = getAllBoards()
+    val allboard = getAllItem()
     val currentBoard =
         settings.getCurrentBoard().collectAsStateWithLifecycle(initialValue = "default")
     val currentDice =
@@ -127,14 +145,14 @@ internal fun MarketScreen(
     val productUi = remember(product) {
         product
             ?.map {
-                BuyBoard(
+                BuyItem(
                     id = it.productId,
                     price = it.oneTimePurchaseOfferDetails?.formattedPrice ?: "10",
-                    board = allboard[it.productId] ?: DefaultBoard,
+                    item = allboard[it.productId] ?: DefaultBoard,
                     isPurchase = false
                 )
             }?.toImmutableList()
-            ?: emptyList<BuyBoard>().toImmutableList()
+            ?: emptyList<BuyItem>().toImmutableList()
     }
     val purchase = {
         val productDetailsParamsList = listOf(
@@ -242,7 +260,7 @@ internal fun MarketScreen(
 internal fun MarketScreen(
     back: () -> Unit = {},
     click: (Int) -> Unit = {},
-    purchaseBoard: ImmutableList<BuyBoard> = emptyList<BuyBoard>().toImmutableList()
+    purchaseBoard: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
 ) {
     val pagerState = rememberPagerState {
         2
@@ -266,8 +284,46 @@ internal fun MarketScreen(
             }
     ) { paddingValues ->
 
-        Column(Modifier.padding(paddingValues)) {
-            Row {
+        Box(Modifier.padding(paddingValues)) {
+
+
+            HorizontalPager(
+                modifier = Modifier.fillMaxSize(),
+                state = pagerState
+            ) { index ->
+                when (index) {
+                    0 -> {
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ){
+                            item (span = { GridItemSpan(2) }){
+                                Spacer(modifier = Modifier.height(64.dp))
+                            }
+
+                            items(purchaseBoard,key = {it.id}){
+                                BuyBoardUi(modifier=Modifier.fillMaxWidth(), buyItem = it)
+                            }
+                        }
+
+
+                    }
+
+                    else -> {
+                        Column(Modifier.fillMaxSize()) {
+                            Text(text = "UItem")
+                        }
+                    }
+                }
+
+            }
+
+            Row (modifier = Modifier
+                .background(Brush.verticalGradient(0f to Color.Transparent,0.7f to MaterialTheme.colorScheme.primaryContainer))
+                .align(Alignment.TopCenter)){
                 IconButton(onClick = back) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
                 }
@@ -292,34 +348,9 @@ internal fun MarketScreen(
                         }
                     },
                         text = {
-                            Text(text = "My Item")
+                            Text(text = "My UItem")
                         })
                 }
-            }
-            HorizontalPager(
-                modifier = Modifier.weight(1f),
-                state = pagerState
-            ) {
-                when (it) {
-                    0 -> {
-                        LazyColumn(Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            items(purchaseBoard,key = {it.id}){
-                                BuyBoardUi(buyBoard = it)
-                            }
-                        }
-
-                    }
-
-                    else -> {
-                        Column(Modifier.fillMaxSize()) {
-                            Text(text = "Items")
-                        }
-                    }
-                }
-
             }
         }
     }
@@ -328,50 +359,82 @@ internal fun MarketScreen(
 @Preview
 @Composable
 fun MarketScreenPreview() {
+    val b= getAllItem()
+        .map {
+            BuyItem(it.key, "N 1,610.00", it.value)
+        }
     MarketScreen(
-        purchaseBoard = listOf(
-
-            BuyBoard("board_2", "50", DefaultBoard),
-            BuyBoard("default", "50", DefaultBoard, isPurchase = false,isSelect = false),
-            BuyBoard("board_1", "50", DefaultBoard),
-        ).toImmutableList()
+        purchaseBoard =b.toImmutableList()
     )
 }
 
 @Composable
-fun BuyBoardUi(buyBoard: BuyBoard,onBuy:(String)->Unit={}) {
+fun BuyBoardUi(modifier: Modifier=Modifier, buyItem: BuyItem, onBuy:(String)->Unit={}) {
    
     OutlinedCard(
-        modifier = Modifier.width(300.dp),
-        border = CardDefaults.outlinedCardBorder(buyBoard.isSelect)
+        modifier = modifier,
+        border = CardDefaults.outlinedCardBorder(buyItem.isSelect)
     ) {
         Column {
 
-                BoardUi(
-                    modifier = Modifier.fillMaxWidth(),
-                    boardUiStateProvider = { BoardUiState(colors = GameColor.entries.toImmutableList()) },
-                    content = {})
+            when(buyItem.item){
+                is UBoard->{
+                    CompositionLocalProvider(LocalBoard provides buyItem.item) {
+                        BoardUi(
+                            modifier = Modifier.fillMaxWidth(),
+                            boardUiStateProvider = { BoardUiState(colors = GameColor.entries.toImmutableList()) },
+                            content = {})
+                    }  
+                }
+                is UDice->{
+                   BoxWithConstraints ( modifier = Modifier
+                       .background(Color(buyItem.item.color).copy(alpha = 0.3f))
+                       .fillMaxWidth()
+                       .aspectRatio(1f),
+                       contentAlignment = Alignment.Center
+                   ){
 
-            if (!buyBoard.isSelect) {
+                       DiceUi(modifier=Modifier
+                           .size(this.maxWidth.times(0.5f))
+                           .offset(this.maxWidth.times(0.2f)),
+                           diceUiState = DiceUiState(animate = true, color = buyItem.item.color),
+                           rotate = {90f}
+
+                       )
+                       DiceUi(modifier=Modifier
+                           .size(this.maxWidth.times(0.5f))
+                           .offset(this.maxWidth.times(-0.2f)),
+                           diceUiState = DiceUiState(
+                               animate = true,
+                               color = buyItem.item.color),
+                           rotate = {-90f}
+
+                       )
+
+                   } 
+                }
+            }
+            
+            if (!buyItem.isSelect) {
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    horizontalArrangement = if (buyBoard.isPurchase) Arrangement.Center else Arrangement.SpaceBetween,
+                    horizontalArrangement = if (buyItem.isPurchase) Arrangement.Center else Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                   if (buyBoard.isPurchase)
+                   if (buyItem.isPurchase)
                    {
-                       Button(onClick = { onBuy(buyBoard.id) }) {
+                       Button(onClick = { onBuy(buyItem.id) }) {
                            Text(text = "Select")
                        }
                    }else{
                        Text(
-                           text = "Prize ${buyBoard.price}",
-                           style = MaterialTheme.typography.headlineMedium,
+                           text = buyItem.price,
+                           style = MaterialTheme.typography.titleSmall,
                            color = MaterialTheme.colorScheme.primary
                        )
-                       Button(onClick = { onBuy(buyBoard.id) }) {
+                       Button(onClick = { onBuy(buyItem.id) }) {
                            Text(text = "Buy")
                        }
                    }
@@ -385,13 +448,13 @@ fun BuyBoardUi(buyBoard: BuyBoard,onBuy:(String)->Unit={}) {
 @Preview
 @Composable
 fun BuyBoardUiPreview() {
-    BuyBoardUi(buyBoard = BuyBoard("default", "50", DefaultBoard, false,isSelect = false))
+    BuyBoardUi(buyItem = BuyItem("default", "N 1,610.00", UDice(0xFF008a00), false,isSelect = false))
 }
 
-data class BuyBoard(
+data class BuyItem(
     val id: String,
     val price: String,
-    val board: UBoard,
+    val item: UItem,
     val isPurchase: Boolean=false,
     val isSelect : Boolean=false
 )
