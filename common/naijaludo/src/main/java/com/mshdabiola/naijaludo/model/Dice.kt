@@ -6,4 +6,5 @@ data class Dice(
     val animate: Boolean = false,
     val isTotal: Boolean = false,
     val number: Int = 1,
+    val color: Long=0xFF888888
 )

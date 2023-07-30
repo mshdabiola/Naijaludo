@@ -14,5 +14,6 @@ fun Dice.toDiceUiState() = DiceUiState(
     id = id,
     isEnable = isEnable,
     animate = animate,
-    number = number
+    number = number,
+    color = color
 )

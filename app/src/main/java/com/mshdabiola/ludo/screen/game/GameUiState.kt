@@ -11,4 +11,5 @@ data class GameUiState(
     val navigateBackBcosOfBlueError: Boolean = false,
     val listOfDevice: ImmutableList<String> = emptyList<String>().toImmutableList(),
     val connected: Boolean = false,
+    val boardName:String=""
 )
