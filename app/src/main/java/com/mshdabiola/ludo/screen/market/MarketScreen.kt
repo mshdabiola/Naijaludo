@@ -24,17 +24,23 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -101,13 +107,87 @@ internal fun MarketScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    var msg by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    val errorHandle: (BillingResult, String, () -> Unit) -> Unit = { result, from, action ->
+        Timber.e("msg ${result.debugMessage} from  $from")
+        when (result.responseCode) {
+            BillingResponseCode.OK -> {
+                action()
+            }
+
+            BillingResponseCode.FEATURE_NOT_SUPPORTED -> {
+                Timber.e("error : feature not supported")
+                msg= "Feature not supported"
 
 
-    val allboard = getAllItem()
+            }
+
+            BillingResponseCode.SERVICE_DISCONNECTED -> {
+                Timber.e("error : service disconnected")
+                msg= "Service disconnected"
+            }
+
+            BillingResponseCode.USER_CANCELED -> {
+                Timber.e("error : user canceled")
+                msg= "User canceled"
+            }
+
+            BillingResponseCode.SERVICE_UNAVAILABLE -> {
+                Timber.e("error : service unavailable")
+                msg= "Service unavailable"
+            }
+
+            BillingResponseCode.BILLING_UNAVAILABLE -> {
+                Timber.e("error : billing unavailable")
+                msg= "Billing unavailable"
+            }
+
+            BillingResponseCode.ITEM_UNAVAILABLE -> {
+                Timber.e("error : item unavailable")
+                msg= "Item unavailable"
+            }
+
+            BillingResponseCode.DEVELOPER_ERROR -> {
+                Timber.e("error : developer error")
+            }
+
+            BillingResponseCode.ERROR -> {
+                Timber.e("error : errors")
+                msg= "Error occur"
+            }
+
+            BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                Timber.e("error :item alread owned")
+                msg= "Item already owned"
+            }
+
+            BillingResponseCode.ITEM_NOT_OWNED -> {
+                Timber.e("error : item not owned")
+                msg= "Item not owned"
+            }
+
+            BillingResponseCode.NETWORK_ERROR -> {
+                Timber.e("error : network error")
+                msg= "Network  Error"
+            }
+            else->{
+                Timber.e("error : uncatch error code ${result.responseCode}")
+            }
+        }
+    }
+
+    val allItems = getAllItem()
     val currentBoard =
-        settings.getCurrentBoard().collectAsStateWithLifecycle(initialValue = "default_board")
+        settings
+            .getCurrentBoard()
+            .collectAsStateWithLifecycle(initialValue = "default_board")
     val currentDice =
-        settings.getCurrentDice().collectAsStateWithLifecycle(initialValue = "default_dice")
+        settings
+            .getCurrentDice()
+            .collectAsStateWithLifecycle(initialValue = "default_dice")
 
     var allPurchaseItemsId by remember {
         mutableStateOf(listOf<String>().toImmutableList())
@@ -116,7 +196,7 @@ internal fun MarketScreen(
     val allPurchaseItems = remember(allPurchaseItemsId) {
         allPurchaseItemsId
             .mapNotNull {
-                val item = allboard[it]
+                val item = allItems[it]
                 if (item == null)
                     null
                 else
@@ -135,7 +215,7 @@ internal fun MarketScreen(
     val allUnPurchaseItems = remember(productDetails) {
         productDetails
             ?.mapNotNull {
-                val item = allboard[it.productId]
+                val item = allItems[it.productId]
                 if (item == null)
                     null
                 else
@@ -198,6 +278,11 @@ internal fun MarketScreen(
 
 // Launch the billing flow
         val billingResult = billingClient?.launchBillingFlow(context as Activity, billingFlowParams)
+        billingResult?.let {
+            errorHandle(it,"Start Flow"){
+
+            }
+        }
     }
 
 
@@ -209,10 +294,11 @@ internal fun MarketScreen(
         billingClient = BillingClient
             .newBuilder(context)
             .setListener { billingResult, purchases ->
-                purchases?.forEach {
-                    handlePurchase(it)
+                errorHandle(billingResult,"setListener"){
+                    purchases?.forEach {
+                        handlePurchase(it)
+                    }
                 }
-
             }
             .enablePendingPurchases()
             .build()
@@ -223,31 +309,40 @@ internal fun MarketScreen(
                 }
 
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    Timber.e("connected ${billingResult.responseCode == BillingResponseCode.OK}")
-                    if (billingResult.responseCode == BillingResponseCode.OK) {
+                    errorHandle(billingResult,"start connection"){
                         coroutineScope.launch {
                             withContext(Dispatchers.IO) {
+
+
                                 val params2 = QueryPurchasesParams.newBuilder()
                                     .setProductType(BillingClient.ProductType.INAPP)
-                                val purchasesResult =
-                                    billingClient?.queryPurchasesAsync(params2.build())
 
-                                val purchaseList = purchasesResult
-                                    ?.purchasesList
-                                    ?.mapNotNull {
-                                        it.products[0]
-                                    } ?: emptyList()
-                                Timber.e("purchase $purchaseList")
-                                if (purchaseList.isNotEmpty()) {
-                                    settings.setPurchaseItems(purchaseList)
-                                    allPurchaseItemsId = purchaseList.toImmutableList()
+
+                                val purchasesResult = billingClient
+                                        ?.queryPurchasesAsync(params2.build())
+
+                                purchasesResult?.let { result ->
+                                    errorHandle(result.billingResult,"purchase result"){
+                                        val purchaseList = purchasesResult
+                                            .purchasesList
+                                            .mapNotNull {
+                                                it.products[0]
+                                            }
+                                        Timber.e("purchase $purchaseList")
+                                        if (purchaseList.isNotEmpty()) {
+                                            this.launch {
+                                                settings.setPurchaseItems(purchaseList)
+                                            }
+                                            allPurchaseItemsId = purchaseList.toImmutableList()
+                                        }
+                                        Timber.e("purchase result ${purchasesResult?.billingResult}")
+                                    }
                                 }
-                                Timber.e("purchase result ${purchasesResult?.billingResult}")
 
 
-                                val productList = allboard
+                                val productList = allItems
                                     .keys
-                                    .filter { it !in purchaseList }
+                                    .filter { it !in allPurchaseItemsId }
                                     .map {
                                         QueryProductDetailsParams.Product.newBuilder()
                                             .setProductId(it)
@@ -255,22 +350,26 @@ internal fun MarketScreen(
                                             .build()
                                     }
 
-
                                 val params = QueryProductDetailsParams
                                     .newBuilder()
                                     .setProductList(productList)
 
 
-                                val productDetailsResult =
-                                    billingClient?.queryProductDetails(params.build())
-                                Timber.e("productDetail ${productDetailsResult?.productDetailsList}")
-                                productDetails =
-                                    productDetailsResult
-                                        ?.productDetailsList
-                                        ?.toImmutableList()
+                                val productDetailsResult = billingClient
+                                        ?.queryProductDetails(params.build())
+
+                                productDetailsResult?.let {
+                                    errorHandle(it.billingResult,"product detail"){
+                                        Timber.e("productDetail ${productDetailsResult?.productDetailsList}")
+                                        productDetails =
+                                            productDetailsResult
+                                                .productDetailsList
+                                                ?.toImmutableList()
+                                    }
+                                }
+
                             }
                         }
-
                     }
                 }
             })
@@ -284,9 +383,10 @@ internal fun MarketScreen(
         currentDice = currentDice.value,
         unPurchaseItems = allUnPurchaseItems,
         purchaseItems = allPurchaseItems,
+        message = msg,
         onBuy = purchaseFlow,
-        onSelect = { id,isBoard->
-            coroutineScope.launch (Dispatchers.IO){
+        onSelect = { id, isBoard ->
+            coroutineScope.launch(Dispatchers.IO) {
                 if (isBoard)
                     settings.setCurrentBoard(id)
                 else
@@ -302,8 +402,9 @@ internal fun MarketScreen(
     back: () -> Unit = {},
     onBuy: (String) -> Unit = {},
     onSelect: (String, Boolean) -> Unit = { _, _ -> },
-    currentDice:String="",
-    currentBoard:String="",
+    currentDice: String = "",
+    currentBoard: String = "",
+    message:String?=null,
     unPurchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
     purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
 ) {
@@ -317,6 +418,15 @@ internal fun MarketScreen(
         Drawable.BgP
     else
         Drawable.BgL
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    LaunchedEffect(key1 = message, block = {
+        if (message!=null){
+            snackbarHostState.showSnackbar(message=message)
+
+        }
+    })
 
     val painter = rememberVectorPainter(image = vector)
     Scaffold(
@@ -326,7 +436,8 @@ internal fun MarketScreen(
                 with(painter) {
                     draw(size, 0.5f)
                 }
-            }
+            },
+        snackbarHost = { SnackbarHost(snackbarHostState)}
     ) { paddingValues ->
 
         Box(Modifier.padding(paddingValues)) {
@@ -366,43 +477,45 @@ internal fun MarketScreen(
                     }
 
                     else -> {
-                        LazyVerticalGrid(
+                        LazyVerticalStaggeredGrid(
                             modifier = Modifier.fillMaxSize(),
-                            columns = GridCells.Fixed(2),
+                            columns = StaggeredGridCells.Fixed(2),
                             contentPadding = PaddingValues(
                                 bottom = 8.dp,
                                 start = 16.dp,
                                 end = 16.dp
                             ),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalItemSpacing = 8.dp,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            item(span = { GridItemSpan(2) }) {
+                            item(span =  StaggeredGridItemSpan.FullLine) {
                                 Spacer(modifier = Modifier.height(64.dp))
                             }
                             item {
-                                BuyBoardUi(buyItem =
-                                BuyItem(
-                                    id = "default_board",
-                                    price = "",
-                                    item = DefaultBoard,
-                                    isPurchase = true
-                                ),
+                                BuyBoardUi(
+                                    buyItem =
+                                    BuyItem(
+                                        id = "default_board",
+                                        price = "",
+                                        item = DefaultBoard,
+                                        isPurchase = true
+                                    ),
                                     onSelect = onSelect,
-                                    isSelect = currentBoard=="default_board"
+                                    isSelect = currentBoard == "default_board"
                                 )
 
                             }
                             item {
-                                BuyBoardUi(buyItem =
-                                BuyItem(
-                                    id = "default_dice",
-                                    price = "",
-                                    item = UDice(0xFF888888),
-                                    isPurchase = true,
-                                ),
+                                BuyBoardUi(
+                                    buyItem =
+                                    BuyItem(
+                                        id = "default_dice",
+                                        price = "",
+                                        item = UDice(0xFF888888),
+                                        isPurchase = true,
+                                    ),
                                     onSelect = onSelect,
-                                    isSelect = currentDice=="default_dice"
+                                    isSelect = currentDice == "default_dice"
                                 )
                             }
 
@@ -412,7 +525,7 @@ internal fun MarketScreen(
                                     buyItem = item,
                                     onBuy = onBuy,
                                     onSelect = onSelect,
-                                    isSelect = currentBoard==item.id || currentDice==item.id
+                                    isSelect = currentBoard == item.id || currentDice == item.id
                                 )
                             }
                         }
@@ -481,14 +594,17 @@ fun BuyBoardUi(
     buyItem: BuyItem,
     onBuy: (String) -> Unit = {},
     onSelect: (String, Boolean) -> Unit = { _, _ -> },
-    isSelect  :Boolean=false
+    isSelect: Boolean = false
 
-    ) {
+) {
 
 
     OutlinedCard(
         modifier = modifier,
-        border = if (isSelect) BorderStroke(4.dp,Color.Blue) else BorderStroke(0.dp, Color.Transparent)
+        border = if (isSelect) BorderStroke(4.dp, Color.Blue) else BorderStroke(
+            0.dp,
+            Color.Transparent
+        )
     ) {
         Column {
 
