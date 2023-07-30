@@ -151,7 +151,7 @@ internal class MultiplatformSettingsImpl(
 
     override  fun getCurrentBoard() =
             settings
-                .getStringFlow(Keys.currentBoard,"default")
+                .getStringFlow(Keys.currentBoard,"default_board")
                 .flowOn(coroutineDispatcher)
 
 
@@ -162,7 +162,7 @@ internal class MultiplatformSettingsImpl(
     }
 
     override  fun getCurrentDice()=
-            settings.getStringFlow(Keys.currentDice,"default")
+            settings.getStringFlow(Keys.currentDice,"default_dice")
                 .flowOn(coroutineDispatcher)
 
 
@@ -172,31 +172,19 @@ internal class MultiplatformSettingsImpl(
         }
     }
 
-    override suspend fun getPurchaseBoards(): List<String> {
+    override suspend fun getPurchaseItems(): List<String> {
         return withContext(coroutineDispatcher){
-          val p=  settings.getString(Keys.purchaseBoard,"default")
-            p.split(",")
+          val p=  settings.getStringOrNull(Keys.purchaseBoard)
+            p?.split(",") ?: emptyList()
         }
     }
 
-    override suspend fun setPurchaseBoards(strBoard: List<String>) {
+    override suspend fun setPurchaseItems(strBoard: List<String>) {
         withContext(coroutineDispatcher){
             settings.putString(Keys.purchaseBoard,strBoard.joinToString())
         }
     }
 
-    override suspend fun getPurchaseDices(): List<String> {
-        return withContext(coroutineDispatcher){
-            val p=  settings.getString(Keys.purchaseDice,"default")
-            p.split(",")
-        }
-    }
-
-    override suspend fun setPurchaseDices(strDices: List<String>) {
-        withContext(coroutineDispatcher){
-            settings.putString(Keys.purchaseDice,strDices.joinToString())
-        }
-    }
 
     private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
         val player = Constant.getDefaultPlayers(type, name)

@@ -41,12 +41,9 @@ interface MultiplatformSettings {
     suspend fun setCurrentDice(string: String)
 
 
-    suspend fun getPurchaseBoards():List<String>
-    suspend fun setPurchaseBoards(strBoard: List<String>)
+    suspend fun getPurchaseItems():List<String>
+    suspend fun setPurchaseItems(strBoard: List<String>)
 
-    suspend fun getPurchaseDices():List<String>
-
-    suspend fun setPurchaseDices(strDices: List<String>)
 
 
 }

@@ -3,6 +3,7 @@ package com.mshdabiola.ludo.screen.market
 
 import android.app.Activity
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +20,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -57,7 +57,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.BillingClientStateListener
@@ -103,62 +102,90 @@ internal fun MarketScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    var isEnable by remember {
-        mutableStateOf(false)
-    }
+
     val allboard = getAllItem()
     val currentBoard =
-        settings.getCurrentBoard().collectAsStateWithLifecycle(initialValue = "default")
+        settings.getCurrentBoard().collectAsStateWithLifecycle(initialValue = "default_board")
     val currentDice =
-        settings.getCurrentDice().collectAsStateWithLifecycle(initialValue = "default")
-    var purchaseDice by remember {
+        settings.getCurrentDice().collectAsStateWithLifecycle(initialValue = "default_dice")
+
+    var allPurchaseItemsId by remember {
         mutableStateOf(listOf<String>().toImmutableList())
     }
-    var purchaseBoard by remember {
-        mutableStateOf(listOf<String>().toImmutableList())
+
+    val allPurchaseItems = remember(allPurchaseItemsId) {
+        allPurchaseItemsId
+            .mapNotNull {
+                val item = allboard[it]
+                if (item == null)
+                    null
+                else
+                    BuyItem(
+                        id = it,
+                        price = "",
+                        item = item,
+                        isPurchase = true,
+                    )
+            }.toImmutableList()
+    }
+
+    var productDetails by remember {
+        mutableStateOf<ImmutableList<ProductDetails>?>(null)
+    }
+    val allUnPurchaseItems = remember(productDetails) {
+        productDetails
+            ?.mapNotNull {
+                val item = allboard[it.productId]
+                if (item == null)
+                    null
+                else
+                    BuyItem(
+                        id = it.productId,
+                        price = it.oneTimePurchaseOfferDetails?.formattedPrice ?: "10",
+                        item = item,
+                        isPurchase = false
+                    )
+            }?.toImmutableList()
+            ?: emptyList<BuyItem>().toImmutableList()
     }
 
     var billingClient by remember {
         mutableStateOf<BillingClient?>(null)
     }
-    val handlePurchase: (Purchase) -> Unit = {
-        Timber.e("buy this $it")
-        if (it.purchaseState == PurchaseState.PURCHASED) {
-            if (it.isAcknowledged.not()) {
-                val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                    .setPurchaseToken(it.purchaseToken)
-                val ackPurchaseResult = coroutineScope.launch {
-                    withContext(Dispatchers.IO) {
-                        billingClient?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
+    val handlePurchase: (Purchase) -> Unit = { purchase ->
+        coroutineScope.launch(Dispatchers.IO) {
+            Timber.e("buy this $purchase")
+            if (purchase.purchaseState == PurchaseState.PURCHASED) {
+                if (purchase.isAcknowledged.not()) {
+//                    val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+//                        .setPurchaseToken(it.purchaseToken)
+//                    val ackPurchaseResult =  billingClient
+//                        ?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
+//
+//                        }
+                    val id = purchase.products[0]!!
+                    val newProductDetails = productDetails?.toMutableList()
+                    newProductDetails?.removeIf { it.productId == id }
+                    productDetails = newProductDetails?.toImmutableList()
 
-                        }
-                    }
+                    val newAllPurchaseItems = allPurchaseItemsId.toMutableList()
+                    newAllPurchaseItems.add(id)
+                    allPurchaseItemsId = newAllPurchaseItems.toImmutableList()
+                    settings.setPurchaseItems(allPurchaseItemsId)
+
+
                 }
+
             }
-
         }
+
     }
 
-    var product by remember {
-        mutableStateOf<ImmutableList<ProductDetails>?>(null)
-    }
-    val productUi = remember(product) {
-        product
-            ?.map {
-                BuyItem(
-                    id = it.productId,
-                    price = it.oneTimePurchaseOfferDetails?.formattedPrice ?: "10",
-                    item = allboard[it.productId] ?: DefaultBoard,
-                    isPurchase = false
-                )
-            }?.toImmutableList()
-            ?: emptyList<BuyItem>().toImmutableList()
-    }
-    val purchase = {
+    val purchaseFlow: (String) -> Unit = { id ->
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
-                .setProductDetails(product?.get(0)!!)
+                .setProductDetails(productDetails?.single { it.productId == id }!!)
                 // to get an offer token, call ProductDetails.subscriptionOfferDetails()
                 // for a list of offers that are available to the user
                 //.setOfferToken(selectedOfferToken)
@@ -175,8 +202,7 @@ internal fun MarketScreen(
 
 
     LaunchedEffect(key1 = Unit, block = {
-        purchaseBoard = settings.getPurchaseBoards().toImmutableList()
-        purchaseDice = settings.getPurchaseDices().toImmutableList()
+        allPurchaseItemsId = settings.getPurchaseItems().toImmutableList()
     })
 
     LaunchedEffect(key1 = Unit, block = {
@@ -213,8 +239,8 @@ internal fun MarketScreen(
                                     } ?: emptyList()
                                 Timber.e("purchase $purchaseList")
                                 if (purchaseList.isNotEmpty()) {
-                                    settings.setPurchaseBoards(purchaseList)
-                                    purchaseBoard = purchaseList.toImmutableList()
+                                    settings.setPurchaseItems(purchaseList)
+                                    allPurchaseItemsId = purchaseList.toImmutableList()
                                 }
                                 Timber.e("purchase result ${purchasesResult?.billingResult}")
 
@@ -238,7 +264,7 @@ internal fun MarketScreen(
                                 val productDetailsResult =
                                     billingClient?.queryProductDetails(params.build())
                                 Timber.e("productDetail ${productDetailsResult?.productDetailsList}")
-                                product =
+                                productDetails =
                                     productDetailsResult
                                         ?.productDetailsList
                                         ?.toImmutableList()
@@ -252,15 +278,34 @@ internal fun MarketScreen(
     })
 
 
-    MarketScreen(back = onBack, purchaseBoard = productUi,click = { purchase() })
+    MarketScreen(
+        back = onBack,
+        currentBoard = currentBoard.value,
+        currentDice = currentDice.value,
+        unPurchaseItems = allUnPurchaseItems,
+        purchaseItems = allPurchaseItems,
+        onBuy = purchaseFlow,
+        onSelect = { id,isBoard->
+            coroutineScope.launch (Dispatchers.IO){
+                if (isBoard)
+                    settings.setCurrentBoard(id)
+                else
+                    settings.setCurrentDice(id)
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun MarketScreen(
     back: () -> Unit = {},
-    click: (Int) -> Unit = {},
-    purchaseBoard: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
+    onBuy: (String) -> Unit = {},
+    onSelect: (String, Boolean) -> Unit = { _, _ -> },
+    currentDice:String="",
+    currentBoard:String="",
+    unPurchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
+    purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
 ) {
     val pagerState = rememberPagerState {
         2
@@ -296,16 +341,24 @@ internal fun MarketScreen(
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxSize(),
                             columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            contentPadding = PaddingValues(
+                                bottom = 8.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            ),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ){
-                            item (span = { GridItemSpan(2) }){
+                        ) {
+                            item(span = { GridItemSpan(2) }) {
                                 Spacer(modifier = Modifier.height(64.dp))
                             }
 
-                            items(purchaseBoard,key = {it.id}){
-                                BuyBoardUi(modifier=Modifier.fillMaxWidth(), buyItem = it)
+                            items(unPurchaseItems, key = { it.id }) {
+                                BuyBoardUi(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    buyItem = it,
+                                    onBuy = onBuy
+                                )
                             }
                         }
 
@@ -313,17 +366,71 @@ internal fun MarketScreen(
                     }
 
                     else -> {
-                        Column(Modifier.fillMaxSize()) {
-                            Text(text = "UItem")
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(
+                                bottom = 8.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            item(span = { GridItemSpan(2) }) {
+                                Spacer(modifier = Modifier.height(64.dp))
+                            }
+                            item {
+                                BuyBoardUi(buyItem =
+                                BuyItem(
+                                    id = "default_board",
+                                    price = "",
+                                    item = DefaultBoard,
+                                    isPurchase = true
+                                ),
+                                    onSelect = onSelect,
+                                    isSelect = currentBoard=="default_board"
+                                )
+
+                            }
+                            item {
+                                BuyBoardUi(buyItem =
+                                BuyItem(
+                                    id = "default_dice",
+                                    price = "",
+                                    item = UDice(0xFF888888),
+                                    isPurchase = true,
+                                ),
+                                    onSelect = onSelect,
+                                    isSelect = currentDice=="default_dice"
+                                )
+                            }
+
+                            items(purchaseItems, key = { it.id }) { item ->
+                                BuyBoardUi(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    buyItem = item,
+                                    onBuy = onBuy,
+                                    onSelect = onSelect,
+                                    isSelect = currentBoard==item.id || currentDice==item.id
+                                )
+                            }
                         }
                     }
                 }
 
             }
 
-            Row (modifier = Modifier
-                .background(Brush.verticalGradient(0f to Color.Transparent,0.7f to MaterialTheme.colorScheme.primaryContainer))
-                .align(Alignment.TopCenter)){
+            Row(
+                modifier = Modifier
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color.Transparent,
+                            0.7f to MaterialTheme.colorScheme.primaryContainer
+                        )
+                    )
+                    .align(Alignment.TopCenter)
+            ) {
                 IconButton(onClick = back) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
                 }
@@ -359,63 +466,74 @@ internal fun MarketScreen(
 @Preview
 @Composable
 fun MarketScreenPreview() {
-    val b= getAllItem()
+    val b = getAllItem()
         .map {
             BuyItem(it.key, "N 1,610.00", it.value)
         }
     MarketScreen(
-        purchaseBoard =b.toImmutableList()
+        purchaseItems = b.toImmutableList()
     )
 }
 
 @Composable
-fun BuyBoardUi(modifier: Modifier=Modifier, buyItem: BuyItem, onBuy:(String)->Unit={}) {
-   
+fun BuyBoardUi(
+    modifier: Modifier = Modifier,
+    buyItem: BuyItem,
+    onBuy: (String) -> Unit = {},
+    onSelect: (String, Boolean) -> Unit = { _, _ -> },
+    isSelect  :Boolean=false
+
+    ) {
+
+
     OutlinedCard(
         modifier = modifier,
-        border = CardDefaults.outlinedCardBorder(buyItem.isSelect)
+        border = if (isSelect) BorderStroke(4.dp,Color.Blue) else BorderStroke(0.dp, Color.Transparent)
     ) {
         Column {
 
-            when(buyItem.item){
-                is UBoard->{
+            when (buyItem.item) {
+                is UBoard -> {
                     CompositionLocalProvider(LocalBoard provides buyItem.item) {
                         BoardUi(
                             modifier = Modifier.fillMaxWidth(),
                             boardUiStateProvider = { BoardUiState(colors = GameColor.entries.toImmutableList()) },
                             content = {})
-                    }  
+                    }
                 }
-                is UDice->{
-                   BoxWithConstraints ( modifier = Modifier
-                       .background(Color(buyItem.item.color).copy(alpha = 0.3f))
-                       .fillMaxWidth()
-                       .aspectRatio(1f),
-                       contentAlignment = Alignment.Center
-                   ){
 
-                       DiceUi(modifier=Modifier
-                           .size(this.maxWidth.times(0.5f))
-                           .offset(this.maxWidth.times(0.2f)),
-                           diceUiState = DiceUiState(animate = true, color = buyItem.item.color),
-                           rotate = {90f}
+                is UDice -> {
+                    BoxWithConstraints(
+                        modifier = Modifier
+                            .background(Color(buyItem.item.color).copy(alpha = 0.3f))
+                            .fillMaxWidth()
+                            .aspectRatio(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
 
-                       )
-                       DiceUi(modifier=Modifier
-                           .size(this.maxWidth.times(0.5f))
-                           .offset(this.maxWidth.times(-0.2f)),
-                           diceUiState = DiceUiState(
-                               animate = true,
-                               color = buyItem.item.color),
-                           rotate = {-90f}
+                        DiceUi(modifier = Modifier
+                            .size(this.maxWidth.times(0.5f))
+                            .offset(this.maxWidth.times(0.2f)),
+                            diceUiState = DiceUiState(animate = true, color = buyItem.item.color),
+                            rotate = { 90f }
 
-                       )
+                        )
+                        DiceUi(modifier = Modifier
+                            .size(this.maxWidth.times(0.5f))
+                            .offset(this.maxWidth.times(-0.2f)),
+                            diceUiState = DiceUiState(
+                                animate = true,
+                                color = buyItem.item.color
+                            ),
+                            rotate = { -90f }
 
-                   } 
+                        )
+
+                    }
                 }
             }
-            
-            if (!buyItem.isSelect) {
+
+            if (!isSelect) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -423,21 +541,20 @@ fun BuyBoardUi(modifier: Modifier=Modifier, buyItem: BuyItem, onBuy:(String)->Un
                     horizontalArrangement = if (buyItem.isPurchase) Arrangement.Center else Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                   if (buyItem.isPurchase)
-                   {
-                       Button(onClick = { onBuy(buyItem.id) }) {
-                           Text(text = "Select")
-                       }
-                   }else{
-                       Text(
-                           text = buyItem.price,
-                           style = MaterialTheme.typography.titleSmall,
-                           color = MaterialTheme.colorScheme.primary
-                       )
-                       Button(onClick = { onBuy(buyItem.id) }) {
-                           Text(text = "Buy")
-                       }
-                   }
+                    if (buyItem.isPurchase) {
+                        Button(onClick = { onSelect(buyItem.id, buyItem.item is UBoard) }) {
+                            Text(text = "Select")
+                        }
+                    } else {
+                        Text(
+                            text = buyItem.price,
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Button(onClick = { onBuy(buyItem.id) }) {
+                            Text(text = "Buy")
+                        }
+                    }
                 }
             }
         }
@@ -448,13 +565,19 @@ fun BuyBoardUi(modifier: Modifier=Modifier, buyItem: BuyItem, onBuy:(String)->Un
 @Preview
 @Composable
 fun BuyBoardUiPreview() {
-    BuyBoardUi(buyItem = BuyItem("default", "N 1,610.00", UDice(0xFF008a00), false,isSelect = false))
+    BuyBoardUi(
+        buyItem = BuyItem(
+            "default",
+            "N 1,610.00",
+            UDice(0xFF008a00),
+            false,
+        )
+    )
 }
 
 data class BuyItem(
     val id: String,
     val price: String,
     val item: UItem,
-    val isPurchase: Boolean=false,
-    val isSelect : Boolean=false
+    val isPurchase: Boolean = false,
 )
