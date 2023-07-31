@@ -9,9 +9,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ludo.screen.game.component.board.Default
 
-fun Default.getRed(iconColor:Color,accentColor:Color): ImageVector
+fun Default.getRed(iconColor:Color, accentColor:Color): ImageVector
     {
    return Builder(name = "Red", defaultWidth = 115.42.dp, defaultHeight = 133.0.dp,
                 viewportWidth = 115.42f, viewportHeight = 133.0f).apply {

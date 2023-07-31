@@ -82,7 +82,9 @@ import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.game.component.BoardUi
 import com.mshdabiola.ludo.screen.game.component.DiceUi
 import com.mshdabiola.ludo.screen.game.component.LocalBoard
-import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
+import com.mshdabiola.ludo.screen.game.component.board.DragonBoard2
+import com.mshdabiola.ludo.screen.game.component.board.ManBoard
+import com.mshdabiola.ludo.screen.game.component.board.ManBoard2
 import com.mshdabiola.ludo.screen.game.component.board.UBoard
 import com.mshdabiola.ludo.screen.game.component.board.UDice
 import com.mshdabiola.ludo.screen.game.component.board.UItem
@@ -183,7 +185,7 @@ internal fun MarketScreen(
     val currentBoard =
         settings
             .getCurrentBoard()
-            .collectAsStateWithLifecycle(initialValue = "default_board")
+            .collectAsStateWithLifecycle(initialValue = "man_2")
     val currentDice =
         settings
             .getCurrentDice()
@@ -495,13 +497,27 @@ internal fun MarketScreen(
                                 BuyBoardUi(
                                     buyItem =
                                     BuyItem(
-                                        id = "default_board",
+                                        id = "man_2",
                                         price = "",
-                                        item = DefaultBoard,
+                                        item = ManBoard2,
                                         isPurchase = true
                                     ),
                                     onSelect = onSelect,
-                                    isSelect = currentBoard == "default_board"
+                                    isSelect = currentBoard == "man_2"
+                                )
+
+                            }
+                            item {
+                                BuyBoardUi(
+                                    buyItem =
+                                    BuyItem(
+                                        id = "man_1",
+                                        price = "",
+                                        item = ManBoard,
+                                        isPurchase = true
+                                    ),
+                                    onSelect = onSelect,
+                                    isSelect = currentBoard == "man_1"
                                 )
 
                             }
@@ -584,7 +600,7 @@ fun MarketScreenPreview() {
             BuyItem(it.key, "N 1,610.00", it.value)
         }
     MarketScreen(
-        purchaseItems = b.toImmutableList()
+        unPurchaseItems = b.toImmutableList()
     )
 }
 
@@ -685,7 +701,7 @@ fun BuyBoardUiPreview() {
         buyItem = BuyItem(
             "default",
             "N 1,610.00",
-            UDice(0xFF008a00),
+            DragonBoard2,
             false,
         )
     )

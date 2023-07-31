@@ -151,7 +151,7 @@ internal class MultiplatformSettingsImpl(
 
     override  fun getCurrentBoard() =
             settings
-                .getStringFlow(Keys.currentBoard,"default_board")
+                .getStringFlow(Keys.currentBoard,"man_2")
                 .flowOn(coroutineDispatcher)
 
 
