@@ -1,5 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.mshdabiola.app.configureFlavors
 import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configurePrintApksTask
@@ -31,7 +32,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     useSupportLibrary = true
                 }
                 // defaultConfig.resourceConfigurations+= listOf("en")
-                // configureFlavors(this)
+                 configureFlavors(this)
                 configureGradleManagedDevices(this)
 
             }
