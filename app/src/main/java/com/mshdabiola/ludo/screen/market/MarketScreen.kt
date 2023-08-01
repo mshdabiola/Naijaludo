@@ -62,6 +62,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.BillingClientStateListener
@@ -109,7 +110,7 @@ internal fun MarketScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var msg by remember {
-        mutableStateOf<String?>(null)
+        mutableStateOf<Notify?>(null)
     }
 
     val errorHandle: (BillingResult, String, () -> Unit) -> Unit = { result, from, action ->
@@ -121,34 +122,35 @@ internal fun MarketScreen(
 
             BillingResponseCode.FEATURE_NOT_SUPPORTED -> {
                 Timber.e("error : feature not supported")
-                msg= "Feature not supported"
+                msg=Notify(message = "Feature not supported")
+
 
 
             }
 
             BillingResponseCode.SERVICE_DISCONNECTED -> {
                 Timber.e("error : service disconnected")
-                msg= "Service disconnected"
+                msg=Notify(message =  "Service disconnected")
             }
 
             BillingResponseCode.USER_CANCELED -> {
                 Timber.e("error : user canceled")
-                msg= "User canceled"
+                msg=Notify(message =  "User canceled")
             }
 
             BillingResponseCode.SERVICE_UNAVAILABLE -> {
                 Timber.e("error : service unavailable")
-                msg= "Service unavailable"
+                msg=Notify(message = "Service unavailable")
             }
 
             BillingResponseCode.BILLING_UNAVAILABLE -> {
                 Timber.e("error : billing unavailable")
-                msg= "Billing unavailable"
+                msg=Notify(message = "Billing unavailable")
             }
 
             BillingResponseCode.ITEM_UNAVAILABLE -> {
                 Timber.e("error : item unavailable")
-                msg= "Item unavailable"
+                msg=Notify(message =  "Item unavailable")
             }
 
             BillingResponseCode.DEVELOPER_ERROR -> {
@@ -157,22 +159,22 @@ internal fun MarketScreen(
 
             BillingResponseCode.ERROR -> {
                 Timber.e("error : errors")
-                msg= "Error occur"
+                msg=Notify(message =  "Error occur")
             }
 
             BillingResponseCode.ITEM_ALREADY_OWNED -> {
                 Timber.e("error :item alread owned")
-                msg= "Item already owned"
+                msg=Notify(message = "Item already owned")
             }
 
             BillingResponseCode.ITEM_NOT_OWNED -> {
                 Timber.e("error : item not owned")
-                msg= "Item not owned"
+                msg=Notify(message = "Item not owned")
             }
 
             BillingResponseCode.NETWORK_ERROR -> {
                 Timber.e("error : network error")
-                msg= "Network  Error"
+                msg=Notify(message =  "Network  Error")
             }
             else->{
                 Timber.e("error : uncatch error code ${result.responseCode}")
@@ -238,12 +240,7 @@ internal fun MarketScreen(
             Timber.e("buy this $purchase")
             if (purchase.purchaseState == PurchaseState.PURCHASED) {
                 if (purchase.isAcknowledged.not()) {
-//                    val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-//                        .setPurchaseToken(it.purchaseToken)
-//                    val ackPurchaseResult =  billingClient
-//                        ?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
-//
-//                        }
+
                     val id = purchase.products[0]!!
                     val newProductDetails = productDetails?.toMutableList()
                     newProductDetails?.removeIf { it.productId == id }
@@ -253,6 +250,15 @@ internal fun MarketScreen(
                     newAllPurchaseItems.add(id)
                     allPurchaseItemsId = newAllPurchaseItems.toImmutableList()
                     settings.setPurchaseItems(allPurchaseItemsId)
+                   val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                        .setPurchaseToken(purchase.purchaseToken)
+                   billingClient
+                        ?.acknowledgePurchase(acknowledgePurchaseParams.build()) {
+                            errorHandle(it,"acknowledge purchase"){
+                                msg=Notify(message =  "Purchase successfully")
+                            }
+                        }
+
 
 
                 }
@@ -405,7 +411,7 @@ internal fun MarketScreen(
     onSelect: (String, Boolean) -> Unit = { _, _ -> },
     currentDice: String = "",
     currentBoard: String = "",
-    message:String?=null,
+    message:Notify?=null,
     unPurchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
     purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
 ) {
@@ -422,12 +428,7 @@ internal fun MarketScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
-    LaunchedEffect(key1 = message, block = {
-        if (message!=null){
-            snackbarHostState.showSnackbar(message=message)
-
-        }
-    })
+    NotifySnacker(snackHostState = snackbarHostState, notifys = message)
 
     val painter = rememberVectorPainter(image = vector)
     Scaffold(
