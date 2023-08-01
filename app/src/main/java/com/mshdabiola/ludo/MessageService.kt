@@ -10,8 +10,8 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+//import androidx.work.Worker
+//import androidx.work.WorkerParameters
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.messaging.RemoteMessage.Notification
@@ -141,11 +141,11 @@ class MessageService : FirebaseMessagingService() {
         private const val TAG = "MyFirebaseMsgService"
     }
 
-    internal class MyWorker(appContext: Context, workerParams: WorkerParameters) :
-        Worker(appContext, workerParams) {
-        override fun doWork(): Result {
-            // TODO(developer): add long running task here.
-            return Result.success()
-        }
-    }
+//    internal class MyWorker(appContext: Context, workerParams: WorkerParameters) :
+//        Worker(appContext, workerParams) {
+//        override fun doWork(): Result {
+//            // TODO(developer): add long running task here.
+//            return Result.success()
+//        }
+//    }
 }

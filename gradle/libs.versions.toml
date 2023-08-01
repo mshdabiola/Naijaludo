@@ -1,5 +1,4 @@
 [versions]
-admob = "22.2.0"
 androidGradlePlugin = "8.2.0-alpha12"
 androidx-compose-foundation = "1.5.0-beta03"
 androidxActivity = "1.8.0-alpha06"
@@ -57,7 +56,6 @@ multiplatform_settings = "1.0.0"
 
 
 [libraries]
-admob-service = { module = "com.google.android.gms:play-services-ads-lite", version.ref = "admob" }
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }

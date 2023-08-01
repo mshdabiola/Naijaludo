@@ -48,7 +48,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("play.game").get())
                 "implementation"(libs.findLibrary("play.update").get())
                 "implementation"(libs.findLibrary("play.update.kts").get())
-                "implementation"(libs.findLibrary("admob.service").get())
+            //    "implementation"(libs.findLibrary("admob.service").get())
                 "implementation"(libs.findLibrary("play.review").get())
                 "implementation"(libs.findLibrary("play.review.kts").get())
                 "implementation"(libs.findLibrary("play.billing.kts").get())
