@@ -73,7 +73,6 @@ import com.mshdabiola.designsystem.icon.drawable.Computer
 import com.mshdabiola.designsystem.icon.drawable.ComputerMultiplayer
 import com.mshdabiola.designsystem.icon.drawable.Friend
 import com.mshdabiola.designsystem.icon.drawable.Mutiplay
-import com.mshdabiola.designsystem.theme.FinishTheme
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.naijaludo.model.log
@@ -212,7 +211,7 @@ fun GameOverDialog(
                 dismissOnClickOutside = false,
             ),
             content = {
-                FinishTheme {
+
                     Column(
                         Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -239,7 +238,7 @@ fun GameOverDialog(
 
                         Spacer(modifier = Modifier.height(8.dp))
                     }
-                }
+
             },
             buttons = {
                 IconButton(onClick = onHome) {

@@ -76,3 +76,6 @@ val blueBoard = Color(0xFF559fd7)
 val greenBoard = Color(0xFF84c69e)
 val redBoard = Color(0xFFef9a9a)
 val yellowBoard = Color(0xFFffee5a)
+
+
+
