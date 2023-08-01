@@ -33,4 +33,17 @@ interface MultiplatformSettings {
 
     fun getLog4(): LogLudoData
 
+     fun getCurrentBoard():Flow<String>
+    suspend fun setCurrentBoard(string: String)
+
+     fun getCurrentDice():Flow<String>
+
+    suspend fun setCurrentDice(string: String)
+
+
+    suspend fun getPurchaseItems():List<String>
+    suspend fun setPurchaseItems(strBoard: List<String>)
+
+
+
 }

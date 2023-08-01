@@ -54,7 +54,7 @@ import com.mshdabiola.ludo.screen.game.component.LocalBoard
 import com.mshdabiola.ludo.screen.game.component.StartDialog
 import com.mshdabiola.ludo.screen.game.component.WaitingDialog
 import com.mshdabiola.ludo.screen.game.component.WifiPermission
-import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
+import com.mshdabiola.ludo.screen.game.component.board.getUBoard
 import com.mshdabiola.ludo.screen.game.component.getPermission
 import com.mshdabiola.ludo.screen.game.firework.FireworkView
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
@@ -252,6 +252,9 @@ fun GameScreen(
         Drawable.BgL
 
     val painter = rememberVectorPainter(image = vector)
+    val uBoard= remember (gameUiState.boardName){
+        getUBoard(gameUiState.boardName)
+    }
 
     Scaffold(
         modifier = Modifier
@@ -273,7 +276,7 @@ fun GameScreen(
                 Loading()
             }
         } else {
-            CompositionLocalProvider(LocalBoard provides DefaultBoard) {
+            CompositionLocalProvider(LocalBoard provides uBoard) {
                 GameScreen(
                     paddingValues = paddingValues,
                     gameUiState = ludoGameState,

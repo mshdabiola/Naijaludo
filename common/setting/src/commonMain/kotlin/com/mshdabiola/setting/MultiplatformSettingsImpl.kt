@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -147,6 +148,43 @@ internal class MultiplatformSettingsImpl(
                 )
             )
     }
+
+    override  fun getCurrentBoard() =
+            settings
+                .getStringFlow(Keys.currentBoard,"man_2")
+                .flowOn(coroutineDispatcher)
+
+
+    override suspend fun setCurrentBoard(string: String) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.currentBoard,string)
+        }
+    }
+
+    override  fun getCurrentDice()=
+            settings.getStringFlow(Keys.currentDice,"default_dice")
+                .flowOn(coroutineDispatcher)
+
+
+    override suspend fun setCurrentDice(string: String) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.currentDice,string)
+        }
+    }
+
+    override suspend fun getPurchaseItems(): List<String> {
+        return withContext(coroutineDispatcher){
+          val p=  settings.getStringOrNull(Keys.purchaseBoard)
+            p?.split(",") ?: emptyList()
+        }
+    }
+
+    override suspend fun setPurchaseItems(strBoard: List<String>) {
+        withContext(coroutineDispatcher){
+            settings.putString(Keys.purchaseBoard,strBoard.joinToString())
+        }
+    }
+
 
     private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
         val player = Constant.getDefaultPlayers(type, name)

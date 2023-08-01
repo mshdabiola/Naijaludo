@@ -1,6 +1,5 @@
 package com.mshdabiola.ludo
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.res.Configuration
@@ -12,7 +11,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -34,12 +32,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.defaultComponentContext
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.PlayGames
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -47,16 +42,10 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.remoteconfig.ConfigUpdate
-import com.google.firebase.remoteconfig.ConfigUpdateListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.designsystem.theme.LudoAppTheme
 import com.mshdabiola.ludo.database.FirebaseUtil
-import com.mshdabiola.ludo.screen.BannerAdmob
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
@@ -134,14 +123,7 @@ class MainActivity : ComponentActivity() {
 //            Timber.e("token $token")
 //        })
 
-        val adstring= if (isDebug) getString(R.string.ad_test_id) else getString(R.string.main_ad_banner)
 
-         MobileAds.initialize(this)
-//       val config= RequestConfiguration
-//           .Builder()
-//           .setTestDeviceIds(listOf("9AF20CCD48D4844524B1E90498643C77","7FA316C49D4D6E6A62B03E9BC509796F"))
-//           .build()
-//        MobileAds.setRequestConfiguration(config)
 
 
         val root = RootComponent(componentContext = defaultComponentContext())
@@ -150,12 +132,19 @@ class MainActivity : ComponentActivity() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             LudoAppTheme {
                 Box {
+
+
+                    LudoApp(
+                        windowSizeClass = calculateWindowSizeClass(activity = this@MainActivity),
+                        iRootComponent = root
+                    )
+
                     if (show) {
                         Snackbar(
                             modifier = Modifier
                                 .navigationBarsPadding()
                                 .padding(horizontal = 4.dp)
-                                .align(Alignment.TopCenter),
+                                .align(Alignment.BottomCenter),
                             action = {
                                 Button(onClick = {
                                     appUpdateInfoManager.completeUpdate()
@@ -169,19 +158,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    LudoApp(
-                        windowSizeClass = calculateWindowSizeClass(activity = this@MainActivity),
-                        iRootComponent = root
-                    )
-
-                    BannerAdmob(modifier=Modifier
-
-                        .align(Alignment.BottomCenter)
-                        .navigationBarsPadding()
-                        .padding(bottom = 8.dp)
-                        ,
-                        appUnitId = adstring,
-                        show = showAd)
                 }
             }
         }

@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.R
 import com.mshdabiola.designsystem.icon.Drawable
 import com.mshdabiola.designsystem.icon.drawable.Middle
-import com.mshdabiola.ludo.screen.game.component.board.DefaultBoard
+import com.mshdabiola.ludo.screen.game.component.board.ManBoard2
 import com.mshdabiola.ludo.screen.game.component.board.UBoard
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.toBoardUiState
@@ -546,6 +546,6 @@ fun BoardPreview() {
 
 
 val LocalUnitDP = compositionLocalOf { 10.dp }
-val LocalBoard = compositionLocalOf<UBoard> {DefaultBoard }
+val LocalBoard = compositionLocalOf<UBoard> {ManBoard2 }
 
 

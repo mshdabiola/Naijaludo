@@ -9,14 +9,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ludo.screen.game.component.board.Default
 
-fun Default.getGreen(iconColor:Color,accentColor:Color): ImageVector
+fun Default.getGreen(iconColor:Color, accentColor:Color): ImageVector
     {
-        if (_green != null) {
-            return _green!!
-        }
-        _green = Builder(name = "Green", defaultWidth = 139.4.dp, defaultHeight = 140.89.dp,
+       return Builder(name = "Green", defaultWidth = 139.4.dp, defaultHeight = 140.89.dp,
                 viewportWidth = 139.4f, viewportHeight = 140.89f).apply {
             path(fill = SolidColor(iconColor), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
@@ -139,7 +135,4 @@ fun Default.getGreen(iconColor:Color,accentColor:Color): ImageVector
             }
         }
         .build()
-        return _green!!
     }
-
-private var _green: ImageVector? = null

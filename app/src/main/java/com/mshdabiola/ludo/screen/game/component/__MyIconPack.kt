@@ -21,10 +21,7 @@ fun getDiceOne(color: Color): ImageVector
     (color.blue * 0.5f + white.blue * 0.5f)
   )
   val colors= generateColor(color)
-  if (_dice1 != null) {
-    return _dice1!!
-  }
-  _dice1 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice1", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -59,10 +56,8 @@ fun getDiceOne(color: Color): ImageVector
     }
   }
     .build()
-  return _dice1!!
 }
 
-private var _dice1: ImageVector? = null
 
 
 fun getDiceTwo(color: Color): ImageVector
@@ -77,10 +72,7 @@ fun getDiceTwo(color: Color): ImageVector
 
 
 
-  if (_dice2 != null) {
-    return _dice2!!
-  }
-  _dice2 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice2", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -131,10 +123,8 @@ fun getDiceTwo(color: Color): ImageVector
     }
   }
     .build()
-  return _dice2!!
 }
 
-private var _dice2: ImageVector? = null
 
 
 fun getDiceThree(color: Color): ImageVector
@@ -147,10 +137,7 @@ fun getDiceThree(color: Color): ImageVector
   )
   val colors= generateColor(color)
 
-  if (_dice3 != null) {
-    return _dice3!!
-  }
-  _dice3 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice3", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -211,9 +198,7 @@ fun getDiceThree(color: Color): ImageVector
     }
   }
     .build()
-  return _dice3!!
 }
-private var _dice3: ImageVector? = null
 
 
 fun getDiceFour(color: Color): ImageVector
@@ -227,10 +212,7 @@ fun getDiceFour(color: Color): ImageVector
   )
   val colors= generateColor(color)
 
-  if (_dice4 != null) {
-    return _dice4!!
-  }
-  _dice4 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice4", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -300,10 +282,8 @@ fun getDiceFour(color: Color): ImageVector
     }
   }
     .build()
-  return _dice4!!
 }
 
-private var _dice4: ImageVector? = null
 
 fun getDiceFive(color: Color): ImageVector
 {
@@ -314,10 +294,7 @@ fun getDiceFive(color: Color): ImageVector
     (color.blue * 0.5f + white.blue * 0.5f)
   )
   val colors= generateColor(color)
-  if (_dice5 != null) {
-    return _dice5!!
-  }
-  _dice5 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice5", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -399,10 +376,8 @@ fun getDiceFive(color: Color): ImageVector
     }
   }
     .build()
-  return _dice5!!
 }
 
-private var _dice5: ImageVector? = null
 
 
 fun getDiceSix(color: Color): ImageVector
@@ -414,10 +389,7 @@ fun getDiceSix(color: Color): ImageVector
     (color.blue * 0.5f + white.blue * 0.5f)
   )
   val colors= generateColor(color)
-  if (_dice6 != null) {
-    return _dice6!!
-  }
-  _dice6 = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "Dice6", defaultWidth = 56.69.dp, defaultHeight = 56.75.dp,
     viewportWidth = 56.69f, viewportHeight = 56.75f
   ).apply {
@@ -511,10 +483,8 @@ fun getDiceSix(color: Color): ImageVector
     }
   }
     .build()
-  return _dice6!!
 }
 
-private var _dice6: ImageVector? = null
 
 
 fun getDiceRoll(color: Color): ImageVector
@@ -538,10 +508,7 @@ fun getDiceRoll(color: Color): ImageVector
   )
   val colors= generateColorRoll(color)
 
-  if (_diceRoll != null) {
-    return _diceRoll!!
-  }
-  _diceRoll = ImageVector.Builder(
+  return ImageVector.Builder(
     name = "DiceRoll1", defaultWidth = 61.54.dp, defaultHeight = 61.21.dp,
     viewportWidth = 61.54f, viewportHeight = 61.21f
   ).apply {
@@ -717,21 +684,17 @@ fun getDiceRoll(color: Color): ImageVector
     }
   }
     .build()
-  return _diceRoll!!
 }
 
-private var _diceRoll: ImageVector? = null
 
 
 
 
 
 
-var colors:Array<Pair<Float, Color>>? = null
 fun generateColor(color:Color):Array<Pair<Float,Color>>{
 
-  if (colors!=null)
-    return colors!!
+
 
   val white = Color.White
   val colW = Color(
@@ -770,7 +733,7 @@ fun generateColor(color:Color):Array<Pair<Float,Color>>{
     (color.green * 0.6f + white.red * 0.3f),
     (color.blue * 0.6f + white.red * 0.3f)
   )
- colors=  arrayOf(
+ return arrayOf(
     0.36f to cold3,
     0.42f to cold2,
     0.5f to cold1,
@@ -780,14 +743,10 @@ fun generateColor(color:Color):Array<Pair<Float,Color>>{
     1.0f to Color(0xFFFFFFFF)
   )
 
-  return colors!!
 }
 
-var colorsRoll:Array<Pair<Float,Color>>? = null
 fun generateColorRoll(color:Color):Array<Pair<Float,Color>>{
 
-  if (colorsRoll!=null)
-    return colorsRoll!!
 
   val white = Color.White
   val colW = Color(
@@ -826,7 +785,7 @@ fun generateColorRoll(color:Color):Array<Pair<Float,Color>>{
     (color.green * 0.6f + white.red * 0.3f),
     (color.blue * 0.6f + white.red * 0.3f)
   )
-  colorsRoll=  arrayOf(
+  return arrayOf(
     0.0f to Color(0xFFFFFFFF),
     0.14f to colw3,
     0.27f to colw2,
@@ -836,5 +795,4 @@ fun generateColorRoll(color:Color):Array<Pair<Float,Color>>{
     0.64f to cold3
   )
 
-  return colorsRoll!!
 }

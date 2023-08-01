@@ -1,10 +1,12 @@
 package com.mshdabiola.ludo.screen
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.ludo.LogLudo
 import com.mshdabiola.ludo.screen.game.GameUiState
+import com.mshdabiola.ludo.screen.game.component.board.getUDice
 import com.mshdabiola.ludo.screen.game.state.BoardUiState
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
@@ -37,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -288,11 +291,22 @@ class GeneralViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             savedStateHandle[SHOW_DIALOG] = false
         }
+        val diceId=setting.getCurrentDice().firstOrNull()?:""
+        val boardId =setting.getCurrentBoard().firstOrNull()?:""
+        val dice= getUDice(diceId)
+        val newLudoUiState=ludoGameState.copy(
+            listOfDice = ludoGameState.listOfDice.map {
+                it.copy(color = dice.color)
+            }
+        )
+        _gameUiState.update {
+            it.copy(boardName = boardId)
+        }
 
         delay(300)
         game.start2(
             logLudo = logLudoData,
-            ludoGameState = ludoGameState,
+            ludoGameState = newLudoUiState,
             ludoSetting = ludoSetting,
             onGameFinish = this@GeneralViewModel::onGameFinish,
             onPlayerFinishPlaying = this@GeneralViewModel::onPlayerFinishPlaying,

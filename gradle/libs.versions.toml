@@ -1,5 +1,4 @@
 [versions]
-admob = "22.2.0"
 androidGradlePlugin = "8.2.0-alpha12"
 androidx-compose-foundation = "1.5.0-beta03"
 androidxActivity = "1.8.0-alpha06"
@@ -30,7 +29,7 @@ firebaseCrashylyticsPlugins = "2.9.2"
 junit4 = "4.13.2"
 kotlin = "1.9.0"
 kotlinxCollectionImmutable = "0.3.5"
-kotlinxCoroutines = "1.7.2"
+kotlinxCoroutines = "1.6.4"
 kotlinxSerializationJson = "1.5.0"
 littleVersion = "0.7.0"
 maneVersion = "0.44.0"
@@ -57,7 +56,6 @@ multiplatform_settings = "1.0.0"
 
 
 [libraries]
-admob-service = { module = "com.google.android.gms:play-services-ads-lite", version.ref = "admob" }
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
