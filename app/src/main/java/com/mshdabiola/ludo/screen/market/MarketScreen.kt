@@ -59,6 +59,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -78,6 +79,7 @@ import com.android.billingclient.api.queryPurchasesAsync
 import com.mshdabiola.designsystem.icon.Drawable
 import com.mshdabiola.designsystem.icon.drawable.BgL
 import com.mshdabiola.designsystem.icon.drawable.BgP
+import com.mshdabiola.ludo.R
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
 import com.mshdabiola.ludo.screen.game.component.BoardUi
 import com.mshdabiola.ludo.screen.game.component.DiceUi
@@ -111,6 +113,23 @@ internal fun MarketScreen(
     val context = LocalContext.current
     var msg by remember {
         mutableStateOf<Notify?>(null)
+    }
+    val allItems = getAllItem()
+    val freeITemId= stringArrayResource(id = R.array.item_default)
+    val freeItems= remember (freeITemId){
+        freeITemId
+            .mapNotNull {
+                val item = allItems[it]
+                if (item == null)
+                    null
+                else
+                    BuyItem(
+                        id = it,
+                        price = "",
+                        item = item,
+                        isPurchase = true,
+                    )
+            }.toImmutableList()
     }
 
     val errorHandle: (BillingResult, String, () -> Unit) -> Unit = { result, from, action ->
@@ -182,7 +201,7 @@ internal fun MarketScreen(
         }
     }
 
-    val allItems = getAllItem()
+
     val currentBoard =
         settings
             .getCurrentBoard()
@@ -390,6 +409,7 @@ internal fun MarketScreen(
         currentDice = currentDice.value,
         unPurchaseItems = allUnPurchaseItems,
         purchaseItems = allPurchaseItems,
+        freeItems = freeItems,
         message = msg,
         onBuy = purchaseFlow,
         onSelect = { id, isBoard ->
@@ -413,7 +433,8 @@ internal fun MarketScreen(
     currentBoard: String = "",
     message:Notify?=null,
     unPurchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
-    purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
+    purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
+    freeItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList()
 ) {
     val pagerState = rememberPagerState {
         2
@@ -493,45 +514,13 @@ internal fun MarketScreen(
                             item(span =  StaggeredGridItemSpan.FullLine) {
                                 Spacer(modifier = Modifier.height(64.dp))
                             }
-                            item {
+                            items(freeItems, key = { it.id }) { item ->
                                 BuyBoardUi(
-                                    buyItem =
-                                    BuyItem(
-                                        id = "man_2",
-                                        price = "",
-                                        item = ManBoard2,
-                                        isPurchase = true
-                                    ),
+                                    modifier = Modifier.fillMaxWidth(),
+                                    buyItem = item,
+                                    onBuy = onBuy,
                                     onSelect = onSelect,
-                                    isSelect = currentBoard == "man_2"
-                                )
-
-                            }
-                            item {
-                                BuyBoardUi(
-                                    buyItem =
-                                    BuyItem(
-                                        id = "man_1",
-                                        price = "",
-                                        item = ManBoard,
-                                        isPurchase = true
-                                    ),
-                                    onSelect = onSelect,
-                                    isSelect = currentBoard == "man_1"
-                                )
-
-                            }
-                            item {
-                                BuyBoardUi(
-                                    buyItem =
-                                    BuyItem(
-                                        id = "default_dice",
-                                        price = "",
-                                        item = UDice(0xFF888888),
-                                        isPurchase = true,
-                                    ),
-                                    onSelect = onSelect,
-                                    isSelect = currentDice == "default_dice"
+                                    isSelect = currentBoard == item.id || currentDice == item.id
                                 )
                             }
 

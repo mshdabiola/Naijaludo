@@ -39,3 +39,4 @@ include(":common:naijaludo")
 
 include(":common:naijaludo")
 
+include(":app:baselineprofile")

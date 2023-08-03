@@ -724,6 +724,7 @@ fun getAllItem(): Map<String, UItem> {
         "head_2" to HeadBoard2,
         "man_2" to ManBoard2,
         "woman_2" to WomanBoard2,
+         "default_dice" to UDice(0xFF888888)
     )
 }
 

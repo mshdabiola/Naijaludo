@@ -40,9 +40,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NaijaLudo.Splash"
         tools:targetApi="31">
-        <profileable
-            android:shell="true"
-            tools:targetApi="33" />
+        <profileable android:shell="true" tools:targetApi="q" />
         <meta-data
             android:name="google_analytics_automatics_screen_reporting_enabled"
             android:value="false" />
