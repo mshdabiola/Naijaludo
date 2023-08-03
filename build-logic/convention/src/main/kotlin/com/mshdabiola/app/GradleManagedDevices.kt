@@ -25,7 +25,7 @@ import java.util.Locale
  * Configure project for Gradle managed devices
  */
 //./gradlew pixel4api30aospatdDemoDebugAndroidTest
-internal fun configureGradleManagedDevices(
+ fun configureGradleManagedDevices(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     val deviceConfigs = listOf(

@@ -1,9 +1,11 @@
 import com.android.build.api.dsl.ManagedVirtualDevice
+import com.mshdabiola.app.configureFlavors
+import com.mshdabiola.app.configureGradleManagedDevices
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("mshdabiola.android.test")
-    alias(libs.plugins.kotlinAndroid)
+   // alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.androidx.baselineprofile)
 }
 
@@ -22,18 +24,14 @@ android {
 
     defaultConfig {
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     targetProjectPath = ":app"
 
-    flavorDimensions += listOf("contentType")
-    productFlavors {
-        create("paid") { dimension = "contentType" }
-        create("free") { dimension = "contentType" }
-    }
+    configureFlavors(this)
 
     testOptions.managedDevices.devices {
         create<ManagedVirtualDevice>("pixel6Api34") {
