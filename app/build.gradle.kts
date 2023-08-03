@@ -7,6 +7,8 @@ plugins {
     id("mshdabiola.android.application.compose")
     id("mshdabiola.android.application.flavor")
     id("mshdabiola.android.application.firebase")
+//    alias(libs.plugins.android.application)
+    alias(libs.plugins.androidx.baselineprofile)
 
 
 }
@@ -51,7 +53,7 @@ android {
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             // Todo: comment code before release
-            signingConfig = signingConfigs.getByName("debug")
+//            signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             versionNameSuffix = BuildType.RELEASE.versionNameSuffix
         }
@@ -83,7 +85,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
 
-    implementation(libs.androidx.profileinstaller)
+
     implementation(project(":common:designsystem"))
     implementation(project(":common:naijaludo"))
     implementation(project(":common:util"))
@@ -92,6 +94,9 @@ dependencies {
     implementation(project(":common:navigation"))
 
     implementation(project(":common:setting"))
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(mapOf("path" to ":app:baselineprofile")))
+
     val decomposeVersion = "2.0.0-alpha-02"
     implementation(libs.decompose.core)
     //implementation(libs.decompose.android)

@@ -9,6 +9,9 @@ plugins {
 //    alias(libs.plugins.secrets) apply false
     alias(libs.plugins.manes)
     alias(libs.plugins.little)
+   // alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.androidx.baselineprofile) apply false
 
 }
 buildscript {
