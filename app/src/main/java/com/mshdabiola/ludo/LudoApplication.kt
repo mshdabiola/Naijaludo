@@ -1,5 +1,6 @@
 package com.mshdabiola.ludo
 
+import Test
 import android.app.Application
 import com.google.android.gms.games.PlayGamesSdk
 import com.mshdabiola.ludo.di.appModule
@@ -21,15 +22,12 @@ class LudoApplication : Application() {
             androidContext(this@LudoApplication)
             modules(appModule)
         }
-        Timber.plant(Timber.DebugTree())
-        Timber.e("package name $packageName")
 
-        if (packageName.contains("debug")) {
+        isDebug=Test.isDebug
+        if (Test.isDebug) {
+            Timber.plant(Timber.DebugTree())
             Timber.e("package name $packageName")
-            Timber.e("log on app create")
-            isDebug=true
-        }else{
-            isDebug=false
+
         }
     }
 }

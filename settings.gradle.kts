@@ -19,7 +19,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "NaijaLudo"
 include(":app")
-include(":benchmark")
+//include(":benchmark")
 //include(":common:database")
 include(":common:designsystem")
 //include(":common:model")

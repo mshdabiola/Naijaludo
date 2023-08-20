@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mshdabiola.benchmark
+package com.mshdabiola.baselineprofile
 
 import androidx.benchmark.macro.BaselineProfileMode.Disable
 import androidx.benchmark.macro.BaselineProfileMode.Require

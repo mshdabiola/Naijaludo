@@ -56,7 +56,6 @@ import com.mshdabiola.ludo.screen.game.component.WaitingDialog
 import com.mshdabiola.ludo.screen.game.component.WifiPermission
 import com.mshdabiola.ludo.screen.game.component.board.getUBoard
 import com.mshdabiola.ludo.screen.game.component.getPermission
-import com.mshdabiola.ludo.screen.game.firework.FireworkView
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
@@ -296,7 +295,6 @@ fun GameScreen(
             }
 
         }
-        FireworkView(firstAppear = showConfetti.value/**/)
         StartDialog(
             show = gameUiState.isStartDialogOpen,
             showMultiPlayer = showMultiplayer,

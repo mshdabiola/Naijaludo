@@ -38,7 +38,7 @@ class BaselineProfileGenerator {
 
     @Test
     fun generate() {
-        rule.collect("com.mshdabiola.ludo") {
+        rule.collect("com.mshdabiola.ludo.paid") {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll
             // through your most important UI.
