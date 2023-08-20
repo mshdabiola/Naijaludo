@@ -86,11 +86,10 @@ object FirebaseUtil {
             val snap = PlayGames.getSnapshotsClient(activity)
             val meta = SnapshotMetadataChange.Builder()
                 .setDescription("saved game")
-                .setProgressValue(totalScore)
                 .build()
 
 
-            snap.open("game_$numb", true)
+            snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_MOST_RECENTLY_MODIFIED)
 
                 .addOnSuccessListener {
                     it.data?.let { it1 ->
@@ -132,7 +131,7 @@ object FirebaseUtil {
 
         try {
             val snap = PlayGames.getSnapshotsClient(activity)
-            snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_HIGHEST_PROGRESS)
+            snap.open("game_$numb", true, SnapshotsClient.RESOLUTION_POLICY_MOST_RECENTLY_MODIFIED)
 
                 .addOnSuccessListener {
                     try {
