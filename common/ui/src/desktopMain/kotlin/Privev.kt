@@ -1,11 +1,11 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
+//import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
 import org.xml.sax.InputSource
 import java.io.ByteArrayInputStream
 
-@Preview
+//@Preview
 @Composable
 fun Preview() {
     val data = """
