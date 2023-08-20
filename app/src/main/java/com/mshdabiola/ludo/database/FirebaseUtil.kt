@@ -217,12 +217,6 @@ object FirebaseUtil {
                                     onSigning(it)
                                 }
 
-                            } else {
-                                task.exception?.let {
-                                    cont.resumeWithException(it)
-
-                                }
-
                             }
                         }
                 }
