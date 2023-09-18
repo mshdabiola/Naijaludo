@@ -73,9 +73,17 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
 
     private fun getHomeBox(index: Int, colorIndex:Int): Point {
 
-        val x= Constant.homeX[colorIndex][index]
-        val y= Constant.homeY[colorIndex][index]
-        return Point(x,y)
+        return try {
+            val x= Constant.homeX[colorIndex][index]
+            val y= Constant.homeY[colorIndex][index]
+            Point(x,y)
+        }catch (e:Exception){
+            e.printStackTrace()
+            val x= Constant.homeX[colorIndex][0]
+            val y= Constant.homeY[colorIndex][0]
+            Point(x,y)
+        }
+
     }
 
 

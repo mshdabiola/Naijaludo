@@ -200,33 +200,33 @@ object FirebaseUtil {
         onSigning: (FirebaseUser) -> Unit = {}
     ) = suspendCoroutine<Unit> { cont ->
 
-        try {
-            val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
-            gamesSignInClient.requestServerSideAccess(
-                requestCode, true
-            )
-                .addOnSuccessListener { code ->
-                    val auth = Firebase.auth
-                    val credential = PlayGamesAuthProvider.getCredential(code)
-                    auth.signInWithCredential(credential)
-                        .addOnCompleteListener(activity) { task ->
-                            if (task.isSuccessful) {
-
-                                val user = auth.currentUser
-                                user?.let {
-                                    onSigning(it)
-                                }
-
-                            }
-                        }
-                }
-                .addOnFailureListener {
-                   it.printStackTrace()
-                }
-
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+//        try {
+//            val gamesSignInClient = PlayGames.getGamesSignInClient(activity)
+//            gamesSignInClient.requestServerSideAccess(
+//                requestCode, true
+//            )
+//                .addOnSuccessListener { code ->
+//                    val auth = Firebase.auth
+//                    val credential = PlayGamesAuthProvider.getCredential(code)
+//                    auth.signInWithCredential(credential)
+//                        .addOnCompleteListener(activity) { task ->
+//                            if (task.isSuccessful) {
+//
+//                                val user = auth.currentUser
+//                                user?.let {
+//                                    onSigning(it)
+//                                }
+//
+//                            }
+//                        }
+//                }
+//                .addOnFailureListener {
+//                   it.printStackTrace()
+//                }
+//
+//        }catch (e:Exception){
+//            e.printStackTrace()
+//        }
 
 
     }
