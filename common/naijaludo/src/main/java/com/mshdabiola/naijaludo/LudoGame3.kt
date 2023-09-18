@@ -236,7 +236,12 @@ open class LudoGame(private val soundInterface: SoundInterface? = null) {
     }
 
     private suspend fun onComputerRoll(ludoGameState: LudoGameState) {
-        val currentPlayer = ludoGameState.listOfPlayer.single { it.isCurrent }
+        val currentPlayer = ludoGameState
+            .listOfPlayer
+            .singleOrNull { it.isCurrent }
+            ?:ludoGameState
+                .listOfPlayer
+                .find { it.isCurrent }
 
         if (currentPlayer is RandomComputerPlayer) {
             log("OnComputerRoll $currentPlayer $ludoGameState")
