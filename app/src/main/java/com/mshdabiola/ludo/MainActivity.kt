@@ -49,7 +49,6 @@ import com.mshdabiola.ludo.database.FirebaseUtil
 import com.mshdabiola.ludo.screen.game.state.ArchievementData
 import com.mshdabiola.ludo.screen.game.state.PlayerUiState
 import com.mshdabiola.ludo.ui.LudoApp
-import com.mshdabiola.naijaludo.model.isDebug
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.coroutines.Dispatchers
@@ -108,7 +107,6 @@ class MainActivity : ComponentActivity() {
 //        })
 
 
-
 //        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
 //            if (!task.isSuccessful) {
 //               // Timber.e("Fetching FCM registration token failed", task.exception)
@@ -122,8 +120,6 @@ class MainActivity : ComponentActivity() {
 //            // Log and toast
 //            Timber.e("token $token")
 //        })
-
-
 
 
         val root = RootComponent(componentContext = defaultComponentContext())
@@ -166,8 +162,8 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
 
-   showAd = remoteConfig?.getBoolean("show_ad") ?:false &&
-       resources.configuration.orientation==Configuration.ORIENTATION_PORTRAIT
+        showAd = remoteConfig?.getBoolean("show_ad") ?: false &&
+                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
         appUpdateInfoManager
             .appUpdateInfo
@@ -180,7 +176,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
     }
-
 
 
     override fun onStart() {
@@ -363,27 +358,28 @@ class MainActivity : ComponentActivity() {
     }
 
     fun acheveUi() {
-        try {
-            achievement
-                ?.achievementsIntent
-                ?.addOnSuccessListener {
+
+        achievement
+            ?.achievementsIntent
+            ?.addOnSuccessListener {
+                try {
                     startActivityForResult(it, 48)
+                } catch (e: ActivityNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
 //
 //                     //   result.resultCode== RESULT_OK
 //                    }
 //                }
-                }
-                ?.addOnFailureListener {
-                    it.printStackTrace()
-                }
+            }
+            ?.addOnFailureListener {
+                it.printStackTrace()
+            }
 
-        } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
 
     }
 
