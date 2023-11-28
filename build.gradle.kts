@@ -2,15 +2,16 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-//    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.firebase.perf) apply false
     alias(libs.plugins.gms) apply false
 //    alias(libs.plugins.secrets) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.compose.gradlePlugin)
     alias(libs.plugins.manes)
     alias(libs.plugins.little)
-   // alias(libs.plugins.android.test) apply false
-    alias(libs.plugins.kotlinAndroid) apply false
+
     alias(libs.plugins.androidx.baselineprofile) apply false
 
 }
