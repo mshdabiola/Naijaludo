@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mshdabiola.ludo.screen.DEVICE_TYPE
@@ -47,6 +46,7 @@ fun GameScreenMultiLand(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit,
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -189,6 +189,7 @@ fun GameScreenMultiPhoneLand(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit,
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -329,6 +330,7 @@ fun GameScreenMultiPort(
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit,
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }

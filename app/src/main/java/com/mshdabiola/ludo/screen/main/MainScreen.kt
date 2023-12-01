@@ -166,7 +166,9 @@ fun MainScreen(
             }
 
             Column(modifier = Modifier
-                .align(Alignment.TopEnd),
+                .align(Alignment.TopEnd)
+                .padding(end = 8.dp)
+                ,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 IconButton(
