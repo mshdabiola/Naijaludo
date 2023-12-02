@@ -38,8 +38,9 @@ fun LudoNavHost(
             }
 
             is IRootComponent.RootScreen.GameRootScreen -> {
-                GameScreenNav(deviceType = deviceType) {
+                GameScreenNav(deviceType = deviceType, onBack =iRootComponent::pop ) {
                     iRootComponent.pop()
+                    iRootComponent.navigateToMarket()
                 }
             }
 

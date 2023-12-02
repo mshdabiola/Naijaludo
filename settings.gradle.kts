@@ -15,6 +15,8 @@ dependencyResolutionManagement {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers")
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
+        maven(url = "https://androidx.dev/storage/compose-compiler/repository/")
+
     }
 }
 rootProject.name = "NaijaLudo"

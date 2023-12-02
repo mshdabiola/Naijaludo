@@ -15,7 +15,7 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
         // safe path 51 to 55
 
         // out 56
-        val color = colors.indexOf(gameColor)
+        val color = colors.indexOfFirst { gameColor == it }
         return when (index) {
             0 -> getStartBox(color)
             in 1..50 -> {

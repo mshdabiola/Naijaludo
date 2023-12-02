@@ -62,7 +62,7 @@ class AndroidApplicationFirebaseConventionPlugin : Plugin<Project> {
                         // enabled if a Firebase backend is available and configured in
                         // google-services.json.
                         buildType.configure<CrashlyticsExtension> {
-                            mappingFileUploadEnabled = !buildType.isDebuggable
+                            mappingFileUploadEnabled = false//!buildType.isDebuggable
                         }
                     }
                 }

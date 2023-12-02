@@ -1,7 +1,10 @@
 package com.mshdabiola.ludo.screen.game
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,6 +44,7 @@ import com.mshdabiola.ludo.screen.game.state.LudoUiState
 import com.mshdabiola.ludo.screen.game.state.PointUiState
 import com.mshdabiola.ludo.screen.game.state.toLudoUiState
 import com.mshdabiola.ludo.screen.game.state.toPointUiState
+import com.mshdabiola.ludo.screen.main.MarketButton
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 
@@ -60,7 +64,8 @@ fun GameScreenPhonePortrait(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {}
+    onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -91,21 +96,31 @@ fun GameScreenPhonePortrait(
             onSetMusic = onSetMusic,
 
             )
-        if (gameUiState.listOfPlayer.any { it.isComputer }) {
-            RankCard(
-                Modifier
-                    .width(70.dp)
-                    .constrainAs(rankRef) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                    },
-                leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
-                } else {
-                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
-                }
-            )
+        Row(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .constrainAs(rankRef) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                },
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            MarketButton(onClick = navigateToMarket)
+
+            if (gameUiState.listOfPlayer.any { it.isComputer }) {
+                RankCard(
+                    Modifier
+                        .width(70.dp),
+                    leadRes = if (numb == 2) {
+                        com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
+                    } else {
+                        com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
+                    }
+                )
+            }
+
         }
+
 
         PlayersUi(
             modifier = Modifier
@@ -195,7 +210,8 @@ fun GameScreenPhoneLand(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {}
+    onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit
 ) {
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -222,21 +238,33 @@ fun GameScreenPhoneLand(
             onSetMusic = onSetMusic,
 
             )
-        if (gameUiState.listOfPlayer.any { it.isComputer }) {
-            RankCard(
-                Modifier
-                    .width(70.dp)
-                    .constrainAs(rankRef) {
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    },
-                leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
-                } else {
-                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
-                }
-            )
+        Column(
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .constrainAs(rankRef) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+
+                },
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+
+        ) {
+            MarketButton(onClick = navigateToMarket)
+            if (gameUiState.listOfPlayer.any { it.isComputer }) {
+                RankCard(
+                    Modifier
+                        .width(70.dp),
+                    leadRes = if (numb == 2) {
+                        com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
+                    } else {
+                        com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
+                    }
+                )
+            }
+
+
         }
+
 
 
 
@@ -330,7 +358,9 @@ fun GameScreeFoldPortrait(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {}
+    onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit
+
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -361,23 +391,30 @@ fun GameScreeFoldPortrait(
             onSetMusic = onSetMusic,
 
             )
+        Column(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .constrainAs(rankRef) {
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                },
+            verticalArrangement = Arrangement.spacedBy(8.dp)
 
-        if (gameUiState.listOfPlayer.any { it.isComputer }) {
-            RankCard(
-                Modifier
-                    .width(70.dp)
-                    .constrainAs(rankRef) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    },
-                leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
-                } else {
-                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
-                }
-            )
+        ) {
+            if (gameUiState.listOfPlayer.any { it.isComputer }) {
+                RankCard(
+                    Modifier
+                        .width(70.dp),
+                    leadRes = if (numb == 2) {
+                        com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
+                    } else {
+                        com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
+                    }
+                )
+            }
+            MarketButton(onClick = navigateToMarket)
+
         }
-
 
 
         BoardUi(
@@ -465,7 +502,8 @@ fun GameScreenLarge(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {}
+    onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
@@ -494,21 +532,32 @@ fun GameScreenLarge(
 
             )
 
-        if (gameUiState.listOfPlayer.any { it.isComputer }) {
-            RankCard(
-                Modifier
-                    .width(70.dp)
-                    .constrainAs(rankRef) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                    },
-                leadRes = if (numb == 2) {
-                    com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
-                } else {
-                    com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
-                }
-            )
+        Column(
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .constrainAs(rankRef) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                },
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+
+        ) {
+            if (gameUiState.listOfPlayer.any { it.isComputer }) {
+                RankCard(
+                    Modifier
+                        .width(70.dp),
+                    leadRes = if (numb == 2) {
+                        com.mshdabiola.ludo.R.string.leaderboard_solo_player_rank
+                    } else {
+                        com.mshdabiola.ludo.R.string.leaderboard_trio_player_rank
+                    }
+                )
+            }
+            MarketButton(onClick = navigateToMarket)
+
         }
+
+
 
 
 

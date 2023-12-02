@@ -3,6 +3,8 @@ package com.mshdabiola.ludo.screen.game.component
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -101,8 +103,22 @@ fun RankCard(
                     val activity = context as Activity
                     PlayGames.getLeaderboardsClient(activity)
                         .getLeaderboardIntent(leaderString)
-                        .addOnSuccessListener {
-                            activity.startActivityForResult(it, 23)
+                        .addOnSuccessListener { intent->
+                            if (intent!=null){
+                                val activityInfo = intent.resolveActivityInfo(context.packageManager,PackageManager.MATCH_DEFAULT_ONLY )
+
+                                if (activityInfo?.exported == true) {
+                                    activity.startActivityForResult(intent, 23)
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "No application that can handle this link found",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                            }
+
                         }
                         .addOnFailureListener {
                             it.printStackTrace()

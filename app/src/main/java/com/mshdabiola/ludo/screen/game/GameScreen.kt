@@ -67,7 +67,8 @@ import com.mshdabiola.naijaludo.model.GameType
 fun GameScreen(
     gameScreenViewModel: GeneralViewModel,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    navigateToMarket: () -> Unit={}
 ) {
 
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
@@ -227,12 +228,7 @@ fun GameScreen(
         }
     }
 
-    val showConfetti = remember(gameUiState.isRestartDialogOpen) {
-        derivedStateOf {
-            ludoGameState.listOfPlayer.lastOrNull()?.isCurrent == true &&
-                    gameUiState.isRestartDialogOpen
-        }
-    }
+
 
     LaunchedEffect(key1 = gameUiState.isRestartDialogOpen, block = {
         if (gameUiState.isRestartDialogOpen) {
@@ -290,7 +286,8 @@ fun GameScreen(
                     onBack = onBack,
                     onSetMusic = gameScreenViewModel::setMusic,
                     onSetSound = gameScreenViewModel::setSound,
-                    onForceRestart = gameScreenViewModel::restartGame
+                    onForceRestart = gameScreenViewModel::restartGame,
+                    navigateToMarket=navigateToMarket
                 )
             }
 
@@ -380,7 +377,8 @@ fun GameScreen(
     onBack: () -> Unit = {},
     onSetMusic: (Boolean) -> Unit = {},
     onSetSound: (Boolean) -> Unit = {},
-    onForceRestart: () -> Unit = {}
+    onForceRestart: () -> Unit = {},
+    navigateToMarket: () -> Unit={}
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {
@@ -388,7 +386,7 @@ fun GameScreen(
                 GameScreenMultiPort(
                     gameUiState, music, sound, rotateF, paddingValues,
                     onDice, onCounter, onPawn, getPositionIntOffset,
-                    onBack, onSetMusic, onSetSound, onForceRestart,
+                    onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
                 )
             }
 
@@ -396,7 +394,7 @@ fun GameScreen(
                 GameScreenMultiPhoneLand(
                     gameUiState, music, sound, rotateF, paddingValues,
                     onDice, onCounter, onPawn, getPositionIntOffset,
-                    onBack, onSetMusic, onSetSound, onForceRestart,
+                    onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
                 )
             }
 
@@ -404,7 +402,7 @@ fun GameScreen(
                 GameScreenMultiLand(
                     gameUiState, music, sound, rotateF, paddingValues,
                     onDice, onCounter, onPawn, getPositionIntOffset,
-                    onBack, onSetMusic, onSetSound, onForceRestart,
+                    onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
                 )
             }
         }
@@ -413,25 +411,25 @@ fun GameScreen(
             DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
+                onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
             )
 
             DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
+                onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
             )
 
             DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
+                onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
             )
 
             else -> GameScreenPhonePortrait(
                 gameUiState, music, sound, rotateF, paddingValues,
                 onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart
+                onBack, onSetMusic, onSetSound, onForceRestart,navigateToMarket
             )
         }
     }

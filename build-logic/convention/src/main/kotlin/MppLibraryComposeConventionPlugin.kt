@@ -28,62 +28,38 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("kotlin-multiplatform")
-            pluginManager.apply("com.android.library")
+//            pluginManager.apply("mshdabiola.mpp.library")
             pluginManager.apply("org.jetbrains.compose")
+//
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-
-            val compose=extensions.getByType<ComposeExtension>()
+            val composeExtension = extensions.getByType<ComposeExtension>()
 
             val extension = extensions.getByType<LibraryExtension>()
             configureAndroidCompose(extension)
+
             extensions.configure<KotlinMultiplatformExtension> {
-                val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-                            implementation(compose.dependencies.runtime)
-                            implementation(compose.dependencies.ui)
-                            implementation(compose.dependencies.foundation)
-                            implementation(compose.dependencies.materialIconsExtended)
-                            implementation(compose.dependencies.material3)
-                            implementation(libs.findLibrary("kotlinx.collection.immutable").get())
-
-                        }
-
-                    }
-                    getByName("commonTest") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("androidMain") {
-                        this.dependencies {
+                            implementation(composeExtension.dependencies.runtime)
+                            api(composeExtension.dependencies.foundation)
+                            implementation(composeExtension.dependencies.material3)
+                            implementation(composeExtension.dependencies.materialIconsExtended) // TODO not working on iOS for now
+                            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                            implementation(composeExtension.dependencies.components.resources)
+                            implementation(composeExtension.dependencies.preview)
+//                            implementation(
+//                                libs.findLibrary("androidx.compose.material3.windowSizeClass").get()
+//                            )
+////
 
 
                         }
 
                     }
-                    getByName("androidInstrumentedTest") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("desktopMain") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("desktopTest") {
-                        this.dependencies {
-                            // implementation(libs.findLibrary("koin.core").get())
-
-                        }
-
-                    }
+//
                 }
 
             }
