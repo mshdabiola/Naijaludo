@@ -121,8 +121,8 @@ firebase-performance-gradle = { group = "com.google.firebase", name = "perf-plug
 play-game = { module = "com.google.android.gms:play-services-games-v2", version.ref = "playGame" }
 play-review = { module = "com.google.android.play:review", version.ref = "playReview" }
 play-review-kts = { module = "com.google.android.play:review-ktx", version.ref = "playReview" }
-play-update = { module = "com.google.android.play:app-update", version.ref = "playReview" }
-play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
+play-update = { module = "com.google.android.play:app-update", version.ref = "playUpdate" }
+play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playUpdate" }
 play-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playCoroutine" }
 
 play-billing-kts = { module = "com.android.billingclient:billing-ktx", version.ref = "billingClient" }
