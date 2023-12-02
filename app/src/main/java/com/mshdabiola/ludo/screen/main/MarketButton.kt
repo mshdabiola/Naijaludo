@@ -40,13 +40,13 @@ fun MarketButton(onClick:()->Unit={}) {
     val background= infiniteTransition.animateColor(
         initialValue = MaterialTheme.colorScheme.primary,
         targetValue = MaterialTheme.colorScheme.onPrimary,
-        animationSpec = infiniteRepeatable(tween(1000), repeatMode = RepeatMode.Reverse), label = "back"
+        animationSpec = infiniteRepeatable(tween(2500), repeatMode = RepeatMode.Reverse), label = "back"
     )
 
     val fground= infiniteTransition.animateColor(
         initialValue = MaterialTheme.colorScheme.onPrimary,
         targetValue = MaterialTheme.colorScheme.primary,
-        animationSpec = infiniteRepeatable(tween(1000), repeatMode = RepeatMode.Reverse), label = "front"
+        animationSpec = infiniteRepeatable(tween(2500), repeatMode = RepeatMode.Reverse), label = "front"
     )
 
     FloatingActionButton(onClick = onClick, containerColor = background.value, contentColor = fground.value) {
