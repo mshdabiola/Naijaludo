@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="item_default">
+        <item>man_1</item>
+        <item>man_2</item>
+        <item>default_dice</item>
+    </string-array>
+</resources>
