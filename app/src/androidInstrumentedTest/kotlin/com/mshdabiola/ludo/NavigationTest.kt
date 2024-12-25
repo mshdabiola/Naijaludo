@@ -3,7 +3,6 @@ package com.mshdabiola.ludo
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.loggerConfigInit
@@ -57,7 +56,7 @@ class NavigationTest {
     fun firstScreen_isForYou() {
         composeTestRule.apply {
             // VERIFY for you is selected
-            onNodeWithText("Add Note", useUnmergedTree = true)//.assertExists()
+            onNodeWithText("Add Note", useUnmergedTree = true) // .assertExists()
         }
     }
 }
