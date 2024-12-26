@@ -43,6 +43,22 @@ class UserDataTest : KoinTest {
                     ),
                 )
             }
+
+            single(qualifier = qualifier("currentstate")) {
+                DataStoreFactory.create(
+                    storage = OkioStorage(
+                        fileSystem = FileSystem.SYSTEM,
+                        serializer = CurrentDataJsonSerializer,
+                        producePath = {
+                            val path = File(FileSystem.SYSTEM_TEMPORARY_DIRECTORY.toFile(), "data")
+                            if (!path.parentFile.exists()) {
+                                path.mkdirs()
+                            }
+                            path.toOkioPath()
+                        },
+                    ),
+                )
+            }
         }
         // Your KoinApplication instance here
         modules(module, commonModule)
