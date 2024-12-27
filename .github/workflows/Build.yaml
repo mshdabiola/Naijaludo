@@ -7,6 +7,7 @@ name: Build all and test
 #  pull_request:
 #on: workflow_dispatch
 
+
 on:
   push:
     branches:
