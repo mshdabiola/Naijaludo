@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="logo_size">400dp</dimen>
-    <dimen name="play_button_size">120dp</dimen>
+    <dimen name="modules_designsystem_logo_size">400dp</dimen>
+    <dimen name="modules_designsystem_play_button_size">120dp</dimen>
 </resources>
