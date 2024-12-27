@@ -39,27 +39,27 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: free_release_bundle
           path: ${{steps.sign_free_app.outputs.signedReleaseFile}}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: free_mapping
           path: app/build/outputs/mapping/freeRelease/mapping.txt
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: paid_release_bundle
           path: ${{steps.sign_paid_app.outputs.signedReleaseFile}}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: paid_mapping
           path: app/build/outputs/mapping/paidRelease/mapping.txt
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: distribution
           path: distribution
