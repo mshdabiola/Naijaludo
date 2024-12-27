@@ -28,14 +28,14 @@ class SoundSystem(
             .setMaxStreams(3)
             .build()
 
-        soundIds[0] = soundPool?.load(context, R.raw.sound_1, 1)!!
-        soundIds[1] = soundPool?.load(context, R.raw.dice, 1)!!
-        soundIds[2] = soundPool?.load(context, R.raw.kill, 2)!!
-        soundIds[3] = soundPool?.load(context, R.raw.moving, 1)!!
-        soundIds[4] = soundPool?.load(context, R.raw.moveout, 1)!!
-        soundIds[5] = soundPool?.load(context, R.raw.select, 1)!!
-        soundIds[6] = soundPool?.load(context, R.raw.win, 1)!!
-        soundIds[7] = soundPool?.load(context, R.raw.lost, 1)!!
+        soundIds[0] = soundPool?.load(context, R.raw.modules_data_sound_1, 1)!!
+        soundIds[1] = soundPool?.load(context, R.raw.modules_data_dice, 1)!!
+        soundIds[2] = soundPool?.load(context, R.raw.modules_data_kill, 2)!!
+        soundIds[3] = soundPool?.load(context, R.raw.modules_data_moving, 1)!!
+        soundIds[4] = soundPool?.load(context, R.raw.modules_data_moveout, 1)!!
+        soundIds[5] = soundPool?.load(context, R.raw.modules_data_select, 1)!!
+        soundIds[6] = soundPool?.load(context, R.raw.modules_data_win, 1)!!
+        soundIds[7] = soundPool?.load(context, R.raw.modules_data_lost, 1)!!
         // context setVolumeControlSystem
     }
 
