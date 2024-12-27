@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="language">Language</string>
-    <string name="level">Game Level</string>
-    <string name="count">Direct count</string>
-    <string name="assistant">Assistant</string>
-    <string name="sound">Sound</string>
-    <string name="music">Music</string>
-    <string name="player_name">Player name</string>
-    <string name="robot_one">Robot one</string>
-    <string name="robot_two">Robot two</string>
-    <string name="robot_three">Robot three</string>
-    <string name="style">Game type</string>
-    <string name="type">Board style</string>
-    <string name="pawn_num">Pawn number</string>
-    <string name="rotate">Rotate</string>
-    <string name="close">Close</string>
-    <string name="setting">Setting</string>
-    <string name="logo" translatable="false">Naija Ludo logo</string>
-    <string name="play">Play</string>
-    <string name="game_setting">Game settings</string>
-    <string name="basic_setting">Basic</string>
-    <string name="sound_setting">Sound</string>
-    <string name="profile_setting">Profile</string>
-    <string name="board_setting">Board</string>
-    <string name="continue_detail">Last game</string>
-    <string name="continue_btn">Continue</string>
-    <string name="vs_one_comp_detail">Solo</string>
-    <string name="vs_many_comp_detail">Trio</string>
-    <string name="back_btn">Back</string>
-    <string name="start_game_dialog_title">Start game</string>
-    <string name="game_over_dialog_title">Game over</string>
-    <string name="play_again_btn">"Play again"</string>
-    <string name="player_loss_msg">Oppps, You lost try again</string>
-    <string name="player_win_msg">Hurray!!, You win the game</string>
-    <string name="home">Home</string>
-    <string name="give_up">Give up</string>
-    <string name="join">Join</string>
-    <string name="host">Host</string>
-    <string name="blutooth_multi_desc">Multiplayer</string>
-    <string name="vs_friend">Friend</string>
-    <string name="server_connected">Server connected</string>
-    <string name="client_connected">Client connected</string>
-    <string name="waiting_for_client">Waiting for client</string>
-    <string name="connecting_to_server">Connecting to server</string>
-    <string name="cancel">Cancel</string>
-    <string name="pair_device_btn" translatable="false">Pair new device</string>
-    <string name="devices">Devices</string>
-    <string name="client_pair_desc" translatable="false">If host Device is not here, click button to pair</string>
-    <string name="connect">Connect</string>
-    <string name="horizontal">Horizontal</string>
-    <string name="vertical">Vertical</string>
-    <string name="diagonal">Diagonal</string>
-    <string name="easy">Easy</string>
-    <string name="medium">Medium</string>
-    <string name="hard">Hard</string>
+    <string name="modules_designsystem_language">Language</string>
+    <string name="modules_designsystem_level">Game Level</string>
+    <string name="modules_designsystem_count">Direct count</string>
+    <string name="modules_designsystem_assistant">Assistant</string>
+    <string name="modules_designsystem_sound">Sound</string>
+    <string name="modules_designsystem_music">Music</string>
+    <string name="modules_designsystem_player_name">Player name</string>
+    <string name="modules_designsystem_robot_one">Robot one</string>
+    <string name="modules_designsystem_robot_two">Robot two</string>
+    <string name="modules_designsystem_robot_three">Robot three</string>
+    <string name="modules_designsystem_style">Game type</string>
+    <string name="modules_designsystem_type">Board style</string>
+    <string name="modules_designsystem_pawn_num">Pawn number</string>
+    <string name="modules_designsystem_rotate">Rotate</string>
+    <string name="modules_designsystem_close">Close</string>
+    <string name="modules_designsystem_setting">Setting</string>
+    <string name="modules_designsystem_logo" translatable="false">Naija Ludo logo</string>
+    <string name="modules_designsystem_play">Play</string>
+    <string name="modules_designsystem_game_setting">Game settings</string>
+    <string name="modules_designsystem_basic_setting">Basic</string>
+    <string name="modules_designsystem_sound_setting">Sound</string>
+    <string name="modules_designsystem_profile_setting">Profile</string>
+    <string name="modules_designsystem_board_setting">Board</string>
+    <string name="modules_designsystem_continue_detail">Last game</string>
+    <string name="modules_designsystem_continue_btn">Continue</string>
+    <string name="modules_designsystem_vs_one_comp_detail">Solo</string>
+    <string name="modules_designsystem_vs_many_comp_detail">Trio</string>
+    <string name="modules_designsystem_back_btn">Back</string>
+    <string name="modules_designsystem_start_game_dialog_title">Start game</string>
+    <string name="modules_designsystem_game_over_dialog_title">Game over</string>
+    <string name="modules_designsystem_play_again_btn">"Play again"</string>
+    <string name="modules_designsystem_player_loss_msg">Oppps, You lost try again</string>
+    <string name="modules_designsystem_player_win_msg">Hurray!!, You win the game</string>
+    <string name="modules_designsystem_home">Home</string>
+    <string name="modules_designsystem_give_up">Give up</string>
+    <string name="modules_designsystem_join">Join</string>
+    <string name="modules_designsystem_host">Host</string>
+    <string name="modules_designsystem_blutooth_multi_desc">Multiplayer</string>
+    <string name="modules_designsystem_vs_friend">Friend</string>
+    <string name="modules_designsystem_server_connected">Server connected</string>
+    <string name="modules_designsystem_client_connected">Client connected</string>
+    <string name="modules_designsystem_waiting_for_client">Waiting for client</string>
+    <string name="modules_designsystem_connecting_to_server">Connecting to server</string>
+    <string name="modules_designsystem_cancel">Cancel</string>
+    <string name="modules_designsystem_pair_device_btn" translatable="false">Pair new device</string>
+    <string name="modules_designsystem_devices">Devices</string>
+    <string name="modules_designsystem_client_pair_desc" translatable="false">If host Device is not here, click button to pair</string>
+    <string name="modules_designsystem_connect">Connect</string>
+    <string name="modules_designsystem_horizontal">Horizontal</string>
+    <string name="modules_designsystem_vertical">Vertical</string>
+    <string name="modules_designsystem_diagonal">Diagonal</string>
+    <string name="modules_designsystem_easy">Easy</string>
+    <string name="modules_designsystem_medium">Medium</string>
+    <string name="modules_designsystem_hard">Hard</string>
 
 
 </resources>
