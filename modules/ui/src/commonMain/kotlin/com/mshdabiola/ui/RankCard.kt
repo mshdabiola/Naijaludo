@@ -18,12 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.StringResource
 
 @Composable
 fun RankCard(
     modifier: Modifier = Modifier,
-    leadRes: StringResource,
 ) {
     var rank by remember {
         mutableStateOf<Long?>(null)
