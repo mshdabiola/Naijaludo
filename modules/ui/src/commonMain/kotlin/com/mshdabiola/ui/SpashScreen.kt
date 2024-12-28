@@ -22,7 +22,7 @@ import com.mshdabiola.designsystem.string.appName
 fun SplashScreen(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier,
-        color = Color(142, 77, 49),
+        color = Color(0xFF4C662B),
     ) {
         Column(
             modifier = Modifier
