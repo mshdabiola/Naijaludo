@@ -1,6 +1,5 @@
 package com.mshdabiola.designsystem.theme
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 sealed class MyColors {
@@ -154,145 +153,76 @@ sealed class MyColors {
 
     data object Default : MyColors() {
 
-        override val primaryLight = Color(0xFF8D4A5C)
+        override val primaryLight = Color(0xFF4C662B)
         override val onPrimaryLight = Color(0xFFFFFFFF)
-        override val primaryContainerLight = Color(0xFFFFD9E0)
-        override val onPrimaryContainerLight = Color(0xFF3A071A)
-        override val secondaryLight = Color(0xFF75565D)
+        override val primaryContainerLight = Color(0xFFCDEDA3)
+        override val onPrimaryContainerLight = Color(0xFF102000)
+        override val secondaryLight = Color(0xFF586249)
         override val onSecondaryLight = Color(0xFFFFFFFF)
-        override val secondaryContainerLight = Color(0xFFFFD9E0)
-        override val onSecondaryContainerLight = Color(0xFF2B151B)
-        override val tertiaryLight = Color(0xFF7B5733)
+        override val secondaryContainerLight = Color(0xFFDBE7C8)
+        override val onSecondaryContainerLight = Color(0xFF151E0B)
+        override val tertiaryLight = Color(0xFF386663)
         override val onTertiaryLight = Color(0xFFFFFFFF)
-        override val tertiaryContainerLight = Color(0xFFFFDCBE)
-        override val onTertiaryContainerLight = Color(0xFF2D1600)
+        override val tertiaryContainerLight = Color(0xFFBCECE7)
+        override val onTertiaryContainerLight = Color(0xFF00201E)
         override val errorLight = Color(0xFFBA1A1A)
         override val onErrorLight = Color(0xFFFFFFFF)
         override val errorContainerLight = Color(0xFFFFDAD6)
         override val onErrorContainerLight = Color(0xFF410002)
-        override val backgroundLight = Color(0xFFFFF8F7)
-        override val onBackgroundLight = Color(0xFF22191B)
-        override val surfaceLight = Color(0xFFFFF8F7)
-        override val onSurfaceLight = Color(0xFF22191B)
-        override val surfaceVariantLight = Color(0xFFF3DDE0)
-        override val onSurfaceVariantLight = Color(0xFF514346)
-        override val outlineLight = Color(0xFF847376)
-        override val outlineVariantLight = Color(0xFFD6C2C5)
+        override val backgroundLight = Color(0xFFF9FAEF)
+        override val onBackgroundLight = Color(0xFF1A1C16)
+        override val surfaceLight = Color(0xFFF9FAEF)
+        override val onSurfaceLight = Color(0xFF1A1C16)
+        override val surfaceVariantLight = Color(0xFFE1E4D5)
+        override val onSurfaceVariantLight = Color(0xFF44483D)
+        override val outlineLight = Color(0xFF75796C)
+        override val outlineVariantLight = Color(0xFFC5C8BA)
         override val scrimLight = Color(0xFF000000)
-        override val inverseSurfaceLight = Color(0xFF382E30)
-        override val inverseOnSurfaceLight = Color(0xFFFEEDEF)
-        override val inversePrimaryLight = Color(0xFFFFB1C3)
-        override val surfaceDimLight = Color(0xFFE7D6D8)
-        override val surfaceBrightLight = Color(0xFFFFF8F7)
+        override val inverseSurfaceLight = Color(0xFF2F312A)
+        override val inverseOnSurfaceLight = Color(0xFFF0F2E6)
+        override val inversePrimaryLight = Color(0xFFB1D18A)
+        override val surfaceDimLight = Color(0xFFDADBD0)
+        override val surfaceBrightLight = Color(0xFFF9FAEF)
         override val surfaceContainerLowestLight = Color(0xFFFFFFFF)
-        override val surfaceContainerLowLight = Color(0xFFFFF0F2)
-        override val surfaceContainerLight = Color(0xFFFBEAEC)
-        override val surfaceContainerHighLight = Color(0xFFF5E4E6)
-        override val surfaceContainerHighestLight = Color(0xFFEFDEE1)
+        override val surfaceContainerLowLight = Color(0xFFF3F4E9)
+        override val surfaceContainerLight = Color(0xFFEEEFE3)
+        override val surfaceContainerHighLight = Color(0xFFE8E9DE)
+        override val surfaceContainerHighestLight = Color(0xFFE2E3D8)
 
-        override val primaryDark = Color(0xFFFFB1C3)
-        override val onPrimaryDark = Color(0xFF551D2E)
-        override val primaryContainerDark = Color(0xFF713344)
-        override val onPrimaryContainerDark = Color(0xFFFFD9E0)
-        override val secondaryDark = Color(0xFFE4BDC4)
-        override val onSecondaryDark = Color(0xFF43292F)
-        override val secondaryContainerDark = Color(0xFF5B3F45)
-        override val onSecondaryContainerDark = Color(0xFFFFD9E0)
-        override val tertiaryDark = Color(0xFFEDBE92)
-        override val onTertiaryDark = Color(0xFF472A09)
-        override val tertiaryContainerDark = Color(0xFF60401E)
-        override val onTertiaryContainerDark = Color(0xFFFFDCBE)
+        override val primaryDark = Color(0xFFB1D18A)
+        override val onPrimaryDark = Color(0xFF1F3701)
+        override val primaryContainerDark = Color(0xFF354E16)
+        override val onPrimaryContainerDark = Color(0xFFCDEDA3)
+        override val secondaryDark = Color(0xFFBFCBAD)
+        override val onSecondaryDark = Color(0xFF2A331E)
+        override val secondaryContainerDark = Color(0xFF404A33)
+        override val onSecondaryContainerDark = Color(0xFFDBE7C8)
+        override val tertiaryDark = Color(0xFFA0D0CB)
+        override val onTertiaryDark = Color(0xFF003735)
+        override val tertiaryContainerDark = Color(0xFF1F4E4B)
+        override val onTertiaryContainerDark = Color(0xFFBCECE7)
         override val errorDark = Color(0xFFFFB4AB)
         override val onErrorDark = Color(0xFF690005)
         override val errorContainerDark = Color(0xFF93000A)
         override val onErrorContainerDark = Color(0xFFFFDAD6)
-        override val backgroundDark = Color(0xFF191113)
-        override val onBackgroundDark = Color(0xFFEFDEE1)
-        override val surfaceDark = Color(0xFF191113)
-        override val onSurfaceDark = Color(0xFFEFDEE1)
-        override val surfaceVariantDark = Color(0xFF514346)
-        override val onSurfaceVariantDark = Color(0xFFD6C2C5)
-        override val outlineDark = Color(0xFF9E8C8F)
-        override val outlineVariantDark = Color(0xFF514346)
+        override val backgroundDark = Color(0xFF12140E)
+        override val onBackgroundDark = Color(0xFFE2E3D8)
+        override val surfaceDark = Color(0xFF12140E)
+        override val onSurfaceDark = Color(0xFFE2E3D8)
+        override val surfaceVariantDark = Color(0xFF44483D)
+        override val onSurfaceVariantDark = Color(0xFFC5C8BA)
+        override val outlineDark = Color(0xFF8F9285)
+        override val outlineVariantDark = Color(0xFF44483D)
         override val scrimDark = Color(0xFF000000)
-        override val inverseSurfaceDark = Color(0xFFEFDEE1)
-        override val inverseOnSurfaceDark = Color(0xFF382E30)
-        override val inversePrimaryDark = Color(0xFF8D4A5C)
-        override val surfaceDimDark = Color(0xFF191113)
-        override val surfaceBrightDark = Color(0xFF413738)
-        override val surfaceContainerLowestDark = Color(0xFF140C0E)
-        override val surfaceContainerLowDark = Color(0xFF22191B)
-        override val surfaceContainerDark = Color(0xFF261D1F)
-        override val surfaceContainerHighDark = Color(0xFF312829)
-        override val surfaceContainerHighestDark = Color(0xFF3C3234)
+        override val inverseSurfaceDark = Color(0xFFE2E3D8)
+        override val inverseOnSurfaceDark = Color(0xFF2F312A)
+        override val inversePrimaryDark = Color(0xFF4C662B)
+        override val surfaceDimDark = Color(0xFF12140E)
+        override val surfaceBrightDark = Color(0xFF383A32)
+        override val surfaceContainerLowestDark = Color(0xFF0C0F09)
+        override val surfaceContainerLowDark = Color(0xFF1A1C16)
+        override val surfaceContainerDark = Color(0xFF1E201A)
+        override val surfaceContainerHighDark = Color(0xFF282B24)
+        override val surfaceContainerHighestDark = Color(0xFF33362E)
     }
 }
-
-val playLight = Color(0xFF006A65)
-val onPlayLight = Color(0xFFFFFFFF)
-val playContainerLight = Color(0xFF9DF2EA)
-val onPlayContainerLight = Color(0xFF00201E)
-val pauseLight = Color(0xFF2B638B)
-val onPauseLight = Color(0xFFFFFFFF)
-val pauseContainerLight = Color(0xFFCCE5FF)
-val onPauseContainerLight = Color(0xFF001E31)
-
-val playDark = Color(0xFF81D5CE)
-val onPlayDark = Color(0xFF003734)
-val playContainerDark = Color(0xFF00504C)
-val onPlayContainerDark = Color(0xFF9DF2EA)
-val pauseDark = Color(0xFF98CCF9)
-val onPauseDark = Color(0xFF003350)
-val pauseContainerDark = Color(0xFF044B71)
-val onPauseContainerDark = Color(0xFFCCE5FF)
-
-val extendedLight = ExtendedColorScheme(
-    play = ColorFamily(
-        playLight,
-        onPlayLight,
-        playContainerLight,
-        onPlayContainerLight,
-    ),
-    pause = ColorFamily(
-        pauseLight,
-        onPauseLight,
-        pauseContainerLight,
-        onPauseContainerLight,
-    ),
-)
-
-val extendedDark = ExtendedColorScheme(
-    play = ColorFamily(
-        playDark,
-        onPlayDark,
-        playContainerDark,
-        onPlayContainerDark,
-    ),
-    pause = ColorFamily(
-        pauseDark,
-        onPauseDark,
-        pauseContainerDark,
-        onPauseContainerDark,
-    ),
-)
-
-@Immutable
-data class ColorFamily(
-    val color: Color,
-    val onColor: Color,
-    val colorContainer: Color,
-    val onColorContainer: Color,
-)
-
-val unspecified_scheme = ColorFamily(
-    Color.Unspecified,
-    Color.Unspecified,
-    Color.Unspecified,
-    Color.Unspecified,
-)
-
-@Immutable
-data class ExtendedColorScheme(
-    val play: ColorFamily,
-    val pause: ColorFamily,
-)
