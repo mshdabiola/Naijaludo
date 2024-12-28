@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.bigcat
+package com.mshdabiola.designsystem.icon.bigcat
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
+fun Bigcat.getBlue(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Blue6",
         defaultWidth = 200.0.dp,
@@ -20,7 +20,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -637,7 +637,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -685,7 +685,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -750,7 +750,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1063,7 +1063,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1149,7 +1149,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1170,7 +1170,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1188,7 +1188,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1215,7 +1215,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1230,7 +1230,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1263,7 +1263,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1311,7 +1311,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1453,7 +1453,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1478,7 +1478,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1505,7 +1505,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1535,7 +1535,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1756,7 +1756,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1794,7 +1794,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -1895,7 +1895,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2067,7 +2067,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2160,7 +2160,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2333,7 +2333,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2354,7 +2354,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2385,7 +2385,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2536,7 +2536,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -2738,7 +2738,7 @@ fun Bigcat.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

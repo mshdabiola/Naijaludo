@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.cat
+package com.mshdabiola.designsystem.icon.cat
 
 public object Cat

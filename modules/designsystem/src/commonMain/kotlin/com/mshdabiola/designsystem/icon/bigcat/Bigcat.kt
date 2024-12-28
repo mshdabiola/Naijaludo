@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.bigcat
+package com.mshdabiola.designsystem.icon.bigcat
 
 public object Bigcat

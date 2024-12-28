@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.board.boardicon
+package com.mshdabiola.designsystem.icon.board.boardicon
 
 object Default

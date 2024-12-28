@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.car
+package com.mshdabiola.designsystem.icon.car
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
+fun Car.getYellow(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Yelow",
         defaultWidth = 200.0.dp,
@@ -19,7 +19,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -116,7 +116,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -134,7 +134,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -149,7 +149,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -169,7 +169,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -185,7 +185,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -204,7 +204,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -222,7 +222,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -240,7 +240,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -256,7 +256,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -272,7 +272,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -288,7 +288,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -304,7 +304,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -319,7 +319,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -340,7 +340,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -359,7 +359,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -375,7 +375,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -390,7 +390,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -405,7 +405,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -420,7 +420,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -435,7 +435,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -451,7 +451,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -474,7 +474,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -492,7 +492,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -506,7 +506,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -524,7 +524,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -538,7 +538,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -552,7 +552,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -568,7 +568,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -585,7 +585,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -600,7 +600,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -615,7 +615,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -631,7 +631,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -655,7 +655,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -684,7 +684,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -712,7 +712,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -731,7 +731,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -747,7 +747,7 @@ fun Car.getYellow(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

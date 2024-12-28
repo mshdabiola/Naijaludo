@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.car
+package com.mshdabiola.designsystem.icon.car
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlin.collections.List as ____KtList
