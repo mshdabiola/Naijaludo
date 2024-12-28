@@ -35,15 +35,15 @@ class StoreImple : Store {
     override suspend fun setGame(players: List<Player>, pawns: List<Pawn>) {
     }
 
-    override fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+    override suspend fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
         return getDefaultPlayer(type, name)
     }
 
-    override fun getName(): String {
+    fun getName(): String {
         return "Abiola"
     }
 
-    override fun getUser(): User {
+    override suspend fun getUser(): User {
         return User("1234", "", "Abiola")
     }
 
@@ -64,7 +64,7 @@ class StoreImple : Store {
     override suspend fun setLog4(ludoLog: LogLudoData) {
     }
 
-    override fun getLog4(): LogLudoData {
+    override suspend fun getLog4(): LogLudoData {
         return LogLudoData(
             neverKillInGame = true,
             numberOfTimeKill = 0,
