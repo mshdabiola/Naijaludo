@@ -6,6 +6,7 @@ package com.mshdabiola.setting
 
 import app.cash.turbine.test
 import com.mshdabiola.data.repository.UserDataRepository
+import com.mshdabiola.datastore.Store
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.testing.fake.testDataModule
 import com.mshdabiola.testing.util.MainDispatcherRule
@@ -32,11 +33,13 @@ class SettingViewModelTest : KoinTest {
         this.modules(testDataModule)
     }
     private val userRepository by inject<UserDataRepository>()
+    private val store by inject<Store>()
 
     @Test
     fun init() = runTest(mainDispatcherRule.testDispatcher) {
         val viewModel = SettingViewModel(
             userDataRepository = userRepository,
+            setting = store,
         )
 
         viewModel
@@ -66,6 +69,7 @@ class SettingViewModelTest : KoinTest {
     fun setThemeTest() = runTest(mainDispatcherRule.testDispatcher) {
         val viewModel = SettingViewModel(
             userDataRepository = userRepository,
+            setting = store,
         )
 
         viewModel
@@ -99,6 +103,7 @@ class SettingViewModelTest : KoinTest {
     fun setDarkTest() = runTest(mainDispatcherRule.testDispatcher) {
         val viewModel = SettingViewModel(
             userDataRepository = userRepository,
+            setting = store,
         )
 
         viewModel
