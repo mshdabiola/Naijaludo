@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.dragon
+package com.mshdabiola.designsystem.icon.dragon
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
+fun Dragon.getGreen(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Green9",
         defaultWidth = 200.0.dp,
@@ -19,7 +19,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -117,7 +117,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -131,7 +131,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -149,7 +149,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -164,7 +164,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -178,7 +178,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -194,7 +194,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -218,7 +218,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -237,7 +237,7 @@ fun Dragon.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

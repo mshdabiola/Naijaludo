@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.dog
+package com.mshdabiola.designsystem.icon.dog
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
+fun Dog.getBlue(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Blue4",
         defaultWidth = 200.0.dp,
@@ -19,7 +19,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -87,7 +87,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -110,7 +110,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -124,7 +124,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -145,7 +145,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -340,7 +340,7 @@ fun Dog.getBlue(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

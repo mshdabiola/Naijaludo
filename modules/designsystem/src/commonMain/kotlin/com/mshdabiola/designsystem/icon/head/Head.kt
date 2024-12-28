@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.head
+package com.mshdabiola.designsystem.icon.head
 
 public object Head
