@@ -60,7 +60,7 @@ internal fun GameRoute(
     animatedContentScope: AnimatedContentScope,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBack: () -> Unit,
-    gameScreenViewModel: GeneralViewModel,
+    gameScreenViewModel: GameViewModel,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
     navigateToMarket: () -> Unit = {},
 

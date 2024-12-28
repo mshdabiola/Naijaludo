@@ -43,8 +43,6 @@ import com.mshdabiola.ui.state.PointUiState
 import naijaludo.features.game.generated.resources.Res
 import naijaludo.features.game.generated.resources.give_up
 import naijaludo.features.game.generated.resources.home
-import naijaludo.features.game.generated.resources.leaderboard_solo_player_rank
-import naijaludo.features.game.generated.resources.leaderboard_trio_player_rank
 import naijaludo.features.game.generated.resources.music
 import naijaludo.features.game.generated.resources.sound
 import org.jetbrains.compose.resources.stringResource
@@ -111,11 +109,11 @@ fun GameScreenPhonePortrait(
                 RankCard(
                     Modifier
                         .width(70.dp),
-                    leadRes = if (numb == 2) {
-                        Res.string.leaderboard_solo_player_rank
-                    } else {
-                        Res.string.leaderboard_trio_player_rank
-                    },
+//                    leadRes = if (numb == 2) {
+//                        Res.string.leaderboard_solo_player_rank
+//                    } else {
+//                        Res.string.leaderboard_trio_player_rank
+//                    },
                 )
             }
         }
@@ -251,11 +249,11 @@ fun GameScreenPhoneLand(
                 RankCard(
                     Modifier
                         .width(70.dp),
-                    leadRes = if (numb == 2) {
-                        Res.string.leaderboard_solo_player_rank
-                    } else {
-                        Res.string.leaderboard_trio_player_rank
-                    },
+//                    leadRes = if (numb == 2) {
+//                        Res.string.leaderboard_solo_player_rank
+//                    } else {
+//                        Res.string.leaderboard_trio_player_rank
+//                    },
                 )
             }
         }
@@ -397,11 +395,11 @@ fun GameScreeFoldPortrait(
                 RankCard(
                     Modifier
                         .width(70.dp),
-                    leadRes = if (numb == 2) {
-                        Res.string.leaderboard_solo_player_rank
-                    } else {
-                        Res.string.leaderboard_trio_player_rank
-                    },
+//                    leadRes = if (numb == 2) {
+//                        Res.string.leaderboard_solo_player_rank
+//                    } else {
+//                        Res.string.leaderboard_trio_player_rank
+//                    },
                 )
             }
             MarketButton(onClick = navigateToMarket)
@@ -536,11 +534,11 @@ fun GameScreenLarge(
                 RankCard(
                     Modifier
                         .width(70.dp),
-                    leadRes = if (numb == 2) {
-                        Res.string.leaderboard_solo_player_rank
-                    } else {
-                        Res.string.leaderboard_trio_player_rank
-                    },
+//                    leadRes = if (numb == 2) {
+//                        Res.string.leaderboard_solo_player_rank
+//                    } else {
+//                        Res.string.leaderboard_trio_player_rank
+//                    },
                 )
             }
             MarketButton(onClick = navigateToMarket)
