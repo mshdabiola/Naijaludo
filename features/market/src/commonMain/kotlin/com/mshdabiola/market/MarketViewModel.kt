@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class GeneralViewModel(
+class MarketViewModel(
     private val setting: Store,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {

@@ -6,6 +6,6 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MarketScreenNav(deviceType: DEVICE_TYPE, onBack: () -> Unit) {
-    val viewModel: GeneralViewModel = koinViewModel()
+    val viewModel: MarketViewModel = koinViewModel()
 //    MarketScreen(settings = setting, deviceType = deviceType, onBack = onBack)
 }
