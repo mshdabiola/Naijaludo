@@ -1,4 +1,4 @@
-package com.mshdabiola.main
+package com.mshdabiola.setting
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -33,23 +33,23 @@ import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.component.DialogUi
 import com.mshdabiola.designsystem.string.Dimensions.Base2
 import com.mshdabiola.ui.state.SettingUiState
-import naijaludo.features.main.generated.resources.Res
-import naijaludo.features.main.generated.resources.assistant
-import naijaludo.features.main.generated.resources.basic_setting
-import naijaludo.features.main.generated.resources.board_setting
-import naijaludo.features.main.generated.resources.board_style
-import naijaludo.features.main.generated.resources.board_type
-import naijaludo.features.main.generated.resources.close
-import naijaludo.features.main.generated.resources.game_setting
-import naijaludo.features.main.generated.resources.level
-import naijaludo.features.main.generated.resources.music
-import naijaludo.features.main.generated.resources.pawn_num
-import naijaludo.features.main.generated.resources.pawn_number
-import naijaludo.features.main.generated.resources.rotate
-import naijaludo.features.main.generated.resources.sound
-import naijaludo.features.main.generated.resources.sound_setting
-import naijaludo.features.main.generated.resources.style
-import naijaludo.features.main.generated.resources.type
+import naijaludo.features.setting.generated.resources.Res
+import naijaludo.features.setting.generated.resources.assistant
+import naijaludo.features.setting.generated.resources.basic_setting
+import naijaludo.features.setting.generated.resources.board_setting
+import naijaludo.features.setting.generated.resources.board_style
+import naijaludo.features.setting.generated.resources.board_type
+import naijaludo.features.setting.generated.resources.close
+import naijaludo.features.setting.generated.resources.game_setting
+import naijaludo.features.setting.generated.resources.level
+import naijaludo.features.setting.generated.resources.music
+import naijaludo.features.setting.generated.resources.pawn_num
+import naijaludo.features.setting.generated.resources.pawn_number
+import naijaludo.features.setting.generated.resources.rotate
+import naijaludo.features.setting.generated.resources.sound
+import naijaludo.features.setting.generated.resources.sound_setting
+import naijaludo.features.setting.generated.resources.style
+import naijaludo.features.setting.generated.resources.type
 import org.jetbrains.compose.resources.StringArrayResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringArrayResource
@@ -292,7 +292,7 @@ fun ExposeBox(
     stringArrayRes: StringArrayResource,
 ) {
     var expanded by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val options = stringArrayResource(stringArrayRes)
     val curr = if (current >= options.size) options.lastIndex else current

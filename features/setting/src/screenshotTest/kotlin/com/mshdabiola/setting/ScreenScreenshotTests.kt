@@ -5,10 +5,12 @@
 package com.mshdabiola.setting
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.mshdabiola.designsystem.DevicePreviews
 import com.mshdabiola.designsystem.theme.darkDefaultScheme
 import com.mshdabiola.designsystem.theme.lightDefaultScheme
@@ -19,12 +21,11 @@ class ScreenScreenshotTests {
     @Composable
     fun LoadingLight() {
         MaterialTheme(colorScheme = lightDefaultScheme) {
-            Text("Hello")
-//            SettingScreen(
-//                modifier = Modifier.fillMaxSize(),
-//
-//                settingState = SettingState.Loading(),
-//            )
+            SettingScreen(
+                modifier = Modifier.fillMaxSize(),
+
+                settingState = SettingState.Loading(),
+            )
         }
     }
 
