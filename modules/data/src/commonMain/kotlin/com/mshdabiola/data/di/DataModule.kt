@@ -1,12 +1,12 @@
 package com.mshdabiola.data.di
 
 import com.mshdabiola.analytics.di.analyticsModule
-import com.mshdabiola.data.IP2pManager
 import com.mshdabiola.data.P2pManager
 import com.mshdabiola.data.Sound
 import com.mshdabiola.data.repository.OfflineFirstUserDataRepository
 import com.mshdabiola.data.repository.UserDataRepository
 import com.mshdabiola.datastore.di.datastoreModule
+import com.mshdabiola.naijaludo.model.IP2pManager
 import com.mshdabiola.naijaludo.model.SoundInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.core.module.dsl.singleOf
