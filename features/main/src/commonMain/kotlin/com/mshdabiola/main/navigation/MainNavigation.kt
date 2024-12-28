@@ -24,6 +24,7 @@ fun NavGraphBuilder.mainScreen(
     sharedTransitionScope: SharedTransitionScope,
     navigateToGame: () -> Unit,
     navigateToMarket: () -> Unit,
+    navigateToSetting: () -> Unit,
     deviceType: DEVICE_TYPE,
 ) {
     composable<Main> {
@@ -36,6 +37,7 @@ fun NavGraphBuilder.mainScreen(
             navigateToMarket = navigateToMarket,
             deviceType = deviceType,
             mainViewModel = viewModel,
+            navigateToSetting = navigateToSetting,
         )
     }
 }

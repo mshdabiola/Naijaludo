@@ -25,8 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,8 +32,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.icon.Drawable
 import com.mshdabiola.designsystem.icon.drawable.Bg
@@ -48,11 +46,8 @@ import com.mshdabiola.designsystem.string.Dimensions.LogoButtonSpace
 import com.mshdabiola.designsystem.string.Dimensions.LogoSize
 import com.mshdabiola.designsystem.string.Dimensions.PlayButtonSize
 import com.mshdabiola.model.DEVICE_TYPE
-import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.ui.MarketButton
 import com.mshdabiola.ui.issPortrait
-import com.mshdabiola.ui.state.SettingUiState
-import com.mshdabiola.ui.state.toUi
 import naijaludo.features.main.generated.resources.Res
 import naijaludo.features.main.generated.resources.close
 import naijaludo.features.main.generated.resources.logo
@@ -69,9 +64,9 @@ fun MainRoute(
     mainViewModel: MainViewModel,
     navigateToGame: () -> Unit,
     navigateToMarket: () -> Unit,
+    navigateToSetting: () -> Unit,
     deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
 ) {
-    val settingUiState = mainViewModel.settingUiState.collectAsStateWithLifecycle()
     MainScreen(
         modifier = modifier,
         sharedTransitionScope = sharedTransitionScope,
@@ -86,9 +81,8 @@ fun MainRoute(
         onCloseApp = {
             // activity.finish()
         },
-        settingUiState = settingUiState.value,
-        setSetting = mainViewModel::setSetting,
         deviceType = deviceType,
+        navigateToSetting = navigateToSetting,
     )
 }
 
@@ -101,14 +95,9 @@ fun MainScreen(
     onPlay: () -> Unit = {},
     onMarket: () -> Unit = {},
     onCloseApp: () -> Unit = {},
-    settingUiState: SettingUiState = Setting.default.toUi(),
-    setSetting: (SettingUiState) -> Unit = {},
+    navigateToSetting: () -> Unit = {},
     deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE_PORT,
 ) {
-    var showDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
     val vector = if (issPortrait()) {
         Drawable.Bg
     } else {
@@ -150,7 +139,7 @@ fun MainScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 IconButton(
-                    onClick = { showDialog = true },
+                    onClick = navigateToSetting,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
@@ -175,6 +164,7 @@ fun MainScreen(
                 GameButton(
                     onClick = onPlay,
                     modifier = Modifier
+                        .testTag("main:play")
                         .align(Alignment.Center)
                         .size(PlayButtonSize),
                     shape = RoundedCornerShape(Base2),
@@ -223,12 +213,6 @@ fun MainScreen(
                 }
             }
         }
-        SettingDialog(
-            show = showDialog,
-            settingUiState,
-            setSetting,
-            onDismissRequest = { showDialog = false },
-        )
     }
 }
 //
