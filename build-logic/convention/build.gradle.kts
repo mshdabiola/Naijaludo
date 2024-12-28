@@ -17,8 +17,6 @@ dependencies {
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.firebase.performance.gradlePlugin)
     implementation(libs.truth)
-    compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.kotlin.powerAssert)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kover.gradlePlugin)
@@ -79,10 +77,7 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
 
-        register("androidRoom") {
-            id = "mshdabiola.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
-        }
+
     }
 }
 
