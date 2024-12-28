@@ -3,13 +3,13 @@ package com.mshdabiola.game
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mshdabiola.data.IP2pManager
 import com.mshdabiola.datastore.Store
 import com.mshdabiola.model.LogLudoData
 import com.mshdabiola.naijaludo.OfflinePlayer
 import com.mshdabiola.naijaludo.model.Constant
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
+import com.mshdabiola.naijaludo.model.IP2pManager
 import com.mshdabiola.naijaludo.model.LudoGameState
 import com.mshdabiola.naijaludo.model.Setting
 import com.mshdabiola.naijaludo.model.SoundInterface
@@ -44,7 +44,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class GeneralViewModel(
+class GameViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val soundSystem: SoundInterface,
     private val blueManager: IP2pManager,
@@ -295,8 +295,8 @@ class GeneralViewModel(
             logLudo = logLudoData,
             ludoGameState = newLudoUiState,
             ludoSetting = ludoSetting,
-            onGameFinish = this@GeneralViewModel::onGameFinish,
-            onPlayerFinishPlaying = this@GeneralViewModel::onPlayerFinishPlaying,
+            onGameFinish = this@GameViewModel::onGameFinish,
+            onPlayerFinishPlaying = this@GameViewModel::onPlayerFinishPlaying,
             saveLog = saveLog,
         )
     }
