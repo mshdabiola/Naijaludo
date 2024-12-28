@@ -56,6 +56,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.icon.Drawable
@@ -83,7 +84,7 @@ internal fun MarketRoute(
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    gameScreenViewModel: GeneralViewModel,
+    gameScreenViewModel: MarketViewModel,
     onBack: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -294,6 +295,7 @@ internal fun MarketScreen(
                     containerColor = Color.Transparent,
                 ) {
                     Tab(
+                        modifier = Modifier.testTag("market:market"),
                         selected = pagerState.currentPage == 0,
                         onClick = {
                             coroutineScope.launch {
@@ -305,6 +307,8 @@ internal fun MarketScreen(
                         },
                     )
                     Tab(
+                        modifier = Modifier.testTag("market:items"),
+
                         selected = pagerState.currentPage == 1,
                         onClick = {
                             coroutineScope.launch {
