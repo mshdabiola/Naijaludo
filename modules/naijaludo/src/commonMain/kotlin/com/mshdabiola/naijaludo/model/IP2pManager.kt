@@ -1,4 +1,4 @@
-package com.mshdabiola.data
+package com.mshdabiola.naijaludo.model
 
 import kotlinx.coroutines.flow.MutableStateFlow
 
