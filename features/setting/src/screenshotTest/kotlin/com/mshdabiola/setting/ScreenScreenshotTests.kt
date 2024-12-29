@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import com.mshdabiola.designsystem.DevicePreviews
 import com.mshdabiola.designsystem.theme.darkDefaultScheme
 import com.mshdabiola.designsystem.theme.lightDefaultScheme
+import com.mshdabiola.naijaludo.model.Setting
+import com.mshdabiola.ui.state.toUi
 
 class ScreenScreenshotTests {
 
@@ -24,7 +26,7 @@ class ScreenScreenshotTests {
             SettingScreen(
                 modifier = Modifier.fillMaxSize(),
 
-                settingState = SettingState.Loading(),
+                settingUiState = Setting.default.toUi(),
             )
         }
     }
