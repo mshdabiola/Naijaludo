@@ -3,8 +3,6 @@ package com.mshdabiola.data.di
 import com.mshdabiola.analytics.di.analyticsModule
 import com.mshdabiola.data.P2pManager
 import com.mshdabiola.data.Sound
-import com.mshdabiola.data.repository.OfflineFirstUserDataRepository
-import com.mshdabiola.data.repository.UserDataRepository
 import com.mshdabiola.datastore.di.datastoreModule
 import com.mshdabiola.naijaludo.model.IP2pManager
 import com.mshdabiola.naijaludo.model.SoundInterface
@@ -18,7 +16,6 @@ val dataModule = module {
 //    includes(datastoreModule, databaseModule, networkModule, analyticsModule)
     single { dispatcher } bind CoroutineDispatcher::class
     includes(datastoreModule, analyticsModule)
-    singleOf(::OfflineFirstUserDataRepository) bind UserDataRepository::class
     singleOf(::Sound) bind SoundInterface::class
     singleOf(::P2pManager) bind IP2pManager::class
 }
