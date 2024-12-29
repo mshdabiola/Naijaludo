@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.man
+package com.mshdabiola.designsystem.icon.man
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Man.getYellow(iconColor: Long, accentColor: Long): ImageVector {
+fun Man.getYellow(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Yellow2",
         defaultWidth = 200.0.dp,
@@ -19,7 +19,7 @@ fun Man.getYellow(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

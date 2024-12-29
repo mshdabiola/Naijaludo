@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.dog
+package com.mshdabiola.designsystem.icon.dog
 
 public object Dog

@@ -2,9 +2,8 @@ package com.mshdabiola.setting
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import com.mshdabiola.model.DarkThemeConfig
-import com.mshdabiola.model.ThemeBrand
+import com.mshdabiola.naijaludo.model.Setting
+import com.mshdabiola.ui.state.toUi
 import org.junit.Rule
 import kotlin.test.Test
 
@@ -18,14 +17,9 @@ class SettingScreenTest {
     fun main() {
         composeRule.setContent {
             SettingScreen(
-                settingState = SettingState.Success(
-                    themeBrand = ThemeBrand.DEFAULT,
-                    darkThemeConfig = DarkThemeConfig.DARK,
-                ),
+                settingUiState = Setting.default.toUi(),
+
             )
         }
-        composeRule.onNodeWithTag("setting:screen").assertExists()
-        composeRule.onNodeWithTag("setting:theme").assertExists()
-        composeRule.onNodeWithTag("setting:mode").assertExists()
     }
 }

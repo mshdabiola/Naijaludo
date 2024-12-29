@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mshdabiola.game.GameRoute
-import com.mshdabiola.game.GeneralViewModel
+import com.mshdabiola.game.GameViewModel
 import com.mshdabiola.model.DEVICE_TYPE
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -33,7 +33,7 @@ fun NavGraphBuilder.gameScreen(
 ) {
     composable<Game> { backStack ->
 
-        val viewModel: GeneralViewModel = koinViewModel()
+        val viewModel: GameViewModel = koinViewModel()
 
         GameRoute(
             modifier = modifier,

@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.fish
+package com.mshdabiola.designsystem.icon.fish
 
 public object Fish

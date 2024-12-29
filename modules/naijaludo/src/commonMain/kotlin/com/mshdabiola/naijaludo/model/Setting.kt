@@ -17,6 +17,11 @@ data class Setting(
     val music: Boolean,
     val musicType: Int,
 
+    val themeBrand: Int,
+    val darkThemeConfig: Int,
+    val useDynamicColor: Boolean,
+    val shouldHideOnboarding: Boolean,
+
 ) {
     companion object {
         val default = Setting(
@@ -30,6 +35,10 @@ data class Setting(
             sound = false,
             music = false,
             musicType = 0,
+            darkThemeConfig = 1,
+            useDynamicColor = true,
+            shouldHideOnboarding = false,
+            themeBrand = 0,
         )
     }
 }

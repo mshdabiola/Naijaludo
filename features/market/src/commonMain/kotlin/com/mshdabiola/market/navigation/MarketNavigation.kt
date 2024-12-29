@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.mshdabiola.market.GeneralViewModel
 import com.mshdabiola.market.MarketRoute
+import com.mshdabiola.market.MarketViewModel
 import com.mshdabiola.model.DEVICE_TYPE
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -32,7 +32,7 @@ fun NavGraphBuilder.marketScreen(
 ) {
     composable<Market> { backStack ->
 
-        val viewModel: GeneralViewModel = koinViewModel()
+        val viewModel: MarketViewModel = koinViewModel()
 
         MarketRoute(
             modifier = modifier,

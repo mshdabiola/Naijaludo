@@ -11,6 +11,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun MarketButton(onClick: () -> Unit = {}) {
@@ -29,7 +31,12 @@ fun MarketButton(onClick: () -> Unit = {}) {
         label = "front",
     )
 
-    FloatingActionButton(onClick = onClick, containerColor = background.value, contentColor = fground.value) {
+    FloatingActionButton(
+        modifier = Modifier.testTag("game:market"),
+        onClick = onClick,
+        containerColor = background.value,
+        contentColor = fground.value,
+    ) {
         Icon(imageVector = Icons.Rounded.ShoppingCart, contentDescription = "cart")
     }
 

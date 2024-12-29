@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.cat
+package com.mshdabiola.designsystem.icon.cat
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
+fun Cat.getGreen(iconColor: Color, accentColor: Color): ImageVector {
     return Builder(
         name = "Green3",
         defaultWidth = 200.0.dp,
@@ -19,7 +19,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
         viewportHeight = 200.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(iconColor)),
+            fill = SolidColor(iconColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -100,7 +100,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -134,7 +134,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -149,7 +149,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -220,7 +220,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -236,7 +236,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -252,7 +252,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -268,7 +268,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -287,7 +287,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -304,7 +304,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -322,7 +322,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -339,7 +339,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -355,7 +355,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -370,7 +370,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -387,7 +387,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -403,7 +403,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -418,7 +418,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -436,7 +436,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -456,7 +456,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -471,7 +471,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -490,7 +490,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -510,7 +510,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -525,7 +525,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -541,7 +541,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -579,7 +579,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -598,7 +598,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -622,7 +622,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -643,7 +643,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -756,7 +756,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -833,7 +833,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -849,7 +849,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,
@@ -865,7 +865,7 @@ fun Cat.getGreen(iconColor: Long, accentColor: Long): ImageVector {
             close()
         }
         path(
-            fill = SolidColor(Color(accentColor)),
+            fill = SolidColor(accentColor),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = Butt,

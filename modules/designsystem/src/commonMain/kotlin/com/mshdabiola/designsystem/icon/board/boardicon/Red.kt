@@ -1,4 +1,4 @@
-package com.mshdabiola.ludo.screen.game.component.board.boardicon
+package com.mshdabiola.designsystem.icon.board.boardicon
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero

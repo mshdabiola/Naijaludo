@@ -62,6 +62,29 @@ fun DialogUi(
         )
     }
 }
+
+@Composable
+fun DialogUi(
+    modifier: Modifier = Modifier,
+    buttons: (@Composable RowScope.() -> Unit)? = null,
+    cancelIcon: (@Composable () -> Unit)? = null,
+    title: @Composable (RowScope.() -> Unit)? = null,
+    content: (@Composable ColumnScope.() -> Unit)? = null,
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = MaterialTheme.colorScheme.inversePrimary,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+) {
+    DialogContent(
+        buttons = buttons,
+        modifier = modifier,
+        cancelIcon = cancelIcon,
+        title = title,
+        content = content,
+        shape = shape,
+        containerColor = containerColor,
+        tonalElevation = tonalElevation,
+    )
+}
 //
 // @Preview
 // @Composable

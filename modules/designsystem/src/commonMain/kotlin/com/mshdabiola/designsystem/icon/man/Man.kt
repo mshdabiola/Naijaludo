@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.man
+package com.mshdabiola.designsystem.icon.man
 
 public object Man

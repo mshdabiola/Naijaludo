@@ -13,8 +13,8 @@ import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Build
-import com.mshdabiola.data.IP2pManager
-import com.mshdabiola.data.P2pManagerState
+import com.mshdabiola.naijaludo.model.IP2pManager
+import com.mshdabiola.naijaludo.model.P2pManagerState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

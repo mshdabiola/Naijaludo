@@ -16,6 +16,7 @@ import com.mshdabiola.main.navigation.Main
 import com.mshdabiola.main.navigation.mainScreen
 import com.mshdabiola.market.navigation.marketScreen
 import com.mshdabiola.market.navigation.navigateToMarket
+import com.mshdabiola.setting.navigation.navigateToSetting
 import com.mshdabiola.setting.navigation.settingScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -37,6 +38,7 @@ fun SkNavHost(
                 navigateToGame = { navController.navigateToGame() },
                 navigateToMarket = navController::navigateToMarket,
                 deviceType = appState.getDevietype(),
+                navigateToSetting = navController::navigateToSetting,
             )
             gameScreen(
                 modifier = Modifier,

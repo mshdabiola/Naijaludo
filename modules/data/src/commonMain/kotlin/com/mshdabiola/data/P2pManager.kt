@@ -1,5 +1,7 @@
 package com.mshdabiola.data
 
+import com.mshdabiola.naijaludo.model.IP2pManager
+import com.mshdabiola.naijaludo.model.P2pManagerState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class P2pManager : IP2pManager {

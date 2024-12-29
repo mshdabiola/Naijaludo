@@ -1,3 +1,3 @@
-package com.mshdabiola.ludo.screen.game.component.dragon
+package com.mshdabiola.designsystem.icon.dragon
 
 public object Dragon
