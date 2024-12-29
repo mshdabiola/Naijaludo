@@ -1,5 +1,7 @@
 package com.mshdabiola.ui.state
 
+import com.mshdabiola.model.DarkThemeConfig
+import com.mshdabiola.model.ThemeBrand
 import com.mshdabiola.naijaludo.model.Setting
 
 data class SettingUiState(
@@ -16,6 +18,11 @@ data class SettingUiState(
     val music: Boolean,
     val musicType: Int,
 
+    val themeBrand: ThemeBrand,
+    val darkThemeConfig: DarkThemeConfig,
+    val useDynamicColor: Boolean,
+    val shouldHideOnboarding: Boolean,
+
 )
 
 fun SettingUiState.toSetting() = Setting(
@@ -29,6 +36,10 @@ fun SettingUiState.toSetting() = Setting(
     sound = sound,
     music = music,
     musicType = musicType,
+    darkThemeConfig = darkThemeConfig.ordinal,
+    themeBrand = themeBrand.ordinal,
+    shouldHideOnboarding = shouldHideOnboarding,
+    useDynamicColor = useDynamicColor,
 
 )
 
@@ -43,4 +54,8 @@ fun Setting.toUi() = SettingUiState(
     sound = sound,
     music = music,
     musicType = musicType,
+    darkThemeConfig = DarkThemeConfig.entries[darkThemeConfig],
+    themeBrand = ThemeBrand.entries[themeBrand],
+    shouldHideOnboarding = shouldHideOnboarding,
+    useDynamicColor = useDynamicColor,
 )
