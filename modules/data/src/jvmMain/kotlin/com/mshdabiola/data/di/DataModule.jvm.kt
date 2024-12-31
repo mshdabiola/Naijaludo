@@ -4,15 +4,10 @@ import com.mshdabiola.data.P2pManager
 import com.mshdabiola.data.Sound
 import com.mshdabiola.naijaludo.model.IP2pManager
 import com.mshdabiola.naijaludo.model.SoundInterface
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-
-actual val dispatcher: CoroutineDispatcher
-    get() = Dispatchers.Default
 
 actual val dataModule: Module
     get() = module {
