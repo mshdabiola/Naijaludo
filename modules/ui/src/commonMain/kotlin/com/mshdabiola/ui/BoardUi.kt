@@ -443,10 +443,11 @@ fun DrawScope.drawShadowRect(
             .Transparent.toArgb()
 
         // frameworkPaint.
-        frameworkPaint.shadow(
-            radius,
-            foreGroundColor,
-        )
+//        frameworkPaint.shadow(
+//            radius,
+//            foreGroundColor,
+//        )
+        frameworkPaint.color = foreGroundColor.toArgb()
 
         it.drawRoundRect(
             left = topLeft.x,
