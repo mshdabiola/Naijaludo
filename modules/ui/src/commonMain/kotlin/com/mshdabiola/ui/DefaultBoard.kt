@@ -69,12 +69,12 @@ sealed class UBoard(private val colors: List<ColorFamily>) : UItem {
     }
 
     fun getColor(gameColor: GameColor): Color {
-        return map(gameColor).onColorContainer
+        return map(gameColor).colorContainer
     }
 
     fun getHouseColor(gameColors: List<GameColor>): List<Color> {
         return convert(gameColors)
-            .map { it.colorContainer }
+            .map { it.color }
     }
 
 //    abstract fun getPawnColor(gameColors: List<GameColor>): Map<GameColor, Color>
@@ -90,16 +90,16 @@ sealed class UBoard(private val colors: List<ColorFamily>) : UItem {
     fun getIcons(): List<ImageVector> {
         val colors = convert(GameColor.entries)
         return listOf(
-            getRedIcon(colors[0].color, colors[0].onColor),
-            getGreenIcon(colors[1].color, colors[1].onColor),
-            getYellowIcon(colors[2].color, colors[2].onColor),
-            getBlueIcon(colors[3].color, colors[3].onColor),
+            getRedIcon(colors[0].colorContainer.copy(alpha = 0.7f), colors[0].onColorContainer),
+            getGreenIcon(colors[1].colorContainer.copy(alpha = 0.7f), colors[1].onColorContainer),
+            getYellowIcon(colors[2].colorContainer.copy(alpha = 0.7f), colors[2].onColorContainer),
+            getBlueIcon(colors[3].colorContainer.copy(alpha = 0.7f), colors[3].onColorContainer),
         )
     }
 }
 
 data object BigCatBoard :
-    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.green4)) {
+    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.yellow4)) {
 
 //    override fun getPawnColor(gameColors: List<GameColor>): Map<GameColor, Color> {
 //        TODO("Not yet implemented")
@@ -123,7 +123,7 @@ data object BigCatBoard :
 }
 
 data object CarBoard :
-    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.green3)) {
+    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.yellow3)) {
 
 //    override fun getPawnColor(gameColors: List<GameColor>): Map<GameColor, Color> {
 //        TODO("Not yet implemented")
@@ -147,7 +147,7 @@ data object CarBoard :
 }
 
 data object CatBoard :
-    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.green2)) {
+    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.yellow2)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Cat.getRed(iconColor, accentColor)
@@ -167,7 +167,7 @@ data object CatBoard :
 }
 
 data object DogBoard :
-    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.green1)) {
+    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.yellow1)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Dog.getRed(iconColor, accentColor)
@@ -187,7 +187,7 @@ data object DogBoard :
 }
 
 data object DragonBoard :
-    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.green4)) {
+    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.yellow4)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Dragon.getRed(iconColor, accentColor)
@@ -207,7 +207,7 @@ data object DragonBoard :
 }
 
 data object FishBoard :
-    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.green3)) {
+    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.yellow3)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Fish.getRed(iconColor, accentColor)
@@ -227,7 +227,7 @@ data object FishBoard :
 }
 
 data object HeadBoard :
-    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.green2)) {
+    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.yellow2)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Head.getRed(iconColor, accentColor)
@@ -247,7 +247,7 @@ data object HeadBoard :
 }
 
 data object ManBoard :
-    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.green1)) {
+    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.yellow1)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Man.getRed(iconColor, accentColor)
@@ -267,7 +267,7 @@ data object ManBoard :
 }
 
 data object WomanBoard :
-    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.green4)) {
+    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.yellow4)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Woman.getRed(iconColor, accentColor)
@@ -289,7 +289,7 @@ data object WomanBoard :
 //
 
 data object BigCatBoard2 :
-    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.green3)) {
+    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.yellow3)) {
 
 //    override fun getPawnColor(gameColors: List<GameColor>): Map<GameColor, Color> {
 //        TODO("Not yet implemented")
@@ -313,7 +313,7 @@ data object BigCatBoard2 :
 }
 
 data object CarBoard2 :
-    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.green2)) {
+    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.yellow2)) {
 
 //    override fun getPawnColor(gameColors: List<GameColor>): Map<GameColor, Color> {
 //        TODO("Not yet implemented")
@@ -337,7 +337,7 @@ data object CarBoard2 :
 }
 
 data object CatBoard2 :
-    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.green1)) {
+    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.yellow1)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Cat.getRed(iconColor, accentColor)
@@ -357,7 +357,7 @@ data object CatBoard2 :
 }
 
 data object DogBoard2 :
-    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.green4)) {
+    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.yellow4)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Dog.getRed(iconColor, accentColor)
@@ -377,7 +377,7 @@ data object DogBoard2 :
 }
 
 data object DragonBoard2 :
-    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.green3)) {
+    UBoard(listOf(extendedColorScheme.red3, extendedColorScheme.green3, extendedColorScheme.blue3, extendedColorScheme.yellow3)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Dragon.getRed(iconColor, accentColor)
@@ -397,7 +397,7 @@ data object DragonBoard2 :
 }
 
 data object FishBoard2 :
-    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.green2)) {
+    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.yellow2)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Fish.getRed(iconColor, accentColor)
@@ -417,7 +417,7 @@ data object FishBoard2 :
 }
 
 data object HeadBoard2 :
-    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.green1)) {
+    UBoard(listOf(extendedColorScheme.red1, extendedColorScheme.green1, extendedColorScheme.blue1, extendedColorScheme.yellow1)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Head.getRed(iconColor, accentColor)
@@ -437,7 +437,7 @@ data object HeadBoard2 :
 }
 
 data object ManBoard2 :
-    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.green4)) {
+    UBoard(listOf(extendedColorScheme.red4, extendedColorScheme.green4, extendedColorScheme.blue4, extendedColorScheme.yellow4)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Man.getRed(iconColor, accentColor)
@@ -457,7 +457,7 @@ data object ManBoard2 :
 }
 
 data object WomanBoard2 :
-    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.green2)) {
+    UBoard(listOf(extendedColorScheme.red2, extendedColorScheme.green2, extendedColorScheme.blue2, extendedColorScheme.yellow2)) {
 
     override fun getRedIcon(iconColor: Color, accentColor: Color): ImageVector {
         return Woman.getRed(iconColor, accentColor)
