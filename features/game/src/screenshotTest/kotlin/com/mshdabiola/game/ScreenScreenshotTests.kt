@@ -4,18 +4,6 @@
 
 package com.mshdabiola.game
 
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.runtime.Composable
-import com.mshdabiola.designsystem.DevicePreviews
-import com.mshdabiola.designsystem.theme.darkDefaultScheme
-import com.mshdabiola.designsystem.theme.lightDefaultScheme
-import com.mshdabiola.naijaludo.model.Constant
-import com.mshdabiola.ui.SharedContentPreview
-import com.mshdabiola.ui.state.toLudoUiState
-
 class ScreenScreenshotTests {
 //
 //    @OptIn(ExperimentalSharedTransitionApi::class)
