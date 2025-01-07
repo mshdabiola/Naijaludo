@@ -24,13 +24,9 @@ class ScreenScreenshotTests {
         MaterialTheme(colorScheme = lightDefaultScheme) {
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                    Surface {
-                        SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                            GameScreen(
-                                gameUiState = Constant.getDefaultGameState().toLudoUiState(),
-                            )
-                        }
-                    }
+                    GameScreen(
+                        gameUiState = Constant.getDefaultGameState().toLudoUiState(),
+                    )
                 }
             }
         }
@@ -43,13 +39,9 @@ class ScreenScreenshotTests {
         MaterialTheme(colorScheme = darkDefaultScheme) {
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                    Surface {
-                        SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                            GameScreen(
-                                gameUiState = Constant.getDefaultGameState().toLudoUiState(),
-                            )
-                        }
-                    }
+                    GameScreen(
+                        gameUiState = Constant.getDefaultGameState().toLudoUiState(),
+                    )
                 }
             }
         }
@@ -62,13 +54,9 @@ class ScreenScreenshotTests {
         MaterialTheme(colorScheme = lightDefaultScheme) {
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                    Surface {
-                        SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                            GameScreen(
-                                gameUiState = Constant.getDefaultGameState().toLudoUiState(),
-                            )
-                        }
-                    }
+                    GameScreen(
+                        gameUiState = Constant.getDefaultGameState().toLudoUiState(),
+                    )
                 }
             }
         }
@@ -81,13 +69,9 @@ class ScreenScreenshotTests {
         MaterialTheme(colorScheme = darkDefaultScheme) {
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                    Surface {
-                        SharedContentPreview { sharedTransitionScope, animatedContentScope ->
-                            GameScreen(
-                                gameUiState = Constant.getDefaultGameState().toLudoUiState(),
-                            )
-                        }
-                    }
+                    GameScreen(
+                        gameUiState = Constant.getDefaultGameState().toLudoUiState(),
+                    )
                 }
             }
         }
