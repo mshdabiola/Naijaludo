@@ -7,7 +7,6 @@ package com.mshdabiola.market
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import com.mshdabiola.designsystem.theme.darkDefaultScheme
 import com.mshdabiola.designsystem.theme.lightDefaultScheme
@@ -21,8 +20,6 @@ class ScreenScreenshotTests {
     @Composable
     fun LoadingLight() {
         MaterialTheme(colorScheme = lightDefaultScheme) {
-            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
-            val state = NaijaLudoAppState(windowAdaptiveInfo.windowSizeClass)
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
                     MarketScreen()
@@ -36,8 +33,6 @@ class ScreenScreenshotTests {
     @Composable
     fun LoadingDark() {
         MaterialTheme(colorScheme = darkDefaultScheme) {
-            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
-            val state = NaijaLudoAppState(windowAdaptiveInfo.windowSizeClass)
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
                     MarketScreen()
@@ -51,8 +46,6 @@ class ScreenScreenshotTests {
     @Composable
     fun MainLight() {
         MaterialTheme(colorScheme = lightDefaultScheme) {
-            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
-            val state = NaijaLudoAppState(windowAdaptiveInfo.windowSizeClass)
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
                     MarketScreen()
@@ -66,8 +59,6 @@ class ScreenScreenshotTests {
     @Composable
     fun MainDark() {
         MaterialTheme(colorScheme = darkDefaultScheme) {
-            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
-            val state = NaijaLudoAppState(windowAdaptiveInfo.windowSizeClass)
             Surface {
                 SharedContentPreview { sharedTransitionScope, animatedContentScope ->
                     MarketScreen()
