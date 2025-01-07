@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.detail"
+    namespace = "com.mshdabiola.game"
 }
 kotlin {
     sourceSets {
