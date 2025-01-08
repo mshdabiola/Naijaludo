@@ -15,7 +15,7 @@
     <a href="https://github.com/mshdabiola/naijaludo/actions">
   <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/mshdabiola/naijaludo/1.0.0?color=palegreen&label=Commits&style=for-the-badge">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/mshdabiola/naijaludo?style=for-the-badge&color=37ABB5">
-  <img src="https://wakatime.com/badge/user/8e707c95-01e6-41d3-a760-223960f0cdf7/project/8a66c426-46aa-4192-8bfd-6cc20d777041.svg" alt=""/>
+  <img src="https://wakatime.com/badge/user/8e707c95-01e6-41d3-a760-223960f0cdf7.svg?style=for-the-badge" alt=""/>
 </a>
   <br>
   <a href="https://hits.sh/github.com/mshdabiola/naijaludo/">
