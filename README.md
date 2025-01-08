@@ -115,8 +115,6 @@ naijaludo is a compose multiplatform template. that use note app as an example. 
 
 - [Koin](https://github.com/InsertKoinIO/koin) for dependency injection.
 
-- [Coil](https://github.com/coil-kt/coil) for loading images.
-
 - Jetpack
 
     - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
@@ -125,8 +123,6 @@ naijaludo is a compose multiplatform template. that use note app as an example. 
     - [Material You Kit](https://developer.android.com/jetpack/androidx/releases/compose-material3) -
       Material 3 powerful UI components.
 
-    - [Room](https://developer.android.com/jetpack/androidx/releases/room) Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
-
     - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
       asynchronously, consistently, and transactionally.
 
@@ -134,10 +130,6 @@ naijaludo is a compose multiplatform template. that use note app as an example. 
       Android lifecycles and handle UI states upon the lifecycle changes.
   
 - [Turbine](https://github.com/cashapp/turbine) - A small testing library for kotlinx.coroutines Flow.
-
-- [Timber](https://github.com/JakeWharton/timber) - A logger with a small, extensible API.
-
-- [ksp](https://github.com/google/ksp): Kotlin Symbol Processing API.
 
 - Architecture
     - MVVM Architecture (Compose - ViewModel - Model)
