@@ -57,7 +57,7 @@
 </div>
 
 <div align="center"> 
-     <h1>Naijaludo</h1>
+     <h1>Naija Ludo: A Modern Twist on the Classic Board Game</h1>
 </div>
 
 <div style="text-align: center;">
@@ -90,10 +90,20 @@ naijaludo is a compose multiplatform template. that use note app as an example. 
     <img src="./fastlane/metadata/android/en-US/images/webScreenshots/3.png" width="30%"  alt=""/>
 </p>
 
-## Features
+## details
+Naija Ludo is a captivating mobile game that brings the classic board game of Ludo into the modern age. Developed by Mshdabiola, this Android game offers stunning graphics, smooth gameplay, and exciting online multiplayer features.
 
-- Dark mode theme
-- Change theme
+With its beautiful 3D graphics, Naija Ludo creates an immersive gaming experience that will transport you to the vibrant streets of Nigeria. The attention to detail is impressive, making the game visually appealing and enjoyable to play.
+
+The gameplay is easy to learn, yet challenging to master. Naija Ludo provides intuitive controls that allow you to navigate the game effortlessly. Whether you are a seasoned player or new to Ludo, you'll find yourself quickly getting the hang of the game and strategizing your moves like a pro.
+
+In addition to online multiplayer, Naija Ludo also offers local multiplayer functionality. This means you can enjoy playing with your friends and family on the same device, adding a social element to the game.
+
+To keep you engaged and motivated, Naija Ludo includes a variety of achievements to unlock. Show off your skills and collect all the achievements to become a Ludo master.
+
+Furthermore, Naija Ludo features global leaderboards, allowing you to compete with players from all around the world. See how you stack up against the best and strive to reach the top of the rankings.
+
+Overall, Naija Ludo is a fantastic rendition of the classic board game. With its stunning graphics, smooth gameplay, and online multiplayer options, it offers a modern twist that will keep you entertained for hours. Download Naija Ludo for free and start playing with friends and family today.
 
   <summary>Available filters</summary>
   <br>
