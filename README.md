@@ -57,7 +57,7 @@
 </div>
 
 <div align="center"> 
-     <h1>Naijaludo Compose Multiplatform Template</h1>
+     <h1>Naijaludo</h1>
 </div>
 
 <div style="text-align: center;">
@@ -337,7 +337,7 @@ And **[follow](https://github.com/mshdabiola)** me for my next creations! 🤩
   </picture>
 </a>
 
-![Alt](https://repobeats.axiom.co/api/embed/a0893eb63066333a921a4197172ab150fe896a37.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/d653b722d472c09879f06b84a08e6871932d95df.svg "Repobeats analytics image")
 </div>
 
 ## Contributors
