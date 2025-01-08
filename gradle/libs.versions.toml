@@ -45,7 +45,7 @@ truth = "1.4.4"
 turbine = "1.2.0"
 kstore ="0.9.1"
 
-compose-plugin = "1.7.1"
+compose-plugin = "23.10.16.1"
 composeNavigation="2.8.0-alpha10"
 androidxNavigationTest = "2.8.5" #for nav test
 compose = "1.7.6"
