@@ -1,0 +1,36 @@
+package com.mshdabiola.naijaludo
+
+import com.mshdabiola.naijaludo.model.GameColor
+import com.mshdabiola.naijaludo.model.player.Player
+
+data class OfflinePlayer(
+
+    override val name: String = "C. Player",
+    override val win: Int = 0,
+    override val isCurrent: Boolean = false,
+    override val colors: List<GameColor> = emptyList(),
+    override val iconIndex: Int = 0,
+    override val isComputer: Boolean = false,
+) : Player {
+
+    override fun copyPlayer(
+        name: String,
+        win: Int,
+        isCurrent: Boolean,
+        colors: List<GameColor>,
+    ): Player {
+        return copy(
+            name = name,
+            win = win,
+            isCurrent = isCurrent,
+            colors = colors,
+            iconIndex = iconIndex,
+        )
+    }
+}
+//
+// fun ByteArray.trim(size: Int): ByteArray {
+//    val data = ByteArray(size)
+//    System.arraycopy(this, 0, data, 0, size)
+//    return data
+// }

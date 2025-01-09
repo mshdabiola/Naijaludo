@@ -81,7 +81,7 @@ fun GameButton(
                                 0.0f to startColor,
                                 0.6f to endColor,
                                 center = Offset(size.width * 0.5f, size.height * 0.3f),
-                                radius = size.width * 0.8f,
+                                radius = if(size.width==0f) 1f else size.width*0.8f,
                             ),
                         )
                     }

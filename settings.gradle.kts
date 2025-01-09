@@ -1,13 +1,15 @@
 pluginManagement {
     repositories {
         includeBuild("build-logic")
+        // maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
@@ -15,28 +17,32 @@ dependencyResolutionManagement {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers")
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
+        maven(url = "https://androidx.dev/storage/compose-compiler/repository/")
+        maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
 }
-rootProject.name = "NaijaLudo"
+rootProject.name = "Naijaludo"
+//include(":modules:database")
+include(":modules:designsystem")
+include(":modules:model")
+include(":modules:naijaludo")
+//include(":modules:network")
+include(":modules:data")
+//include(":modules:domain")
+include(":modules:testing")
+include(":modules:ui")
+include(":modules:analytics")
+include(":modules:datastore")
+
+include(":benchmarks")
 include(":app")
-//include(":benchmark")
-//include(":common:database")
-include(":common:designsystem")
-//include(":common:model")
-//include(":feature:mainscreen")
-//include(":common:network")
-//include(":common:data")
-//include(":common:domain")
-include(":common:testing")
-include(":common:ui")
-//include(":android:worker")
-include(":desktop")
-include(":common:setting")
-include(":common:navigation")
-//include(":feature:detail")
-include(":common:util")
-include(":common:naijaludo")
 
-include(":common:naijaludo")
+include(":features:main")
+include(":features:game")
+include(":features:setting")
+include(":features:market")
 
-include(":app:baselineprofile")
+
+
+
+

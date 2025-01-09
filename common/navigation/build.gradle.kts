@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.mpp.library")
-    id("kotlin-parcelize")
+    id("kotlinx-serialization")
 }
 
 android {

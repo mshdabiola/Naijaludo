@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 plugins {
     `kotlin-dsl`
 }
@@ -27,15 +11,19 @@ java {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.firebase.crashlytics.gradle)
-    compileOnly(libs.firebase.performance.gradle)
-    compileOnly(libs.kotlin.gradlePlugin)
-    //compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
+    implementation(libs.truth)
+    compileOnly(libs.kotlin.powerAssert)
+    compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.kover.gradlePlugin)
 
-    implementation(libs.compose.gradlePlugin)
-    //compileOnly(libs.compose.multiplatform.plugin)
+
+
+
 }
 
 gradlePlugin {
@@ -53,10 +41,12 @@ gradlePlugin {
             id = "mshdabiola.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
+
         register("androidApplication") {
             id = "mshdabiola.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+       
 
         register("androidLibraryCompose") {
             id = "mshdabiola.android.library.compose"
@@ -77,19 +67,17 @@ gradlePlugin {
         }
 
 
+        register("androidLint") {
+            id = "mshdabiola.android.lint"
+            implementationClass = "AndroidLintConventionPlugin"
+        }
 
-        register("desktop") {
-            id = "mshdabiola.mpp.desktop"
-            implementationClass = "Desktop"
+        register("jvmLibrary") {
+            id = "mshdabiola.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
         }
-        register("mppLibrary") {
-            id = "mshdabiola.mpp.library"
-            implementationClass = "MppLibraryConventionPlugin"
-        }
-        register("mppLibraryCompose") {
-            id = "mshdabiola.mpp.library.compose"
-            implementationClass = "MppLibraryComposeConventionPlugin"
-        }
+
+
     }
 }
 

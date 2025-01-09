@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="modules_designsystem_level">
+        <item>@string/modules_designsystem_easy</item>
+        <item>@string/modules_designsystem_medium</item>
+        <item>@string/modules_designsystem_hard</item>
+    </string-array>
+    <string-array name="modules_designsystem_board_style">
+        <item>@string/modules_designsystem_horizontal</item>
+        <item>@string/modules_designsystem_vertical</item>
+        <item>@string/modules_designsystem_diagonal</item>
+    </string-array>
+
+    <string-array name="modules_designsystem_board_type">
+        <item>Cartoon</item>
+        <!--        <item>Club</item>-->
+        <!--        <item>Tribe</item>-->
+    </string-array>
+
+    <string-array name="modules_designsystem_pawn_number">
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

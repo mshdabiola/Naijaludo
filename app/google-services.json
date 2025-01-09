@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:176586652338:android:f513aaaf15e648d80867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.ludo"
+          "package_name": "com.mshdabiola.ludo.play"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "176586652338-svgets439n0ujri03q15a05sp39epik5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mshdabiola.ludo",
+            "package_name": "com.mshdabiola.ludo.play",
             "certificate_hash": "b098e270607e03d55f27005a794bb7f119e98b17"
           }
         },
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:176586652338:android:21cfda9984ebe6aa0867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.ludo.debug"
+          "package_name": "com.mshdabiola.ludo.play.debug"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "176586652338-migfjso8s82a9l113gr7lb0bpaudmt95.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mshdabiola.ludo.debug",
+            "package_name": "com.mshdabiola.ludo.play.debug",
             "certificate_hash": "4ef741c9cff4ee1aa1742a886d7679f43fbc8c39"
           }
         },
@@ -84,7 +84,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:176586652338:android:8d83c5d9b00b3e5b0867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.ludo.paid"
+          "package_name": "com.mshdabiola.ludo.foss"
         }
       },
       "oauth_client": [
@@ -113,7 +113,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:176586652338:android:15a03961cf58dd180867ab",
         "android_client_info": {
-          "package_name": "com.mshdabiola.ludo.paid.debug"
+          "package_name": "com.mshdabiola.ludo.foss.debug"
         }
       },
       "oauth_client": [
@@ -143,6 +143,35 @@
         "mobilesdk_app_id": "1:176586652338:android:15a03961cf58dd180867ab",
         "android_client_info": {
           "package_name": "com.mshdabiola.ludo.benchmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGcQnUzRhBjkGMR1JYgu7PvGLCoYx_VUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176586652338-cf42nu8etp6d72hocvsd49rebcihhk97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176586652338:android:15a03961cf58dd180867ab",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.ludo.foss.benchmark"
         }
       },
       "oauth_client": [

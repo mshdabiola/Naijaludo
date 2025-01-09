@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       https://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- */
-
 package com.mshdabiola.app
 
 import com.android.build.api.artifact.SingleArtifact
@@ -30,7 +14,10 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import java.io.File
 
 internal fun Project.configurePrintApksTask(extension: AndroidComponentsExtension<*, *, *>) {
@@ -62,10 +49,14 @@ internal fun Project.configurePrintApksTask(extension: AndroidComponentsExtensio
     }
 }
 
+@DisableCachingByDefault(because = "Prints output")
 internal abstract class PrintApkLocationTask : DefaultTask() {
+
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:InputDirectory
     abstract val apkFolder: DirectoryProperty
 
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     @get:InputFiles
     abstract val sources: ListProperty<Directory>
 
@@ -79,14 +70,12 @@ internal abstract class PrintApkLocationTask : DefaultTask() {
     fun taskAction() {
         val hasFiles = sources.orNull?.any { directory ->
             directory.asFileTree.files.any {
-                it.isFile && it.parentFile.path.contains("build${File.separator}generated").not()
+                it.isFile && "build${File.separator}generated" !in it.parentFile.path
             }
         } ?: throw RuntimeException("Cannot check androidTest sources")
 
         // Don't print APK location if there are no androidTest source files
-        if (!hasFiles) {
-            return
-        }
+        if (!hasFiles) return
 
         val builtArtifacts = builtArtifactsLoader.get().load(apkFolder.get())
             ?: throw RuntimeException("Cannot load APKs")

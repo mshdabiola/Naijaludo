@@ -21,11 +21,7 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
-            dependencies {
 
-            }
-        }
 
         val androidMain by getting {
             dependencies {
@@ -38,10 +34,10 @@ kotlin {
                 api(libs.koin.android.test)
             }
         }
-        val androidInstrumentedTest by getting {
-
-
-        }
+//        val androidInstrumentedTest by getting {
+//
+//
+//        }
 
 
         val desktopMain by getting {
@@ -50,7 +46,7 @@ kotlin {
             }
         }
 
-        val desktopTest by getting
+        //val desktopTest by getting
 
 //        val jsMain by getting {
 //            dependencies {
