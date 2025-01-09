@@ -71,8 +71,8 @@ internal fun GameRoute(
     var archievementData by remember {
         mutableStateOf<ArchievementData?>(null)
     }
-    var showMultiplayer by remember {
-        mutableStateOf(true)
+    val showMultiplayer by remember {
+        mutableStateOf(false)
     }
     LaunchedEffect(key1 = Unit, block = {
     })
