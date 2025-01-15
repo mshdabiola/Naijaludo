@@ -14,6 +14,8 @@ dependencies {
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
     implementation(libs.truth)
     compileOnly(libs.kotlin.powerAssert)
     compileOnly(libs.compose.gradlePlugin)
@@ -44,7 +46,7 @@ gradlePlugin {
             id = "mshdabiola.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-       
+
 
         register("androidLibraryCompose") {
             id = "mshdabiola.android.library.compose"
