@@ -2,7 +2,7 @@
 accompanist = "0.37.0"
 androidDesugarJdkLibs = "2.1.3"
 androidGradlePlugin = "8.7.3"
-androidTools = "31.7.3"
+androidTools = "31.8.0"
 androidxActivity = "1.9.3"
 androidxAppCompat = "1.7.0"
 androidxBrowser = "1.8.0"
@@ -29,6 +29,7 @@ androidxTestRunner = "1.6.2"
 androidxTracing = "1.3.0-alpha02"
 androidxUiAutomator = "2.3.0"
 androidxWindowManager = "1.3.0"
+constraintlayoutComposeMultiplatform = "0.5.1"
 dependencyGuard = "0.5.0"
 firebaseBom = "33.7.0"
 firebaseCrashlyticsPlugin = "2.9.9"
@@ -45,8 +46,8 @@ truth = "1.4.4"
 turbine = "1.2.0"
 kstore ="0.9.1"
 
-compose-plugin = "1.7.1"
-composeNavigation="2.8.0-alpha10"
+compose-plugin = "1.7.3"
+composeNavigation="2.8.0-alpha11"
 androidxNavigationTest = "2.8.5" #for nav test
 compose = "1.7.6"
 
@@ -78,8 +79,8 @@ screenshot = "0.0.1-alpha08"
 kover = "0.9.0"
 
 
-versionCode = "314"
-versionName = "3.1.4"
+versionCode = "315"
+versionName = "3.1.5"
 
 
 
@@ -120,6 +121,7 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version.ref =
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidxUiAutomator" }
 androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
 androidx-window-core = { group = "androidx.window", name = "window-core", version.ref = "androidxWindowManager" }
+constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayoutComposeMultiplatform" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
