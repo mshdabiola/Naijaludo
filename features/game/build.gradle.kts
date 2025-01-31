@@ -17,7 +17,7 @@ kotlin {
                 api(compose.components.resources)
                 implementation(projects.naijaludo)
 
-                implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.5.1")
+                implementation(libs.constraintlayout.compose.multiplatform)
 
             }
         }
