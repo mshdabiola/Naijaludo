@@ -71,7 +71,7 @@ kermit = "2.0.5"
 slf4jSimple = "2.0.16"
 
 
-kotlinxCollectionImmutable = "0.3.7"
+kotlinxCollectionImmutable = "0.3.8"
 windowSizeClass = "0.5.0"
 
 screenshot = "0.0.1-alpha08"
