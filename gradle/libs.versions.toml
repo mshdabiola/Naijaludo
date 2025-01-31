@@ -40,12 +40,12 @@ junit4 = "4.13.2"
 kotlin = "2.1.0"
 kotlinxCoroutines = "1.10.1"
 kotlinxDatetime = "0.6.1"
-kotlinxSerializationJson = "1.8.0"
+kotlinxSerializationJson = "1.7.3"
 truth = "1.4.4"
 turbine = "1.2.0"
 kstore ="0.9.1"
 
-compose-plugin = "1.7.3"
+compose-plugin = "1.7.1"
 composeNavigation="2.8.0-alpha10"
 androidxNavigationTest = "2.8.5" #for nav test
 compose = "1.7.6"
@@ -71,11 +71,11 @@ kermit = "2.0.5"
 slf4jSimple = "2.0.16"
 
 
-kotlinxCollectionImmutable = "0.3.8"
+kotlinxCollectionImmutable = "0.3.7"
 windowSizeClass = "0.5.0"
 
 screenshot = "0.0.1-alpha08"
-kover = "0.9.1"
+kover = "0.9.0"
 
 
 versionCode = "314"
