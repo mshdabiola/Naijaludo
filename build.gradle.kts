@@ -1,3 +1,5 @@
+import dev.iurysouza.modulegraph.Theme
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -18,7 +20,274 @@ plugins {
     alias(libs.plugins.conveyor) apply false
     alias(libs.plugins.screenshot) apply false
     alias(libs.plugins.kover) apply false
+    alias(libs.plugins.module.graph)
+}
 
 
+moduleGraphConfig {
+    heading = "###  NaijaLudo Module Graph"
+    readmePath = "${rootDir}/FULLGRAPH.md"
+    showFullPath = false
+    setStyleByModuleType.set(true)
+    theme.set(
+        Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        ),
+    )
+
+    graph(
+        readmePath = "${rootDir}/features/main/README.md",
+        heading = "### Main Module Graph",
+    ) {
+
+
+        showFullPath = false
+        this.focusedModulesRegex = ".*(features:main).*"
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+    graph(
+        readmePath = "${rootDir}/features/game/README.md",
+        heading = "### Game Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(features:game).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+    graph(
+        readmePath = "${rootDir}/features/setting/README.md",
+        heading = "### Setting Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(features:setting).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+    graph(
+        readmePath = "${rootDir}/features/market/README.md",
+        heading = "### Market Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(features:market).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/modules/analytics/README.md",
+        heading = "### Analytics Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:analytics).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/modules/data/README.md",
+        heading = "### Data Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:data).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+    graph(
+        readmePath = "${rootDir}/modules/naijaludo/README.md",
+        heading = "### Ludo Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:naijaludo).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/modules/datastore/README.md",
+        heading = "### DataStore Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:datastore).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+
+    graph(
+        readmePath = "${rootDir}/modules/model/README.md",
+        heading = "### Model Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:model).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+
+    graph(
+        readmePath = "${rootDir}/modules/ui/README.md",
+        heading = "### UI Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:ui).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/modules/testing/README.md",
+        heading = "### Testing Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:testing).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/modules/designsystem/README.md",
+        heading = "### Design System Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(modules:designsystem).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
+
+    graph(
+        readmePath = "${rootDir}/benchmarks/README.md",
+        heading = "### Benchmarks Module Graph",
+    ) {
+        this.focusedModulesRegex = ".*(benchmarks).*"
+        showFullPath = false
+        this.theme = Theme.BASE(
+            mapOf(
+                "primaryTextColor" to "#fff",
+                "primaryColor" to "#5a4f7c",
+                "primaryBorderColor" to "#5a4f7c",
+                "lineColor" to "#f5a623",
+                "tertiaryColor" to "#40375c",
+                "fontSize" to "12px",
+            ),
+            focusColor = "#FA8140",
+        )
+    }
 
 }
