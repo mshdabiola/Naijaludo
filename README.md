@@ -44,8 +44,8 @@
 
 
 <div align="center">
-    <a href="https://play.google.com/store/apps/details?id=ru.tech.naijaludoshrinker"><img alt="Google Play" src="./fastlane/metadata/android/en-US/images/buttons/gplay.svg" height="60"></a>
-    <a href="https://f-droid.org/packages/ru.tech.naijaludoshrinker"><img alt="F-Droid" src="./fastlane/metadata/android/en-US/images/buttons/fdroid.svg" height="60"/></a>
+    <a href="https://play.google.com/store/apps/details?id=com.mshdabiola.ludo.foss"><img alt="Google Play" src="./fastlane/metadata/android/en-US/images/buttons/gplay.svg" height="60"></a>
+    <a href="https://f-droid.org/packages/com.mshdabiola.ludo.foss/"><img alt="F-Droid" src="./fastlane/metadata/android/en-US/images/buttons/fdroid.svg" height="60"/></a>
     <a href="https://github.com/mshdabiola/naijaludo/releases/latest"><img alt="GitHub" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
     <a href="https://naijaludo.onrender.com"><img alt="Naijaludo Online" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
     <a href="https://naijaludo-desktop.onrender.com"><img alt="Desktop Download" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
@@ -147,6 +147,8 @@ Overall, Naija Ludo is a fantastic rendition of the classic board game. With its
 - Architecture
     - MVVM Architecture (Compose - ViewModel - Model)
     - Repository Pattern
+    - This project use android modularization. You can find full graph [FULLGRAPH](FULLGRAPH.md)
+
 ## Build
 
 This project utilizes Kotlin Multiplatform to target Android, Desktop, and WebAssembly (WASM).
