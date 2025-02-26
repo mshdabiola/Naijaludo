@@ -64,7 +64,7 @@ playServicesMlkitTextRecognition = "19.0.0"
 uiTextGoogleFonts = "1.7.6"
 
 koin = "4.0.1"
-koinCompose = "4.0.1"
+koinCompose = "4.0.2"
 
 conveyor = "1.12"
 
