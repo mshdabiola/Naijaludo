@@ -49,7 +49,7 @@ kstore ="0.9.1"
 compose-plugin = "1.7.3"
 composeNavigation="2.8.0-alpha11"
 androidxNavigationTest = "2.8.5" #for nav test
-compose = "1.7.6"
+compose = "1.7.7"
 
 
 playGame = "20.1.2"
