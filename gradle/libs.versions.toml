@@ -46,8 +46,8 @@ turbine = "1.2.0"
 kstore ="0.9.1"
 constraintlayoutComposeMultiplatform = "0.5.1"
 
-compose-plugin = "1.7.3"
-composeNavigation="2.8.0-alpha11"
+compose-plugin = "1.8.0-alpha03"
+composeNavigation="2.8.0-alpha13"
 androidxNavigationTest = "2.8.8" #for nav test
 compose = "1.7.8"
 
