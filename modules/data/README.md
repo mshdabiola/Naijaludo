@@ -1,4 +1,4 @@
-### Game Module Graph
+### Data Module Graph
 
 ```mermaid
 %%{
@@ -10,25 +10,29 @@
 
 graph LR
   subgraph :features
+    :features:market["market"]
     :features:game["game"]
+    :features:main["main"]
+    :features:setting["setting"]
   end
   subgraph :modules
     :modules:data["data"]
+    :modules:datastore["datastore"]
     :modules:model["model"]
-    :modules:ui["ui"]
-    :modules:designsystem["designsystem"]
     :modules:analytics["analytics"]
     :modules:testing["testing"]
   end
+  :features:market --> :modules:data
   :features:game --> :modules:data
-  :features:game --> :modules:model
-  :features:game --> :modules:ui
-  :features:game --> :modules:designsystem
-  :features:game --> :modules:analytics
-  :features:game --> :
-  :features:game --> :modules:testing
-  :app --> :features:game
+  :features:main --> :modules:data
+  :app --> :modules:data
+  :modules:data --> :modules:datastore
+  :modules:data --> :modules:model
+  :modules:data --> :modules:analytics
+  :modules:data --> :modules:testing
+  :features:setting --> :modules:data
+  :modules:testing --> :modules:data
 
 classDef focus fill:#FA8140,stroke:#fff,stroke-width:2px,color:#fff;
-class :features:game focus
+class :modules:data focus
 ```

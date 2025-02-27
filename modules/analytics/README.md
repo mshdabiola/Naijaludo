@@ -1,4 +1,4 @@
-### UI Module Graph
+### Analytics Module Graph
 
 ```mermaid
 %%{
@@ -16,25 +16,26 @@ graph LR
     :features:setting["setting"]
   end
   subgraph :modules
-    :modules:ui["ui"]
     :modules:analytics["analytics"]
+    :modules:data["data"]
+    :modules:ui["ui"]
+    :modules:testing["testing"]
     :modules:designsystem["designsystem"]
     :modules:model["model"]
-    :modules:testing["testing"]
   end
-  :features:market --> :modules:ui
-  :features:game --> :modules:ui
-  :features:main --> :modules:ui
-  :app --> :modules:ui
+  :features:market --> :modules:analytics
+  :features:game --> :modules:analytics
+  :features:main --> :modules:analytics
+  :app --> :modules:analytics
+  :modules:data --> :modules:analytics
   :modules:ui --> :modules:analytics
-  :modules:ui --> :modules:designsystem
-  :modules:ui --> :modules:model
-  :modules:ui --> :modules:testing
+  :modules:analytics --> :modules:testing
+  :modules:analytics --> :modules:designsystem
   :modules:analytics --> :modules:ui
-  :features:setting --> :modules:ui
-  :modules:designsystem --> :modules:ui
-  :modules:testing --> :modules:ui
+  :modules:analytics --> :modules:model
+  :features:setting --> :modules:analytics
+  :modules:testing --> :modules:analytics
 
 classDef focus fill:#FA8140,stroke:#fff,stroke-width:2px,color:#fff;
-class :modules:ui focus
+class :modules:analytics focus
 ```
