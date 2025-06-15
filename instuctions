@@ -9,8 +9,6 @@
 
     ./gradlew assembleDebug -PenableComposeCompilerMetrics=true -PenableComposeCompilerReports=true
     ./gradlew :composeApp:generateReleaseBaselineProfile
-   ./gradlew createModuleGraph
-
 
     ./gradlew wasmJsBrowserRun -t
     ./gradlew wasmJsBrowserDistribution
@@ -20,8 +18,10 @@ export TOKEN="your_actual_token"
     conveyor make site
     ./gradlew run
 
+./gradlew jvmRunHot -PmainClass=com.mshdabiola.ludo.MainAppKt
+./gradlew app:jvmRun -PmainClass=com.mshdabiola.ludo.MainAppKt
 
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
 // ./gradlew assembleDebug -PenableComposeCompilerMetrics=true
 
-sed -i -e '/maven(url = "https:\/\/maven.pkg.jetbrains.space/d' -e '/maven(url = "https:\/\/androidx.dev\/storage\/compose-compiler/d' settings.gradle.kts; sed -i -e '/with(target) {/,/^        }/d' -e '/CrashlyticsExtension/d' build-logic/convention/src/main/kotlin/AndroidApplicationFirebaseConventionPlugin.kt; sed -i -e '/libs.firebase/d' build-logic/convention/build.gradle.kts; sed -i -e '/alias(libs.plugins.firebase./d' build.gradle.kts
+https://randombits.dev/articles/android/fdroid
