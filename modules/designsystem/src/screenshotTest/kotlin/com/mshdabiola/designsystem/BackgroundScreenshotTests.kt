@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkBackground
-import com.mshdabiola.designsystem.component.SkGradientBackground
+import com.mshdabiola.designsystem.component.LudoBackground
+import com.mshdabiola.designsystem.component.LudoGradientBackground
 import com.mshdabiola.testing.util.Capture
 
 class BackgroundScreenshotTests {
@@ -20,7 +20,7 @@ class BackgroundScreenshotTests {
     @Composable
     fun Background() {
         Capture {
-            SkGradientBackground(Modifier.size(100.dp)) {
+            LudoGradientBackground(Modifier.size(100.dp)) {
                 Text("background")
             }
         }
@@ -30,7 +30,7 @@ class BackgroundScreenshotTests {
     @Composable
     fun GradientBackground() {
         Capture {
-            SkBackground(Modifier.size(100.dp)) {
+            LudoBackground(Modifier.size(100.dp)) {
                 Text("Gradient background")
             }
         }

@@ -6,8 +6,8 @@ package com.mshdabiola.designsystem
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.mshdabiola.designsystem.component.SkLoadingWheel
-import com.mshdabiola.designsystem.component.SkOverlayLoadingWheel
+import com.mshdabiola.designsystem.component.LudoLoadingWheel
+import com.mshdabiola.designsystem.component.LudoOverlayLoadingWheel
 import com.mshdabiola.testing.util.CaptureMultiTheme
 
 class LoadingWheelScreenshotTests {
@@ -16,7 +16,7 @@ class LoadingWheelScreenshotTests {
     @Composable
     fun LoadingWheel() {
         CaptureMultiTheme {
-            SkLoadingWheel(contentDesc = "test")
+            LudoLoadingWheel(contentDesc = "test")
         }
     }
 
@@ -24,7 +24,7 @@ class LoadingWheelScreenshotTests {
     @Composable
     fun OverlayLoadingWheel() {
         CaptureMultiTheme {
-            SkOverlayLoadingWheel(contentDesc = "test")
+            LudoOverlayLoadingWheel(contentDesc = "test")
         }
     }
 }

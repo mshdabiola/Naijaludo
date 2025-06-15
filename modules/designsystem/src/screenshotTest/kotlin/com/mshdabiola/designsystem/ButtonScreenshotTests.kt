@@ -8,7 +8,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.mshdabiola.designsystem.component.SkButton
+import com.mshdabiola.designsystem.component.LudoButton
 import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.testing.util.CaptureMultiTheme
 
@@ -18,7 +18,7 @@ class ButtonScreenshotTests {
     @Composable
     fun Button() {
         CaptureMultiTheme {
-            SkButton(onClick = {}, text = { Text(" Button") })
+            LudoButton(onClick = {}, text = { Text(" Button") })
         }
     }
 
@@ -26,7 +26,7 @@ class ButtonScreenshotTests {
     @Composable
     fun ButtonWithLeadIcon() {
         CaptureMultiTheme {
-            SkButton(
+            LudoButton(
                 onClick = {},
                 text = { Text("Icon Button") },
                 leadingIcon = { Icon(imageVector = LudoIcons.Add, contentDescription = null) },
