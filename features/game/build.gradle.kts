@@ -18,10 +18,7 @@ kotlin {
                 implementation(projects.naijaludo)
 
                 implementation(libs.constraintlayout.compose.multiplatform)
-
             }
         }
-
-
     }
 }

@@ -21,7 +21,6 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class GameViewModelTest : KoinTest {
-
     @get:Rule(order = 1)
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
@@ -29,9 +28,10 @@ class GameViewModelTest : KoinTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @get:Rule(order = 3)
-    val koinTestRule = KoinTestRule.create {
-        this.modules(testDataModule)
-    }
+    val koinTestRule =
+        KoinTestRule.create {
+            this.modules(testDataModule)
+        }
 
     // private val noteRepository by inject<NoteRepository>()
     private val saveStateHandle = SavedStateHandle(mapOf())
@@ -40,23 +40,25 @@ class GameViewModelTest : KoinTest {
     private val p2p by inject<IP2pManager>()
 
     @Test
-    fun init() = runTest(mainDispatcherRule.testDispatcher) {
-        val viewModel = GameViewModel(
-            savedStateHandle = saveStateHandle,
-            soundSystem = sound,
-            blueManager = p2p,
-            setting = store,
-            dispatcher = mainDispatcherRule.testDispatcher,
-        )
+    fun init() =
+        runTest(mainDispatcherRule.testDispatcher) {
+            val viewModel =
+                GameViewModel(
+                    savedStateHandle = saveStateHandle,
+                    soundSystem = sound,
+                    blueManager = p2p,
+                    setting = store,
+                    dispatcher = mainDispatcherRule.testDispatcher,
+                )
 
-        viewModel
-            .gameUiState
-            .test {
-                var state = awaitItem()
+            viewModel
+                .gameUiState
+                .test {
+                    var state = awaitItem()
 
-                assertTrue(state.isStartDialogOpen)
+                    assertTrue(state.isStartDialogOpen)
 
-                cancelAndIgnoreRemainingEvents()
-            }
-    }
+                    cancelAndIgnoreRemainingEvents()
+                }
+        }
 }

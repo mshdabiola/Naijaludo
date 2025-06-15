@@ -1,8 +1,7 @@
 package com.mshdabiola.game
 
 class GameScreenTest {
-
-//    @get:Rule
+    //    @get:Rule
 //    val composeRule = createComposeRule()
 //
 //    @OptIn(ExperimentalSharedTransitionApi::class)
