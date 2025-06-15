@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      checks: write
       contents: write
       pull-requests: write
 
@@ -33,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3
+        uses: gradle/wrapper-validation-action@v2
 
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
@@ -54,8 +55,8 @@ jobs:
       - name: Check build-logic
         run: ./gradlew check -p build-logic
 
-      - name: Check spotless
-        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache
+      - name: Check ktlint
+        run: ./gradlew ktlintCheck
 
       - name: Check Dependency Guard
         id: dependencyguard_verify
@@ -111,6 +112,10 @@ jobs:
           disable_globbing: true
           commit_message: "🤖 Updates screenshots"
 
+      - name: Create Module Graph
+        if: github.event_name == 'pull_request'
+        run: ./gradlew createModuleGraph
+
       # Run local tests after screenshot tests to avoid wrong UP-TO-DATE. TODO: Ignore screenshots.
       - name: Run local tests and create report
         if: always()
@@ -139,6 +144,16 @@ jobs:
           name: local-test-results
           path: '**/build/reports/tests/jvmTest'
 
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2.20.0
+        with:
+            check_name: Test results
+            comment_title: Test results
+            large_files: true
+            ignore_runs: false
+            files: ./**/build/test-results/**/*.xml
+            
+
       - name: Check lint
         run: ./gradlew lintFossReliantRelease
 
@@ -155,18 +170,6 @@ jobs:
       - name: Generate coverage reports for Jvm
         run: ./gradlew koverXmlReportJvm; ./gradlew koverHtmlReportJvm   #koverHtmlReportJvm
 
-      #      - name: Add coverage report to PR
-      #        id: kover
-      #        uses: mi-kas/kover-report@v1
-      #        with:
-      #          path: |
-      #            ${{ github.workspace }}/modules/analytics/build/reports/kover/reportJvm.xml
-      #
-      #          title: Code Coverage
-      #          update-comment: true
-      #          min-coverage-overall: 40
-      #          min-coverage-changed-files: 60
-      #          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload local coverage reports (XML + HTML) (only API 30)
         uses: actions/upload-artifact@v4
@@ -176,6 +179,13 @@ jobs:
           compression-level: 1
           overwrite: false
           path: '**/build/reports/kover/'
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v5.4.3
+        with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            files: "**/reportJvm.xml"
+            verbose: true
 
   androidTest:
     runs-on: ubuntu-latest
