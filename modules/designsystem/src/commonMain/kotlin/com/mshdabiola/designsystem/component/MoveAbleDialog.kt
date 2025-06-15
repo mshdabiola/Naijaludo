@@ -38,12 +38,12 @@ fun MovableDialog() {
         val y = maxHeight / 2 - (100.dp) / 2
 
         Box(
-            modifier = Modifier
-                .offset(st.value, y)
-                .background(Color.Red)
-                .height(100.dp)
-                .width(100.dp),
-
+            modifier =
+                Modifier
+                    .offset(st.value, y)
+                    .background(Color.Red)
+                    .height(100.dp)
+                    .width(100.dp),
         )
     }
 }
