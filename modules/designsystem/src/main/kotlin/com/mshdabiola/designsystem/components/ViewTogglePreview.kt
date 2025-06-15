@@ -8,7 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.mshdabiola.designsystem.component.SkViewToggleButton
+import com.mshdabiola.designsystem.component.LudoViewToggleButton
 import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
@@ -16,7 +16,7 @@ import com.mshdabiola.designsystem.theme.LudoTheme
 fun ViewTogglePreviewExpanded() {
     LudoTheme {
         Surface {
-            SkViewToggleButton(
+            LudoViewToggleButton(
                 expanded = true,
                 onExpandedChange = { },
                 compactText = { Text(text = "Compact view") },
@@ -31,7 +31,7 @@ fun ViewTogglePreviewExpanded() {
 fun ViewTogglePreviewCompact() {
     LudoTheme {
         Surface {
-            SkViewToggleButton(
+            LudoViewToggleButton(
                 expanded = false,
                 onExpandedChange = { },
                 compactText = { Text(text = "Compact view") },

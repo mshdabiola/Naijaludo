@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkBackground
-import com.mshdabiola.designsystem.component.SkGradientBackground
+import com.mshdabiola.designsystem.component.LudoBackground
+import com.mshdabiola.designsystem.component.LudoGradientBackground
 import com.mshdabiola.designsystem.theme.LudoTheme
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
@@ -22,7 +22,7 @@ annotation class ThemePreviews
 @Composable
 fun BackgroundDefault() {
     LudoTheme(disableDynamicTheming = true) {
-        SkBackground(Modifier.size(100.dp), content = {})
+        LudoBackground(Modifier.size(100.dp), content = {})
     }
 }
 
@@ -30,7 +30,7 @@ fun BackgroundDefault() {
 @Composable
 fun BackgroundDynamic() {
     LudoTheme(disableDynamicTheming = false) {
-        SkBackground(Modifier.size(100.dp), content = {})
+        LudoBackground(Modifier.size(100.dp), content = {})
     }
 }
 
@@ -38,7 +38,7 @@ fun BackgroundDynamic() {
 @Composable
 fun BackgroundAndroid() {
     LudoTheme {
-        SkBackground(Modifier.size(100.dp), content = {})
+        LudoBackground(Modifier.size(100.dp), content = {})
     }
 }
 
@@ -46,7 +46,7 @@ fun BackgroundAndroid() {
 @Composable
 fun GradientBackgroundDefault() {
     LudoTheme(disableDynamicTheming = true) {
-        SkGradientBackground(Modifier.size(100.dp), content = {})
+        LudoGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
 
@@ -54,7 +54,7 @@ fun GradientBackgroundDefault() {
 @Composable
 fun GradientBackgroundDynamic() {
     LudoTheme(disableDynamicTheming = false) {
-        SkGradientBackground(Modifier.size(100.dp), content = {})
+        LudoGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
 
@@ -62,6 +62,6 @@ fun GradientBackgroundDynamic() {
 @Composable
 fun GradientBackgroundAndroid() {
     LudoTheme {
-        SkGradientBackground(Modifier.size(100.dp), content = {})
+        LudoGradientBackground(Modifier.size(100.dp), content = {})
     }
 }

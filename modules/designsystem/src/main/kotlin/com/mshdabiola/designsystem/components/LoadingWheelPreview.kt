@@ -6,8 +6,8 @@ package com.mshdabiola.designsystem.components
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.mshdabiola.designsystem.component.SkLoadingWheel
-import com.mshdabiola.designsystem.component.SkOverlayLoadingWheel
+import com.mshdabiola.designsystem.component.LudoLoadingWheel
+import com.mshdabiola.designsystem.component.LudoOverlayLoadingWheel
 import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
@@ -15,7 +15,7 @@ import com.mshdabiola.designsystem.theme.LudoTheme
 fun NiaLoadingWheelPreview() {
     LudoTheme {
         Surface {
-            SkLoadingWheel(contentDesc = "LoadingWheel")
+            LudoLoadingWheel(contentDesc = "LoadingWheel")
         }
     }
 }
@@ -25,7 +25,7 @@ fun NiaLoadingWheelPreview() {
 fun NiaOverlayLoadingWheelPreview() {
     LudoTheme {
         Surface {
-            SkOverlayLoadingWheel(contentDesc = "LoadingWheel")
+            LudoOverlayLoadingWheel(contentDesc = "LoadingWheel")
         }
     }
 }

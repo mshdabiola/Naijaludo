@@ -6,7 +6,7 @@ package com.mshdabiola.designsystem.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import com.mshdabiola.designsystem.component.SkIconToggleButton
+import com.mshdabiola.designsystem.component.LudoIconToggleButton
 import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.designsystem.theme.LudoTheme
 
@@ -14,7 +14,7 @@ import com.mshdabiola.designsystem.theme.LudoTheme
 @Composable
 fun IconButtonPreview() {
     LudoTheme {
-        SkIconToggleButton(
+        LudoIconToggleButton(
             checked = true,
             onCheckedChange = { },
             icon = {
@@ -37,7 +37,7 @@ fun IconButtonPreview() {
 @Composable
 fun IconButtonPreviewUnchecked() {
     LudoTheme {
-        SkIconToggleButton(
+        LudoIconToggleButton(
             checked = false,
             onCheckedChange = { },
             icon = {
