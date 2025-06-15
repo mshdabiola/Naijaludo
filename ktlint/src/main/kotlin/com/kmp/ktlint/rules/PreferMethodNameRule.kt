@@ -6,37 +6,37 @@ import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.psi.KtCallExpression
 
 class PreferMethodNameRule : Rule(
-    RuleId("hydraulicapp:prefer-method-name"),
+    RuleId("naijaludo:prefer-method-name"),
     about =
         Rule.About(
-            maintainer = "Your Name",
-            repositoryUrl = "https://github.com/mshdabiola/hydraulicapp",
-            issueTrackerUrl = "https://github.com/mshdabiola/hydraulicapp",
+            maintainer = "Mshdabiola",
+            repositoryUrl = "https://github.com/mshdabiola/naijaludo",
+            issueTrackerUrl = "https://github.com/mshdabiola/naijaludo",
         ),
 ) {
     // Define the mapping of deprecated method names to preferred method names
     private val methodNameReplacements =
         mapOf(
-            "MaterialTheme" to "HyaTheme",
-            "Button" to "HyaButton",
-            "OutlinedButton" to "HyaOutlinedButton",
-            "TextButton" to "HyaTextButton",
-            "FilterChip" to "HyaFilterChip",
-            "ElevatedFilterChip" to "HyaFilterChip",
-            "NavigationBar" to "HyaNavigationBar",
-            "NavigationBarItem" to "HyaNavigationBarItem",
-            "NavigationRail" to "HyaNavigationRail",
-            "NavigationRailItem" to "HyaNavigationRailItem",
-            "TabRow" to "HyaTabRow",
-            "Tab" to "HyaTab",
-            "IconToggleButton" to "HyaIconToggleButton",
-            "FilledIconToggleButton" to "HyaIconToggleButton",
-            "FilledTonalIconToggleButton" to "HyaIconToggleButton",
-            "OutlinedIconToggleButton" to "HyaIconToggleButton",
-            "CenterAlignedTopAppBar" to "HyaTopAppBar",
-            "SmallTopAppBar" to "HyaTopAppBar",
-            "MediumTopAppBar" to "HyaTopAppBar",
-            "LargeTopAppBar" to "HyaTopAppBar",
+            "MaterialTheme" to "LudoTheme",
+            "Button" to "LudoButton",
+            "OutlinedButton" to "LudoOutlinedButton",
+            "TextButton" to "LudoTextButton",
+            "FilterChip" to "LudoFilterChip",
+            "ElevatedFilterChip" to "LudoFilterChip",
+            "NavigationBar" to "LudoNavigationBar",
+            "NavigationBarItem" to "LudoNavigationBarItem",
+            "NavigationRail" to "LudoNavigationRail",
+            "NavigationRailItem" to "LudoNavigationRailItem",
+            "TabRow" to "LudoTabRow",
+            "Tab" to "LudoTab",
+            "IconToggleButton" to "LudoIconToggleButton",
+            "FilledIconToggleButton" to "LudoIconToggleButton",
+            "FilledTonalIconToggleButton" to "LudoIconToggleButton",
+            "OutlinedIconToggleButton" to "LudoIconToggleButton",
+            "CenterAlignedTopAppBar" to "LudoTopAppBar",
+            "SmallTopAppBar" to "LudoTopAppBar",
+            "MediumTopAppBar" to "LudoTopAppBar",
+            "LargeTopAppBar" to "LudoTopAppBar",
         )
 
     override fun beforeVisitChildNodes(

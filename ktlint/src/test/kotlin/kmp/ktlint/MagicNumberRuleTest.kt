@@ -4,7 +4,7 @@ import com.pinterest.ktlint.test.KtLintAssertThat.Companion.assertThatRule
 import kotlin.test.Test
 
 class MagicNumberRuleTest {
-    private val magicNumberRuleAssertThat = assertThatRule {PreferReceiverNameRule()}
+    private val magicNumberRuleAssertThat = assertThatRule { PreferReceiverNameRule() }
 
     @Test
     fun `should report error when magic number is used`() {

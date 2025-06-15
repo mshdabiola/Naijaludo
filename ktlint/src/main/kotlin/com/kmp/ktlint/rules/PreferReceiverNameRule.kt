@@ -6,18 +6,18 @@ import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 
 class PreferReceiverNameRule : Rule(
-    RuleId("hydraulicapp:prefer-receiver-name"),
+    RuleId("naijaludo:prefer-receiver-name"),
     about =
         Rule.About(
-            maintainer = "Your Name",
-            repositoryUrl = "https://github.com/mshdabiola/hydraulicapp",
-            issueTrackerUrl = "https://github.com/mshdabiola/hydraulicapp",
+            maintainer = "mshdabiola",
+            repositoryUrl = "https://github.com/mshdabiola/naijaludo",
+            issueTrackerUrl = "https://github.com/mshdabiola/naijaludo",
         ),
 ) {
     // Define the mapping of deprecated receiver names to preferred receiver names
     private val stringStringMap =
         mapOf(
-            "Icons" to "HyaIcons",
+            "Icons" to "LudoIcons",
         )
 
     override fun beforeVisitChildNodes(
