@@ -8,7 +8,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.designsystem.component.SkIconToggleButton
-import com.mshdabiola.designsystem.icon.SkIcons
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.testing.util.CaptureMultiTheme
 
 class IconButtonScreenshotTests {
@@ -22,13 +22,13 @@ class IconButtonScreenshotTests {
                 onCheckedChange = { },
                 icon = {
                     Icon(
-                        imageVector = SkIcons.BookmarkBorder,
+                        imageVector = LudoIcons.BookmarkBorder,
                         contentDescription = null,
                     )
                 },
                 checkedIcon = {
                     Icon(
-                        imageVector = SkIcons.Bookmark,
+                        imageVector = LudoIcons.Bookmark,
                         contentDescription = null,
                     )
                 },
@@ -45,13 +45,13 @@ class IconButtonScreenshotTests {
                 onCheckedChange = { },
                 icon = {
                     Icon(
-                        imageVector = SkIcons.BookmarkBorder,
+                        imageVector = LudoIcons.BookmarkBorder,
                         contentDescription = null,
                     )
                 },
                 checkedIcon = {
                     Icon(
-                        imageVector = SkIcons.Bookmark,
+                        imageVector = LudoIcons.Bookmark,
                         contentDescription = null,
                     )
                 },

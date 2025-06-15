@@ -7,7 +7,6 @@ import org.gradle.kotlin.dsl.implementation
 plugins {
     id("mshdabiola.android.library")
     id("mshdabiola.android.library.compose")
-
 }
 
 android {
@@ -42,7 +41,6 @@ kotlin {
 
                 api(libs.koin.compose)
                 api(libs.koin.composeVM)
-
             }
         }
         val androidMain by getting {
@@ -51,7 +49,6 @@ kotlin {
                 api(libs.androidx.lifecycle.runtimeCompose)
                 api(libs.androidx.lifecycle.viewModelCompose)
                 implementation(libs.androidx.ui.text.google.fonts)
-
             }
         }
 
@@ -61,7 +58,5 @@ kotlin {
                 api(libs.kotlinx.coroutines.swing)
             }
         }
-
-
     }
 }

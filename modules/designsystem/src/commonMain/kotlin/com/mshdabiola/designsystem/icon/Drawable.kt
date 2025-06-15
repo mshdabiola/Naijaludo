@@ -31,10 +31,11 @@ public val Drawable.AllIcons: ____KtList<ImageVector>
         if (__AllIcons != null) {
             return __AllIcons!!
         }
-        __AllIcons = listOf(
-            BaselineWifi24, Bg, Blutooth, Brand, Computer, ComputerMultiplayer,
-            Friend, IcBaselinePlayArrow24, IcLauncherBackground, Icon1, Icon2, Icon3,
-            Icon4, Icon5, Icon6, Logo, Middle, Mutiplay, Resume,
-        )
+        __AllIcons =
+            listOf(
+                BaselineWifi24, Bg, Blutooth, Brand, Computer, ComputerMultiplayer,
+                Friend, IcBaselinePlayArrow24, IcLauncherBackground, Icon1, Icon2, Icon3,
+                Icon4, Icon5, Icon6, Logo, Middle, Mutiplay, Resume,
+            )
         return __AllIcons!!
     }

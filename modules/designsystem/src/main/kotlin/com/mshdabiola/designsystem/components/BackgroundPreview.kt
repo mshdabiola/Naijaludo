@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.component.SkBackground
 import com.mshdabiola.designsystem.component.SkGradientBackground
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
@@ -21,7 +21,7 @@ annotation class ThemePreviews
 @ThemePreviews
 @Composable
 fun BackgroundDefault() {
-    LudoAppTheme(disableDynamicTheming = true) {
+    LudoTheme(disableDynamicTheming = true) {
         SkBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -29,7 +29,7 @@ fun BackgroundDefault() {
 @ThemePreviews
 @Composable
 fun BackgroundDynamic() {
-    LudoAppTheme(disableDynamicTheming = false) {
+    LudoTheme(disableDynamicTheming = false) {
         SkBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -37,7 +37,7 @@ fun BackgroundDynamic() {
 @ThemePreviews
 @Composable
 fun BackgroundAndroid() {
-    LudoAppTheme {
+    LudoTheme {
         SkBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -45,7 +45,7 @@ fun BackgroundAndroid() {
 @ThemePreviews
 @Composable
 fun GradientBackgroundDefault() {
-    LudoAppTheme(disableDynamicTheming = true) {
+    LudoTheme(disableDynamicTheming = true) {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -53,7 +53,7 @@ fun GradientBackgroundDefault() {
 @ThemePreviews
 @Composable
 fun GradientBackgroundDynamic() {
-    LudoAppTheme(disableDynamicTheming = false) {
+    LudoTheme(disableDynamicTheming = false) {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -61,7 +61,7 @@ fun GradientBackgroundDynamic() {
 @ThemePreviews
 @Composable
 fun GradientBackgroundAndroid() {
-    LudoAppTheme {
+    LudoTheme {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }

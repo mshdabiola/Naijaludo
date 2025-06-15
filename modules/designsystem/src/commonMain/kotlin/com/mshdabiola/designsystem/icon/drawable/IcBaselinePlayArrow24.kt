@@ -16,29 +16,30 @@ public val Drawable.IcBaselinePlayArrow24: ImageVector
         if (_icBaselinePlayArrow24 != null) {
             return _icBaselinePlayArrow24!!
         }
-        _icBaselinePlayArrow24 = Builder(
-            name = "IcBaselinePlayArrow24",
-            defaultWidth = 24.0.dp,
-            defaultHeight = 24.0.dp,
-            viewportWidth = 24.0f,
-            viewportHeight = 24.0f,
-        ).apply {
-            path(
-                fill = SolidColor(Color(0xFF000000)),
-                stroke = null,
-                strokeLineWidth = 0.0f,
-                strokeLineCap = Butt,
-                strokeLineJoin = Miter,
-                strokeLineMiter = 4.0f,
-                pathFillType = NonZero,
-            ) {
-                moveTo(8.0f, 5.0f)
-                verticalLineToRelative(14.0f)
-                lineToRelative(11.0f, -7.0f)
-                close()
+        _icBaselinePlayArrow24 =
+            Builder(
+                name = "IcBaselinePlayArrow24",
+                defaultWidth = 24.0.dp,
+                defaultHeight = 24.0.dp,
+                viewportWidth = 24.0f,
+                viewportHeight = 24.0f,
+            ).apply {
+                path(
+                    fill = SolidColor(Color(0xFF000000)),
+                    stroke = null,
+                    strokeLineWidth = 0.0f,
+                    strokeLineCap = Butt,
+                    strokeLineJoin = Miter,
+                    strokeLineMiter = 4.0f,
+                    pathFillType = NonZero,
+                ) {
+                    moveTo(8.0f, 5.0f)
+                    verticalLineToRelative(14.0f)
+                    lineToRelative(11.0f, -7.0f)
+                    close()
+                }
             }
-        }
-            .build()
+                .build()
         return _icBaselinePlayArrow24!!
     }
 

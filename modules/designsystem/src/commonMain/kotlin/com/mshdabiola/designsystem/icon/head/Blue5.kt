@@ -10,7 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Head.getBlue(iconColor: Color, accentColor: Color): ImageVector {
+fun Head.getBlue(
+    iconColor: Color,
+    accentColor: Color,
+): ImageVector {
     return Builder(
         name = "Blue5",
         defaultWidth = 200.0.dp,

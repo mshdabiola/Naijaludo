@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.component.SkTab
 import com.mshdabiola.designsystem.component.SkTabRow
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
 @Composable
 fun TabsPreview() {
-    LudoAppTheme {
+    LudoTheme {
         val titles = listOf("Topics", "People")
         SkTabRow(selectedTabIndex = 0) {
             titles.forEachIndexed { index, title ->

@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.designsystem.component.SkButton
-import com.mshdabiola.designsystem.icon.SkIcons
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.testing.util.CaptureMultiTheme
 
 class ButtonScreenshotTests {
@@ -29,7 +29,7 @@ class ButtonScreenshotTests {
             SkButton(
                 onClick = {},
                 text = { Text("Icon Button") },
-                leadingIcon = { Icon(imageVector = SkIcons.Add, contentDescription = null) },
+                leadingIcon = { Icon(imageVector = LudoIcons.Add, contentDescription = null) },
             )
         }
     }

@@ -10,7 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Bigcat.getRed(iconColor: Color, accentColor: Color): ImageVector {
+fun Bigcat.getRed(
+    iconColor: Color,
+    accentColor: Color,
+): ImageVector {
     return Builder(
         name = "Red6",
         defaultWidth = 200.0.dp,

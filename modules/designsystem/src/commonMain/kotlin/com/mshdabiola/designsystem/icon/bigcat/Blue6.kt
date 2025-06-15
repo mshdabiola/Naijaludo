@@ -11,7 +11,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Bigcat.getBlue(iconColor: Color, accentColor: Color): ImageVector {
+fun Bigcat.getBlue(
+    iconColor: Color,
+    accentColor: Color,
+): ImageVector {
     return Builder(
         name = "Blue6",
         defaultWidth = 200.0.dp,

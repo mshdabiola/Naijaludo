@@ -7,25 +7,25 @@ package com.mshdabiola.designsystem.components
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.mshdabiola.designsystem.component.SkIconToggleButton
-import com.mshdabiola.designsystem.icon.SkIcons
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.icon.LudoIcons
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
 @Composable
 fun IconButtonPreview() {
-    LudoAppTheme {
+    LudoTheme {
         SkIconToggleButton(
             checked = true,
             onCheckedChange = { },
             icon = {
                 Icon(
-                    imageVector = SkIcons.BookmarkBorder,
+                    imageVector = LudoIcons.BookmarkBorder,
                     contentDescription = null,
                 )
             },
             checkedIcon = {
                 Icon(
-                    imageVector = SkIcons.Bookmark,
+                    imageVector = LudoIcons.Bookmark,
                     contentDescription = null,
                 )
             },
@@ -36,19 +36,19 @@ fun IconButtonPreview() {
 @ThemePreviews
 @Composable
 fun IconButtonPreviewUnchecked() {
-    LudoAppTheme {
+    LudoTheme {
         SkIconToggleButton(
             checked = false,
             onCheckedChange = { },
             icon = {
                 Icon(
-                    imageVector = SkIcons.BookmarkBorder,
+                    imageVector = LudoIcons.BookmarkBorder,
                     contentDescription = null,
                 )
             },
             checkedIcon = {
                 Icon(
-                    imageVector = SkIcons.Bookmark,
+                    imageVector = LudoIcons.Bookmark,
                     contentDescription = null,
                 )
             },
