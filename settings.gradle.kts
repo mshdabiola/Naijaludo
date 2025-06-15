@@ -41,6 +41,8 @@ include(":features:main")
 include(":features:game")
 include(":features:setting")
 include(":features:market")
+include(":ktlint")
+
 
 
 
