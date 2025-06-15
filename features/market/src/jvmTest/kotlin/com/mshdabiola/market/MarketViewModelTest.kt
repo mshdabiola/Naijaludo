@@ -21,7 +21,6 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 
 class MarketViewModelTest : KoinTest {
-
     @get:Rule(order = 1)
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
@@ -29,9 +28,10 @@ class MarketViewModelTest : KoinTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @get:Rule(order = 3)
-    val koinTestRule = KoinTestRule.create {
-        this.modules(testDataModule)
-    }
+    val koinTestRule =
+        KoinTestRule.create {
+            this.modules(testDataModule)
+        }
 
     // private val noteRepository by inject<NoteRepository>()
     private val saveStateHandle = SavedStateHandle(mapOf())
@@ -40,21 +40,22 @@ class MarketViewModelTest : KoinTest {
     private val p2p by inject<IP2pManager>()
 
     @Test
-    fun init() = runTest(mainDispatcherRule.testDispatcher) {
-        val viewModel = MarketViewModel(
+    fun init() =
+        runTest(mainDispatcherRule.testDispatcher) {
+            val viewModel =
+                MarketViewModel(
+                    setting = store,
+                    dispatcher = mainDispatcherRule.testDispatcher,
+                )
 
-            setting = store,
-            dispatcher = mainDispatcherRule.testDispatcher,
-        )
+            viewModel
+                .settingUiState
+                .test {
+                    val state = awaitItem()
 
-        viewModel
-            .settingUiState
-            .test {
-                val state = awaitItem()
+                    assertFalse(state.sound)
 
-                assertFalse(state.sound)
-
-                cancelAndIgnoreRemainingEvents()
-            }
-    }
+                    cancelAndIgnoreRemainingEvents()
+                }
+        }
 }

@@ -93,48 +93,52 @@ internal fun MarketRoute(
     }
     val allItems = getAllItem()
     val freeITemId = arrayOf("cat_1", "man_2", "default_dice")
-    val freeItems = remember(freeITemId) {
-        freeITemId
-            .mapNotNull {
-                val item = allItems[it]
-                if (item == null) {
-                    null
-                } else {
-                    BuyItem(
-                        id = it,
-                        price = "",
-                        item = item,
-                        isPurchase = true,
-                    )
-                }
-            }.toImmutableList()
-    }
+    val freeItems =
+        remember(freeITemId) {
+            freeITemId
+                .mapNotNull {
+                    val item = allItems[it]
+                    if (item == null) {
+                        null
+                    } else {
+                        BuyItem(
+                            id = it,
+                            price = "",
+                            item = item,
+                            isPurchase = true,
+                        )
+                    }
+                }.toImmutableList()
+        }
 
-    val currentBoard = gameScreenViewModel.currentBoard
-        .collectAsStateWithLifecycle(initialValue = "man_2")
-    val currentDice = gameScreenViewModel.currentDice
-        .collectAsStateWithLifecycle(initialValue = "default_dice")
+    val currentBoard =
+        gameScreenViewModel.currentBoard
+            .collectAsStateWithLifecycle(initialValue = "man_2")
+    val currentDice =
+        gameScreenViewModel.currentDice
+            .collectAsStateWithLifecycle(initialValue = "default_dice")
 
     var allPurchaseItemsId by remember {
         mutableStateOf(listOf<String>().toImmutableList())
     }
 
-    val allPurchaseItems = remember(allPurchaseItemsId) {
-        allPurchaseItemsId
-            .mapNotNull {
-                val item = allItems[it]
-                if (item == null) {
-                    null
-                } else {
-                    BuyItem(
-                        id = it,
-                        price = "",
-                        item = item,
-                        isPurchase = true,
-                    )
-                }
-            }.toImmutableList()
-    }
+    val allPurchaseItems =
+        remember(allPurchaseItemsId) {
+            allPurchaseItemsId
+                .mapNotNull {
+                    val item = allItems[it]
+                    if (item == null) {
+                        null
+                    } else {
+                        BuyItem(
+                            id = it,
+                            price = "",
+                            item = item,
+                            isPurchase = true,
+                        )
+                    }
+                }.toImmutableList()
+        }
 
     val purchaseFlow: (String) -> Unit = { id ->
 //
@@ -145,7 +149,6 @@ internal fun MarketRoute(
     })
 
     MarketScreen(
-
         back = onBack,
         currentBoard = currentBoard.value,
         currentDice = currentDice.value,
@@ -178,30 +181,34 @@ internal fun MarketScreen(
     purchaseItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
     freeItems: ImmutableList<BuyItem> = emptyList<BuyItem>().toImmutableList(),
 ) {
-    val pagerState = rememberPagerState {
-        2
-    }
+    val pagerState =
+        rememberPagerState {
+            2
+        }
     val coroutineScope = rememberCoroutineScope()
 
-    val vector = if (issPortrait()) {
-        Drawable.BgP
-    } else {
-        Drawable.BgL
-    }
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
+    val vector =
+        if (issPortrait()) {
+            Drawable.BgP
+        } else {
+            Drawable.BgL
+        }
+    val snackbarHostState =
+        remember {
+            SnackbarHostState()
+        }
     NotifySnacker(snackHostState = snackbarHostState, notifys = message)
 
     val painter = rememberVectorPainter(image = vector)
     Scaffold(
         containerColor = Color.Transparent,
-        modifier = Modifier
-            .drawBehind {
-                with(painter) {
-                    draw(size, 0.5f)
-                }
-            },
+        modifier =
+            Modifier
+                .drawBehind {
+                    with(painter) {
+                        draw(size, 0.5f)
+                    }
+                },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
 
@@ -215,11 +222,12 @@ internal fun MarketScreen(
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxSize(),
                             columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(
-                                bottom = 8.dp,
-                                start = 16.dp,
-                                end = 16.dp,
-                            ),
+                            contentPadding =
+                                PaddingValues(
+                                    bottom = 8.dp,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                ),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
@@ -241,11 +249,12 @@ internal fun MarketScreen(
                         LazyVerticalStaggeredGrid(
                             modifier = Modifier.fillMaxSize(),
                             columns = StaggeredGridCells.Fixed(2),
-                            contentPadding = PaddingValues(
-                                bottom = 8.dp,
-                                start = 16.dp,
-                                end = 16.dp,
-                            ),
+                            contentPadding =
+                                PaddingValues(
+                                    bottom = 8.dp,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                ),
                             verticalItemSpacing = 8.dp,
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
@@ -277,14 +286,15 @@ internal fun MarketScreen(
             }
 
             Row(
-                modifier = Modifier
-                    .background(
-                        Brush.verticalGradient(
-                            0f to Color.Transparent,
-                            0.7f to MaterialTheme.colorScheme.primaryContainer,
-                        ),
-                    )
-                    .align(Alignment.TopCenter),
+                modifier =
+                    Modifier
+                        .background(
+                            Brush.verticalGradient(
+                                0f to Color.Transparent,
+                                0.7f to MaterialTheme.colorScheme.primaryContainer,
+                            ),
+                        )
+                        .align(Alignment.TopCenter),
             ) {
                 IconButton(onClick = back) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
@@ -308,7 +318,6 @@ internal fun MarketScreen(
                     )
                     Tab(
                         modifier = Modifier.testTag("market:items"),
-
                         selected = pagerState.currentPage == 1,
                         onClick = {
                             coroutineScope.launch {
@@ -344,18 +353,18 @@ fun BuyBoardUi(
     onBuy: (String) -> Unit = {},
     onSelect: (String, Boolean) -> Unit = { _, _ -> },
     isSelect: Boolean = false,
-
 ) {
     OutlinedCard(
         modifier = modifier,
-        border = if (isSelect) {
-            BorderStroke(4.dp, Color.Blue)
-        } else {
-            BorderStroke(
-                0.dp,
-                Color.Transparent,
-            )
-        },
+        border =
+            if (isSelect) {
+                BorderStroke(4.dp, Color.Blue)
+            } else {
+                BorderStroke(
+                    0.dp,
+                    Color.Transparent,
+                )
+            },
     ) {
         Column {
             when (buyItem.item) {
@@ -371,30 +380,32 @@ fun BuyBoardUi(
 
                 is UDice -> {
                     BoxWithConstraints(
-                        modifier = Modifier
-                            .background(Color(buyItem.item.color).copy(alpha = 0.3f))
-                            .fillMaxWidth()
-                            .aspectRatio(1f),
+                        modifier =
+                            Modifier
+                                .background(Color(buyItem.item.color).copy(alpha = 0.3f))
+                                .fillMaxWidth()
+                                .aspectRatio(1f),
                         contentAlignment = Alignment.Center,
                     ) {
                         DiceUi(
-                            modifier = Modifier
-                                .size(this.maxWidth.times(0.5f))
-                                .offset(this.maxWidth.times(0.2f)),
+                            modifier =
+                                Modifier
+                                    .size(this.maxWidth.times(0.5f))
+                                    .offset(this.maxWidth.times(0.2f)),
                             diceUiState = DiceUiState(animate = true, color = buyItem.item.color),
                             rotate = { 90f },
-
                         )
                         DiceUi(
-                            modifier = Modifier
-                                .size(this.maxWidth.times(0.5f))
-                                .offset(this.maxWidth.times(-0.2f)),
-                            diceUiState = DiceUiState(
-                                animate = true,
-                                color = buyItem.item.color,
-                            ),
+                            modifier =
+                                Modifier
+                                    .size(this.maxWidth.times(0.5f))
+                                    .offset(this.maxWidth.times(-0.2f)),
+                            diceUiState =
+                                DiceUiState(
+                                    animate = true,
+                                    color = buyItem.item.color,
+                                ),
                             rotate = { -90f },
-
                         )
                     }
                 }
