@@ -29,18 +29,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -59,7 +53,11 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.designsystem.component.LudoButton
+import com.mshdabiola.designsystem.component.LudoTab
+import com.mshdabiola.designsystem.component.LudoTabRow
 import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.designsystem.icon.drawable.BgL
 import com.mshdabiola.designsystem.icon.drawable.BgP
 import com.mshdabiola.naijaludo.model.GameColor
@@ -296,15 +294,15 @@ internal fun MarketScreen(
                         )
                         .align(Alignment.TopCenter),
             ) {
-                IconButton(onClick = back) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
+                LudoButton(onClick = back) {
+                    Icon(imageVector = LudoIcons.ArrowBack, contentDescription = "back")
                 }
-                TabRow(
+                LudoTabRow(
                     modifier = Modifier.weight(1f),
                     selectedTabIndex = pagerState.currentPage,
-                    containerColor = Color.Transparent,
+                    //   containerColor = Color.Transparent,
                 ) {
-                    Tab(
+                    LudoTab(
                         modifier = Modifier.testTag("market:market"),
                         selected = pagerState.currentPage == 0,
                         onClick = {
@@ -316,7 +314,7 @@ internal fun MarketScreen(
                             Text(text = "Market")
                         },
                     )
-                    Tab(
+                    LudoTab(
                         modifier = Modifier.testTag("market:items"),
                         selected = pagerState.currentPage == 1,
                         onClick = {
@@ -420,7 +418,7 @@ fun BuyBoardUi(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (buyItem.isPurchase) {
-                        Button(onClick = { onSelect(buyItem.id, buyItem.item is UBoard) }) {
+                        LudoButton(onClick = { onSelect(buyItem.id, buyItem.item is UBoard) }) {
                             Text(text = "Select")
                         }
                     } else {
@@ -429,7 +427,7 @@ fun BuyBoardUi(
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.primary,
                         )
-                        Button(onClick = { onBuy(buyItem.id) }) {
+                        LudoButton(onClick = { onBuy(buyItem.id) }) {
                             Text(text = "Buy")
                         }
                     }

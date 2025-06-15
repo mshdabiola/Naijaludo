@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.component.DialogUi
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.designsystem.string.Dimensions.Base2
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.ui.state.SettingUiState
@@ -76,7 +76,7 @@ internal fun SettingScreen(
         cancelIcon = {
             IconButton(onClick = onDismissRequest) {
                 Icon(
-                    imageVector = Icons.Default.Clear,
+                    imageVector = LudoIcons.Clear,
                     contentDescription = stringResource(Res.string.close),
                 )
             }

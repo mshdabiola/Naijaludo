@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
@@ -126,7 +125,7 @@ fun MainScreen(
                 onClick = onCloseApp,
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = LudoIcons.Add,
                     contentDescription = stringResource(Res.string.close),
                     Modifier.rotate(45f),
                 )
@@ -174,7 +173,7 @@ fun MainScreen(
                     elevation = Base,
                 ) {
                     Icon(
-                        imageVector = Icons.Default.PlayArrow,
+                        imageVector = LudoIcons.PlayArrow,
                         contentDescription = stringResource(Res.string.play),
                         modifier = Modifier.size(Base4),
                     )
@@ -203,7 +202,7 @@ fun MainScreen(
                         elevation = Base,
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.PlayArrow,
+                            imageVector = LudoIcons.PlayArrow,
                             contentDescription = stringResource(Res.string.play),
                             modifier = Modifier.size(Base4),
                         )
