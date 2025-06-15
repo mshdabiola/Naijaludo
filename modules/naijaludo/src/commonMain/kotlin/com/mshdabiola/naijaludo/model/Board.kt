@@ -3,8 +3,10 @@ package com.mshdabiola.naijaludo.model
 import kotlin.math.abs
 
 class Board(val colors: List<GameColor> = GameColor.values().toList(), val boardType: Int = 0) {
-
-    fun getBoxByIndex(index: Int, gameColor: GameColor): Point {
+    fun getBoxByIndex(
+        index: Int,
+        gameColor: GameColor,
+    ): Point {
         // home -1 to -4
 
         // start point 0
@@ -33,7 +35,10 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
         }
     }
 
-    fun specificToGeneral(index: Int, gameColor: GameColor): Int {
+    fun specificToGeneral(
+        index: Int,
+        gameColor: GameColor,
+    ): Int {
         val colorIndex = colors.indexOf(gameColor)
         val homeOfColor = getCurrentIndex(getStartBox(colorIndex))
 
@@ -46,20 +51,27 @@ class Board(val colors: List<GameColor> = GameColor.values().toList(), val board
         return Point(x, y)
     }
 
-    private fun getSafeBox(index: Int, colorIndex: Int): Point {
+    private fun getSafeBox(
+        index: Int,
+        colorIndex: Int,
+    ): Point {
         val x = Constant.safeX[colorIndex][index]
         val y = Constant.safeY[colorIndex][index]
         return Point(x, y)
     }
 
     private fun getLastBox() = Point(7, 7)
+
     private fun getStartBox(colorIndex: Int): Point {
         val x = Constant.startX[colorIndex]
         val y = Constant.startY[colorIndex]
         return Point(x, y)
     }
 
-    private fun getHomeBox(index: Int, colorIndex: Int): Point {
+    private fun getHomeBox(
+        index: Int,
+        colorIndex: Int,
+    ): Point {
         return try {
             val x = Constant.homeX[colorIndex][index]
             val y = Constant.homeY[colorIndex][index]

@@ -5,14 +5,16 @@ import com.mshdabiola.naijaludo.model.player.Player
 import com.mshdabiola.naijaludo.model.player.RandomComputerPlayer
 
 var isDebug = true
+
 expect fun log(msg: String)
 
 object Constant {
-    private const val numberOfDice = 3
-    private const val totalIndex = numberOfDice / 2
+    private const val NUM_OF_DICE = 3
+    private const val TOTAL_INDEX = NUM_OF_DICE / 2
     var difficulty = 6
 
     var photoUri: String? = null
+
     fun getDefaultGameState(
         numberOfPlayer: Int = 2,
         numberOfPawn: Int = 4,
@@ -30,11 +32,12 @@ object Constant {
 
         GameColor.values().forEach { gameColor ->
             (1..4).map { colorNumber ->
-                val pawn = if (colorNumber <= numberOfPawn2) {
-                    Pawn(colorNumber = colorNumber, colorNumber.times(-1), color = gameColor)
-                } else {
-                    Pawn(colorNumber = colorNumber, color = gameColor, currentPos = 56)
-                }
+                val pawn =
+                    if (colorNumber <= numberOfPawn2) {
+                        Pawn(colorNumber = colorNumber, colorNumber.times(-1), color = gameColor)
+                    } else {
+                        Pawn(colorNumber = colorNumber, color = gameColor, currentPos = 56)
+                    }
                 listPawns.add(pawn)
             }
         }
@@ -46,7 +49,10 @@ object Constant {
             .map { it.copy(currentPos = 56) }
     }
 
-    fun getDefaultPlayers(numberOfPlayer: Int, name: String): List<Player> {
+    fun getDefaultPlayers(
+        numberOfPlayer: Int,
+        name: String,
+    ): List<Player> {
         val icon = IntArray(6) { it }
         icon.shuffle()
         return if (numberOfPlayer == 2) {
@@ -91,8 +97,8 @@ object Constant {
     }
 
     fun getDefaultCounter(): List<Counter> {
-        return (0 until numberOfDice).map {
-            if (it == totalIndex) {
+        return (0 until NUM_OF_DICE).map {
+            if (it == TOTAL_INDEX) {
                 Counter(
                     isTotal = true,
                     id = it,
@@ -104,8 +110,8 @@ object Constant {
     }
 
     fun geDefaultDice(): List<Dice> {
-        return (0 until numberOfDice).map {
-            if (it == totalIndex) {
+        return (0 until NUM_OF_DICE).map {
+            if (it == TOTAL_INDEX) {
                 Dice(isTotal = true, id = it)
             } else {
                 Dice(
@@ -135,18 +141,20 @@ object Constant {
 
     // 11   41
     // 14   44
-    val homeX = listOf(
-        intArrayOf(1, 4, 1, 4),
-        intArrayOf(10, 13, 10, 13),
-        intArrayOf(10, 13, 10, 13),
-        intArrayOf(1, 4, 1, 4),
-    )
-    val homeY = listOf(
-        intArrayOf(1, 1, 4, 4),
-        intArrayOf(1, 1, 4, 4),
-        intArrayOf(10, 10, 13, 13),
-        intArrayOf(10, 10, 13, 13),
-    )
+    val homeX =
+        listOf(
+            intArrayOf(1, 4, 1, 4),
+            intArrayOf(10, 13, 10, 13),
+            intArrayOf(10, 13, 10, 13),
+            intArrayOf(1, 4, 1, 4),
+        )
+    val homeY =
+        listOf(
+            intArrayOf(1, 1, 4, 4),
+            intArrayOf(1, 1, 4, 4),
+            intArrayOf(10, 10, 13, 13),
+            intArrayOf(10, 10, 13, 13),
+        )
 
     val startX = intArrayOf(1, 8, 13, 6)
     val startY = intArrayOf(6, 1, 8, 13)

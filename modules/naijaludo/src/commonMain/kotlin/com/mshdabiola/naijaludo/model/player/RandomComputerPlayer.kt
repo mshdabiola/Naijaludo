@@ -296,10 +296,7 @@ data class RandomComputerPlayer(
     override val iconIndex: Int,
     override val isComputer: Boolean = true,
 ) : ComputerPlayer {
-
-    override fun chooseCounter(
-        gameState: LudoGameState,
-    ): Int {
+    override fun chooseCounter(gameState: LudoGameState): Int {
         val selected = counterLogic(gameState)
         log("selected is counter id $selected")
         return selected
@@ -331,13 +328,15 @@ data class RandomComputerPlayer(
                 .sortedBy { it.id }
         log("enabled counter is $enableCounter")
 
-        val oppPawn = getOpponentPawns(ludoGameState)
-            .filter { it.isOnPath() }
-            .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
-            .toIntArray()
+        val oppPawn =
+            getOpponentPawns(ludoGameState)
+                .filter { it.isOnPath() }
+                .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
+                .toIntArray()
 
-        val playerPawn = ludoGameState.listOfPawn
-            .filter { it.color in colors && !it.isOut() && !it.isInSavePath() }
+        val playerPawn =
+            ludoGameState.listOfPawn
+                .filter { it.color in colors && !it.isOut() && !it.isInSavePath() }
 
         // kill //bug
         enableCounter.forEach { counter ->
@@ -374,29 +373,34 @@ data class RandomComputerPlayer(
 
         return enableCounter.first().id
     }
+
     fun pawnLogic(ludoGameState: LudoGameState): Int {
-        val enablePawn = ludoGameState
-            .listOfPawn
-            .filter {
-                it.isEnable // && it.color in colors
-            }
+        val enablePawn =
+            ludoGameState
+                .listOfPawn
+                .filter {
+                    it.isEnable // && it.color in colors
+                }
         val allOppPawns = getOpponentPawns(ludoGameState)
 
-        val pawnIntArray = allOppPawns
-            .filter { it.isOnPath() }
-            .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
-            .toIntArray()
+        val pawnIntArray =
+            allOppPawns
+                .filter { it.isOnPath() }
+                .map { ludoGameState.board.specificToGeneral(it.currentPos, it.color) }
+                .toIntArray()
 
         val currentDiceNumber = ludoGameState.currentDiceNumber
         val totalDiceNumber = ludoGameState.listOfDice[1].number
 
-        val oppPawnOnPath = allOppPawns
-            .filter { it.isOnPath() }
+        val oppPawnOnPath =
+            allOppPawns
+                .filter { it.isOnPath() }
 
-        val oppColorAtHome = allOppPawns
-            .filter { it.isHome() }
-            .map { it.color }
-            .distinctBy { it }
+        val oppColorAtHome =
+            allOppPawns
+                .filter { it.isHome() }
+                .map { it.color }
+                .distinctBy { it }
 
         enablePawn.forEach {
             val currentPawnPoss =
@@ -416,8 +420,30 @@ data class RandomComputerPlayer(
 
         // come out
         if (currentDiceNumber == 6 && enablePawn.any { it.isHome() }) {
-            val sortedHomePawn = enablePawn
-                .filter { it.isHome() }
+            val sortedHomePawn =
+                enablePawn
+                    .filter { it.isHome() }
+                    .shuffled()
+                    .map {
+                        Pair(
+                            it,
+                            getPawnPoint(
+                                it,
+                                oppPawnOnPath,
+                                oppColorAtHome,
+                                ludoGameState.board,
+                                currentDiceNumb = currentDiceNumber,
+                                totalDiceNumber,
+                            ),
+                        )
+                    }
+                    .sortedBy { -it.second }
+
+            return sortedHomePawn.first().first.pawnId
+        }
+
+        val sortedMap =
+            enablePawn
                 .shuffled()
                 .map {
                     Pair(
@@ -433,26 +459,6 @@ data class RandomComputerPlayer(
                     )
                 }
                 .sortedBy { -it.second }
-
-            return sortedHomePawn.first().first.pawnId
-        }
-
-        val sortedMap = enablePawn
-            .shuffled()
-            .map {
-                Pair(
-                    it,
-                    getPawnPoint(
-                        it,
-                        oppPawnOnPath,
-                        oppColorAtHome,
-                        ludoGameState.board,
-                        currentDiceNumb = currentDiceNumber,
-                        totalDiceNumber,
-                    ),
-                )
-            }
-            .sortedBy { -it.second }
         log(
             "sorted by risk ${
                 sortedMap.joinToString {
@@ -476,9 +482,10 @@ data class RandomComputerPlayer(
     ): Float {
         val newPosition = if (currentPawn.isHome()) 0 else currentPawn.currentPos + currentDiceNumb
         val projectPawn = currentPawn.copy(currentPos = newPosition)
-        val oppHome = oppColorPawnAtHome
-            .map { board.specificToGeneral(0, it) }
-            .toIntArray()
+        val oppHome =
+            oppColorPawnAtHome
+                .map { board.specificToGeneral(0, it) }
+                .toIntArray()
         val actualProjectPos = board.specificToGeneral(projectPawn.currentPos, projectPawn.color)
         val actualCurrentPos = board.specificToGeneral(currentPawn.currentPos, currentPawn.color)
 
@@ -533,18 +540,26 @@ data class RandomComputerPlayer(
         }
     }
 
-    private fun getProbability(number: Int, pow: Int = 1): Float {
-        val result = if (number < 7) {
-            (number + 1) / 36f
-        } else {
-            (12 - number + 1) / 36f
-        }
+    private fun getProbability(
+        number: Int,
+        pow: Int = 1,
+    ): Float {
+        val result =
+            if (number < 7) {
+                (number + 1) / 36f
+            } else {
+                (12 - number + 1) / 36f
+            }
         //  log("number $number probability $result")
         return result.toDouble().pow(pow.toDouble()).toFloat()
     }
 
     // pawn1 moving toward pawn2
-    private fun distanceTo(pawn1: Pawn, pawn2: Pawn, board: Board): Int {
+    private fun distanceTo(
+        pawn1: Pawn,
+        pawn2: Pawn,
+        board: Board,
+    ): Int {
         // check is over pawn1 home
         if (!pawn1.isOnPath() || !pawn2.isOnPath()) {
             return -1
@@ -557,7 +572,10 @@ data class RandomComputerPlayer(
         return if (distance < 0) -1 else distance
     }
 
-    private fun isAtRisk(pos: Int, oppHomePos: IntArray): Boolean {
+    private fun isAtRisk(
+        pos: Int,
+        oppHomePos: IntArray,
+    ): Boolean {
         oppHomePos.forEach {
             if (pos in it..(it + 5)) {
                 return true
@@ -567,7 +585,10 @@ data class RandomComputerPlayer(
         return false
     }
 
-    private fun isAtSafeArea(pos: Int, oppHomePos: IntArray): Boolean {
+    private fun isAtSafeArea(
+        pos: Int,
+        oppHomePos: IntArray,
+    ): Boolean {
         oppHomePos.forEach {
             if (getSafeArea(pos, it)) {
                 return true
@@ -577,7 +598,10 @@ data class RandomComputerPlayer(
         return false
     }
 
-    private fun getSafeArea(pos: Int, homeId: Int): Boolean {
+    private fun getSafeArea(
+        pos: Int,
+        homeId: Int,
+    ): Boolean {
         return if (homeId == 1) {
             pos == 0 || pos in 51 downTo (51 - 2)
         } else {
