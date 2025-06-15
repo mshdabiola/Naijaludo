@@ -19,10 +19,10 @@ class StoreImpl(
     private val currentState: DataStore<CurrentState>,
     private val coroutineDispatcher: CoroutineDispatcher,
 ) : Store {
-
     override val userData: Flow<UserData>
-        get() = userdata
-            .data
+        get() =
+            userdata
+                .data
     private val data = currentState.data
 
     override suspend fun updateUserData(transform: suspend (UserData) -> UserData): UserData {
@@ -38,7 +38,10 @@ class StoreImpl(
         currentState.updateData { it.copy(setting = setting) }
     }
 
-    override suspend fun setGame(players: List<Player>, pawns: List<Pawn>) {
+    override suspend fun setGame(
+        players: List<Player>,
+        pawns: List<Pawn>,
+    ) {
         if (players.size == 2) {
             currentState.updateData {
                 it.copy(
@@ -56,7 +59,10 @@ class StoreImpl(
         }
     }
 
-    override suspend fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+    override suspend fun getGame(
+        type: Int,
+        name: String,
+    ): Pair<List<Player>, List<Pawn>> {
         val data = data.first()
         return if (type == 2) {
             Pair(data.players.map { it.toOriginal() }, data.pawns)
@@ -113,7 +119,10 @@ class StoreImpl(
         currentState.updateData { it.copy(purchaseItems = strBoard) }
     }
 
-    private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+    private fun getDefaultPlayer(
+        type: Int,
+        name: String,
+    ): Pair<List<Player>, List<Pawn>> {
         val player = Constant.getDefaultPlayers(type, name)
         val pawns = Constant.getDefaultPawns(4)
         return Pair(player, pawns)

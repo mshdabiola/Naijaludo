@@ -8,17 +8,18 @@ import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 
 actual val datastoreModule: Module
-    get() = module {
-        includes(commonModule)
+    get() =
+        module {
+            includes(commonModule)
 
-        single(qualifier = qualifier("userdata")) {
-            val context: Context = get()
+            single(qualifier = qualifier("userdata")) {
+                val context: Context = get()
 
-            createDataStoreUserData { context.filesDir.resolve("userdata").absolutePath }
+                createDataStoreUserData { context.filesDir.resolve("userdata").absolutePath }
+            }
+
+            single(qualifier = qualifier("currentstate")) {
+                val context: Context = get()
+                createDataStoreCurrentState { context.filesDir.resolve("currentstate").absolutePath }
+            }
         }
-
-        single(qualifier = qualifier("currentstate")) {
-            val context: Context = get()
-            createDataStoreCurrentState { context.filesDir.resolve("currentstate").absolutePath }
-        }
-    }
