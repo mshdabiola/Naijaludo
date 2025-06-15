@@ -320,7 +320,8 @@ internal fun GameRoute(
             show = gameUiState.isWaitingDialogOpen,
             connected = gameUiState.connected,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
-            startGame = {}, // gameScreenViewModel::startOffGame,
+            startGame = {},
+            // gameScreenViewModel::startOffGame,
         )
         WifiPermission(
             show = showPermission,

@@ -19,7 +19,8 @@ class LogLudo(soundInterface: SoundInterface) :
         LogLudoData(
             neverKillInGame = true,
             numberOfTimeKill = 0,
-            startTime = 3, // System.currentTimeMillis() * 1000
+            startTime = 3,
+            // System.currentTimeMillis() * 1000
         )
     private var saveLog: (LogLudoData) -> Unit = {}
 
@@ -75,7 +76,8 @@ class LogLudo(soundInterface: SoundInterface) :
                 LogLudoData(
                     neverKillInGame = true,
                     numberOfTimeKill = 0,
-                    startTime = 5, // System.currentTimeMillis() * 1000
+                    startTime = 5,
+                    // System.currentTimeMillis() * 1000
                 )
         }
         firstHumanPlayer = false

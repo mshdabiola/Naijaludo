@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -27,6 +26,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.ui.BoardUi
 import com.mshdabiola.ui.CounterGroupUi
@@ -658,7 +658,7 @@ fun Show(
     }
     Box(modifier) {
         IconButton(onClick = { show = true }) {
-            Icon(imageVector = Icons.Default.Menu, contentDescription = "menu")
+            Icon(imageVector = LudoIcons.Menu, contentDescription = "menu")
         }
         DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
             DropdownMenuItem(
