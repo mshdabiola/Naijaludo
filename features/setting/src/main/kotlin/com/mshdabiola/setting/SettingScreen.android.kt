@@ -10,6 +10,5 @@ import com.mshdabiola.ui.state.toUi
 fun ScreenPreview() {
     SettingScreen(
         settingUiState = Setting.default.toUi(),
-
     )
 }

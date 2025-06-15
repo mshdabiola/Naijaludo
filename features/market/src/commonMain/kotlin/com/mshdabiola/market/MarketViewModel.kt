@@ -16,7 +16,6 @@ class MarketViewModel(
     private val setting: Store,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-
     val currentBoard =
         setting
             .getCurrentBoard()
@@ -24,14 +23,15 @@ class MarketViewModel(
         setting
             .getCurrentDice()
 
-    val settingUiState = setting.setting
-        .map { it.toUi() }
-        .distinctUntilChanged { old, new -> old == new }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            Setting.default.toUi(),
-        )
+    val settingUiState =
+        setting.setting
+            .map { it.toUi() }
+            .distinctUntilChanged { old, new -> old == new }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                Setting.default.toUi(),
+            )
 
     suspend fun getPurchaseItems(): List<String> {
         return setting.getPurchaseItems()

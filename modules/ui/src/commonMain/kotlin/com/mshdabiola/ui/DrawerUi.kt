@@ -42,12 +42,12 @@ fun DrawerUi(
             val x = (oneDp * offset.x) - padding
             val y = (oneDp * offset.y) - (oneDp / 2 + padding)
             Column(
-                modifier = modifier
-                    .offset(x, y)
-                    .clip(RoundedCornerShape(100))
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
-                    .padding(padding),
-
+                modifier =
+                    modifier
+                        .offset(x, y)
+                        .clip(RoundedCornerShape(100))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
+                        .padding(padding),
             ) {
                 drawerUiState.forEachIndexed { index, pawn ->
 
@@ -68,12 +68,12 @@ fun DrawerUi(
             val x = (oneDp * offset.x) - (oneDp / 2 + padding)
             val y = (oneDp * offset.y) - padding
             Row(
-                modifier = modifier
-                    .offset(x, y)
-                    .clip(RoundedCornerShape(100))
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
-                    .padding(padding),
-
+                modifier =
+                    modifier
+                        .offset(x, y)
+                        .clip(RoundedCornerShape(100))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
+                        .padding(padding),
             ) {
                 drawerUiState.forEachIndexed { index, pawn ->
 

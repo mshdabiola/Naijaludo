@@ -15,7 +15,6 @@ data class SavePlayer(
     val iconIndex: Int,
     val isHumanPlayer: Boolean = false,
 ) {
-
     fun toOriginal(): Player {
         return if (isHumanPlayer) {
             HumanPlayer(name, win, isCurrent, colors, iconIndex)

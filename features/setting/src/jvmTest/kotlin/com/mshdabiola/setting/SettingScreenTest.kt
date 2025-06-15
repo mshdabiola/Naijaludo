@@ -8,7 +8,6 @@ import org.junit.Rule
 import kotlin.test.Test
 
 class SettingScreenTest {
-
     @get:Rule
     val composeRule = createComposeRule()
 
@@ -18,7 +17,6 @@ class SettingScreenTest {
         composeRule.setContent {
             SettingScreen(
                 settingUiState = Setting.default.toUi(),
-
             )
         }
     }

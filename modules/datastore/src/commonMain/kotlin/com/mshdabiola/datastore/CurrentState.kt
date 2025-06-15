@@ -20,7 +20,6 @@ data class CurrentState(
     val currentBoard: String = "man_2",
     val currentDice: String = "default_dice",
     val purchaseItems: List<String> = emptyList(),
-
 )
 //
 // private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {

@@ -3,7 +3,6 @@ package com.mshdabiola.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
 sealed class MyColors {
-
     abstract val primaryLight: Color
     abstract val onPrimaryLight: Color
     abstract val primaryContainerLight: Color
@@ -77,7 +76,6 @@ sealed class MyColors {
     abstract val surfaceContainerHighestDark: Color
 
     data object Brown : MyColors() {
-
         override val primaryLight = Color(0xFF8E4D31)
         override val onPrimaryLight = Color(0xFFFFFFFF)
         override val primaryContainerLight = Color(0xFFFFDBCE)
@@ -152,7 +150,6 @@ sealed class MyColors {
     }
 
     data object Default : MyColors() {
-
         override val primaryLight = Color(0xFF4C662B)
         override val onPrimaryLight = Color(0xFFFFFFFF)
         override val primaryContainerLight = Color(0xFFCDEDA3)

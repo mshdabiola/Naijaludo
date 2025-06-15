@@ -8,6 +8,6 @@ import androidx.compose.runtime.Composable
 
 @ThemePreviews
 @Composable
-private fun SkTextFieldPreview() {
-    // SkTextField(value = "Sk Testing")
+private fun LudoTextFieldPreview() {
+    // LudoTextField(value = "Ludo Testing")
 }

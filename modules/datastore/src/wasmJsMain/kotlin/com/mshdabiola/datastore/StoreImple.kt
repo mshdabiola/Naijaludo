@@ -32,10 +32,16 @@ class StoreImple : Store {
     override suspend fun setGameSetting(setting: Setting) {
     }
 
-    override suspend fun setGame(players: List<Player>, pawns: List<Pawn>) {
+    override suspend fun setGame(
+        players: List<Player>,
+        pawns: List<Pawn>,
+    ) {
     }
 
-    override suspend fun getGame(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+    override suspend fun getGame(
+        type: Int,
+        name: String,
+    ): Pair<List<Player>, List<Pawn>> {
         return getDefaultPlayer(type, name)
     }
 
@@ -93,7 +99,10 @@ class StoreImple : Store {
     override suspend fun setPurchaseItems(strBoard: List<String>) {
     }
 
-    private fun getDefaultPlayer(type: Int, name: String): Pair<List<Player>, List<Pawn>> {
+    private fun getDefaultPlayer(
+        type: Int,
+        name: String,
+    ): Pair<List<Player>, List<Pawn>> {
         val player = Constant.getDefaultPlayers(type, name)
         val pawns = Constant.getDefaultPawns(4)
         return Pair(player, pawns)

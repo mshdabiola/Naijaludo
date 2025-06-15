@@ -10,7 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Fish.getYellow(iconColor: Color, accentColor: Color): ImageVector {
+fun Fish.getYellow(
+    iconColor: Color,
+    accentColor: Color,
+): ImageVector {
     return Builder(
         name = "Yellow7",
         defaultWidth = 200.0.dp,

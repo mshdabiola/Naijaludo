@@ -1,0 +1,12 @@
+
+
+[*.{kt,kts}]
+ktlint_naijaludo_prefer-method-name=disabled
+
+
+[*.{kt,kts}]
+ktlint_naijaludo_prefer-receiver-name=disabled
+
+
+[*.{kt,kts}]
+ktlint_standard_property-naming = disabled

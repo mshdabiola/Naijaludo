@@ -9,16 +9,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkBackground
-import com.mshdabiola.designsystem.component.SkFilterChip
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.component.LudoBackground
+import com.mshdabiola.designsystem.component.LudoFilterChip
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
 @Composable
 fun ChipPreview() {
-    LudoAppTheme {
-        SkBackground(modifier = Modifier.size(80.dp, 20.dp)) {
-            SkFilterChip(selected = true, onSelectedChange = {}) {
+    LudoTheme {
+        LudoBackground(modifier = Modifier.size(80.dp, 20.dp)) {
+            LudoFilterChip(selected = true, onSelectedChange = {}) {
                 Text("Chip")
             }
         }

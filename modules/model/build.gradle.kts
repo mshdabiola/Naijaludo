@@ -2,8 +2,6 @@
 plugins {
     id("mshdabiola.android.library")
     alias(libs.plugins.kotlin.serialization)
-
-
 }
 
 android {
@@ -15,8 +13,6 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
             api(project(":modules:naijaludo"))
-
-
         }
     }
 }

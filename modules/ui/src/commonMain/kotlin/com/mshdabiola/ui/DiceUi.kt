@@ -51,37 +51,38 @@ fun DiceUi(
 ) {
     val unitDp = LocalUnitDP.current
 
-    val imageVector = remember(diceUiState.number, diceUiState.animate) {
-        when {
-            diceUiState.animate -> getDiceRoll(Color(diceUiState.color))
-            diceUiState.number == 2 -> getDiceTwo(Color(diceUiState.color))
-            diceUiState.number == 3 -> getDiceThree(Color(diceUiState.color))
-            diceUiState.number == 4 -> getDiceFour(Color(diceUiState.color))
-            diceUiState.number == 5 -> getDiceFive(Color(diceUiState.color))
-            diceUiState.number == 6 -> getDiceSix(Color(diceUiState.color))
+    val imageVector =
+        remember(diceUiState.number, diceUiState.animate) {
+            when {
+                diceUiState.animate -> getDiceRoll(Color(diceUiState.color))
+                diceUiState.number == 2 -> getDiceTwo(Color(diceUiState.color))
+                diceUiState.number == 3 -> getDiceThree(Color(diceUiState.color))
+                diceUiState.number == 4 -> getDiceFour(Color(diceUiState.color))
+                diceUiState.number == 5 -> getDiceFive(Color(diceUiState.color))
+                diceUiState.number == 6 -> getDiceSix(Color(diceUiState.color))
 
-            else -> getDiceOne(Color(diceUiState.color))
+                else -> getDiceOne(Color(diceUiState.color))
+            }
         }
-    }
     Image(
-        modifier = modifier
-            .size(unitDp.times(1.5f))
-            .offset {
-                IntOffset((unitDp * offset().x).roundToPx(), (unitDp * offset().y).roundToPx())
-            }
-            .testTag("dice${diceUiState.id}")
-            .graphicsLayer {
-                rotationZ = rotate()
-                this.transformOrigin = TransformOrigin.Center
-                scaleX = scale()
-                scaleY = scale()
-            }
-            .clickable(enabled = diceUiState.isEnable && isEnableForPlayer) {
-                onDiceClick()
-            },
+        modifier =
+            modifier
+                .size(unitDp.times(1.5f))
+                .offset {
+                    IntOffset((unitDp * offset().x).roundToPx(), (unitDp * offset().y).roundToPx())
+                }
+                .testTag("dice${diceUiState.id}")
+                .graphicsLayer {
+                    rotationZ = rotate()
+                    this.transformOrigin = TransformOrigin.Center
+                    scaleX = scale()
+                    scaleY = scale()
+                }
+                .clickable(enabled = diceUiState.isEnable && isEnableForPlayer) {
+                    onDiceClick()
+                },
         imageVector = imageVector,
         contentDescription = "dice${diceUiState.id}",
-
     )
 }
 
@@ -104,7 +105,6 @@ fun DicesUi(
                     isHuman = isHuman,
                     onClick = onClick,
                     numberOfDice = diceUiStateList.size,
-
                 )
                 //  }
             }
@@ -120,71 +120,80 @@ fun AnimateDiceUi(
     numberOfDice: Int,
     onClick: () -> Unit = {},
 ) {
-    val iniOff = remember {
-        getInitOfDice(diceUiState.id, numberOfDice)
-    }
+    val iniOff =
+        remember {
+            getInitOfDice(diceUiState.id, numberOfDice)
+        }
 
-    val off = remember {
-        Animatable(iniOff, Offset.VectorConverter)
-    }
+    val off =
+        remember {
+            Animatable(iniOff, Offset.VectorConverter)
+        }
     val float = rememberInfiniteTransition(label = "infinite")
 
-    val value = float.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            tween(100, easing = FastOutLinearInEasing),
-
-        ),
-        label = "rotate",
-    )
-    val scale = float.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
-            tween(500),
-            repeatMode = RepeatMode.Reverse,
-        ),
-        label = "scale",
-    )
+    val value =
+        float.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(100, easing = FastOutLinearInEasing),
+                ),
+            label = "rotate",
+        )
+    val scale =
+        float.animateFloat(
+            initialValue = 1f,
+            targetValue = 1.2f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(500),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+            label = "scale",
+        )
 
     LaunchedEffect(key1 = diceUiState) {
         when {
             diceUiState.isEnable && isHuman -> {
                 off.animateTo(
                     iniOff,
-                    animationSpec = spring(
-                        Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessMedium,
-                    ),
+                    animationSpec =
+                        spring(
+                            Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessMedium,
+                        ),
                 )
             }
 
             diceUiState.animate -> {
                 off.animateTo(
                     randDiceOffSet(),
-                    animationSpec = tween(
-                        600,
-                        easing = LinearEasing,
-                    ),
+                    animationSpec =
+                        tween(
+                            600,
+                            easing = LinearEasing,
+                        ),
                 )
             }
 
             else -> {
                 off.animateTo(
                     iniOff,
-                    animationSpec = spring(
-                        Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessMedium,
-                    ),
+                    animationSpec =
+                        spring(
+                            Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessMedium,
+                        ),
                 )
             }
         }
     }
 
     DiceUi(
-        modifier = modifier
-            .zIndex(40f),
+        modifier =
+            modifier
+                .zIndex(40f),
         diceUiState = diceUiState,
         isEnableForPlayer = isHuman,
         rotate = { if (diceUiState.animate) value.value else 0f },

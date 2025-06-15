@@ -2,8 +2,6 @@
 plugins {
     id("mshdabiola.android.library")
     alias(libs.plugins.kotlin.serialization)
-
-
 }
 
 android {
@@ -19,32 +17,31 @@ kotlin {
 //            testImplementation(libs.kotlinx.coroutines.test)
 //    testImplementation(libs.turbine)
             //  androidTestImplementation 'org.junit.jupiter:junit-jupiter'
-
         }
     }
 }
-//plugins {
+// plugins {
 //    id("java-library")
 //    id("org.jetbrains.kotlin.jvm")
-//}
+// }
 //
-//java {
+// java {
 //    sourceCompatibility = JavaVersion.VERSION_17
 //    targetCompatibility = JavaVersion.VERSION_17
-//}
-//tasks.test {
+// }
+// tasks.test {
 //    useJUnitPlatform()
-//}
-//dependencies {
+// }
+// dependencies {
 //    implementation(libs.kotlinx.coroutines.core)
 //    testImplementation(kotlin("test"))
 //    testImplementation(libs.kotlinx.coroutines.test)
 //    testImplementation(libs.turbine)
 //    //  androidTestImplementation 'org.junit.jupiter:junit-jupiter'
-//}
+// }
 //
-//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+// tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
 //    kotlinOptions {
 //        jvmTarget = "17"
 //    }
-//}
+// }

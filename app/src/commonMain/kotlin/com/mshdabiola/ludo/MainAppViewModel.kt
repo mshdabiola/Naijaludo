@@ -19,17 +19,18 @@ import kotlinx.coroutines.flow.stateIn
 class MainAppViewModel(
     store: Store,
 ) : ViewModel() {
-
-    val uiState: StateFlow<MainActivityUiState> = store.setting.map {
-        Success(it.toUi())
-    }.stateIn(
-        scope = viewModelScope,
-        initialValue = Loading,
-        started = SharingStarted.WhileSubscribed(5_000),
-    )
+    val uiState: StateFlow<MainActivityUiState> =
+        store.setting.map {
+            Success(it.toUi())
+        }.stateIn(
+            scope = viewModelScope,
+            initialValue = Loading,
+            started = SharingStarted.WhileSubscribed(5_000),
+        )
 }
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
+
     data class Success(val userData: SettingUiState) : MainActivityUiState
 }

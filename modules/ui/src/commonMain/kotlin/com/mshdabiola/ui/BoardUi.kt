@@ -38,23 +38,27 @@ fun BoardUi(
 ) {
     val board = LocalBoard.current
 
-    val pathColor = MaterialTheme.colorScheme
-        .onSecondaryContainer
-        .copy(alpha = 0.4f)
+    val pathColor =
+        MaterialTheme.colorScheme
+            .onSecondaryContainer
+            .copy(alpha = 0.4f)
     val bgColor = Color.White
 
     val boardUiState = boardUiStateProvider()
-    val colors = remember(boardUiState.colors) {
-        board.getHouseColor(boardUiState.colors)
-    }
-
-    val painters = board.getIcons()
-        .map {
-            rememberVectorPainter(image = it)
+    val colors =
+        remember(boardUiState.colors) {
+            board.getHouseColor(boardUiState.colors)
         }
-    val rotate = remember(boardUiState.colors) {
-        boardUiState.colors.indexOf(GameColor.RED) * 90f
-    }
+
+    val painters =
+        board.getIcons()
+            .map {
+                rememberVectorPainter(image = it)
+            }
+    val rotate =
+        remember(boardUiState.colors) {
+            boardUiState.colors.indexOf(GameColor.RED) * 90f
+        }
 
     val thirdHouse = colors[2]
     val firstHouse = colors[0]
@@ -71,185 +75,186 @@ fun BoardUi(
 //        visible = boardUiState.pathBoxes.isNotEmpty(),
 //    ) {
     BoxWithConstraints(
-        modifier = modifier
-            .aspectRatio(1f)
-            .drawBehind {
-                val unit = size.width.div(15)
-                val strokeWidth = unit.times(0.07f)
-                drawRect(bgColor)
-                drawRect(pathColor, style = Stroke(width = strokeWidth))
+        modifier =
+            modifier
+                .aspectRatio(1f)
+                .drawBehind {
+                    val unit = size.width.div(15)
+                    val strokeWidth = unit.times(0.07f)
+                    drawRect(bgColor)
+                    drawRect(pathColor, style = Stroke(width = strokeWidth))
 
-                // read safe path
-                drawRect(firstHouse, Offset(unit.times(1f), unit.times(6)), Size(unit, unit))
-                drawRect(
-                    firstHouse,
-                    Offset(unit.times(1f), unit.times(7)),
-                    Size(unit.times(5), unit),
-                )
-                repeat(5) {
-                    val first = it + 1
-                    drawCircle(
-                        bgColor,
-                        unit.div(3f),
-                        Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                    // read safe path
+                    drawRect(firstHouse, Offset(unit.times(1f), unit.times(6)), Size(unit, unit))
+                    drawRect(
+                        firstHouse,
+                        Offset(unit.times(1f), unit.times(7)),
+                        Size(unit.times(5), unit),
                     )
-                    drawCircle(
-                        pathColor,
-                        unit.div(3f),
-                        Offset(unit.times(first + 0.5f), unit.times(7.5f)),
-                        style = Stroke(width = strokeWidth),
+                    repeat(5) {
+                        val first = it + 1
+                        drawCircle(
+                            bgColor,
+                            unit.div(3f),
+                            Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                        )
+                        drawCircle(
+                            pathColor,
+                            unit.div(3f),
+                            Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                            style = Stroke(width = strokeWidth),
+                        )
+                    }
+
+                    // blue safe path
+                    drawRect(fourthHouse, Offset(unit.times(6), unit.times(13)), Size(unit, unit))
+                    drawRect(
+                        fourthHouse,
+                        Offset(unit.times(7f), unit.times(9)),
+                        Size(unit, unit.times(5)),
                     )
-                }
+                    repeat(5) {
+                        val first = it + 9
 
-                // blue safe path
-                drawRect(fourthHouse, Offset(unit.times(6), unit.times(13)), Size(unit, unit))
-                drawRect(
-                    fourthHouse,
-                    Offset(unit.times(7f), unit.times(9)),
-                    Size(unit, unit.times(5)),
-                )
-                repeat(5) {
-                    val first = it + 9
+                        drawCircle(
+                            bgColor,
+                            unit.div(3f),
+                            Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                        )
+                        drawCircle(
+                            pathColor,
+                            unit.div(3f),
+                            Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                            style = Stroke(width = strokeWidth),
+                        )
+                    }
 
-                    drawCircle(
-                        bgColor,
-                        unit.div(3f),
-                        Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                    // green safe path
+                    drawRect(secondHouse, Offset(unit.times(8), unit.times(1)), Size(unit, unit))
+                    drawRect(
+                        secondHouse,
+                        Offset(unit.times(7f), unit.times(1)),
+                        Size(unit, unit.times(5)),
                     )
-                    drawCircle(
-                        pathColor,
-                        unit.div(3f),
-                        Offset(unit.times(7.5f), unit.times(first + 0.5f)),
-                        style = Stroke(width = strokeWidth),
+
+                    repeat(5) {
+                        val first = it + 1
+
+                        drawCircle(
+                            bgColor,
+                            unit.div(3f),
+                            Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                        )
+                        drawCircle(
+                            pathColor,
+                            unit.div(3f),
+                            Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                            style = Stroke(width = strokeWidth),
+                        )
+                    }
+
+                    // yellow safe path
+                    drawRect(thirdHouse, Offset(unit.times(13), unit.times(8)), Size(unit, unit))
+                    drawRect(
+                        thirdHouse,
+                        Offset(unit.times(9), unit.times(7)),
+                        Size(unit.times(5), unit),
                     )
-                }
+                    repeat(5) {
+                        val first = it + 9
+                        drawCircle(
+                            bgColor,
+                            unit.div(3f),
+                            Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                        )
+                        drawCircle(
+                            pathColor,
+                            unit.div(3f),
+                            Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                            style = Stroke(width = strokeWidth),
+                        )
+                    }
 
-                // green safe path
-                drawRect(secondHouse, Offset(unit.times(8), unit.times(1)), Size(unit, unit))
-                drawRect(
-                    secondHouse,
-                    Offset(unit.times(7f), unit.times(1)),
-                    Size(unit, unit.times(5)),
-                )
+                    // board line
 
-                repeat(5) {
-                    val first = it + 1
+                    repeat(14) {
+                        val inx = it + 1
+                        drawLine(
+                            pathColor,
+                            start = Offset(inx.times(unit), 0f),
+                            end = Offset(inx.times(unit), size.height),
+                            strokeWidth = strokeWidth,
+                        )
+                    }
+                    repeat(14) {
+                        val inx = it + 1
+                        drawLine(
+                            pathColor,
+                            start = Offset(0f, inx.times(unit)),
+                            end = Offset(size.width, inx.times(unit)),
+                            strokeWidth = strokeWidth,
+                        )
+                    }
 
-                    drawCircle(
-                        bgColor,
-                        unit.div(3f),
-                        Offset(unit.times(7.5f), unit.times(first + 0.5f)),
+                    // home rectangle
+                    drawShadowRect(firstHouse, Offset.Zero, Size(unit.times(6), unit.times(6)))
+
+                    drawShadowRect(
+                        fourthHouse,
+                        Offset(0f, unit.times(9)),
+                        Size(unit.times(6), unit.times(6)),
                     )
-                    drawCircle(
-                        pathColor,
-                        unit.div(3f),
-                        Offset(unit.times(7.5f), unit.times(first + 0.5f)),
-                        style = Stroke(width = strokeWidth),
+
+                    drawShadowRect(
+                        secondHouse,
+                        Offset(unit.times(9), 0f),
+                        Size(unit.times(6), unit.times(6)),
                     )
-                }
 
-                // yellow safe path
-                drawRect(thirdHouse, Offset(unit.times(13), unit.times(8)), Size(unit, unit))
-                drawRect(
-                    thirdHouse,
-                    Offset(unit.times(9), unit.times(7)),
-                    Size(unit.times(5), unit),
-                )
-                repeat(5) {
-                    val first = it + 9
-                    drawCircle(
-                        bgColor,
-                        unit.div(3f),
-                        Offset(unit.times(first + 0.5f), unit.times(7.5f)),
+                    drawShadowRect(
+                        thirdHouse,
+                        Offset(unit.times(9), unit.times(9)),
+                        Size(unit.times(6), unit.times(6)),
                     )
-                    drawCircle(
-                        pathColor,
-                        unit.div(3f),
-                        Offset(unit.times(first + 0.5f), unit.times(7.5f)),
-                        style = Stroke(width = strokeWidth),
+                    rotate(rotate) {
+                        drawHomeImage(
+                            painters[0],
+                            Offset(unit.times(1f), unit.times(1f)),
+                            Size(unit.times(4), unit.times(4)),
+                        )
+                        drawHomeImage(
+                            painters[1],
+                            Offset(unit.times(10f), unit.times(1f)),
+                            Size(unit.times(4), unit.times(4)),
+                        )
+                        drawHomeImage(
+                            painters[2],
+                            Offset(unit.times(10f), unit.times(10f)),
+                            Size(unit.times(4), unit.times(4)),
+                        )
+                        drawHomeImage(
+                            painters[3],
+                            Offset(unit.times(1f), unit.times(10f)),
+                            Size(unit.times(4), unit.times(4)),
+                        )
+                    }
+
+                    // center rectanle
+                    drawRect(
+                        Color.Magenta,
+                        Offset(unit.times(6), unit.times(6)),
+                        Size(unit.times(3), unit.times(3)),
                     )
-                }
-
-                // board line
-
-                repeat(14) {
-                    val inx = it + 1
-                    drawLine(
-                        pathColor,
-                        start = Offset(inx.times(unit), 0f),
-                        end = Offset(inx.times(unit), size.height),
-                        strokeWidth = strokeWidth,
-                    )
-                }
-                repeat(14) {
-                    val inx = it + 1
-                    drawLine(
-                        pathColor,
-                        start = Offset(0f, inx.times(unit)),
-                        end = Offset(size.width, inx.times(unit)),
-                        strokeWidth = strokeWidth,
-                    )
-                }
-
-                // home rectangle
-                drawShadowRect(firstHouse, Offset.Zero, Size(unit.times(6), unit.times(6)))
-
-                drawShadowRect(
-                    fourthHouse,
-                    Offset(0f, unit.times(9)),
-                    Size(unit.times(6), unit.times(6)),
-                )
-
-                drawShadowRect(
-                    secondHouse,
-                    Offset(unit.times(9), 0f),
-                    Size(unit.times(6), unit.times(6)),
-                )
-
-                drawShadowRect(
-                    thirdHouse,
-                    Offset(unit.times(9), unit.times(9)),
-                    Size(unit.times(6), unit.times(6)),
-                )
-                rotate(rotate) {
                     drawHomeImage(
-                        painters[0],
-                        Offset(unit.times(1f), unit.times(1f)),
-                        Size(unit.times(4), unit.times(4)),
+                        middlePainter,
+                        Offset(unit.times(6), unit.times(6)),
+                        Size(unit.times(3), unit.times(3)),
                     )
-                    drawHomeImage(
-                        painters[1],
-                        Offset(unit.times(10f), unit.times(1f)),
-                        Size(unit.times(4), unit.times(4)),
-                    )
-                    drawHomeImage(
-                        painters[2],
-                        Offset(unit.times(10f), unit.times(10f)),
-                        Size(unit.times(4), unit.times(4)),
-                    )
-                    drawHomeImage(
-                        painters[3],
-                        Offset(unit.times(1f), unit.times(10f)),
-                        Size(unit.times(4), unit.times(4)),
-                    )
-                }
 
-                // center rectanle
-                drawRect(
-                    Color.Magenta,
-                    Offset(unit.times(6), unit.times(6)),
-                    Size(unit.times(3), unit.times(3)),
-                )
-                drawHomeImage(
-                    middlePainter,
-                    Offset(unit.times(6), unit.times(6)),
-                    Size(unit.times(3), unit.times(3)),
-                )
-
-                // arrows
-                drawArrows(unit, pathColor, strokeWidth)
-                // shadow()
-            },
+                    // arrows
+                    drawArrows(unit, pathColor, strokeWidth)
+                    // shadow()
+                },
     ) {
         val oneUnit = maxHeight / 15
 
@@ -260,7 +265,11 @@ fun BoardUi(
     //  }
 }
 
-fun DrawScope.drawArrows(unit: Float, pathColor: Color, strokeWidth: Float) {
+fun DrawScope.drawArrows(
+    unit: Float,
+    pathColor: Color,
+    strokeWidth: Float,
+) {
     val smallStrokeWidth = strokeWidth.times(0.6f)
 
     repeat(4) {
@@ -419,6 +428,7 @@ fun DrawScope.drawHomeImage(
         }
     }
 }
+
 fun DrawScope.drawShadowRect(
     foreGroundColor: Color = Color.Red,
     topLeft: Offset = Offset.Zero,
@@ -439,8 +449,9 @@ fun DrawScope.drawShadowRect(
     this.drawIntoCanvas {
         val radius = 4.dp.toPx()
 
-        frameworkPaint.color = Color
-            .Transparent.toArgb()
+        frameworkPaint.color =
+            Color
+                .Transparent.toArgb()
 
         // frameworkPaint.
 //        frameworkPaint.shadow(
@@ -471,7 +482,10 @@ fun DrawScope.drawShadowRect(
     }
 }
 
-expect fun NativePaint.shadow(radius: Float, color: Color)
+expect fun NativePaint.shadow(
+    radius: Float,
+    color: Color,
+)
 
 //
 //

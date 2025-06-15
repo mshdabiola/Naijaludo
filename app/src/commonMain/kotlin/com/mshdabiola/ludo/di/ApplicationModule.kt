@@ -9,7 +9,8 @@ import com.mshdabiola.setting.settingModule
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
-    includes(dataModule, gameModule, mainModule, settingModule, marketModule)
-    viewModel { MainAppViewModel(get()) }
-}
+val appModule =
+    module {
+        includes(dataModule, gameModule, mainModule, settingModule, marketModule)
+        viewModel { MainAppViewModel(get()) }
+    }

@@ -13,11 +13,12 @@ import androidx.compose.ui.unit.dp
 
 fun getDiceOne(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
     return ImageVector.Builder(
         name = "Dice1",
@@ -47,12 +48,13 @@ fun getDiceOne(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start =
-                Offset(32.35f, 32.35f),
-                end = Offset(24.35f, 24.35f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start =
+                        Offset(32.35f, 32.35f),
+                    end = Offset(24.35f, 24.35f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -71,11 +73,12 @@ fun getDiceOne(color: Color): ImageVector {
 
 fun getDiceTwo(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
 
     return ImageVector.Builder(
@@ -106,12 +109,13 @@ fun getDiceTwo(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start =
-                Offset(42.02f, 17.63f),
-                end = Offset(34.02f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start =
+                        Offset(42.02f, 17.63f),
+                    end = Offset(34.02f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -125,11 +129,12 @@ fun getDiceTwo(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 47.12f),
-                end = Offset(14.67f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 47.12f),
+                    end = Offset(14.67f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -148,11 +153,12 @@ fun getDiceTwo(color: Color): ImageVector {
 
 fun getDiceThree(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
 
     return ImageVector.Builder(
@@ -183,11 +189,12 @@ fun getDiceThree(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 17.63f),
-                end = Offset(34.02f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 17.63f),
+                    end = Offset(34.02f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -201,11 +208,12 @@ fun getDiceThree(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(32.35f, 32.38f),
-                end = Offset(24.35f, 24.38f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(32.35f, 32.38f),
+                    end = Offset(24.35f, 24.38f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -219,11 +227,12 @@ fun getDiceThree(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 47.12f),
-                end = Offset(14.67f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 47.12f),
+                    end = Offset(14.67f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -242,11 +251,12 @@ fun getDiceThree(color: Color): ImageVector {
 
 fun getDiceFour(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
 
     return ImageVector.Builder(
@@ -277,11 +287,12 @@ fun getDiceFour(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 17.63f),
-                end = Offset(14.67f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 17.63f),
+                    end = Offset(14.67f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -295,11 +306,12 @@ fun getDiceFour(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 17.63f),
-                end = Offset(34.02f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 17.63f),
+                    end = Offset(34.02f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -313,11 +325,12 @@ fun getDiceFour(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 47.12f),
-                end = Offset(14.67f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 47.12f),
+                    end = Offset(14.67f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -331,11 +344,12 @@ fun getDiceFour(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 47.12f),
-                end = Offset(34.02f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 47.12f),
+                    end = Offset(34.02f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -354,11 +368,12 @@ fun getDiceFour(color: Color): ImageVector {
 
 fun getDiceFive(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
     return ImageVector.Builder(
         name = "Dice5",
@@ -388,11 +403,12 @@ fun getDiceFive(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 17.63f),
-                end = Offset(14.67f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 17.63f),
+                    end = Offset(14.67f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -406,11 +422,12 @@ fun getDiceFive(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 17.63f),
-                end = Offset(34.02f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 17.63f),
+                    end = Offset(34.02f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -424,11 +441,12 @@ fun getDiceFive(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(32.35f, 32.38f),
-                end = Offset(24.35f, 24.38f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(32.35f, 32.38f),
+                    end = Offset(24.35f, 24.38f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -442,11 +460,12 @@ fun getDiceFive(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 47.12f),
-                end = Offset(14.67f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 47.12f),
+                    end = Offset(14.67f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -460,11 +479,12 @@ fun getDiceFive(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 47.12f),
-                end = Offset(34.02f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 47.12f),
+                    end = Offset(34.02f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -483,11 +503,12 @@ fun getDiceFive(color: Color): ImageVector {
 
 fun getDiceSix(color: Color): ImageVector {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val colors = generateColor(color)
     return ImageVector.Builder(
         name = "Dice6",
@@ -517,11 +538,12 @@ fun getDiceSix(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 17.63f),
-                end = Offset(14.67f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 17.63f),
+                    end = Offset(14.67f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -535,11 +557,12 @@ fun getDiceSix(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 17.63f),
-                end = Offset(34.02f, 9.63f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 17.63f),
+                    end = Offset(34.02f, 9.63f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -553,11 +576,12 @@ fun getDiceSix(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 32.38f),
-                end = Offset(14.67f, 24.38f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 32.38f),
+                    end = Offset(14.67f, 24.38f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -571,11 +595,12 @@ fun getDiceSix(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 32.38f),
-                end = Offset(34.02f, 24.38f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 32.38f),
+                    end = Offset(34.02f, 24.38f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -589,11 +614,12 @@ fun getDiceSix(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.67f, 47.12f),
-                end = Offset(14.67f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.67f, 47.12f),
+                    end = Offset(14.67f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -607,11 +633,12 @@ fun getDiceSix(color: Color): ImageVector {
             arcToRelative(5.63f, 5.63f, 0.0f, true, true, -11.26f, 0.0f)
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(42.02f, 47.12f),
-                end = Offset(34.02f, 39.12f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(42.02f, 47.12f),
+                    end = Offset(34.02f, 39.12f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -631,21 +658,24 @@ fun getDiceSix(color: Color): ImageVector {
 fun getDiceRoll(color: Color): ImageVector {
     val dark = Color.Black
     val white = Color.White
-    val colW2 = Color(
-        (color.red * 0.4f + white.red * 0.6f),
-        (color.green * 0.4f + white.red * 0.6f),
-        (color.blue * 0.4f + white.blue * 0.6f),
-    )
-    val colW = Color(
-        (color.red * 0.6f + white.red * 0.4f),
-        (color.green * 0.6f + white.red * 0.4f),
-        (color.blue * 0.6f + white.blue * 0.4f),
-    )
-    val colD = Color(
-        (color.red * 0.8f + white.red * 0.2f),
-        (color.green * 0.8f + white.red * 0.2f),
-        (color.blue * 0.8f + white.blue * 0.2f),
-    )
+    val colW2 =
+        Color(
+            (color.red * 0.4f + white.red * 0.6f),
+            (color.green * 0.4f + white.red * 0.6f),
+            (color.blue * 0.4f + white.blue * 0.6f),
+        )
+    val colW =
+        Color(
+            (color.red * 0.6f + white.red * 0.4f),
+            (color.green * 0.6f + white.red * 0.4f),
+            (color.blue * 0.6f + white.blue * 0.4f),
+        )
+    val colD =
+        Color(
+            (color.red * 0.8f + white.red * 0.2f),
+            (color.green * 0.8f + white.red * 0.2f),
+            (color.blue * 0.8f + white.blue * 0.2f),
+        )
     val colors = generateColorRoll(color)
 
     return ImageVector.Builder(
@@ -704,11 +734,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(48.922035f, 17.076965f),
-                end = Offset(48.922035f, 25.566965f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(48.922035f, 17.076965f),
+                    end = Offset(48.922035f, 25.566965f),
+                ),
             stroke =
             null,
             strokeLineWidth = 0.0f,
@@ -724,11 +755,11 @@ fun getDiceRoll(color: Color): ImageVector {
         }
         path(
             fill =
-            Brush.linearGradient(
-                *colors,
-                start = Offset(43.992f, 29.135f),
-                end = Offset(43.992f, 37.625f),
-            ),
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(43.992f, 29.135f),
+                    end = Offset(43.992f, 37.625f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -742,11 +773,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(39.062f, 41.163f),
-                end = Offset(39.062f, 49.663f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(39.062f, 41.163f),
+                    end = Offset(39.062f, 49.663f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -760,11 +792,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(28.044f, 3.266f),
-                end = Offset(28.044f, 8.426f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(28.044f, 3.266f),
+                    end = Offset(28.044f, 8.426f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -778,11 +811,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(36.37f, 7.507f),
-                end = Offset(36.37f, 12.667f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(36.37f, 7.507f),
+                    end = Offset(36.37f, 12.667f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -796,11 +830,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(22.289f, 9.184f),
-                end = Offset(22.289f, 14.344f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(22.289f, 9.184f),
+                    end = Offset(22.289f, 14.344f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -814,11 +849,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(30.605f, 13.435f),
-                end = Offset(30.605f, 18.595f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(30.605f, 13.435f),
+                    end = Offset(30.605f, 18.595f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -832,11 +868,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(16.511f, 15.107f),
-                end = Offset(16.511f, 20.267f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(16.511f, 15.107f),
+                    end = Offset(16.511f, 20.267f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -850,11 +887,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(27.831f, 19.357f),
-                end = Offset(27.831f, 24.517f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(27.831f, 19.357f),
+                    end = Offset(27.831f, 24.517f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -868,11 +906,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(20.865f, 31.507f),
-                end = Offset(20.865f, 37.077f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(20.865f, 31.507f),
+                    end = Offset(20.865f, 37.077f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -886,11 +925,12 @@ fun getDiceRoll(color: Color): ImageVector {
             close()
         }
         path(
-            fill = Brush.linearGradient(
-                *colors,
-                start = Offset(16.508f, 46.208f),
-                end = Offset(16.508f, 51.788f),
-            ),
+            fill =
+                Brush.linearGradient(
+                    *colors,
+                    start = Offset(16.508f, 46.208f),
+                    end = Offset(16.508f, 51.788f),
+                ),
             stroke = null,
             strokeLineWidth = 0.0f,
             strokeLineCap = StrokeCap.Butt,
@@ -909,42 +949,49 @@ fun getDiceRoll(color: Color): ImageVector {
 
 fun generateColor(color: Color): Array<Pair<Float, Color>> {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val dark = Color.Black
-    val cold3 = Color(
-        (color.red * 0.1f + dark.red * 0.9f),
-        (color.green * 0.1f + dark.red * 0.9f),
-        (color.blue * 0.1f + dark.red * 0.9f),
-    )
-    val cold2 = Color(
-        (color.red * 0.3f + dark.red * 0.6f),
-        (color.green * 0.3f + dark.red * 0.6f),
-        (color.blue * 0.3f + dark.red * 0.6f),
-    )
-    val cold1 = Color(
-        (color.red * 0.6f + dark.red * 0.3f),
-        (color.green * 0.6f + dark.red * 0.3f),
-        (color.blue * 0.6f + dark.red * 0.3f),
-    )
-    val colw3 = Color(
-        (color.red * 0.1f + white.red * 0.9f),
-        (color.green * 0.1f + white.red * 0.9f),
-        (color.blue * 0.1f + white.red * 0.9f),
-    )
-    val colw2 = Color(
-        (color.red * 0.3f + white.red * 0.6f),
-        (color.green * 0.3f + white.red * 0.6f),
-        (color.blue * 0.3f + white.red * 0.6f),
-    )
-    val colw1 = Color(
-        (color.red * 0.6f + white.red * 0.3f),
-        (color.green * 0.6f + white.red * 0.3f),
-        (color.blue * 0.6f + white.red * 0.3f),
-    )
+    val cold3 =
+        Color(
+            (color.red * 0.1f + dark.red * 0.9f),
+            (color.green * 0.1f + dark.red * 0.9f),
+            (color.blue * 0.1f + dark.red * 0.9f),
+        )
+    val cold2 =
+        Color(
+            (color.red * 0.3f + dark.red * 0.6f),
+            (color.green * 0.3f + dark.red * 0.6f),
+            (color.blue * 0.3f + dark.red * 0.6f),
+        )
+    val cold1 =
+        Color(
+            (color.red * 0.6f + dark.red * 0.3f),
+            (color.green * 0.6f + dark.red * 0.3f),
+            (color.blue * 0.6f + dark.red * 0.3f),
+        )
+    val colw3 =
+        Color(
+            (color.red * 0.1f + white.red * 0.9f),
+            (color.green * 0.1f + white.red * 0.9f),
+            (color.blue * 0.1f + white.red * 0.9f),
+        )
+    val colw2 =
+        Color(
+            (color.red * 0.3f + white.red * 0.6f),
+            (color.green * 0.3f + white.red * 0.6f),
+            (color.blue * 0.3f + white.red * 0.6f),
+        )
+    val colw1 =
+        Color(
+            (color.red * 0.6f + white.red * 0.3f),
+            (color.green * 0.6f + white.red * 0.3f),
+            (color.blue * 0.6f + white.red * 0.3f),
+        )
     return arrayOf(
         0.36f to cold3,
         0.42f to cold2,
@@ -958,42 +1005,49 @@ fun generateColor(color: Color): Array<Pair<Float, Color>> {
 
 fun generateColorRoll(color: Color): Array<Pair<Float, Color>> {
     val white = Color.White
-    val colW = Color(
-        (color.red * 0.5f + white.red * 0.5f),
-        (color.green * 0.5f + white.red * 0.5f),
-        (color.blue * 0.5f + white.blue * 0.5f),
-    )
+    val colW =
+        Color(
+            (color.red * 0.5f + white.red * 0.5f),
+            (color.green * 0.5f + white.red * 0.5f),
+            (color.blue * 0.5f + white.blue * 0.5f),
+        )
     val dark = Color.Black
-    val cold3 = Color(
-        (color.red * 0.1f + dark.red * 0.9f),
-        (color.green * 0.1f + dark.red * 0.9f),
-        (color.blue * 0.1f + dark.red * 0.9f),
-    )
-    val cold2 = Color(
-        (color.red * 0.3f + dark.red * 0.6f),
-        (color.green * 0.3f + dark.red * 0.6f),
-        (color.blue * 0.3f + dark.red * 0.6f),
-    )
-    val cold1 = Color(
-        (color.red * 0.6f + dark.red * 0.3f),
-        (color.green * 0.6f + dark.red * 0.3f),
-        (color.blue * 0.6f + dark.red * 0.3f),
-    )
-    val colw3 = Color(
-        (color.red * 0.1f + white.red * 0.9f),
-        (color.green * 0.1f + white.red * 0.9f),
-        (color.blue * 0.1f + white.red * 0.9f),
-    )
-    val colw2 = Color(
-        (color.red * 0.3f + white.red * 0.6f),
-        (color.green * 0.3f + white.red * 0.6f),
-        (color.blue * 0.3f + white.red * 0.6f),
-    )
-    val colw1 = Color(
-        (color.red * 0.6f + white.red * 0.3f),
-        (color.green * 0.6f + white.red * 0.3f),
-        (color.blue * 0.6f + white.red * 0.3f),
-    )
+    val cold3 =
+        Color(
+            (color.red * 0.1f + dark.red * 0.9f),
+            (color.green * 0.1f + dark.red * 0.9f),
+            (color.blue * 0.1f + dark.red * 0.9f),
+        )
+    val cold2 =
+        Color(
+            (color.red * 0.3f + dark.red * 0.6f),
+            (color.green * 0.3f + dark.red * 0.6f),
+            (color.blue * 0.3f + dark.red * 0.6f),
+        )
+    val cold1 =
+        Color(
+            (color.red * 0.6f + dark.red * 0.3f),
+            (color.green * 0.6f + dark.red * 0.3f),
+            (color.blue * 0.6f + dark.red * 0.3f),
+        )
+    val colw3 =
+        Color(
+            (color.red * 0.1f + white.red * 0.9f),
+            (color.green * 0.1f + white.red * 0.9f),
+            (color.blue * 0.1f + white.red * 0.9f),
+        )
+    val colw2 =
+        Color(
+            (color.red * 0.3f + white.red * 0.6f),
+            (color.green * 0.3f + white.red * 0.6f),
+            (color.blue * 0.3f + white.red * 0.6f),
+        )
+    val colw1 =
+        Color(
+            (color.red * 0.6f + white.red * 0.3f),
+            (color.green * 0.6f + white.red * 0.3f),
+            (color.blue * 0.6f + white.red * 0.3f),
+        )
     return arrayOf(
         0.0f to Color(0xFFFFFFFF),
         0.14f to colw3,

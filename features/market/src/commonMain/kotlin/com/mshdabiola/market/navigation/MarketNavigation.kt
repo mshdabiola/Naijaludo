@@ -12,7 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mshdabiola.market.MarketRoute
 import com.mshdabiola.market.MarketViewModel
-import com.mshdabiola.model.DEVICE_TYPE
+import com.mshdabiola.model.PhoneType
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToMarket() {
@@ -28,7 +28,7 @@ fun NavGraphBuilder.marketScreen(
     sharedTransitionScope: SharedTransitionScope,
     onShowSnack: suspend (String, String?) -> Boolean,
     onBack: () -> Unit,
-    deviceType: DEVICE_TYPE,
+    deviceType: PhoneType,
 ) {
     composable<Market> { backStack ->
 

@@ -1,7 +1,6 @@
 package com.mshdabiola.model
 
-enum class DEVICE_TYPE {
-
+enum class PhoneType {
     PHONE_PORT,
     PHONE_LAND,
     FOLD_PORT,

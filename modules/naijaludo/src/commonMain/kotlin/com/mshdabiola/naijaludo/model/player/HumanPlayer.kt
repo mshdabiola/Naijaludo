@@ -10,7 +10,6 @@ data class HumanPlayer(
     override val iconIndex: Int,
     override val isComputer: Boolean = false,
 ) : Player {
-
     override fun copyPlayer(
         name: String,
         win: Int,

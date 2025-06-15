@@ -69,35 +69,37 @@ fun GameScreenMultiLand(
     }
 
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(parent.top)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        height = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -141,22 +143,24 @@ fun GameScreenMultiLand(
 //        }
 
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef2) {
-                    centerVerticallyTo(boardRef)
-                    linkTo(boardRef.end, parent.end, bias = 0.1f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef2) {
+                        centerVerticallyTo(boardRef)
+                        linkTo(boardRef.end, parent.end, bias = 0.1f)
+                    },
             counterUiStateListProvider = { counter2 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
             rotateButton = -90f,
         )
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    centerVerticallyTo(boardRef)
-                    linkTo(parent.start, boardRef.start, bias = 0.9f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        centerVerticallyTo(boardRef)
+                        linkTo(parent.start, boardRef.start, bias = 0.9f)
+                    },
             counterUiStateListProvider = { counter1 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -210,34 +214,36 @@ fun GameScreenMultiPhoneLand(
     }
 
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    linkTo(parent.top, parent.bottom)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        linkTo(parent.top, parent.bottom)
+                        height = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -281,22 +287,24 @@ fun GameScreenMultiPhoneLand(
 //        }
 
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef2) {
-                    centerVerticallyTo(boardRef)
-                    linkTo(boardRef.end, parent.end, bias = 0.1f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef2) {
+                        centerVerticallyTo(boardRef)
+                        linkTo(boardRef.end, parent.end, bias = 0.1f)
+                    },
             counterUiStateListProvider = { counter2 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
             rotateButton = -90f,
         )
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    centerVerticallyTo(boardRef)
-                    linkTo(parent.start, boardRef.start, bias = 0.9f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        centerVerticallyTo(boardRef)
+                        linkTo(parent.start, boardRef.start, bias = 0.9f)
+                    },
             counterUiStateListProvider = { counter1 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -351,35 +359,37 @@ fun GameScreenMultiPort(
     }
 
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, counterRef2) = createRefs()
 
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(parent.top)
-                    width = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        width = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -423,11 +433,12 @@ fun GameScreenMultiPort(
 //        }
 
         CounterGroupUi(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    centerHorizontallyTo(boardRef)
-                    linkTo(parent.top, boardRef.top, bias = 0.9f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        centerHorizontallyTo(boardRef)
+                        linkTo(parent.top, boardRef.top, bias = 0.9f)
+                    },
             counterUiStateListProvider = { counter1 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -435,11 +446,12 @@ fun GameScreenMultiPort(
         )
 
         CounterGroupUi(
-            modifier = Modifier
-                .constrainAs(counterRef2) {
-                    centerHorizontallyTo(boardRef)
-                    linkTo(boardRef.bottom, parent.bottom, bias = 0.1f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef2) {
+                        centerHorizontallyTo(boardRef)
+                        linkTo(boardRef.bottom, parent.bottom, bias = 0.1f)
+                    },
             counterUiStateListProvider = { counter2 },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,

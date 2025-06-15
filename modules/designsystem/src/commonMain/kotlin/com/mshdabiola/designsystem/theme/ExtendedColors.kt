@@ -413,599 +413,701 @@ data class ExtendedColorScheme(
     val yellow4: ColorFamily,
 )
 
-val extendedLight = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1Light,
-        onRed1Light,
-        red1ContainerLight,
-        onRed1ContainerLight,
-    ),
-    red2 = ColorFamily(
-        red2Light,
-        onRed2Light,
-        red2ContainerLight,
-        onRed2ContainerLight,
-    ),
-    green1 = ColorFamily(
-        green1Light,
-        onGreen1Light,
-        green1ContainerLight,
-        onGreen1ContainerLight,
-    ),
-    green2 = ColorFamily(
-        green2Light,
-        onGreen2Light,
-        green2ContainerLight,
-        onGreen2ContainerLight,
-    ),
-    blue1 = ColorFamily(
-        blue1Light,
-        onBlue1Light,
-        blue1ContainerLight,
-        onBlue1ContainerLight,
-    ),
-    blue2 = ColorFamily(
-        blue2Light,
-        onBlue2Light,
-        blue2ContainerLight,
-        onBlue2ContainerLight,
-    ),
-    yellow1 = ColorFamily(
-        yellow1Light,
-        onYellow1Light,
-        yellow1ContainerLight,
-        onYellow1ContainerLight,
-    ),
-    yellow2 = ColorFamily(
-        yellow2Light,
-        onYellow2Light,
-        yellow2ContainerLight,
-        onYellow2ContainerLight,
-    ),
-    red3 = ColorFamily(
-        red3Light,
-        onRed3Light,
-        red3ContainerLight,
-        onRed3ContainerLight,
-    ),
-    red4 = ColorFamily(
-        red4Light,
-        onRed4Light,
-        red4ContainerLight,
-        onRed4ContainerLight,
-    ),
-    green3 = ColorFamily(
-        green3Light,
-        onGreen3Light,
-        green3ContainerLight,
-        onGreen3ContainerLight,
-    ),
-    green4 = ColorFamily(
-        green4Light,
-        onGreen4Light,
-        green4ContainerLight,
-        onGreen4ContainerLight,
-    ),
-    blue3 = ColorFamily(
-        blue3Light,
-        onBlue3Light,
-        blue3ContainerLight,
-        onBlue3ContainerLight,
-    ),
-    blue4 = ColorFamily(
-        blue4Light,
-        onBlue4Light,
-        blue4ContainerLight,
-        onBlue4ContainerLight,
-    ),
-    yellow3 = ColorFamily(
-        yellow3Light,
-        onYellow3Light,
-        yellow3ContainerLight,
-        onYellow3ContainerLight,
-    ),
-    yellow4 = ColorFamily(
-        yellow4Light,
-        onYellow4Light,
-        yellow4ContainerLight,
-        onYellow4ContainerLight,
-    ),
-)
+val extendedLight =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1Light,
+                onRed1Light,
+                red1ContainerLight,
+                onRed1ContainerLight,
+            ),
+        red2 =
+            ColorFamily(
+                red2Light,
+                onRed2Light,
+                red2ContainerLight,
+                onRed2ContainerLight,
+            ),
+        green1 =
+            ColorFamily(
+                green1Light,
+                onGreen1Light,
+                green1ContainerLight,
+                onGreen1ContainerLight,
+            ),
+        green2 =
+            ColorFamily(
+                green2Light,
+                onGreen2Light,
+                green2ContainerLight,
+                onGreen2ContainerLight,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1Light,
+                onBlue1Light,
+                blue1ContainerLight,
+                onBlue1ContainerLight,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2Light,
+                onBlue2Light,
+                blue2ContainerLight,
+                onBlue2ContainerLight,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1Light,
+                onYellow1Light,
+                yellow1ContainerLight,
+                onYellow1ContainerLight,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2Light,
+                onYellow2Light,
+                yellow2ContainerLight,
+                onYellow2ContainerLight,
+            ),
+        red3 =
+            ColorFamily(
+                red3Light,
+                onRed3Light,
+                red3ContainerLight,
+                onRed3ContainerLight,
+            ),
+        red4 =
+            ColorFamily(
+                red4Light,
+                onRed4Light,
+                red4ContainerLight,
+                onRed4ContainerLight,
+            ),
+        green3 =
+            ColorFamily(
+                green3Light,
+                onGreen3Light,
+                green3ContainerLight,
+                onGreen3ContainerLight,
+            ),
+        green4 =
+            ColorFamily(
+                green4Light,
+                onGreen4Light,
+                green4ContainerLight,
+                onGreen4ContainerLight,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3Light,
+                onBlue3Light,
+                blue3ContainerLight,
+                onBlue3ContainerLight,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4Light,
+                onBlue4Light,
+                blue4ContainerLight,
+                onBlue4ContainerLight,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3Light,
+                onYellow3Light,
+                yellow3ContainerLight,
+                onYellow3ContainerLight,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4Light,
+                onYellow4Light,
+                yellow4ContainerLight,
+                onYellow4ContainerLight,
+            ),
+    )
 
-val extendedDark = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1Dark,
-        onRed1Dark,
-        red1ContainerDark,
-        onRed1ContainerDark,
-    ),
-    red2 = ColorFamily(
-        red2Dark,
-        onRed2Dark,
-        red2ContainerDark,
-        onRed2ContainerDark,
-    ),
-    green1 = ColorFamily(
-        green1Dark,
-        onGreen1Dark,
-        green1ContainerDark,
-        onGreen1ContainerDark,
-    ),
-    green2 = ColorFamily(
-        green2Dark,
-        onGreen2Dark,
-        green2ContainerDark,
-        onGreen2ContainerDark,
-    ),
-    blue1 = ColorFamily(
-        blue1Dark,
-        onBlue1Dark,
-        blue1ContainerDark,
-        onBlue1ContainerDark,
-    ),
-    blue2 = ColorFamily(
-        blue2Dark,
-        onBlue2Dark,
-        blue2ContainerDark,
-        onBlue2ContainerDark,
-    ),
-    yellow1 = ColorFamily(
-        yellow1Dark,
-        onYellow1Dark,
-        yellow1ContainerDark,
-        onYellow1ContainerDark,
-    ),
-    yellow2 = ColorFamily(
-        yellow2Dark,
-        onYellow2Dark,
-        yellow2ContainerDark,
-        onYellow2ContainerDark,
-    ),
-    red3 = ColorFamily(
-        red3Dark,
-        onRed3Dark,
-        red3ContainerDark,
-        onRed3ContainerDark,
-    ),
-    red4 = ColorFamily(
-        red4Dark,
-        onRed4Dark,
-        red4ContainerDark,
-        onRed4ContainerDark,
-    ),
-    green3 = ColorFamily(
-        green3Dark,
-        onGreen3Dark,
-        green3ContainerDark,
-        onGreen3ContainerDark,
-    ),
-    green4 = ColorFamily(
-        green4Dark,
-        onGreen4Dark,
-        green4ContainerDark,
-        onGreen4ContainerDark,
-    ),
-    blue3 = ColorFamily(
-        blue3Dark,
-        onBlue3Dark,
-        blue3ContainerDark,
-        onBlue3ContainerDark,
-    ),
-    blue4 = ColorFamily(
-        blue4Dark,
-        onBlue4Dark,
-        blue4ContainerDark,
-        onBlue4ContainerDark,
-    ),
-    yellow3 = ColorFamily(
-        yellow3Dark,
-        onYellow3Dark,
-        yellow3ContainerDark,
-        onYellow3ContainerDark,
-    ),
-    yellow4 = ColorFamily(
-        yellow4Dark,
-        onYellow4Dark,
-        yellow4ContainerDark,
-        onYellow4ContainerDark,
-    ),
-)
+val extendedDark =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1Dark,
+                onRed1Dark,
+                red1ContainerDark,
+                onRed1ContainerDark,
+            ),
+        red2 =
+            ColorFamily(
+                red2Dark,
+                onRed2Dark,
+                red2ContainerDark,
+                onRed2ContainerDark,
+            ),
+        green1 =
+            ColorFamily(
+                green1Dark,
+                onGreen1Dark,
+                green1ContainerDark,
+                onGreen1ContainerDark,
+            ),
+        green2 =
+            ColorFamily(
+                green2Dark,
+                onGreen2Dark,
+                green2ContainerDark,
+                onGreen2ContainerDark,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1Dark,
+                onBlue1Dark,
+                blue1ContainerDark,
+                onBlue1ContainerDark,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2Dark,
+                onBlue2Dark,
+                blue2ContainerDark,
+                onBlue2ContainerDark,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1Dark,
+                onYellow1Dark,
+                yellow1ContainerDark,
+                onYellow1ContainerDark,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2Dark,
+                onYellow2Dark,
+                yellow2ContainerDark,
+                onYellow2ContainerDark,
+            ),
+        red3 =
+            ColorFamily(
+                red3Dark,
+                onRed3Dark,
+                red3ContainerDark,
+                onRed3ContainerDark,
+            ),
+        red4 =
+            ColorFamily(
+                red4Dark,
+                onRed4Dark,
+                red4ContainerDark,
+                onRed4ContainerDark,
+            ),
+        green3 =
+            ColorFamily(
+                green3Dark,
+                onGreen3Dark,
+                green3ContainerDark,
+                onGreen3ContainerDark,
+            ),
+        green4 =
+            ColorFamily(
+                green4Dark,
+                onGreen4Dark,
+                green4ContainerDark,
+                onGreen4ContainerDark,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3Dark,
+                onBlue3Dark,
+                blue3ContainerDark,
+                onBlue3ContainerDark,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4Dark,
+                onBlue4Dark,
+                blue4ContainerDark,
+                onBlue4ContainerDark,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3Dark,
+                onYellow3Dark,
+                yellow3ContainerDark,
+                onYellow3ContainerDark,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4Dark,
+                onYellow4Dark,
+                yellow4ContainerDark,
+                onYellow4ContainerDark,
+            ),
+    )
 
-val extendedLightMediumContrast = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1LightMediumContrast,
-        onRed1LightMediumContrast,
-        red1ContainerLightMediumContrast,
-        onRed1ContainerLightMediumContrast,
-    ),
-    red2 = ColorFamily(
-        red2LightMediumContrast,
-        onRed2LightMediumContrast,
-        red2ContainerLightMediumContrast,
-        onRed2ContainerLightMediumContrast,
-    ),
-    green1 = ColorFamily(
-        green1LightMediumContrast,
-        onGreen1LightMediumContrast,
-        green1ContainerLightMediumContrast,
-        onGreen1ContainerLightMediumContrast,
-    ),
-    green2 = ColorFamily(
-        green2LightMediumContrast,
-        onGreen2LightMediumContrast,
-        green2ContainerLightMediumContrast,
-        onGreen2ContainerLightMediumContrast,
-    ),
-    blue1 = ColorFamily(
-        blue1LightMediumContrast,
-        onBlue1LightMediumContrast,
-        blue1ContainerLightMediumContrast,
-        onBlue1ContainerLightMediumContrast,
-    ),
-    blue2 = ColorFamily(
-        blue2LightMediumContrast,
-        onBlue2LightMediumContrast,
-        blue2ContainerLightMediumContrast,
-        onBlue2ContainerLightMediumContrast,
-    ),
-    yellow1 = ColorFamily(
-        yellow1LightMediumContrast,
-        onYellow1LightMediumContrast,
-        yellow1ContainerLightMediumContrast,
-        onYellow1ContainerLightMediumContrast,
-    ),
-    yellow2 = ColorFamily(
-        yellow2LightMediumContrast,
-        onYellow2LightMediumContrast,
-        yellow2ContainerLightMediumContrast,
-        onYellow2ContainerLightMediumContrast,
-    ),
-    red3 = ColorFamily(
-        red3LightMediumContrast,
-        onRed3LightMediumContrast,
-        red3ContainerLightMediumContrast,
-        onRed3ContainerLightMediumContrast,
-    ),
-    red4 = ColorFamily(
-        red4LightMediumContrast,
-        onRed4LightMediumContrast,
-        red4ContainerLightMediumContrast,
-        onRed4ContainerLightMediumContrast,
-    ),
-    green3 = ColorFamily(
-        green3LightMediumContrast,
-        onGreen3LightMediumContrast,
-        green3ContainerLightMediumContrast,
-        onGreen3ContainerLightMediumContrast,
-    ),
-    green4 = ColorFamily(
-        green4LightMediumContrast,
-        onGreen4LightMediumContrast,
-        green4ContainerLightMediumContrast,
-        onGreen4ContainerLightMediumContrast,
-    ),
-    blue3 = ColorFamily(
-        blue3LightMediumContrast,
-        onBlue3LightMediumContrast,
-        blue3ContainerLightMediumContrast,
-        onBlue3ContainerLightMediumContrast,
-    ),
-    blue4 = ColorFamily(
-        blue4LightMediumContrast,
-        onBlue4LightMediumContrast,
-        blue4ContainerLightMediumContrast,
-        onBlue4ContainerLightMediumContrast,
-    ),
-    yellow3 = ColorFamily(
-        yellow3LightMediumContrast,
-        onYellow3LightMediumContrast,
-        yellow3ContainerLightMediumContrast,
-        onYellow3ContainerLightMediumContrast,
-    ),
-    yellow4 = ColorFamily(
-        yellow4LightMediumContrast,
-        onYellow4LightMediumContrast,
-        yellow4ContainerLightMediumContrast,
-        onYellow4ContainerLightMediumContrast,
-    ),
-)
+val extendedLightMediumContrast =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1LightMediumContrast,
+                onRed1LightMediumContrast,
+                red1ContainerLightMediumContrast,
+                onRed1ContainerLightMediumContrast,
+            ),
+        red2 =
+            ColorFamily(
+                red2LightMediumContrast,
+                onRed2LightMediumContrast,
+                red2ContainerLightMediumContrast,
+                onRed2ContainerLightMediumContrast,
+            ),
+        green1 =
+            ColorFamily(
+                green1LightMediumContrast,
+                onGreen1LightMediumContrast,
+                green1ContainerLightMediumContrast,
+                onGreen1ContainerLightMediumContrast,
+            ),
+        green2 =
+            ColorFamily(
+                green2LightMediumContrast,
+                onGreen2LightMediumContrast,
+                green2ContainerLightMediumContrast,
+                onGreen2ContainerLightMediumContrast,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1LightMediumContrast,
+                onBlue1LightMediumContrast,
+                blue1ContainerLightMediumContrast,
+                onBlue1ContainerLightMediumContrast,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2LightMediumContrast,
+                onBlue2LightMediumContrast,
+                blue2ContainerLightMediumContrast,
+                onBlue2ContainerLightMediumContrast,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1LightMediumContrast,
+                onYellow1LightMediumContrast,
+                yellow1ContainerLightMediumContrast,
+                onYellow1ContainerLightMediumContrast,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2LightMediumContrast,
+                onYellow2LightMediumContrast,
+                yellow2ContainerLightMediumContrast,
+                onYellow2ContainerLightMediumContrast,
+            ),
+        red3 =
+            ColorFamily(
+                red3LightMediumContrast,
+                onRed3LightMediumContrast,
+                red3ContainerLightMediumContrast,
+                onRed3ContainerLightMediumContrast,
+            ),
+        red4 =
+            ColorFamily(
+                red4LightMediumContrast,
+                onRed4LightMediumContrast,
+                red4ContainerLightMediumContrast,
+                onRed4ContainerLightMediumContrast,
+            ),
+        green3 =
+            ColorFamily(
+                green3LightMediumContrast,
+                onGreen3LightMediumContrast,
+                green3ContainerLightMediumContrast,
+                onGreen3ContainerLightMediumContrast,
+            ),
+        green4 =
+            ColorFamily(
+                green4LightMediumContrast,
+                onGreen4LightMediumContrast,
+                green4ContainerLightMediumContrast,
+                onGreen4ContainerLightMediumContrast,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3LightMediumContrast,
+                onBlue3LightMediumContrast,
+                blue3ContainerLightMediumContrast,
+                onBlue3ContainerLightMediumContrast,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4LightMediumContrast,
+                onBlue4LightMediumContrast,
+                blue4ContainerLightMediumContrast,
+                onBlue4ContainerLightMediumContrast,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3LightMediumContrast,
+                onYellow3LightMediumContrast,
+                yellow3ContainerLightMediumContrast,
+                onYellow3ContainerLightMediumContrast,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4LightMediumContrast,
+                onYellow4LightMediumContrast,
+                yellow4ContainerLightMediumContrast,
+                onYellow4ContainerLightMediumContrast,
+            ),
+    )
 
-val extendedLightHighContrast = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1LightHighContrast,
-        onRed1LightHighContrast,
-        red1ContainerLightHighContrast,
-        onRed1ContainerLightHighContrast,
-    ),
-    red2 = ColorFamily(
-        red2LightHighContrast,
-        onRed2LightHighContrast,
-        red2ContainerLightHighContrast,
-        onRed2ContainerLightHighContrast,
-    ),
-    green1 = ColorFamily(
-        green1LightHighContrast,
-        onGreen1LightHighContrast,
-        green1ContainerLightHighContrast,
-        onGreen1ContainerLightHighContrast,
-    ),
-    green2 = ColorFamily(
-        green2LightHighContrast,
-        onGreen2LightHighContrast,
-        green2ContainerLightHighContrast,
-        onGreen2ContainerLightHighContrast,
-    ),
-    blue1 = ColorFamily(
-        blue1LightHighContrast,
-        onBlue1LightHighContrast,
-        blue1ContainerLightHighContrast,
-        onBlue1ContainerLightHighContrast,
-    ),
-    blue2 = ColorFamily(
-        blue2LightHighContrast,
-        onBlue2LightHighContrast,
-        blue2ContainerLightHighContrast,
-        onBlue2ContainerLightHighContrast,
-    ),
-    yellow1 = ColorFamily(
-        yellow1LightHighContrast,
-        onYellow1LightHighContrast,
-        yellow1ContainerLightHighContrast,
-        onYellow1ContainerLightHighContrast,
-    ),
-    yellow2 = ColorFamily(
-        yellow2LightHighContrast,
-        onYellow2LightHighContrast,
-        yellow2ContainerLightHighContrast,
-        onYellow2ContainerLightHighContrast,
-    ),
-    red3 = ColorFamily(
-        red3LightHighContrast,
-        onRed3LightHighContrast,
-        red3ContainerLightHighContrast,
-        onRed3ContainerLightHighContrast,
-    ),
-    red4 = ColorFamily(
-        red4LightHighContrast,
-        onRed4LightHighContrast,
-        red4ContainerLightHighContrast,
-        onRed4ContainerLightHighContrast,
-    ),
-    green3 = ColorFamily(
-        green3LightHighContrast,
-        onGreen3LightHighContrast,
-        green3ContainerLightHighContrast,
-        onGreen3ContainerLightHighContrast,
-    ),
-    green4 = ColorFamily(
-        green4LightHighContrast,
-        onGreen4LightHighContrast,
-        green4ContainerLightHighContrast,
-        onGreen4ContainerLightHighContrast,
-    ),
-    blue3 = ColorFamily(
-        blue3LightHighContrast,
-        onBlue3LightHighContrast,
-        blue3ContainerLightHighContrast,
-        onBlue3ContainerLightHighContrast,
-    ),
-    blue4 = ColorFamily(
-        blue4LightHighContrast,
-        onBlue4LightHighContrast,
-        blue4ContainerLightHighContrast,
-        onBlue4ContainerLightHighContrast,
-    ),
-    yellow3 = ColorFamily(
-        yellow3LightHighContrast,
-        onYellow3LightHighContrast,
-        yellow3ContainerLightHighContrast,
-        onYellow3ContainerLightHighContrast,
-    ),
-    yellow4 = ColorFamily(
-        yellow4LightHighContrast,
-        onYellow4LightHighContrast,
-        yellow4ContainerLightHighContrast,
-        onYellow4ContainerLightHighContrast,
-    ),
-)
+val extendedLightHighContrast =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1LightHighContrast,
+                onRed1LightHighContrast,
+                red1ContainerLightHighContrast,
+                onRed1ContainerLightHighContrast,
+            ),
+        red2 =
+            ColorFamily(
+                red2LightHighContrast,
+                onRed2LightHighContrast,
+                red2ContainerLightHighContrast,
+                onRed2ContainerLightHighContrast,
+            ),
+        green1 =
+            ColorFamily(
+                green1LightHighContrast,
+                onGreen1LightHighContrast,
+                green1ContainerLightHighContrast,
+                onGreen1ContainerLightHighContrast,
+            ),
+        green2 =
+            ColorFamily(
+                green2LightHighContrast,
+                onGreen2LightHighContrast,
+                green2ContainerLightHighContrast,
+                onGreen2ContainerLightHighContrast,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1LightHighContrast,
+                onBlue1LightHighContrast,
+                blue1ContainerLightHighContrast,
+                onBlue1ContainerLightHighContrast,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2LightHighContrast,
+                onBlue2LightHighContrast,
+                blue2ContainerLightHighContrast,
+                onBlue2ContainerLightHighContrast,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1LightHighContrast,
+                onYellow1LightHighContrast,
+                yellow1ContainerLightHighContrast,
+                onYellow1ContainerLightHighContrast,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2LightHighContrast,
+                onYellow2LightHighContrast,
+                yellow2ContainerLightHighContrast,
+                onYellow2ContainerLightHighContrast,
+            ),
+        red3 =
+            ColorFamily(
+                red3LightHighContrast,
+                onRed3LightHighContrast,
+                red3ContainerLightHighContrast,
+                onRed3ContainerLightHighContrast,
+            ),
+        red4 =
+            ColorFamily(
+                red4LightHighContrast,
+                onRed4LightHighContrast,
+                red4ContainerLightHighContrast,
+                onRed4ContainerLightHighContrast,
+            ),
+        green3 =
+            ColorFamily(
+                green3LightHighContrast,
+                onGreen3LightHighContrast,
+                green3ContainerLightHighContrast,
+                onGreen3ContainerLightHighContrast,
+            ),
+        green4 =
+            ColorFamily(
+                green4LightHighContrast,
+                onGreen4LightHighContrast,
+                green4ContainerLightHighContrast,
+                onGreen4ContainerLightHighContrast,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3LightHighContrast,
+                onBlue3LightHighContrast,
+                blue3ContainerLightHighContrast,
+                onBlue3ContainerLightHighContrast,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4LightHighContrast,
+                onBlue4LightHighContrast,
+                blue4ContainerLightHighContrast,
+                onBlue4ContainerLightHighContrast,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3LightHighContrast,
+                onYellow3LightHighContrast,
+                yellow3ContainerLightHighContrast,
+                onYellow3ContainerLightHighContrast,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4LightHighContrast,
+                onYellow4LightHighContrast,
+                yellow4ContainerLightHighContrast,
+                onYellow4ContainerLightHighContrast,
+            ),
+    )
 
-val extendedDarkMediumContrast = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1DarkMediumContrast,
-        onRed1DarkMediumContrast,
-        red1ContainerDarkMediumContrast,
-        onRed1ContainerDarkMediumContrast,
-    ),
-    red2 = ColorFamily(
-        red2DarkMediumContrast,
-        onRed2DarkMediumContrast,
-        red2ContainerDarkMediumContrast,
-        onRed2ContainerDarkMediumContrast,
-    ),
-    green1 = ColorFamily(
-        green1DarkMediumContrast,
-        onGreen1DarkMediumContrast,
-        green1ContainerDarkMediumContrast,
-        onGreen1ContainerDarkMediumContrast,
-    ),
-    green2 = ColorFamily(
-        green2DarkMediumContrast,
-        onGreen2DarkMediumContrast,
-        green2ContainerDarkMediumContrast,
-        onGreen2ContainerDarkMediumContrast,
-    ),
-    blue1 = ColorFamily(
-        blue1DarkMediumContrast,
-        onBlue1DarkMediumContrast,
-        blue1ContainerDarkMediumContrast,
-        onBlue1ContainerDarkMediumContrast,
-    ),
-    blue2 = ColorFamily(
-        blue2DarkMediumContrast,
-        onBlue2DarkMediumContrast,
-        blue2ContainerDarkMediumContrast,
-        onBlue2ContainerDarkMediumContrast,
-    ),
-    yellow1 = ColorFamily(
-        yellow1DarkMediumContrast,
-        onYellow1DarkMediumContrast,
-        yellow1ContainerDarkMediumContrast,
-        onYellow1ContainerDarkMediumContrast,
-    ),
-    yellow2 = ColorFamily(
-        yellow2DarkMediumContrast,
-        onYellow2DarkMediumContrast,
-        yellow2ContainerDarkMediumContrast,
-        onYellow2ContainerDarkMediumContrast,
-    ),
-    red3 = ColorFamily(
-        red3DarkMediumContrast,
-        onRed3DarkMediumContrast,
-        red3ContainerDarkMediumContrast,
-        onRed3ContainerDarkMediumContrast,
-    ),
-    red4 = ColorFamily(
-        red4DarkMediumContrast,
-        onRed4DarkMediumContrast,
-        red4ContainerDarkMediumContrast,
-        onRed4ContainerDarkMediumContrast,
-    ),
-    green3 = ColorFamily(
-        green3DarkMediumContrast,
-        onGreen3DarkMediumContrast,
-        green3ContainerDarkMediumContrast,
-        onGreen3ContainerDarkMediumContrast,
-    ),
-    green4 = ColorFamily(
-        green4DarkMediumContrast,
-        onGreen4DarkMediumContrast,
-        green4ContainerDarkMediumContrast,
-        onGreen4ContainerDarkMediumContrast,
-    ),
-    blue3 = ColorFamily(
-        blue3DarkMediumContrast,
-        onBlue3DarkMediumContrast,
-        blue3ContainerDarkMediumContrast,
-        onBlue3ContainerDarkMediumContrast,
-    ),
-    blue4 = ColorFamily(
-        blue4DarkMediumContrast,
-        onBlue4DarkMediumContrast,
-        blue4ContainerDarkMediumContrast,
-        onBlue4ContainerDarkMediumContrast,
-    ),
-    yellow3 = ColorFamily(
-        yellow3DarkMediumContrast,
-        onYellow3DarkMediumContrast,
-        yellow3ContainerDarkMediumContrast,
-        onYellow3ContainerDarkMediumContrast,
-    ),
-    yellow4 = ColorFamily(
-        yellow4DarkMediumContrast,
-        onYellow4DarkMediumContrast,
-        yellow4ContainerDarkMediumContrast,
-        onYellow4ContainerDarkMediumContrast,
-    ),
-)
+val extendedDarkMediumContrast =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1DarkMediumContrast,
+                onRed1DarkMediumContrast,
+                red1ContainerDarkMediumContrast,
+                onRed1ContainerDarkMediumContrast,
+            ),
+        red2 =
+            ColorFamily(
+                red2DarkMediumContrast,
+                onRed2DarkMediumContrast,
+                red2ContainerDarkMediumContrast,
+                onRed2ContainerDarkMediumContrast,
+            ),
+        green1 =
+            ColorFamily(
+                green1DarkMediumContrast,
+                onGreen1DarkMediumContrast,
+                green1ContainerDarkMediumContrast,
+                onGreen1ContainerDarkMediumContrast,
+            ),
+        green2 =
+            ColorFamily(
+                green2DarkMediumContrast,
+                onGreen2DarkMediumContrast,
+                green2ContainerDarkMediumContrast,
+                onGreen2ContainerDarkMediumContrast,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1DarkMediumContrast,
+                onBlue1DarkMediumContrast,
+                blue1ContainerDarkMediumContrast,
+                onBlue1ContainerDarkMediumContrast,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2DarkMediumContrast,
+                onBlue2DarkMediumContrast,
+                blue2ContainerDarkMediumContrast,
+                onBlue2ContainerDarkMediumContrast,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1DarkMediumContrast,
+                onYellow1DarkMediumContrast,
+                yellow1ContainerDarkMediumContrast,
+                onYellow1ContainerDarkMediumContrast,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2DarkMediumContrast,
+                onYellow2DarkMediumContrast,
+                yellow2ContainerDarkMediumContrast,
+                onYellow2ContainerDarkMediumContrast,
+            ),
+        red3 =
+            ColorFamily(
+                red3DarkMediumContrast,
+                onRed3DarkMediumContrast,
+                red3ContainerDarkMediumContrast,
+                onRed3ContainerDarkMediumContrast,
+            ),
+        red4 =
+            ColorFamily(
+                red4DarkMediumContrast,
+                onRed4DarkMediumContrast,
+                red4ContainerDarkMediumContrast,
+                onRed4ContainerDarkMediumContrast,
+            ),
+        green3 =
+            ColorFamily(
+                green3DarkMediumContrast,
+                onGreen3DarkMediumContrast,
+                green3ContainerDarkMediumContrast,
+                onGreen3ContainerDarkMediumContrast,
+            ),
+        green4 =
+            ColorFamily(
+                green4DarkMediumContrast,
+                onGreen4DarkMediumContrast,
+                green4ContainerDarkMediumContrast,
+                onGreen4ContainerDarkMediumContrast,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3DarkMediumContrast,
+                onBlue3DarkMediumContrast,
+                blue3ContainerDarkMediumContrast,
+                onBlue3ContainerDarkMediumContrast,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4DarkMediumContrast,
+                onBlue4DarkMediumContrast,
+                blue4ContainerDarkMediumContrast,
+                onBlue4ContainerDarkMediumContrast,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3DarkMediumContrast,
+                onYellow3DarkMediumContrast,
+                yellow3ContainerDarkMediumContrast,
+                onYellow3ContainerDarkMediumContrast,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4DarkMediumContrast,
+                onYellow4DarkMediumContrast,
+                yellow4ContainerDarkMediumContrast,
+                onYellow4ContainerDarkMediumContrast,
+            ),
+    )
 
-val extendedDarkHighContrast = ExtendedColorScheme(
-    red1 = ColorFamily(
-        red1DarkHighContrast,
-        onRed1DarkHighContrast,
-        red1ContainerDarkHighContrast,
-        onRed1ContainerDarkHighContrast,
-    ),
-    red2 = ColorFamily(
-        red2DarkHighContrast,
-        onRed2DarkHighContrast,
-        red2ContainerDarkHighContrast,
-        onRed2ContainerDarkHighContrast,
-    ),
-    green1 = ColorFamily(
-        green1DarkHighContrast,
-        onGreen1DarkHighContrast,
-        green1ContainerDarkHighContrast,
-        onGreen1ContainerDarkHighContrast,
-    ),
-    green2 = ColorFamily(
-        green2DarkHighContrast,
-        onGreen2DarkHighContrast,
-        green2ContainerDarkHighContrast,
-        onGreen2ContainerDarkHighContrast,
-    ),
-    blue1 = ColorFamily(
-        blue1DarkHighContrast,
-        onBlue1DarkHighContrast,
-        blue1ContainerDarkHighContrast,
-        onBlue1ContainerDarkHighContrast,
-    ),
-    blue2 = ColorFamily(
-        blue2DarkHighContrast,
-        onBlue2DarkHighContrast,
-        blue2ContainerDarkHighContrast,
-        onBlue2ContainerDarkHighContrast,
-    ),
-    yellow1 = ColorFamily(
-        yellow1DarkHighContrast,
-        onYellow1DarkHighContrast,
-        yellow1ContainerDarkHighContrast,
-        onYellow1ContainerDarkHighContrast,
-    ),
-    yellow2 = ColorFamily(
-        yellow2DarkHighContrast,
-        onYellow2DarkHighContrast,
-        yellow2ContainerDarkHighContrast,
-        onYellow2ContainerDarkHighContrast,
-    ),
-    red3 = ColorFamily(
-        red3DarkHighContrast,
-        onRed3DarkHighContrast,
-        red3ContainerDarkHighContrast,
-        onRed3ContainerDarkHighContrast,
-    ),
-    red4 = ColorFamily(
-        red4DarkHighContrast,
-        onRed4DarkHighContrast,
-        red4ContainerDarkHighContrast,
-        onRed4ContainerDarkHighContrast,
-    ),
-    green3 = ColorFamily(
-        green3DarkHighContrast,
-        onGreen3DarkHighContrast,
-        green3ContainerDarkHighContrast,
-        onGreen3ContainerDarkHighContrast,
-    ),
-    green4 = ColorFamily(
-        green4DarkHighContrast,
-        onGreen4DarkHighContrast,
-        green4ContainerDarkHighContrast,
-        onGreen4ContainerDarkHighContrast,
-    ),
-    blue3 = ColorFamily(
-        blue3DarkHighContrast,
-        onBlue3DarkHighContrast,
-        blue3ContainerDarkHighContrast,
-        onBlue3ContainerDarkHighContrast,
-    ),
-    blue4 = ColorFamily(
-        blue4DarkHighContrast,
-        onBlue4DarkHighContrast,
-        blue4ContainerDarkHighContrast,
-        onBlue4ContainerDarkHighContrast,
-    ),
-    yellow3 = ColorFamily(
-        yellow3DarkHighContrast,
-        onYellow3DarkHighContrast,
-        yellow3ContainerDarkHighContrast,
-        onYellow3ContainerDarkHighContrast,
-    ),
-    yellow4 = ColorFamily(
-        yellow4DarkHighContrast,
-        onYellow4DarkHighContrast,
-        yellow4ContainerDarkHighContrast,
-        onYellow4ContainerDarkHighContrast,
-    ),
-)
+val extendedDarkHighContrast =
+    ExtendedColorScheme(
+        red1 =
+            ColorFamily(
+                red1DarkHighContrast,
+                onRed1DarkHighContrast,
+                red1ContainerDarkHighContrast,
+                onRed1ContainerDarkHighContrast,
+            ),
+        red2 =
+            ColorFamily(
+                red2DarkHighContrast,
+                onRed2DarkHighContrast,
+                red2ContainerDarkHighContrast,
+                onRed2ContainerDarkHighContrast,
+            ),
+        green1 =
+            ColorFamily(
+                green1DarkHighContrast,
+                onGreen1DarkHighContrast,
+                green1ContainerDarkHighContrast,
+                onGreen1ContainerDarkHighContrast,
+            ),
+        green2 =
+            ColorFamily(
+                green2DarkHighContrast,
+                onGreen2DarkHighContrast,
+                green2ContainerDarkHighContrast,
+                onGreen2ContainerDarkHighContrast,
+            ),
+        blue1 =
+            ColorFamily(
+                blue1DarkHighContrast,
+                onBlue1DarkHighContrast,
+                blue1ContainerDarkHighContrast,
+                onBlue1ContainerDarkHighContrast,
+            ),
+        blue2 =
+            ColorFamily(
+                blue2DarkHighContrast,
+                onBlue2DarkHighContrast,
+                blue2ContainerDarkHighContrast,
+                onBlue2ContainerDarkHighContrast,
+            ),
+        yellow1 =
+            ColorFamily(
+                yellow1DarkHighContrast,
+                onYellow1DarkHighContrast,
+                yellow1ContainerDarkHighContrast,
+                onYellow1ContainerDarkHighContrast,
+            ),
+        yellow2 =
+            ColorFamily(
+                yellow2DarkHighContrast,
+                onYellow2DarkHighContrast,
+                yellow2ContainerDarkHighContrast,
+                onYellow2ContainerDarkHighContrast,
+            ),
+        red3 =
+            ColorFamily(
+                red3DarkHighContrast,
+                onRed3DarkHighContrast,
+                red3ContainerDarkHighContrast,
+                onRed3ContainerDarkHighContrast,
+            ),
+        red4 =
+            ColorFamily(
+                red4DarkHighContrast,
+                onRed4DarkHighContrast,
+                red4ContainerDarkHighContrast,
+                onRed4ContainerDarkHighContrast,
+            ),
+        green3 =
+            ColorFamily(
+                green3DarkHighContrast,
+                onGreen3DarkHighContrast,
+                green3ContainerDarkHighContrast,
+                onGreen3ContainerDarkHighContrast,
+            ),
+        green4 =
+            ColorFamily(
+                green4DarkHighContrast,
+                onGreen4DarkHighContrast,
+                green4ContainerDarkHighContrast,
+                onGreen4ContainerDarkHighContrast,
+            ),
+        blue3 =
+            ColorFamily(
+                blue3DarkHighContrast,
+                onBlue3DarkHighContrast,
+                blue3ContainerDarkHighContrast,
+                onBlue3ContainerDarkHighContrast,
+            ),
+        blue4 =
+            ColorFamily(
+                blue4DarkHighContrast,
+                onBlue4DarkHighContrast,
+                blue4ContainerDarkHighContrast,
+                onBlue4ContainerDarkHighContrast,
+            ),
+        yellow3 =
+            ColorFamily(
+                yellow3DarkHighContrast,
+                onYellow3DarkHighContrast,
+                yellow3ContainerDarkHighContrast,
+                onYellow3ContainerDarkHighContrast,
+            ),
+        yellow4 =
+            ColorFamily(
+                yellow4DarkHighContrast,
+                onYellow4DarkHighContrast,
+                yellow4ContainerDarkHighContrast,
+                onYellow4ContainerDarkHighContrast,
+            ),
+    )
 
 @Immutable
 data class ColorFamily(
@@ -1015,9 +1117,10 @@ data class ColorFamily(
     val onColorContainer: Color,
 )
 
-val unspecified_scheme = ColorFamily(
-    Color.Unspecified,
-    Color.Unspecified,
-    Color.Unspecified,
-    Color.Unspecified,
-)
+val unspecified_scheme =
+    ColorFamily(
+        Color.Unspecified,
+        Color.Unspecified,
+        Color.Unspecified,
+        Color.Unspecified,
+    )

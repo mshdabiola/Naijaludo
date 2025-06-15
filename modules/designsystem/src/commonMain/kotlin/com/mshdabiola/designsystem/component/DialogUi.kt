@@ -177,30 +177,31 @@ fun DialogContent2(
     enableScroll: Boolean,
 ) {
     Surface(
-        modifier = modifier
-            .sizeIn(
-                minWidth = MinWidth,
-                maxWidth = MaxWidth,
-                maxHeight = MaxWidth,
-            )
-            .drawBehind {
-                drawRect(Color.White)
-                drawRect(
-                    Brush.verticalGradient(
-                        0.0f to containerColor,
-                        size.height * 0.5f to containerColor.copy(alpha = 0.6f),
-                        tileMode = TileMode.Mirror,
-
-                    ),
+        modifier =
+            modifier
+                .sizeIn(
+                    minWidth = MinWidth,
+                    maxWidth = MaxWidth,
+                    maxHeight = MaxWidth,
                 )
-            },
+                .drawBehind {
+                    drawRect(Color.White)
+                    drawRect(
+                        Brush.verticalGradient(
+                            0.0f to containerColor,
+                            size.height * 0.5f to containerColor.copy(alpha = 0.6f),
+                            tileMode = TileMode.Mirror,
+                        ),
+                    )
+                },
         shape = shape,
         color = Color.Transparent,
         tonalElevation = tonalElevation,
     ) {
         Column(
-            modifier = Modifier
-                .padding(DialogPadding),
+            modifier =
+                Modifier
+                    .padding(DialogPadding),
         ) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -223,9 +224,10 @@ fun DialogContent2(
 
                 cancelIcon?.let {
                     Box(
-                        modifier = Modifier
-                            .padding(IconPadding)
-                            .align(Alignment.CenterVertically),
+                        modifier =
+                            Modifier
+                                .padding(IconPadding)
+                                .align(Alignment.CenterVertically),
                     ) {
                         cancelIcon()
                     }
@@ -244,7 +246,6 @@ fun DialogContent2(
                         .padding(bottom = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
-
                 ) {
                     content()
                 }
@@ -256,7 +257,6 @@ fun DialogContent2(
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceAround,
-
                 ) {
                     buttons()
                 }
@@ -322,34 +322,35 @@ fun DialogContent(
         tonalElevation = tonalElevation,
     ) {
         Column(
-            modifier = Modifier
-                .drawBehind {
-                    drawRect(Color.White)
-                    drawRect(
-                        Brush.verticalGradient(
-                            0.0f to containerColor,
-                            size.height * 0.5f to containerColor.copy(alpha = 0.6f),
-                            tileMode = TileMode.Mirror,
-
-                        ),
+            modifier =
+                Modifier
+                    .drawBehind {
+                        drawRect(Color.White)
+                        drawRect(
+                            Brush.verticalGradient(
+                                0.0f to containerColor,
+                                size.height * 0.5f to containerColor.copy(alpha = 0.6f),
+                                tileMode = TileMode.Mirror,
+                            ),
+                        )
+                    }
+                    .sizeIn(
+                        minWidth = MinWidth,
+                        maxWidth = MaxWidth,
+                        maxHeight = MaxWidth,
                     )
-                }
-                .sizeIn(
-                    minWidth = MinWidth,
-                    maxWidth = MaxWidth,
-                    maxHeight = MaxWidth,
-                )
-                .padding(DialogPadding),
+                    .padding(DialogPadding),
         ) {
             Row(
                 Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 title?.let {
-                    val textStyle = MaterialTheme
-                        .typography
-                        .headlineSmall
-                        .copy(color = MaterialTheme.colorScheme.primary)
+                    val textStyle =
+                        MaterialTheme
+                            .typography
+                            .headlineSmall
+                            .copy(color = MaterialTheme.colorScheme.primary)
                     ProvideTextStyle(textStyle) {
                         Row(
                             // Align the title to the center when an icon is present.
@@ -365,9 +366,10 @@ fun DialogContent(
 
                 cancelIcon?.let {
                     Box(
-                        modifier = Modifier
-                            .padding(IconPadding)
-                            .align(Alignment.CenterVertically),
+                        modifier =
+                            Modifier
+                                .padding(IconPadding)
+                                .align(Alignment.CenterVertically),
                     ) {
                         cancelIcon()
                     }
@@ -392,7 +394,6 @@ fun DialogContent(
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceAround,
-
                 ) {
                     buttons()
                 }

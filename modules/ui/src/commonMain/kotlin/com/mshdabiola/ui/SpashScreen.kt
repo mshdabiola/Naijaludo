@@ -25,8 +25,9 @@ fun SplashScreen(modifier: Modifier = Modifier) {
         color = Color(0xFF4C662B),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

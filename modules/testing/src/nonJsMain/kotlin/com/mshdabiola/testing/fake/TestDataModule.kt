@@ -14,11 +14,12 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val testDataModule = module {
-    includes(testDispatcherModule, analyticsModule)
-    singleOf(::FakeSound) bind SoundInterface::class
-    singleOf(::FakeP2pManager) bind IP2pManager::class
-    single {
-        FakeStore()
-    } bind Store::class
-}
+val testDataModule =
+    module {
+        includes(testDispatcherModule, analyticsModule)
+        singleOf(::FakeSound) bind SoundInterface::class
+        singleOf(::FakeP2pManager) bind IP2pManager::class
+        single {
+            FakeStore()
+        } bind Store::class
+    }

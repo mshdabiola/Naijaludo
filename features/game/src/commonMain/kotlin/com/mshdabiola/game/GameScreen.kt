@@ -35,8 +35,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.designsystem.icon.Drawable
 import com.mshdabiola.designsystem.icon.drawable.BgL
 import com.mshdabiola.designsystem.icon.drawable.BgP
-import com.mshdabiola.designsystem.theme.LudoAppTheme
-import com.mshdabiola.model.DEVICE_TYPE
+import com.mshdabiola.designsystem.theme.LudoTheme
+import com.mshdabiola.model.PhoneType
 import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.GameType
 import com.mshdabiola.ui.DeviceListDialog
@@ -61,9 +61,8 @@ internal fun GameRoute(
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBack: () -> Unit,
     gameScreenViewModel: GameViewModel,
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
+    deviceType: PhoneType = PhoneType.DEFAULT,
     navigateToMarket: () -> Unit = {},
-
 ) {
     val gameUiState by gameScreenViewModel.gameUiState.collectAsStateWithLifecycle()
     val ludoGameState by gameScreenViewModel.ludoGameState.collectAsStateWithLifecycle()
@@ -94,16 +93,17 @@ internal fun GameRoute(
 //            context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 //        wifiEnable = wifiManager.isWifiEnabled
     }
-    val observer = object : DefaultLifecycleObserver {
-        override fun onResume(owner: LifecycleOwner) {
-            super.onResume(owner)
-            println("On Resume")
-            isComponentEnable()
-            if (locationEnable && wifiEnable && showPermission) {
-                showPermission = false
-                gameScreenViewModel.onJoin()
-            }
-            gameScreenViewModel.onResume(
+    val observer =
+        object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                super.onResume(owner)
+                println("On Resume")
+                isComponentEnable()
+                if (locationEnable && wifiEnable && showPermission) {
+                    showPermission = false
+                    gameScreenViewModel.onJoin()
+                }
+                gameScreenViewModel.onResume(
 //                firebaseLog = { tag, str ->
 //                    context.asMainActivity().analytics
 //                        ?.logEvent(tag, block = str)
@@ -116,14 +116,14 @@ internal fun GameRoute(
 //                    context.asMainActivity().achievement
 //                        ?.incrementImmediate(context.resources.getString(it), 1)
 //                }
-            )
-        }
+                )
+            }
 
-        override fun onPause(owner: LifecycleOwner) {
-            super.onDestroy(owner)
-            gameScreenViewModel.onPause()
+            override fun onPause(owner: LifecycleOwner) {
+                super.onDestroy(owner)
+                gameScreenViewModel.onPause()
+            }
         }
-    }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     LogScreen(screenName = "GameScreen")
@@ -137,9 +137,10 @@ internal fun GameRoute(
         }
     }
 
-    val rotateF = remember {
-        Animatable(0f)
-    }
+    val rotateF =
+        remember {
+            Animatable(0f)
+        }
     LaunchedEffect(key1 = ludoGameState.rotate) {
         //   rotateF.snapTo(0f)
         if (ludoGameState.rotate) {
@@ -185,13 +186,14 @@ internal fun GameRoute(
 //    )
     val tst by remember(gameUiState.isRestartDialogOpen) {
         derivedStateOf {
-            val l = ludoGameState.listOfPlayer.joinToString(
-                separator = "\n",
-                prefix = "\n",
-                postfix = "\n",
-            ) {
-                "${it.name} - score ${it.win}"
-            }
+            val l =
+                ludoGameState.listOfPlayer.joinToString(
+                    separator = "\n",
+                    prefix = "\n",
+                    postfix = "\n",
+                ) {
+                    "${it.name} - score ${it.win}"
+                }
             "Players $l download NaijaLudo At " +
                 "http://play.google.com/store/apps/details?id=com.mshdabiola.ludo"
         }
@@ -216,24 +218,27 @@ internal fun GameRoute(
     })
 //    val configuration = LocalConfiguration.current
 
-    val vector = if (issPortrait()) {
-        Drawable.BgP
-    } else {
-        Drawable.BgL
-    }
+    val vector =
+        if (issPortrait()) {
+            Drawable.BgP
+        } else {
+            Drawable.BgL
+        }
 
     val painter = rememberVectorPainter(image = vector)
-    val uBoard = remember(gameUiState.boardName) {
-        getUBoard(gameUiState.boardName)
-    }
+    val uBoard =
+        remember(gameUiState.boardName) {
+            getUBoard(gameUiState.boardName)
+        }
 
     Scaffold(
-        modifier = Modifier
-            .drawBehind {
-                with(painter) {
-                    draw(size)
-                }
-            },
+        modifier =
+            Modifier
+                .drawBehind {
+                    with(painter) {
+                        draw(size)
+                    }
+                },
         containerColor = Color.Transparent,
     ) { paddingValues ->
         if (showText) {
@@ -291,7 +296,6 @@ internal fun GameRoute(
 //                    }
 //                }
             },
-
         )
 
         GameOverDialog(
@@ -316,7 +320,8 @@ internal fun GameRoute(
             show = gameUiState.isWaitingDialogOpen,
             connected = gameUiState.connected,
             onCancelClick = gameScreenViewModel::onCancelBlueDialog,
-            startGame = {}, // gameScreenViewModel::startOffGame,
+            startGame = {},
+            // gameScreenViewModel::startOffGame,
         )
         WifiPermission(
             show = showPermission,
@@ -341,7 +346,7 @@ fun GameScreen(
     music: Boolean = false,
     sound: Boolean = false,
     rotateF: Float = 0f,
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
+    deviceType: PhoneType = PhoneType.DEFAULT,
     onDice: () -> Unit = {},
     onCounter: (Int) -> Unit = {},
     onPawn: (Int, Boolean) -> Unit = { _, _ -> },
@@ -356,7 +361,7 @@ fun GameScreen(
 ) {
     if (gameUiState.gameType == GameType.FRIEND) {
         when (deviceType) {
-            DEVICE_TYPE.TABLET_PORT, DEVICE_TYPE.PHONE_PORT, DEVICE_TYPE.FOLD_PORT -> {
+            PhoneType.TABLET_PORT, PhoneType.PHONE_PORT, PhoneType.FOLD_PORT -> {
                 GameScreenMultiPort(
                     gameUiState, music, sound, rotateF, paddingValues,
                     onDice, onCounter, onPawn, getPositionIntOffset,
@@ -364,7 +369,7 @@ fun GameScreen(
                 )
             }
 
-            DEVICE_TYPE.PHONE_LAND -> {
+            PhoneType.PHONE_LAND -> {
                 GameScreenMultiPhoneLand(
                     gameUiState, music, sound, rotateF, paddingValues,
                     onDice, onCounter, onPawn, getPositionIntOffset,
@@ -382,29 +387,33 @@ fun GameScreen(
         }
     } else {
         when (deviceType) {
-            DEVICE_TYPE.PHONE_LAND -> GameScreenPhoneLand(
-                gameUiState, music, sound, rotateF, paddingValues,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
-            )
+            PhoneType.PHONE_LAND ->
+                GameScreenPhoneLand(
+                    gameUiState, music, sound, rotateF, paddingValues,
+                    onDice, onCounter, onPawn, getPositionIntOffset,
+                    onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
+                )
 
-            DEVICE_TYPE.FOLD_PORT -> GameScreeFoldPortrait(
-                gameUiState, music, sound, rotateF, paddingValues,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
-            )
+            PhoneType.FOLD_PORT ->
+                GameScreeFoldPortrait(
+                    gameUiState, music, sound, rotateF, paddingValues,
+                    onDice, onCounter, onPawn, getPositionIntOffset,
+                    onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
+                )
 
-            DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND -> GameScreenLarge(
-                gameUiState, music, sound, rotateF, paddingValues,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
-            )
+            PhoneType.FOLD_LAND_AND_TABLET_LAND ->
+                GameScreenLarge(
+                    gameUiState, music, sound, rotateF, paddingValues,
+                    onDice, onCounter, onPawn, getPositionIntOffset,
+                    onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
+                )
 
-            else -> GameScreenPhonePortrait(
-                gameUiState, music, sound, rotateF, paddingValues,
-                onDice, onCounter, onPawn, getPositionIntOffset,
-                onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
-            )
+            else ->
+                GameScreenPhonePortrait(
+                    gameUiState, music, sound, rotateF, paddingValues,
+                    onDice, onCounter, onPawn, getPositionIntOffset,
+                    onBack, onSetMusic, onSetSound, onForceRestart, navigateToMarket,
+                )
         }
     }
 }
@@ -419,7 +428,7 @@ fun GameScreen(
 
 @Composable
 fun ShowPreview() {
-    LudoAppTheme {
+    LudoTheme {
         Show()
     }
 }

@@ -10,17 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkBackground
-import com.mshdabiola.designsystem.component.SkButton
-import com.mshdabiola.designsystem.icon.SkIcons
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.component.LudoBackground
+import com.mshdabiola.designsystem.component.LudoButton
+import com.mshdabiola.designsystem.icon.LudoIcons
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
 @Composable
 fun ButtonPreview() {
-    LudoAppTheme {
-        SkBackground(modifier = Modifier.size(150.dp, 50.dp)) {
-            SkButton(onClick = {}, text = { Text("Test button") })
+    LudoTheme {
+        LudoBackground(modifier = Modifier.size(150.dp, 50.dp)) {
+            LudoButton(onClick = {}, text = { Text("Test button") })
         }
     }
 }
@@ -28,9 +28,9 @@ fun ButtonPreview() {
 @ThemePreviews
 @Composable
 fun ButtonPreview2() {
-    LudoAppTheme {
-        SkBackground(modifier = Modifier.size(150.dp, 50.dp)) {
-            SkButton(onClick = {}, text = { Text("Test button") })
+    LudoTheme {
+        LudoBackground(modifier = Modifier.size(150.dp, 50.dp)) {
+            LudoButton(onClick = {}, text = { Text("Test button") })
         }
     }
 }
@@ -38,12 +38,12 @@ fun ButtonPreview2() {
 @ThemePreviews
 @Composable
 fun ButtonLeadingIconPreview() {
-    LudoAppTheme {
-        SkBackground(modifier = Modifier.size(150.dp, 50.dp)) {
-            SkButton(
+    LudoTheme {
+        LudoBackground(modifier = Modifier.size(150.dp, 50.dp)) {
+            LudoButton(
                 onClick = {},
                 text = { Text("Test button") },
-                leadingIcon = { Icon(imageVector = SkIcons.Add, contentDescription = null) },
+                leadingIcon = { Icon(imageVector = LudoIcons.Add, contentDescription = null) },
             )
         }
     }

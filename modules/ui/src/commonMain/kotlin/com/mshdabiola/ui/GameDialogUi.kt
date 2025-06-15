@@ -24,15 +24,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,7 +37,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -53,7 +49,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.component.DialogUi
+import com.mshdabiola.designsystem.component.LudoButton
+import com.mshdabiola.designsystem.component.LudoTextButton
 import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.designsystem.icon.drawable.BaselineWifi24
 import com.mshdabiola.designsystem.icon.drawable.Computer
 import com.mshdabiola.designsystem.icon.drawable.ComputerMultiplayer
@@ -99,9 +98,10 @@ fun StartDialog(
             onDismissRequest = { },
             content = {
                 FlowRow(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
                     // horizontalArrangement = Arrangement.spacedBy(4.dp),
                     // verticalArrangement = Arrangement.spacedBy(4.dp),
                     maxItemsInEachRow = 2,
@@ -146,14 +146,15 @@ fun StartDialog(
                 }
             },
             buttons = {
-                TextButton(onClick = onBackPress) {
+                LudoTextButton(onClick = onBackPress) {
                     Text(text = stringResource(Res.string.back_btn))
                 }
             },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
         )
     }
 }
@@ -177,9 +178,10 @@ fun GameOverDialog(
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
     }
-    val players2 = remember(players) {
-        players.reversed().toImmutableList()
-    }
+    val players2 =
+        remember(players) {
+            players.reversed().toImmutableList()
+        }
 
     val coroutineScope = rememberCoroutineScope()
 //    val context = LocalContext.current
@@ -201,10 +203,11 @@ fun GameOverDialog(
         DialogUi(
             modifier = Modifier.heightIn(280.dp, 400.dp),
             onDismissRequest = { /*TODO*/ },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 Column(
                     Modifier.fillMaxSize(),
@@ -235,12 +238,12 @@ fun GameOverDialog(
             },
             buttons = {
                 IconButton(onClick = onHome) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "home")
+                    Icon(imageVector = LudoIcons.Home, contentDescription = "home")
                 }
                 IconButton(onClick = onShare) {
-                    Icon(imageVector = Icons.Default.Share, contentDescription = "share")
+                    Icon(imageVector = LudoIcons.Share, contentDescription = "share")
                 }
-                Button(
+                LudoButton(
                     onClick = {
                         onRestart()
                         if (players.any { it.isComputer }) {
@@ -253,10 +256,10 @@ fun GameOverDialog(
                             review()
                         }
                     },
-                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp),
+                    //  elevation = ButtonDefaults.buttonElevation(defaultElevation = 16.dp),
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Refresh,
+                        imageVector = LudoIcons.Refresh,
                         contentDescription = stringResource(Res.string.play_again_btn),
                     )
 
@@ -286,7 +289,7 @@ fun GameOverDialog(
 @Composable
 fun GameCard(
     modifier: Modifier = Modifier,
-    imageVector: ImageVector = Icons.Default.Settings,
+    imageVector: ImageVector = LudoIcons.Settings,
     title: String = "Vs Computer",
     buttonText: String = stringResource(Res.string.play),
     buttonEnable: Boolean = true,
@@ -298,14 +301,15 @@ fun GameCard(
     ) {
         Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                modifier = Modifier
-                    .aspectRatio(1f),
+                modifier =
+                    Modifier
+                        .aspectRatio(1f),
                 imageVector = imageVector,
                 contentDescription = null,
             )
             Text(text = title, style = MaterialTheme.typography.titleSmall)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                Button(onClick = onButtonClick, enabled = buttonEnable) {
+                LudoButton(onClick = onButtonClick, enabled = buttonEnable) {
                     Text(text = buttonText)
                 }
             }
@@ -384,7 +388,6 @@ fun WaitingDialog(
     connected: Boolean = false,
     onCancelClick: () -> Unit = {},
     startGame: () -> Unit = {},
-
 ) {
     val message = if (connected) "This device is connected" else "Connecting"
 //        when {
@@ -399,10 +402,11 @@ fun WaitingDialog(
         DialogUi(
             modifier = Modifier.height(280.dp),
             onDismissRequest = { },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 Column(
                     Modifier.fillMaxSize(),
@@ -416,10 +420,11 @@ fun WaitingDialog(
                                 .size(44.dp),
                         ) {
                             Icon(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(4.dp),
-                                imageVector = Icons.Default.Done,
+                                modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                                        .padding(4.dp),
+                                imageVector = LudoIcons.Done,
                                 contentDescription = "done",
                                 tint = Color.White,
                             )
@@ -435,11 +440,11 @@ fun WaitingDialog(
                 }
             },
             buttons = {
-                TextButton(onClick = onCancelClick) {
+                LudoTextButton(onClick = onCancelClick) {
                     Text(text = stringResource(Res.string.cancel))
                 }
 
-                Button(onClick = startGame) {
+                LudoButton(onClick = startGame) {
                     Text(text = "Start game")
                 }
             },
@@ -461,17 +466,17 @@ fun DeviceListDialog(
     deviceList: ImmutableList<String> = emptyList<String>().toImmutableList(),
     onDeviceClick: (Int) -> Unit = {},
     onCancelClick: () -> Unit = {},
-
 ) {
 //    val context = LocalContext.current
     AnimatedVisibility(visible = show) {
         DialogUi(
             modifier = Modifier.height(280.dp),
             onDismissRequest = { /*TODO*/ },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 LazyColumn(
                     Modifier
@@ -502,18 +507,16 @@ fun DeviceListDialog(
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 text = name,
-
                             )
                         }
                     }
                 }
             },
             buttons = {
-                TextButton(onClick = onCancelClick) {
+                LudoTextButton(onClick = onCancelClick) {
                     Text(text = stringResource(Res.string.cancel))
                 }
             },
-
             title = { Text(text = stringResource(Res.string.devices)) },
         )
     }
@@ -544,7 +547,6 @@ fun WifiPermission(
 //    )
     AnimatedVisibility(visible = show) {
         DialogUi(
-
             modifier = Modifier.height(240.dp),
             onDismissRequest = { },
             title = {
@@ -560,7 +562,7 @@ fun WifiPermission(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(modifier = Modifier.weight(1f), text = "Open Wi-fi")
-                        Button(onClick = {
+                        LudoButton(onClick = {
 //                            requestwifi.launch(Intent(Settings.ACTION_WIFI_SETTINGS))
 //
                         }) {
@@ -571,13 +573,13 @@ fun WifiPermission(
                 if (!isLocationEnable) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Outlined.LocationOn,
+                            imageVector = LudoIcons.LocationOn,
                             contentDescription = "location",
                             tint = MaterialTheme.colorScheme.primary,
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(modifier = Modifier.weight(1f), text = "Open Gps")
-                        Button(onClick = {
+                        LudoButton(onClick = {
 //                            requestwifi.launch(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                         }) {
                             Text(text = "Open")
@@ -586,11 +588,10 @@ fun WifiPermission(
                 }
             },
             buttons = {
-                TextButton(onClick = { onDismissRequest() }) {
+                LudoTextButton(onClick = { onDismissRequest() }) {
                     Text(text = "Close")
                 }
             },
-
         )
     }
 }

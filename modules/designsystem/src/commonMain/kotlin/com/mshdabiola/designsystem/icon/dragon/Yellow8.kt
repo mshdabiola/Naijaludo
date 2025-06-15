@@ -10,7 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-fun Dragon.getYellow(iconColor: Color, accentColor: Color): ImageVector {
+fun Dragon.getYellow(
+    iconColor: Color,
+    accentColor: Color,
+): ImageVector {
     return Builder(
         name = "Yellow8",
         defaultWidth = 200.0.dp,

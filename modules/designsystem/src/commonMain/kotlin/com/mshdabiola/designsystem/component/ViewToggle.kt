@@ -12,11 +12,15 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.icon.SkIcons
+import com.mshdabiola.designsystem.icon.LudoIcons
+import com.mshdabiola.designsystem.theme.LudoTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * Now in Android view toggle button with included trailing icon as well as compact and expanded
@@ -31,7 +35,7 @@ import com.mshdabiola.designsystem.icon.SkIcons
  * @param expandedText The text label content to show in compact mode.
  */
 @Composable
-fun SkViewToggleButton(
+fun LudoViewToggleButton(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -43,16 +47,17 @@ fun SkViewToggleButton(
         onClick = { onExpandedChange(!expanded) },
         modifier = modifier,
         enabled = enabled,
-        colors = ButtonDefaults.textButtonColors(
-            contentColor = MaterialTheme.colorScheme.onBackground,
-        ),
-        contentPadding = SkViewToggleDefaults.ViewToggleButtonContentPadding,
+        colors =
+            ButtonDefaults.textButtonColors(
+                contentColor = MaterialTheme.colorScheme.onBackground,
+            ),
+        contentPadding = LudoViewToggleDefaults.ViewToggleButtonContentPadding,
     ) {
-        SkViewToggleButtonContent(
+        LudoViewToggleButtonContent(
             text = if (expanded) expandedText else compactText,
             trailingIcon = {
                 Icon(
-                    imageVector = if (expanded) SkIcons.ViewDay else SkIcons.ShortText,
+                    imageVector = if (expanded) LudoIcons.ViewDay else LudoIcons.ShortText,
                     contentDescription = null,
                 )
             },
@@ -68,18 +73,19 @@ fun SkViewToggleButton(
  * @param trailingIcon The button trailing icon content. Default is `null` for no trailing icon.
  */
 @Composable
-private fun SkViewToggleButtonContent(
+private fun LudoViewToggleButtonContent(
     text: @Composable () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     Box(
         Modifier
             .padding(
-                end = if (trailingIcon != null) {
-                    ButtonDefaults.IconSpacing
-                } else {
-                    0.dp
-                },
+                end =
+                    if (trailingIcon != null) {
+                        ButtonDefaults.IconSpacing
+                    } else {
+                        0.dp
+                    },
             ),
     ) {
         ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
@@ -93,11 +99,41 @@ private fun SkViewToggleButtonContent(
     }
 }
 
+@Preview
+@Composable
+fun ViewTogglePreviewExpanded() {
+    LudoTheme {
+        Surface {
+            LudoViewToggleButton(
+                expanded = true,
+                onExpandedChange = { },
+                compactText = { Text(text = "Compact view") },
+                expandedText = { Text(text = "Expanded view") },
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ViewTogglePreviewCompact() {
+    LudoTheme {
+        Surface {
+            LudoViewToggleButton(
+                expanded = false,
+                onExpandedChange = { },
+                compactText = { Text(text = "Compact view") },
+                expandedText = { Text(text = "Expanded view") },
+            )
+        }
+    }
+}
+
 /**
  * Now in Android view toggle default values.
  */
-object SkViewToggleDefaults {
-    // TODO: File bug
+object LudoViewToggleDefaults {
+    //  File bug
     // Various default button padding values aren't exposed via ButtonDefaults
     val ViewToggleButtonContentPadding =
         PaddingValues(

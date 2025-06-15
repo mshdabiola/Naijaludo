@@ -25,18 +25,21 @@ fun Loading() {
 fun LoadingDiceUi() {
     val float = rememberInfiniteTransition(label = "infinite")
 
-    val value = float.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            tween(400),
-        ),
-        label = "rotate",
-    )
+    val value =
+        float.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(400),
+                ),
+            label = "rotate",
+        )
 
-    val rot = remember(value.value) {
-        value.value
-    }
+    val rot =
+        remember(value.value) {
+            value.value
+        }
 
     DiceUi(
         modifier = Modifier.size(100.dp),

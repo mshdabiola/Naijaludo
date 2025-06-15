@@ -16,7 +16,7 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.mshdabiola.game.navigation.Game
 import com.mshdabiola.main.navigation.Main
-import com.mshdabiola.model.DEVICE_TYPE
+import com.mshdabiola.model.PhoneType
 import kotlinx.coroutines.CoroutineScope
 import kotlin.reflect.KClass
 
@@ -46,8 +46,9 @@ class NaijaLudoAppState(
     val windowSizeClass: WindowSizeClass,
 ) {
     val currentRoute: String
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.route ?: ""
+        @Composable get() =
+            navController
+                .currentBackStackEntryAsState().value?.destination?.route ?: ""
 
     val isMain: Boolean
         @Composable get() = currentRoute.contains(Main::class.name)
@@ -63,8 +64,7 @@ class NaijaLudoAppState(
     val shouldShowDrawer: Boolean
         @Composable get() = windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED && isMain
 
-    private fun isPhonePort() =
-        windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
+    private fun isPhonePort() = windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
 
     private fun isPhoneLand() = windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
 
@@ -78,15 +78,16 @@ class NaijaLudoAppState(
 
     private fun isTabletPort() = windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.EXPANDED
 
-    fun getDevietype(): DEVICE_TYPE {
-        val dev = when {
-            isPhonePort() -> DEVICE_TYPE.PHONE_PORT
-            isPhoneLand() -> DEVICE_TYPE.PHONE_LAND
-            isFondPort() -> DEVICE_TYPE.FOLD_PORT
-            isFondLandAndTabletPort() -> DEVICE_TYPE.FOLD_LAND_AND_TABLET_LAND
-            isTabletPort() -> DEVICE_TYPE.TABLET_PORT
-            else -> DEVICE_TYPE.DEFAULT
-        }
+    fun getDevietype(): PhoneType {
+        val dev =
+            when {
+                isPhonePort() -> PhoneType.PHONE_PORT
+                isPhoneLand() -> PhoneType.PHONE_LAND
+                isFondPort() -> PhoneType.FOLD_PORT
+                isFondLandAndTabletPort() -> PhoneType.FOLD_LAND_AND_TABLET_LAND
+                isTabletPort() -> PhoneType.TABLET_PORT
+                else -> PhoneType.DEFAULT
+            }
         // log("device $dev height- ${windowSizeClass.heightSizeClass}, width- ${windowSizeClass.widthSizeClass}")
         return dev
     }

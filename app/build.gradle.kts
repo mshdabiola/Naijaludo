@@ -11,7 +11,6 @@ plugins {
     id("mshdabiola.android.application.flavor")
     alias(libs.plugins.conveyor)
     alias(libs.plugins.baselineprofile)
-
 }
 
 group = "com.mshdabiola.ludo"
@@ -24,8 +23,6 @@ dependencies {
     windowsAmd64(compose.desktop.windows_x64)
 
     implementation(libs.koin.android)
-
-
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)
@@ -42,12 +39,10 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
-
     androidTestImplementation(projects.modules.testing)
     androidTestImplementation(libs.androidx.navigation.testing)
 
     baselineProfile(projects.benchmarks)
-
 
     googlePlayImplementation(platform(libs.firebase.bom))
     googlePlayImplementation(libs.firebase.analytics)
@@ -78,13 +73,15 @@ kotlin {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
                 outputFileName = "ludo.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
+                devServer =
+                    (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                        static =
+                            (static ?: mutableListOf()).apply {
+                                // Serve sources to debug inside browser
+                                add(rootDirPath)
+                                add(projectDirPath)
+                            }
                     }
-                }
             }
         }
         binaries.executable()
@@ -106,7 +103,6 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
-
         }
         commonMain.dependencies {
 //
@@ -118,12 +114,10 @@ kotlin {
             implementation(projects.modules.model)
             implementation(projects.modules.analytics)
 
-
             implementation(projects.features.main)
             implementation(projects.features.game)
             implementation(projects.features.setting)
             implementation(projects.features.market)
-
 
             // Logger
             implementation(libs.kermit)
@@ -132,28 +126,22 @@ kotlin {
             implementation(libs.androidx.compose.material3.adaptive)
             implementation(libs.androidx.compose.material3.adaptive.layout)
             implementation(libs.androidx.compose.material3.adaptive.navigation)
-
-
         }
-        val nonJsMain by getting{
+        val nonJsMain by getting {
             dependencies {
                 implementation(libs.kermit.koin)
-
             }
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-
         }
         jvmTest.dependencies {
             implementation(projects.modules.testing)
         }
-
     }
 }
-
 
 android {
 
@@ -179,21 +167,22 @@ android {
         debug {
             applicationIdSuffix = BuildType.DEBUG.applicationIdSuffix
         }
-        val release = getByName("release") {
-            isMinifyEnabled = true
-            applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
+        val release =
+            getByName("release") {
+                isMinifyEnabled = true
+                applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro",
+                )
 
-            // To publish on the Play store a private signing key is required, but to allow anyone
-            // who clones the code to sign and run the release variant, use the debug signing key.
-            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            // signingConfig = signingConfigs.getByName("debug")
-            // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
-        }
+                // To publish on the Play store a private signing key is required, but to allow anyone
+                // who clones the code to sign and run the release variant, use the debug signing key.
+                // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
+                // signingConfig = signingConfigs.getByName("debug")
+                // Ensure Baseline Profile is fresh for release builds.
+                baselineProfile.automaticGenerationDuringBuild = true
+            }
         create("benchmark") {
             // Enable all the optimizations from release build through initWith(release).
             initWith(release)
@@ -217,23 +206,18 @@ android {
             isIncludeAndroidResources = true
         }
     }
-
 }
 
 compose.desktop {
     application {
         mainClass = "com.mshdabiola.ludo.MainAppKt"
 
-
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))
             obfuscate.set(true)
             version.set("7.4.2")
         }
-
     }
-
-
 }
 
 configurations.all {
@@ -243,11 +227,9 @@ configurations.all {
     }
 }
 
-
 configurations.configureEach {
     exclude("androidx.window.core", "window-core")
 }
-
 
 baselineProfile {
     // Don't build on every iteration of a full assemble.
@@ -258,5 +240,4 @@ baselineProfile {
 dependencyGuard {
     configuration("fossReliantReleaseRuntimeClasspath")
     configuration("googlePlayDebugRuntimeClasspath")
-
 }

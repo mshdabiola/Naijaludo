@@ -7,8 +7,6 @@ android {
     namespace = "com.mshdabiola.data"
 }
 
-
-
 kotlin {
     sourceSets {
         val commonMain by getting {
@@ -21,9 +19,8 @@ kotlin {
                 api(project(":modules:datastore"))
 //                api(project(":modules:network"))
                 implementation(libs.kotlinx.coroutines.core)
-              //  implementation(libs.paging.common)
+                //  implementation(libs.paging.common)
             }
         }
-
     }
 }

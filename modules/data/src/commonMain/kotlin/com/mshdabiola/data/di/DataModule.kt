@@ -8,11 +8,12 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 expect val dataModule: Module
-val dataCommonModule = module {
+val dataCommonModule =
+    module {
 //    module {
 //    includes(datastoreModule, databaseModule, networkModule, analyticsModule)
-    single { dispatcher } bind CoroutineDispatcher::class
-    includes(datastoreModule, analyticsModule)
-}
+        single { dispatcher } bind CoroutineDispatcher::class
+        includes(datastoreModule, analyticsModule)
+    }
 
 expect val dispatcher: CoroutineDispatcher

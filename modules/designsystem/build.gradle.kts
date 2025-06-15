@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 /*
  *abiola 2024
  */
@@ -5,7 +7,6 @@
 plugins {
     id("mshdabiola.android.library")
     id("mshdabiola.android.library.compose")
-
 }
 
 android {
@@ -16,6 +17,8 @@ android {
 }
 
 dependencies {
+//    lintPublish(projects.lint)
+
     debugApi(compose.uiTooling)
 }
 kotlin {
@@ -28,13 +31,16 @@ kotlin {
                 api(compose.materialIconsExtended)
                 api(compose.components.resources)
                 api(compose.material3AdaptiveNavigationSuite)
+                api(compose.components.uiToolingPreview)
                 api(libs.kotlinx.collection.immutable)
-               implementation(project(":modules:model"))
+                api(libs.lifecycle.runtime.compose)
+
+//                implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
+                implementation(project(":modules:model"))
                 api(libs.androidx.navigation.compose.get())
 
                 api(libs.koin.compose)
                 api(libs.koin.composeVM)
-
             }
         }
         val androidMain by getting {
@@ -43,7 +49,6 @@ kotlin {
                 api(libs.androidx.lifecycle.runtimeCompose)
                 api(libs.androidx.lifecycle.viewModelCompose)
                 implementation(libs.androidx.ui.text.google.fonts)
-
             }
         }
 
@@ -53,7 +58,5 @@ kotlin {
                 api(libs.kotlinx.coroutines.swing)
             }
         }
-
-
     }
 }

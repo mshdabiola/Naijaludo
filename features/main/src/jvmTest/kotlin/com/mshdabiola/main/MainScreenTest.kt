@@ -8,7 +8,6 @@ import org.junit.Rule
 import kotlin.test.Test
 
 class MainScreenTest {
-
     @get:Rule
     val composeRule = createComposeRule()
 

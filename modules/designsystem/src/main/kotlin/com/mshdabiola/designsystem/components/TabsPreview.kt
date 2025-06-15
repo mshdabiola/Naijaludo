@@ -7,18 +7,18 @@ package com.mshdabiola.designsystem.components
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkTab
-import com.mshdabiola.designsystem.component.SkTabRow
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.component.LudoTab
+import com.mshdabiola.designsystem.component.LudoTabRow
+import com.mshdabiola.designsystem.theme.LudoTheme
 
 @ThemePreviews
 @Composable
 fun TabsPreview() {
-    LudoAppTheme {
+    LudoTheme {
         val titles = listOf("Topics", "People")
-        SkTabRow(selectedTabIndex = 0) {
+        LudoTabRow(selectedTabIndex = 0) {
             titles.forEachIndexed { index, title ->
-                SkTab(
+                LudoTab(
                     selected = index == 0,
                     onClick = { },
                     text = { Text(text = title) },
@@ -28,6 +28,6 @@ fun TabsPreview() {
     }
 }
 
-object SkTabDefaults {
+object LudoTabDefaults {
     val TabTopPadding = 7.dp
 }

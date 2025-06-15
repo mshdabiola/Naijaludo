@@ -15,8 +15,9 @@ actual val dispatcher: CoroutineDispatcher
     get() = Dispatchers.Default
 
 actual val dataModule: Module
-    get() = module {
-        includes(dataCommonModule)
-        singleOf(::Sound) bind SoundInterface::class
-        singleOf(::P2pManager) bind IP2pManager::class
-    }
+    get() =
+        module {
+            includes(dataCommonModule)
+            singleOf(::Sound) bind SoundInterface::class
+            singleOf(::P2pManager) bind IP2pManager::class
+        }

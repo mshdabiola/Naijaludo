@@ -5,12 +5,16 @@
 package com.mshdabiola.designsystem.component
 
 import androidx.compose.material3.FilledIconToggleButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.mshdabiola.designsystem.icon.LudoIcons
+import com.mshdabiola.designsystem.theme.LudoTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * Now in Android toggle button with icon and checked icon content slots. Wraps Material 3
@@ -25,7 +29,7 @@ import androidx.compose.ui.graphics.Color
  * @param checkedIcon The icon content to show when checked.
  */
 @Composable
-fun SkIconToggleButton(
+fun LudoIconToggleButton(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -33,31 +37,82 @@ fun SkIconToggleButton(
     icon: @Composable () -> Unit,
     checkedIcon: @Composable () -> Unit = icon,
 ) {
-    // TODO: File bug
+    //  File bug
     // Can't use regular IconToggleButton as it doesn't include a shape (appears square)
     FilledIconToggleButton(
         checked = checked,
         onCheckedChange = onCheckedChange,
         modifier = modifier,
         enabled = enabled,
-        colors = IconButtonDefaults.iconToggleButtonColors(
-            checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            disabledContainerColor = if (checked) {
-                MaterialTheme.colorScheme.onBackground.copy(
-                    alpha = SkIconButtonDefaults.DISABLED_ICON_BUTTON_CONTAINER_ALPHA,
-                )
-            } else {
-                Color.Transparent
-            },
-        ),
+        colors =
+            IconButtonDefaults.iconToggleButtonColors(
+                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                disabledContainerColor =
+                    if (checked) {
+                        MaterialTheme.colorScheme.onBackground.copy(
+                            alpha = LudoIconButtonDefaults.DISABLED_ICON_BUTTON_CONTAINER_ALPHA,
+                        )
+                    } else {
+                        Color.Transparent
+                    },
+            ),
     ) {
         if (checked) checkedIcon() else icon()
     }
 }
 
-object SkIconButtonDefaults {
-    // TODO: File bug
+@Preview
+@Composable
+fun IconButtonPreview() {
+    LudoTheme {
+        LudoIconToggleButton(
+            checked = true,
+            onCheckedChange = { },
+            icon = {
+                Icon(
+                    imageVector = LudoIcons.BookmarkBorder,
+                    contentDescription = null,
+                )
+            },
+            checkedIcon = {
+                Icon(
+                    imageVector = LudoIcons.Bookmark,
+                    contentDescription = null,
+                )
+            },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun IconButtonPreviewUnchecked() {
+    LudoTheme {
+        LudoIconToggleButton(
+            checked = false,
+            onCheckedChange = { },
+            icon = {
+                Icon(
+                    imageVector = LudoIcons.BookmarkBorder,
+                    contentDescription = null,
+                )
+            },
+            checkedIcon = {
+                Icon(
+                    imageVector = LudoIcons.Bookmark,
+                    contentDescription = null,
+                )
+            },
+        )
+    }
+}
+
+/**
+ * Now in Android icon button default values.
+ */
+object LudoIconButtonDefaults {
+    //  File bug
     // IconToggleButton disabled container alpha not exposed by IconButtonDefaults
     const val DISABLED_ICON_BUTTON_CONTAINER_ALPHA = 0.12f
 }

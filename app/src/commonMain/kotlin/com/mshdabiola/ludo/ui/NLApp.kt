@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.analytics.AnalyticsHelper
 import com.mshdabiola.analytics.LocalAnalyticsHelper
-import com.mshdabiola.designsystem.theme.LudoAppTheme
+import com.mshdabiola.designsystem.theme.LudoTheme
 import com.mshdabiola.ludo.MainActivityUiState
 import com.mshdabiola.ludo.MainAppViewModel
 import com.mshdabiola.ludo.navigation.SkNavHost
@@ -29,9 +29,10 @@ import org.koin.compose.viewmodel.koinViewModel
 fun NaijaLudoApp() {
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
 
-    val appState = rememberNaijaLudoAppState(
-        windowSizeClass = windowAdaptiveInfo.windowSizeClass,
-    )
+    val appState =
+        rememberNaijaLudoAppState(
+            windowSizeClass = windowAdaptiveInfo.windowSizeClass,
+        )
     val shouldShowGradientBackground = false
 
     val viewModel: MainAppViewModel = koinViewModel()
@@ -40,55 +41,51 @@ fun NaijaLudoApp() {
     val darkTheme = shouldUseDarkTheme(uiState)
 
     CompositionLocalProvider(LocalAnalyticsHelper provides analyticsHelper) {
-        LudoAppTheme(
+        LudoTheme(
             androidTheme = shouldUseAndroidTheme(uiState),
             darkTheme = darkTheme,
             disableDynamicTheming = shouldDisableDynamicTheming(uiState),
         ) {
             SkNavHost(
                 appState = appState,
-
             )
         }
     }
 }
 
 @Composable
-private fun chooseTheme(
-    uiState: MainActivityUiState,
-): ThemeBrand = when (uiState) {
-    MainActivityUiState.Loading -> ThemeBrand.DEFAULT
-    is MainActivityUiState.Success -> uiState.userData.themeBrand
-}
-
-@Composable
-private fun shouldUseAndroidTheme(
-    uiState: MainActivityUiState,
-): Boolean = when (uiState) {
-    MainActivityUiState.Loading -> false
-    is MainActivityUiState.Success -> when (uiState.userData.themeBrand) {
-        ThemeBrand.DEFAULT -> false
-        ThemeBrand.GREEN -> true
+private fun chooseTheme(uiState: MainActivityUiState): ThemeBrand =
+    when (uiState) {
+        MainActivityUiState.Loading -> ThemeBrand.DEFAULT
+        is MainActivityUiState.Success -> uiState.userData.themeBrand
     }
-}
 
 @Composable
-private fun shouldDisableDynamicTheming(
-    uiState: MainActivityUiState,
-): Boolean = when (uiState) {
-    MainActivityUiState.Loading -> false
-    is MainActivityUiState.Success -> !uiState.userData.useDynamicColor
-}
+private fun shouldUseAndroidTheme(uiState: MainActivityUiState): Boolean =
+    when (uiState) {
+        MainActivityUiState.Loading -> false
+        is MainActivityUiState.Success ->
+            when (uiState.userData.themeBrand) {
+                ThemeBrand.DEFAULT -> false
+                ThemeBrand.GREEN -> true
+            }
+    }
 
 @Composable
-fun shouldUseDarkTheme(
-    uiState: MainActivityUiState,
-): Boolean =
+private fun shouldDisableDynamicTheming(uiState: MainActivityUiState): Boolean =
+    when (uiState) {
+        MainActivityUiState.Loading -> false
+        is MainActivityUiState.Success -> !uiState.userData.useDynamicColor
+    }
+
+@Composable
+fun shouldUseDarkTheme(uiState: MainActivityUiState): Boolean =
     when (uiState) {
         MainActivityUiState.Loading -> isSystemInDarkTheme()
-        is MainActivityUiState.Success -> when (uiState.userData.darkThemeConfig) {
-            DarkThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
-            DarkThemeConfig.LIGHT -> false
-            DarkThemeConfig.DARK -> true
-        }
+        is MainActivityUiState.Success ->
+            when (uiState.userData.darkThemeConfig) {
+                DarkThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
+                DarkThemeConfig.LIGHT -> false
+                DarkThemeConfig.DARK -> true
+            }
     }
