@@ -18,7 +18,6 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class SettingViewModelTest : KoinTest {
-
     @get:Rule(order = 1)
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
@@ -26,24 +25,27 @@ class SettingViewModelTest : KoinTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @get:Rule(order = 3)
-    val koinTestRule = KoinTestRule.create {
-        this.modules(testDataModule)
-    }
+    val koinTestRule =
+        KoinTestRule.create {
+            this.modules(testDataModule)
+        }
     private val store by inject<Store>()
 
     @Test
-    fun init() = runTest(mainDispatcherRule.testDispatcher) {
-        val viewModel = SettingViewModel(
-            setting = store,
-        )
+    fun init() =
+        runTest(mainDispatcherRule.testDispatcher) {
+            val viewModel =
+                SettingViewModel(
+                    setting = store,
+                )
 
-        viewModel
-            .settingUiState
-            .test {
-                var state = awaitItem()
+            viewModel
+                .settingUiState
+                .test {
+                    var state = awaitItem()
 
-                assertTrue(state.rotate)
-                cancelAndIgnoreRemainingEvents()
-            }
-    }
+                    assertTrue(state.rotate)
+                    cancelAndIgnoreRemainingEvents()
+                }
+        }
 }

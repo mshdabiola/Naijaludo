@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 class SettingViewModel(
     private val setting: Store,
 ) : ViewModel() {
-
-    val settingUiState = setting.setting
-        .map { it.toUi() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Setting.default.toUi())
+    val settingUiState =
+        setting.setting
+            .map { it.toUi() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000), Setting.default.toUi())
 
     fun setSetting(settingUiState: SettingUiState) {
         viewModelScope.launch {

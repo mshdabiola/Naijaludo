@@ -17,7 +17,5 @@ kotlin {
                 api(compose.components.resources)
             }
         }
-
-
     }
 }

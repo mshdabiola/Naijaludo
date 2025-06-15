@@ -85,7 +85,6 @@ internal fun SettingScreen(
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
-
             ) {
                 Title(title = stringResource(Res.string.basic_setting))
                 SettingContainer {

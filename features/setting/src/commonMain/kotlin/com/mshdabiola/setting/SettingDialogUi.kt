@@ -44,7 +44,10 @@ fun Title(title: String) {
 // }
 
 @Composable
-fun SettingContainer(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+fun SettingContainer(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit,
+) {
     OutlinedCard(modifier.fillMaxWidth()) {
         Column(Modifier.padding(Base2)) {
             content()
@@ -64,7 +67,10 @@ fun SettingContainer(modifier: Modifier = Modifier, content: @Composable ColumnS
 // }
 
 @Composable
-fun SettingItem(title: StringResource, content: @Composable RowScope.(Modifier) -> Unit) {
+fun SettingItem(
+    title: StringResource,
+    content: @Composable RowScope.(Modifier) -> Unit,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
             modifier = Modifier.weight(1f),
@@ -78,7 +84,10 @@ fun SettingItem(title: StringResource, content: @Composable RowScope.(Modifier) 
 }
 
 @Composable
-fun SettingItem2(title: StringResource, content: @Composable RowScope.(Modifier) -> Unit) {
+fun SettingItem2(
+    title: StringResource,
+    content: @Composable RowScope.(Modifier) -> Unit,
+) {
     SettingItem(title = title) {
         content(Modifier.weight(0.9f))
     }
@@ -119,7 +128,6 @@ fun ExposeBox(
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             singleLine = true,
-
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = {
             expanded = false
