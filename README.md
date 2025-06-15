@@ -47,8 +47,8 @@
     <a href="https://play.google.com/store/apps/details?id=com.mshdabiola.ludo.foss"><img alt="Google Play" src="./fastlane/metadata/android/en-US/images/buttons/gplay.svg" height="60"></a>
     <a href="https://f-droid.org/packages/com.mshdabiola.ludo.foss/"><img alt="F-Droid" src="./fastlane/metadata/android/en-US/images/buttons/fdroid.svg" height="60"/></a>
     <a href="https://github.com/mshdabiola/naijaludo/releases/latest"><img alt="GitHub" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
-    <a href="https://naijaludo.onrender.com"><img alt="Naijaludo Online" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
-    <a href="https://naijaludo-desktop.onrender.com"><img alt="Desktop Download" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
+    <a href="https://naijaludo.onrender.com"><img alt="Naijaludo Online" src="./fastlane/metadata/android/en-US/images/buttons/desktop.svg" height="60"/></a>
+    <a href="https://naijaludo-desktop.onrender.com"><img alt="Desktop Download" src="./fastlane/metadata/android/en-US/images/buttons/online.svg" height="60"/></a>
 
 </div>
 
