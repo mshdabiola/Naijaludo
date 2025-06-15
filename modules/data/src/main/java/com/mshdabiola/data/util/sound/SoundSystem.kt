@@ -17,16 +17,18 @@ class SoundSystem(
     private var streamId: Int? = null
 
     init {
-        val audioAttributes = AudioAttributes
-            .Builder()
-            .setUsage(AudioAttributes.USAGE_GAME)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-        soundPool = SoundPool
-            .Builder()
-            .setAudioAttributes(audioAttributes)
-            .setMaxStreams(3)
-            .build()
+        val audioAttributes =
+            AudioAttributes
+                .Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        soundPool =
+            SoundPool
+                .Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(3)
+                .build()
 
         soundIds[0] = soundPool?.load(context, R.raw.modules_data_sound_1, 1)!!
         soundIds[1] = soundPool?.load(context, R.raw.modules_data_dice, 1)!!

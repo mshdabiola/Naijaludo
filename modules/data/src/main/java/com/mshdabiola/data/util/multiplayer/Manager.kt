@@ -31,7 +31,6 @@ import java.util.UUID
 class Manager(
     private val context: Context,
 ) {
-
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothSocket: BluetoothSocket? = null
 
@@ -46,22 +45,28 @@ class Manager(
 
     fun setUp() {
         Logger.d("setup")
-        receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent) {
-                Logger.d("action is ${intent.action}")
+        receiver =
+            object : BroadcastReceiver() {
+                override fun onReceive(
+                    context: Context?,
+                    intent: Intent,
+                ) {
+                    Logger.d("action is ${intent.action}")
 
-                Logger.d("on receive bluetooth disconnect")
-                onErrorOccurBluetooth(Exception("receive disconnect bluetooth"))
+                    Logger.d("on receive bluetooth disconnect")
+                    onErrorOccurBluetooth(Exception("receive disconnect bluetooth"))
+                }
             }
-        }
 
-        val filter = IntentFilter().apply {
-            addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-        }
+        val filter =
+            IntentFilter().apply {
+                addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+            }
         context.registerReceiver(receiver, filter)
-        bluetoothAdapter = (
-            context.getSystemService(Context.BLUETOOTH_SERVICE)
-                as BluetoothManager
+        bluetoothAdapter =
+            (
+                context.getSystemService(Context.BLUETOOTH_SERVICE)
+                    as BluetoothManager
             ).adapter
 
         state.value = ManagerState()
@@ -72,8 +77,9 @@ class Manager(
     suspend fun onServer() {
         Logger.d("start server1")
         try {
-            val bluetoothServerSocket = bluetoothAdapter
-                ?.listenUsingRfcommWithServiceRecord(serviceName, serverUUId)
+            val bluetoothServerSocket =
+                bluetoothAdapter
+                    ?.listenUsingRfcommWithServiceRecord(serviceName, serverUUId)
 
             bluetoothServerSocket?.accept()?.apply {
                 bluetoothSocket = this
@@ -107,29 +113,30 @@ class Manager(
     private fun readByteArrayStream(
         inputStream: InputStream,
         delayMillis: Long = 1000,
-    ): Flow<String> = channelFlow {
-        while (isActive) {
-            try {
-                delay(delayMillis)
+    ): Flow<String> =
+        channelFlow {
+            while (isActive) {
+                try {
+                    delay(delayMillis)
 
-                val numBytes = DataInputStream(inputStream).readUTF()
+                    val numBytes = DataInputStream(inputStream).readUTF()
 
-                if (!numBytes.isNullOrBlank()) {
-                    this.trySend(numBytes).isSuccess
-                }
+                    if (!numBytes.isNullOrBlank()) {
+                        this.trySend(numBytes).isSuccess
+                    }
 
 //
-            } catch (e: IOException) {
-                close()
-                error("Couldn't read bytes from flow. Disconnected")
-            } finally {
-                if (bluetoothSocket?.isConnected != true) {
+                } catch (e: IOException) {
                     close()
-                    break
+                    error("Couldn't read bytes from flow. Disconnected")
+                } finally {
+                    if (bluetoothSocket?.isConnected != true) {
+                        close()
+                        break
+                    }
                 }
             }
-        }
-    }.flowOn(Dispatchers.IO)
+        }.flowOn(Dispatchers.IO)
 
     private suspend fun collectRead(inputStream: InputStream) {
         readByteArrayStream(inputStream)
@@ -203,7 +210,10 @@ class Manager(
         return deniedPermissions
     }
 
-    private fun checkPermission(context: Context, permission: String): Boolean {
+    private fun checkPermission(
+        context: Context,
+        permission: String,
+    ): Boolean {
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
 }

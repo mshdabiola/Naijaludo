@@ -36,7 +36,6 @@ import java.net.Socket
 class P2pManager(
     private val context: Context,
 ) : IP2pManager {
-
     var manager: WifiP2pManager? = null
     var channel: WifiP2pManager.Channel? = null
     private var socket: Socket? = null
@@ -67,105 +66,116 @@ class P2pManager(
             }
         }
 
-        receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                when (intent.action!!) {
-                    WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION -> {
-                        // Check to see if Wi-Fi is enabled and notify appropriate activity
-                        val state = intent
-                            .getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1)
-                        when (state) {
-                            WifiP2pManager.WIFI_P2P_STATE_ENABLED -> {
-                                // Wifi P2P is enabled
-                                com.mshdabiola.naijaludo.model.log("wifi enabled")
-                            }
+        receiver =
+            object : BroadcastReceiver() {
+                override fun onReceive(
+                    context: Context,
+                    intent: Intent,
+                ) {
+                    when (intent.action!!) {
+                        WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION -> {
+                            // Check to see if Wi-Fi is enabled and notify appropriate activity
+                            val state =
+                                intent
+                                    .getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1)
+                            when (state) {
+                                WifiP2pManager.WIFI_P2P_STATE_ENABLED -> {
+                                    // Wifi P2P is enabled
+                                    com.mshdabiola.naijaludo.model.log("wifi enabled")
+                                }
 
-                            else -> {
-                                // Wi-Fi P2P is not enabled
-                                com.mshdabiola.naijaludo.model.log("wifi disabled")
-                            }
-                        }
-                    }
-
-                    WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
-                        // Call WifiP2pManager.requestPeers() to get a list of current peers
-                        com.mshdabiola.naijaludo.model.log("on peer changed")
-                        manager?.requestPeers(channel) { peers: WifiP2pDeviceList? ->
-                            peers?.deviceList?.let { wifiP2pDevices ->
-                                deviceList = wifiP2pDevices.toSet()
-                                state.value =
-                                    state
-                                        .value
-                                        ?.copy(devices = wifiP2pDevices.map { it.deviceName })
-                            }
-                            peers?.deviceList?.forEach {
-                                com.mshdabiola.naijaludo.model.log("name ${it.deviceName} address${it?.deviceAddress}")
-                            }
-                        }
-                    }
-
-                    WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {
-                        // Respond to new connection or disconnections
-                        val networkInfo = intent
-                            .getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
-                        if (networkInfo?.isConnected == true) {
-                            manager?.requestConnectionInfo(channel) { wifiP2pInfo ->
-                                wifiP2pInfo.isGroupOwner
-                                wifiP2pInfo.groupFormed
-                                wifiP2pInfo.groupOwnerAddress
-
-                                if (wifiP2pInfo.isGroupOwner && wifiP2pInfo.groupFormed) {
-                                    manager?.requestGroupInfo(
-                                        channel,
-                                    ) {
-                                        it.passphrase
-                                        it.isGroupOwner
-                                        it.clientList
-                                        // it.frequency
-                                        it.networkName
-
-                                        state.value = state
-                                            .value?.copy(isServer = true, connected = true)
-                                    }
-                                } else if (wifiP2pInfo.groupFormed) {
-                                    com.mshdabiola.naijaludo.model.log("Init client")
-                                    state.value = state
-                                        .value?.copy(
-                                        ownerAddress = wifiP2pInfo
-                                            .groupOwnerAddress
-                                            .hostAddress,
-                                        isServer = false,
-                                        connected = true,
-                                    )
+                                else -> {
+                                    // Wi-Fi P2P is not enabled
+                                    com.mshdabiola.naijaludo.model.log("wifi disabled")
                                 }
                             }
-                        } else {
-                            if (state.value?.connected == true) {
-                                com.mshdabiola.naijaludo.model.log("disconnect")
+                        }
+
+                        WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
+                            // Call WifiP2pManager.requestPeers() to get a list of current peers
+                            com.mshdabiola.naijaludo.model.log("on peer changed")
+                            manager?.requestPeers(channel) { peers: WifiP2pDeviceList? ->
+                                peers?.deviceList?.let { wifiP2pDevices ->
+                                    deviceList = wifiP2pDevices.toSet()
+                                    state.value =
+                                        state
+                                            .value
+                                            ?.copy(devices = wifiP2pDevices.map { it.deviceName })
+                                }
+                                peers?.deviceList?.forEach {
+                                    com.mshdabiola.naijaludo.model.log("name ${it.deviceName} address${it?.deviceAddress}")
+                                }
                             }
                         }
 
-                        com.mshdabiola.naijaludo.model.log("connection")
-                    }
+                        WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {
+                            // Respond to new connection or disconnections
+                            val networkInfo =
+                                intent
+                                    .getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
+                            if (networkInfo?.isConnected == true) {
+                                manager?.requestConnectionInfo(channel) { wifiP2pInfo ->
+                                    wifiP2pInfo.isGroupOwner
+                                    wifiP2pInfo.groupFormed
+                                    wifiP2pInfo.groupOwnerAddress
 
-                    WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION -> {
-                        // Respond to this device's wifi state changing
-                        com.mshdabiola.naijaludo.model.log("device changed")
-                        val device = intent
-                            .getParcelableExtra<WifiP2pDevice>(
-                                WifiP2pManager.EXTRA_WIFI_P2P_DEVICE,
-                            )
+                                    if (wifiP2pInfo.isGroupOwner && wifiP2pInfo.groupFormed) {
+                                        manager?.requestGroupInfo(
+                                            channel,
+                                        ) {
+                                            it.passphrase
+                                            it.isGroupOwner
+                                            it.clientList
+                                            // it.frequency
+                                            it.networkName
+
+                                            state.value =
+                                                state
+                                                    .value?.copy(isServer = true, connected = true)
+                                        }
+                                    } else if (wifiP2pInfo.groupFormed) {
+                                        com.mshdabiola.naijaludo.model.log("Init client")
+                                        state.value =
+                                            state
+                                                .value?.copy(
+                                                    ownerAddress =
+                                                        wifiP2pInfo
+                                                            .groupOwnerAddress
+                                                            .hostAddress,
+                                                    isServer = false,
+                                                    connected = true,
+                                                )
+                                    }
+                                }
+                            } else {
+                                if (state.value?.connected == true) {
+                                    com.mshdabiola.naijaludo.model.log("disconnect")
+                                }
+                            }
+
+                            com.mshdabiola.naijaludo.model.log("connection")
+                        }
+
+                        WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION -> {
+                            // Respond to this device's wifi state changing
+                            com.mshdabiola.naijaludo.model.log("device changed")
+                            val device =
+                                intent
+                                    .getParcelableExtra<WifiP2pDevice>(
+                                        WifiP2pManager.EXTRA_WIFI_P2P_DEVICE,
+                                    )
+                        }
                     }
                 }
             }
-        }
 
-        val filter = IntentFilter().apply {
-            addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
-            addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
-            addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
-            addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
-        }
+        val filter =
+            IntentFilter().apply {
+                addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
+                addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
+                addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
+                addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
+            }
         context.registerReceiver(receiver, filter)
 
         state.value = P2pManagerState()
@@ -181,60 +191,63 @@ class P2pManager(
         }
     }
 
-    private suspend fun startServer() = withContext(Dispatchers.IO) {
-        com.mshdabiola.naijaludo.model.log("start server1")
-        try {
-            val serverSocket = ServerSocket()
-            serverSocket.bind(InetSocketAddress(port))
-            socket = serverSocket.accept()
-            state.value = state.value?.copy(serverConnected = true)
-            socket?.let { collectRead(it.inputStream) }
+    private suspend fun startServer() =
+        withContext(Dispatchers.IO) {
+            com.mshdabiola.naijaludo.model.log("start server1")
+            try {
+                val serverSocket = ServerSocket()
+                serverSocket.bind(InetSocketAddress(port))
+                socket = serverSocket.accept()
+                state.value = state.value?.copy(serverConnected = true)
+                socket?.let { collectRead(it.inputStream) }
 
-            com.mshdabiola.naijaludo.model.log("start server2")
-        } catch (e: Exception) {
-            com.mshdabiola.naijaludo.model.log("On Server exception")
-            onErrorOccurBluetooth(e)
+                com.mshdabiola.naijaludo.model.log("start server2")
+            } catch (e: Exception) {
+                com.mshdabiola.naijaludo.model.log("On Server exception")
+                onErrorOccurBluetooth(e)
+            }
         }
-    }
 
-    private suspend fun startClient() = withContext(Dispatchers.IO) {
-        com.mshdabiola.naijaludo.model.log("start client1")
-        try {
-            socket = Socket()
-            socket?.bind(null)
-            socket?.connect(InetSocketAddress(state.value!!.ownerAddress, port))
-            state.value = state.value?.copy(serverConnected = true)
-            // sendString("client_name,$name")
-            socket?.let { collectRead(it.inputStream) }
-            com.mshdabiola.naijaludo.model.log("start client2")
-        } catch (e: Exception) {
-            com.mshdabiola.naijaludo.model.log("exception in connecting bluetooth")
-            onErrorOccurBluetooth(e)
+    private suspend fun startClient() =
+        withContext(Dispatchers.IO) {
+            com.mshdabiola.naijaludo.model.log("start client1")
+            try {
+                socket = Socket()
+                socket?.bind(null)
+                socket?.connect(InetSocketAddress(state.value!!.ownerAddress, port))
+                state.value = state.value?.copy(serverConnected = true)
+                // sendString("client_name,$name")
+                socket?.let { collectRead(it.inputStream) }
+                com.mshdabiola.naijaludo.model.log("start client2")
+            } catch (e: Exception) {
+                com.mshdabiola.naijaludo.model.log("exception in connecting bluetooth")
+                onErrorOccurBluetooth(e)
+            }
         }
-    }
 
-    override suspend fun connectToDevice(blueIndex: Int) = withContext(Dispatchers.IO) {
-        val device = deviceList?.elementAt(blueIndex)
+    override suspend fun connectToDevice(blueIndex: Int) =
+        withContext(Dispatchers.IO) {
+            val device = deviceList?.elementAt(blueIndex)
 
-        val config = WifiP2pConfig().apply {
-            deviceAddress = device!!.deviceAddress
-            wps.setup = WpsInfo.PBC
-        }
-        manager?.connect(
-            channel,
-            config,
-            object : WifiP2pManager.ActionListener {
-
-                override fun onSuccess() {
-                    com.mshdabiola.naijaludo.model.log("connected successful")
+            val config =
+                WifiP2pConfig().apply {
+                    deviceAddress = device!!.deviceAddress
+                    wps.setup = WpsInfo.PBC
                 }
+            manager?.connect(
+                channel,
+                config,
+                object : WifiP2pManager.ActionListener {
+                    override fun onSuccess() {
+                        com.mshdabiola.naijaludo.model.log("connected successful")
+                    }
 
-                override fun onFailure(reason: Int) {
-                    com.mshdabiola.naijaludo.model.log("connected fail")
-                }
-            },
-        )
-    }
+                    override fun onFailure(reason: Int) {
+                        com.mshdabiola.naijaludo.model.log("connected fail")
+                    }
+                },
+            )
+        }
 
     override fun discoverDevice() {
         manager?.discoverPeers(
@@ -254,29 +267,30 @@ class P2pManager(
     private fun readByteArrayStream(
         inputStream: InputStream,
         delayMillis: Long = 1000,
-    ): Flow<String> = channelFlow {
-        while (isActive) {
-            try {
-                delay(delayMillis)
+    ): Flow<String> =
+        channelFlow {
+            while (isActive) {
+                try {
+                    delay(delayMillis)
 
-                val numBytes = DataInputStream(inputStream).readUTF()
+                    val numBytes = DataInputStream(inputStream).readUTF()
 
-                if (!numBytes.isNullOrBlank()) {
-                    this.trySend(numBytes).isSuccess
-                }
+                    if (!numBytes.isNullOrBlank()) {
+                        this.trySend(numBytes).isSuccess
+                    }
 
 //
-            } catch (e: IOException) {
-                close()
-                error("Couldn't read bytes from flow. Disconnected")
-            } finally {
-                if (socket?.isConnected != true) {
+                } catch (e: IOException) {
                     close()
-                    break
+                    error("Couldn't read bytes from flow. Disconnected")
+                } finally {
+                    if (socket?.isConnected != true) {
+                        close()
+                        break
+                    }
                 }
             }
-        }
-    }.flowOn(Dispatchers.IO)
+        }.flowOn(Dispatchers.IO)
 
     private suspend fun collectRead(inputStream: InputStream) {
         readByteArrayStream(inputStream)
