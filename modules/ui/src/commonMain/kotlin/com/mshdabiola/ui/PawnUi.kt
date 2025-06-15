@@ -45,34 +45,36 @@ fun PawnUi(
 ) {
     val unitDp = LocalUnitDP.current
     Surface(
-        modifier = modifier
-            .size(unitDp * 1)
-            .zIndex(pawnUiState.zIndex)
-            .offset(unitDp * offset.x, unitDp * offset.y)
-            .graphicsLayer {
-                scaleY = scaleProvide()
-                scaleX = scaleProvide()
-            }
-            .clickable(pawnUiState.isEnable && isEnableForPlayer) {
-                log("on Human click $pawnUiState")
-                onClick(pawnUiState.pawnId, false)
-            },
+        modifier =
+            modifier
+                .size(unitDp * 1)
+                .zIndex(pawnUiState.zIndex)
+                .offset(unitDp * offset.x, unitDp * offset.y)
+                .graphicsLayer {
+                    scaleY = scaleProvide()
+                    scaleX = scaleProvide()
+                }
+                .clickable(pawnUiState.isEnable && isEnableForPlayer) {
+                    log("on Human click $pawnUiState")
+                    onClick(pawnUiState.pawnId, false)
+                },
         shape = CircleShape,
         color = LocalBoard.current.getColor(pawnUiState.color),
-        border = BorderStroke(
-            2.dp,
-            Brush.radialGradient(
-                0.8f to Color.Transparent,
-                1f to Color.Black.copy(alpha = 0.8f),
+        border =
+            BorderStroke(
+                2.dp,
+                Brush.radialGradient(
+                    0.8f to Color.Transparent,
+                    1f to Color.Black.copy(alpha = 0.8f),
+                ),
             ),
-        ),
         tonalElevation = if (pawnUiState.showText()) pawnUiState.zIndex.dp else 1.dp,
         shadowElevation = if (pawnUiState.showText()) pawnUiState.zIndex.dp else 1.dp,
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize(),
-
+            modifier =
+                Modifier
+                    .fillMaxSize(),
         ) {
             if (pawnUiState.showText()) {
                 Text(
@@ -80,7 +82,6 @@ fun PawnUi(
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White,
                     modifier = Modifier.align(Alignment.Center),
-
                 )
             }
         }
@@ -96,30 +97,34 @@ fun MovablePawnUi(
     getPositionIntOffset: (Int, GameColor) -> PointUiState,
     // onMoveFinish: (Pawn) -> Unit = {}
 ) {
-    val intOffsetAnimatable = remember(pawnUiState.currentPos) {
-        getPositionIntOffset(
-            pawnUiState.currentPos,
-            pawnUiState.color,
-        ).toIntOffset()
-    }
+    val intOffsetAnimatable =
+        remember(pawnUiState.currentPos) {
+            getPositionIntOffset(
+                pawnUiState.currentPos,
+                pawnUiState.color,
+            ).toIntOffset()
+        }
 
-    val scale = remember {
-        Animatable(1f)
-    }
+    val scale =
+        remember {
+            Animatable(1f)
+        }
     LaunchedEffect(key1 = pawnUiState.isEnable, key2 = isHuman, block = {
         //    if(isHuman){
         if (pawnUiState.isEnable && isHuman) {
             scale.animateTo(
                 1.2f,
-                animationSpec = infiniteRepeatable(
-                    repeatMode = RepeatMode.Reverse,
-                    animation = keyframes {
-                        durationMillis = 500
+                animationSpec =
+                    infiniteRepeatable(
+                        repeatMode = RepeatMode.Reverse,
+                        animation =
+                            keyframes {
+                                durationMillis = 500
 
-                        1.2f atFraction 0.5f
-                        1f atFraction 1f
-                    },
-                ),
+                                1.2f atFraction 0.5f
+                                1f atFraction 1f
+                            },
+                    ),
             )
         } else {
             scale.snapTo(1f)

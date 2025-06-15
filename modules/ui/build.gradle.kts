@@ -1,5 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
-
 /*
  *abiola 2024
  */
@@ -16,12 +14,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     namespace = "com.mshdabiola.ui"
-
 }
 
 dependencies {
-  androidTestImplementation(projects.modules.testing)
-
+    androidTestImplementation(projects.modules.testing)
 }
 
 kotlin {
@@ -33,11 +29,7 @@ kotlin {
                 implementation(project(":modules:designsystem"))
                 implementation(project(":modules:model"))
 
-
-
                 api(compose.components.resources)
-
-
             }
         }
     }

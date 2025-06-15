@@ -57,15 +57,16 @@ fun PlayerUi(
     bottomStart: Int = 0,
     bottomEnd: Int = 0,
 ) {
-    val colorBrush = if (player.colors.size == 1) {
-        (1..2).map {
-            LocalBoard.current.getColor(player.colors[0])
+    val colorBrush =
+        if (player.colors.size == 1) {
+            (1..2).map {
+                LocalBoard.current.getColor(player.colors[0])
+            }
+        } else {
+            player.colors.map {
+                LocalBoard.current.getColor(it)
+            }
         }
-    } else {
-        player.colors.map {
-            LocalBoard.current.getColor(it)
-        }
-    }
     var imageBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
     }
@@ -85,23 +86,25 @@ fun PlayerUi(
         },
     )
 
-    val playerIcon = when (player.iconIndex) {
-        0 -> Drawable.Icon1
-        1 -> Drawable.Icon2
-        2 -> Drawable.Icon3
-        3 -> Drawable.Icon4
-        4 -> Drawable.Icon5
-        else -> Drawable.Icon6
-    }
+    val playerIcon =
+        when (player.iconIndex) {
+            0 -> Drawable.Icon1
+            1 -> Drawable.Icon2
+            2 -> Drawable.Icon3
+            3 -> Drawable.Icon4
+            4 -> Drawable.Icon5
+            else -> Drawable.Icon6
+        }
     val image = @Composable {
         Box(
-            modifier = Modifier
-                .border(
-                    1.dp,
-                    Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
-                    CircleShape,
-                )
-                .padding(2.dp),
+            modifier =
+                Modifier
+                    .border(
+                        1.dp,
+                        Brush.verticalGradient(0f to colorBrush[0], 1f to colorBrush[1]),
+                        CircleShape,
+                    )
+                    .padding(2.dp),
         ) {
             if (imageBitmap == null) {
                 Image(
@@ -111,9 +114,10 @@ fun PlayerUi(
                 )
             } else {
                 Image(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape),
+                    modifier =
+                        Modifier
+                            .size(24.dp)
+                            .clip(CircleShape),
                     bitmap = imageBitmap!!,
                     contentDescription = "player Icon",
                 )
@@ -123,9 +127,10 @@ fun PlayerUi(
 
     val currentColor = MaterialTheme.colorScheme.secondary
     val notCurrentColor = MaterialTheme.colorScheme.secondaryContainer
-    val color = remember(player.isCurrent) {
-        if (player.isCurrent) currentColor else notCurrentColor
-    }
+    val color =
+        remember(player.isCurrent) {
+            if (player.isCurrent) currentColor else notCurrentColor
+        }
 
     val score = @Composable {
         val contentColor = LocalContentColor.current
@@ -135,29 +140,30 @@ fun PlayerUi(
                 .padding(4.dp),
         ) {
             Text(
-                modifier = Modifier
-                    .widthIn(max = 24.dp)
-                    .basicMarquee(
-                        iterations = 1,
-                        animationMode = MarqueeAnimationMode.WhileFocused,
-                    ),
+                modifier =
+                    Modifier
+                        .widthIn(max = 24.dp)
+                        .basicMarquee(
+                            iterations = 1,
+                            animationMode = MarqueeAnimationMode.WhileFocused,
+                        ),
                 text = "${player.win}",
                 color = color,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
-
             )
         }
     }
 
     Surface(
         color = color,
-        shape = RoundedCornerShape(
-            topEndPercent = topEnd,
-            bottomEndPercent = bottomEnd,
-            topStartPercent = topStart,
-            bottomStartPercent = bottomStart,
-        ),
+        shape =
+            RoundedCornerShape(
+                topEndPercent = topEnd,
+                bottomEndPercent = bottomEnd,
+                topStartPercent = topStart,
+                bottomStartPercent = bottomStart,
+            ),
     ) {
         Row(
             Modifier
@@ -201,7 +207,10 @@ fun PlayerUi(
 // }
 
 @Composable
-fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList<PlayerUiState>) {
+fun PlayersUi(
+    modifier: Modifier = Modifier,
+    playerProvider: () -> ImmutableList<PlayerUiState>,
+) {
     // Todo("fix index  error")
     val player = playerProvider()
     AnimatedVisibility(modifier = modifier, visible = player.isNotEmpty()) {
@@ -216,13 +225,13 @@ fun PlayersUi(modifier: Modifier = Modifier, playerProvider: () -> ImmutableList
                 }
 
                 3 -> {
-                    Row() {
+                    Row {
                         PlayerUi(player = player[0], isEven = true, topStart = 50)
                         Spacer(modifier = Modifier.width(4.dp))
                         PlayerUi(player = player[1], isEven = false, topEnd = 50)
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Row() {
+                    Row {
                         PlayerUi(
                             player = player[2],
                             isEven = true,

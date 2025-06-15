@@ -10,10 +10,11 @@ data class DiceUiState(
     val color: Long = 0xFF00FF00,
 )
 
-fun Dice.toDiceUiState() = DiceUiState(
-    id = id,
-    isEnable = isEnable,
-    animate = animate,
-    number = number,
-    color = color,
-)
+fun Dice.toDiceUiState() =
+    DiceUiState(
+        id = id,
+        isEnable = isEnable,
+        animate = animate,
+        number = number,
+        color = color,
+    )

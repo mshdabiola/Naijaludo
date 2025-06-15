@@ -48,42 +48,45 @@ fun CounterUi(
     }
     val float = rememberInfiniteTransition(label = "infinite")
 
-    val value = float.animateFloat(
-        initialValue = 0f,
-        targetValue = heg.toFloat(),
-        animationSpec = infiniteRepeatable(
-            tween(400),
-            repeatMode = RepeatMode.Reverse,
-        ),
-        label = "rotate",
-    )
+    val value =
+        float.animateFloat(
+            initialValue = 0f,
+            targetValue = heg.toFloat(),
+            animationSpec =
+                infiniteRepeatable(
+                    tween(400),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+            label = "rotate",
+        )
     val color = MaterialTheme.colorScheme.primary
 
     GameButton(
-        modifier = modifier
-            .requiredSize(56.dp)
-            .onSizeChanged {
-                heg = it.height
-            }
-            .drawWithContent {
-                this.drawContent()
-                val radius = if (isHuman && counterUiState.isEnable) value.value / 2f else 0f
-                drawCircle(color = color.copy(alpha = 0.25f), radius = radius)
-            },
+        modifier =
+            modifier
+                .requiredSize(56.dp)
+                .onSizeChanged {
+                    heg = it.height
+                }
+                .drawWithContent {
+                    this.drawContent()
+                    val radius = if (isHuman && counterUiState.isEnable) value.value / 2f else 0f
+                    drawCircle(color = color.copy(alpha = 0.25f), radius = radius)
+                },
         onClick = {
             onCounterClick(counterUiState.id)
         },
         shape = CircleShape,
         border = BorderStroke(2.dp, Color.White.copy(alpha = 0.6f)),
         enabled = counterUiState.isEnable && isHuman,
-
     ) {
         Text(
             text = "${counterUiState.number}",
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.align(
-                Alignment.Center,
-            ),
+            modifier =
+                Modifier.align(
+                    Alignment.Center,
+                ),
         )
     }
 }
@@ -100,14 +103,13 @@ fun CounterGroupUi(
     val isHuman = isHumanProvider()
     AnimatedVisibility(modifier = modifier, visible = counterUiStateList.isNotEmpty()) {
         Surface(
-
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer,
-
         ) {
             Row(
-                modifier = Modifier
-                    .padding(8.dp),
+                modifier =
+                    Modifier
+                        .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
@@ -143,11 +145,11 @@ fun CounterGroupUiVertical(
             // modifier = modifier,
             shape = RoundedCornerShape(100),
             color = MaterialTheme.colorScheme.primaryContainer,
-
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp),
+                modifier =
+                    Modifier
+                        .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly,
             ) {

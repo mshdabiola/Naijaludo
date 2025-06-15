@@ -20,9 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RankCard(
-    modifier: Modifier = Modifier,
-) {
+fun RankCard(modifier: Modifier = Modifier) {
     var rank by remember {
         mutableStateOf<Long?>(null)
     }
@@ -68,15 +66,17 @@ fun RankCard(
         ) {
             Card(
                 Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
             ) {
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(4.dp),
                     text = "Rank $rank",
                     textAlign = TextAlign.Center,
                 )

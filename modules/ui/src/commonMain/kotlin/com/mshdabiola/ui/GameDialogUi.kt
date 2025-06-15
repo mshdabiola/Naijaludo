@@ -99,9 +99,10 @@ fun StartDialog(
             onDismissRequest = { },
             content = {
                 FlowRow(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
                     // horizontalArrangement = Arrangement.spacedBy(4.dp),
                     // verticalArrangement = Arrangement.spacedBy(4.dp),
                     maxItemsInEachRow = 2,
@@ -150,10 +151,11 @@ fun StartDialog(
                     Text(text = stringResource(Res.string.back_btn))
                 }
             },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
         )
     }
 }
@@ -177,9 +179,10 @@ fun GameOverDialog(
     val humanWin by remember(players) {
         derivedStateOf { players.lastOrNull()?.isCurrent ?: false }
     }
-    val players2 = remember(players) {
-        players.reversed().toImmutableList()
-    }
+    val players2 =
+        remember(players) {
+            players.reversed().toImmutableList()
+        }
 
     val coroutineScope = rememberCoroutineScope()
 //    val context = LocalContext.current
@@ -201,10 +204,11 @@ fun GameOverDialog(
         DialogUi(
             modifier = Modifier.heightIn(280.dp, 400.dp),
             onDismissRequest = { /*TODO*/ },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 Column(
                     Modifier.fillMaxSize(),
@@ -298,8 +302,9 @@ fun GameCard(
     ) {
         Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                modifier = Modifier
-                    .aspectRatio(1f),
+                modifier =
+                    Modifier
+                        .aspectRatio(1f),
                 imageVector = imageVector,
                 contentDescription = null,
             )
@@ -384,7 +389,6 @@ fun WaitingDialog(
     connected: Boolean = false,
     onCancelClick: () -> Unit = {},
     startGame: () -> Unit = {},
-
 ) {
     val message = if (connected) "This device is connected" else "Connecting"
 //        when {
@@ -399,10 +403,11 @@ fun WaitingDialog(
         DialogUi(
             modifier = Modifier.height(280.dp),
             onDismissRequest = { },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 Column(
                     Modifier.fillMaxSize(),
@@ -416,9 +421,10 @@ fun WaitingDialog(
                                 .size(44.dp),
                         ) {
                             Icon(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(4.dp),
+                                modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                                        .padding(4.dp),
                                 imageVector = Icons.Default.Done,
                                 contentDescription = "done",
                                 tint = Color.White,
@@ -461,17 +467,17 @@ fun DeviceListDialog(
     deviceList: ImmutableList<String> = emptyList<String>().toImmutableList(),
     onDeviceClick: (Int) -> Unit = {},
     onCancelClick: () -> Unit = {},
-
 ) {
 //    val context = LocalContext.current
     AnimatedVisibility(visible = show) {
         DialogUi(
             modifier = Modifier.height(280.dp),
             onDismissRequest = { /*TODO*/ },
-            properties = DialogProperties(
-                dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                ),
             content = {
                 LazyColumn(
                     Modifier
@@ -502,7 +508,6 @@ fun DeviceListDialog(
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 text = name,
-
                             )
                         }
                     }
@@ -513,7 +518,6 @@ fun DeviceListDialog(
                     Text(text = stringResource(Res.string.cancel))
                 }
             },
-
             title = { Text(text = stringResource(Res.string.devices)) },
         )
     }
@@ -544,7 +548,6 @@ fun WifiPermission(
 //    )
     AnimatedVisibility(visible = show) {
         DialogUi(
-
             modifier = Modifier.height(240.dp),
             onDismissRequest = { },
             title = {
@@ -590,7 +593,6 @@ fun WifiPermission(
                     Text(text = "Close")
                 }
             },
-
         )
     }
 }

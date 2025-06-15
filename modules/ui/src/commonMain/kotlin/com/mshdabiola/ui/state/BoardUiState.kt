@@ -13,7 +13,8 @@ data class BoardUiState(
     val colors: ImmutableList<GameColor> = emptyList<GameColor>().toImmutableList(),
 )
 
-fun Board.toBoardUiState() = BoardUiState(
-    boardType = boardType,
-    colors = colors.toImmutableList(),
-)
+fun Board.toBoardUiState() =
+    BoardUiState(
+        boardType = boardType,
+        colors = colors.toImmutableList(),
+    )

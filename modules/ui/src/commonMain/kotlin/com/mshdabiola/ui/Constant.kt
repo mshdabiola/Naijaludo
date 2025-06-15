@@ -2,7 +2,10 @@ package com.mshdabiola.ui
 
 import androidx.compose.ui.geometry.Offset
 
-fun getInitOfDice(diceId: Int, numberOfDice: Int): Offset {
+fun getInitOfDice(
+    diceId: Int,
+    numberOfDice: Int,
+): Offset {
     val index = if (diceId > (numberOfDice / 2)) diceId - 1 else diceId
     return when (index) {
         0 -> Offset(6f, 6.75f)
