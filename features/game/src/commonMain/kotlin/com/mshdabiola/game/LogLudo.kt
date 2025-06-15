@@ -10,17 +10,17 @@ import com.mshdabiola.naijaludo.model.log
 
 class LogLudo(soundInterface: SoundInterface) :
     LudoGame(soundInterface = soundInterface) {
-
-//    var firebaseLog: (event: String, block: com.google.firebase.analytics.ktx.ParametersBuilder.() -> Unit) -> Unit =
+    //    var firebaseLog: (event: String, block: com.google.firebase.analytics.ktx.ParametersBuilder.() -> Unit) -> Unit =
 //        { _, _ -> }
     var unLockAchievement: (Int) -> Unit = {}
     var increaseAchievement: (Int) -> Unit = {}
 
-    private var logLudoData: LogLudoData = LogLudoData(
-        neverKillInGame = true,
-        numberOfTimeKill = 0,
-        startTime = 3, // System.currentTimeMillis() * 1000
-    )
+    private var logLudoData: LogLudoData =
+        LogLudoData(
+            neverKillInGame = true,
+            numberOfTimeKill = 0,
+            startTime = 3, // System.currentTimeMillis() * 1000
+        )
     private var saveLog: (LogLudoData) -> Unit = {}
 
     private var firstHumanPlayer = false
@@ -71,11 +71,12 @@ class LogLudo(soundInterface: SoundInterface) :
 //            }
 
             increaseGame()
-            logLudoData = LogLudoData(
-                neverKillInGame = true,
-                numberOfTimeKill = 0,
-                startTime = 5, // System.currentTimeMillis() * 1000
-            )
+            logLudoData =
+                LogLudoData(
+                    neverKillInGame = true,
+                    numberOfTimeKill = 0,
+                    startTime = 5, // System.currentTimeMillis() * 1000
+                )
         }
         firstHumanPlayer = false
 
@@ -168,7 +169,10 @@ class LogLudo(soundInterface: SoundInterface) :
         return intArray
     }
 
-    override fun onPawn(id: Int, isDrawer: Boolean) {
+    override fun onPawn(
+        id: Int,
+        isDrawer: Boolean,
+    ) {
         super.onPawn(id, isDrawer)
 
         // early bird
@@ -183,7 +187,10 @@ class LogLudo(soundInterface: SoundInterface) :
 //        }
     }
 
-    override fun kill(killer: Pawn, kill: Pawn) {
+    override fun kill(
+        killer: Pawn,
+        kill: Pawn,
+    ) {
         super.kill(killer, kill)
         if (isHumanPlaying() && getHumanPawn().contains(kill)) {
             logLudoData = logLudoData.copy(neverKillInGame = false)

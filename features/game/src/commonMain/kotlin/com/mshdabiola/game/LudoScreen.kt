@@ -70,37 +70,40 @@ fun GameScreenPhonePortrait(
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
 
-    val numb = remember {
-        gameUiState.listOfPlayer.size
-    }
+    val numb =
+        remember {
+            gameUiState.listOfPlayer.size
+        }
 
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
 
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
         Row(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .constrainAs(rankRef) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier =
+                Modifier
+                    .padding(end = 8.dp)
+                    .constrainAs(rankRef) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    },
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             MarketButton(onClick = navigateToMarket)
@@ -119,22 +122,24 @@ fun GameScreenPhonePortrait(
         }
 
         PlayersUi(
-            modifier = Modifier
-                .constrainAs(playerRef) {
-                    linkTo(parent.top, boardRef.top, bias = 0.9f)
-                    centerHorizontallyTo(boardRef)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(playerRef) {
+                        linkTo(parent.top, boardRef.top, bias = 0.9f)
+                        centerHorizontallyTo(boardRef)
+                    },
             playerProvider = { gameUiState.listOfPlayer },
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    linkTo(parent.top, parent.bottom)
-                    width = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        linkTo(parent.top, parent.bottom)
+                        width = Dimension.fillToConstraints
+                    },
             boardUiStateProvider = { gameUiState.board },
         ) {
             // pawn
@@ -178,11 +183,12 @@ fun GameScreenPhonePortrait(
 //        }
 
         CounterGroupUi(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    linkTo(boardRef.bottom, parent.bottom, bias = 0.1f)
-                    centerHorizontallyTo(boardRef)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        linkTo(boardRef.bottom, parent.bottom, bias = 0.1f)
+                        centerHorizontallyTo(boardRef)
+                    },
             counterUiStateListProvider = { gameUiState.listOfCounter },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -212,37 +218,39 @@ fun GameScreenPhoneLand(
 //    val showText by remember(gameUiState.board) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb = remember {
-        gameUiState.listOfPlayer.size
-    }
+    val numb =
+        remember {
+            gameUiState.listOfPlayer.size
+        }
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
         Column(
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .constrainAs(rankRef) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                },
+            modifier =
+                Modifier
+                    .padding(start = 8.dp)
+                    .constrainAs(rankRef) {
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                    },
             verticalArrangement = Arrangement.spacedBy(8.dp),
-
         ) {
             MarketButton(onClick = navigateToMarket)
             if (gameUiState.listOfPlayer.any { it.isComputer }) {
@@ -259,23 +267,25 @@ fun GameScreenPhoneLand(
         }
 
         PlayersUiVertical(
-            modifier = Modifier
-                .constrainAs(playerRef) {
-                    // end.linkTo(boardRef.start, margin = 16.dp)
-                    linkTo(parent.start, boardRef.start, bias = 0.9f)
-                    centerVerticallyTo(boardRef)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(playerRef) {
+                        // end.linkTo(boardRef.start, margin = 16.dp)
+                        linkTo(parent.start, boardRef.start, bias = 0.9f)
+                        centerVerticallyTo(boardRef)
+                    },
             playerProvider = { gameUiState.listOfPlayer },
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end, bias = 0.6f)
-                    linkTo(parent.top, parent.bottom)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end, bias = 0.6f)
+                        linkTo(parent.top, parent.bottom)
+                        height = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -319,12 +329,13 @@ fun GameScreenPhoneLand(
 //        }
 
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    linkTo(boardRef.end, parent.end, bias = 0.1f)
-                    // start.linkTo(boardRef.end, margin = 16.dp)
-                    centerVerticallyTo(boardRef)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        linkTo(boardRef.end, parent.end, bias = 0.1f)
+                        // start.linkTo(boardRef.end, margin = 16.dp)
+                        centerVerticallyTo(boardRef)
+                    },
             counterUiStateListProvider = { gameUiState.listOfCounter },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -350,46 +361,46 @@ fun GameScreeFoldPortrait(
     onSetSound: (Boolean) -> Unit = {},
     onForceRestart: () -> Unit = {},
     navigateToMarket: () -> Unit,
-
 ) {
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb = remember {
-        gameUiState.listOfPlayer.size
-    }
+    val numb =
+        remember {
+            gameUiState.listOfPlayer.size
+        }
 
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
-
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, boardRef, counterRef, playerRef, rankRef) = createRefs()
         createHorizontalChain(counterRef, playerRef)
         val barrier = createTopBarrier(counterRef, playerRef)
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
         Column(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .constrainAs(rankRef) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                },
+            modifier =
+                Modifier
+                    .padding(end = 8.dp)
+                    .constrainAs(rankRef) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    },
             verticalArrangement = Arrangement.spacedBy(8.dp),
-
         ) {
             if (gameUiState.listOfPlayer.any { it.isComputer }) {
                 RankCard(
@@ -406,13 +417,14 @@ fun GameScreeFoldPortrait(
         }
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    linkTo(parent.top, barrier)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        linkTo(parent.top, barrier)
+                        height = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -456,18 +468,20 @@ fun GameScreeFoldPortrait(
 //        }
 
         CounterGroupUi(
-            modifier = Modifier.constrainAs(counterRef) {
-                linkTo(barrier, parent.bottom)
-            },
+            modifier =
+                Modifier.constrainAs(counterRef) {
+                    linkTo(barrier, parent.bottom)
+                },
             counterUiStateListProvider = { gameUiState.listOfCounter },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
         )
 
         PlayersUiVertical(
-            modifier = Modifier.constrainAs(playerRef) {
-                linkTo(barrier, parent.bottom)
-            },
+            modifier =
+                Modifier.constrainAs(playerRef) {
+                    linkTo(barrier, parent.bottom)
+                },
             playerProvider = { gameUiState.listOfPlayer },
             isFold = true,
         )
@@ -496,39 +510,41 @@ fun GameScreenLarge(
 //    val showText by remember(gameUiState.board.pathBoxes) {
 //        derivedStateOf { gameUiState.board.pathBoxes.isEmpty() }
 //    }
-    val numb = remember {
-        gameUiState.listOfPlayer.size
-    }
+    val numb =
+        remember {
+            gameUiState.listOfPlayer.size
+        }
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
     ) {
         val (iconRef, playerRef, boardRef, counterRef, rankRef) = createRefs()
 
         Show(
-            modifier = Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            },
+            modifier =
+                Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
             onBack = onBack,
             onResign = onForceRestart,
             music = music,
             sound = sound,
             onSetSound = onSetSound,
             onSetMusic = onSetMusic,
-
         )
 
         Column(
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .constrainAs(rankRef) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier =
+                Modifier
+                    .padding(end = 8.dp)
+                    .constrainAs(rankRef) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    },
             verticalArrangement = Arrangement.spacedBy(8.dp),
-
         ) {
             if (gameUiState.listOfPlayer.any { it.isComputer }) {
                 RankCard(
@@ -545,25 +561,27 @@ fun GameScreenLarge(
         }
 
         PlayersUi(
-            modifier = Modifier
-                .constrainAs(playerRef) {
-                    top.linkTo(parent.top, 16.dp)
-                    bottom.linkTo(boardRef.top, 16.dp)
-                    start.linkTo(boardRef.start)
-                    end.linkTo(boardRef.end)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(playerRef) {
+                        top.linkTo(parent.top, 16.dp)
+                        bottom.linkTo(boardRef.top, 16.dp)
+                        start.linkTo(boardRef.start)
+                        end.linkTo(boardRef.end)
+                    },
             playerProvider = { gameUiState.listOfPlayer },
         )
 
         BoardUi(
-            modifier = Modifier
-                .rotate(rotateF)
-                .constrainAs(boardRef) {
-                    linkTo(parent.start, parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(playerRef.bottom)
-                    height = Dimension.fillToConstraints
-                },
+            modifier =
+                Modifier
+                    .rotate(rotateF)
+                    .constrainAs(boardRef) {
+                        linkTo(parent.start, parent.end)
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(playerRef.bottom)
+                        height = Dimension.fillToConstraints
+                    },
             { gameUiState.board },
         ) {
             // pawn
@@ -610,11 +628,12 @@ fun GameScreenLarge(
 
         //  AnimatedVisibility(visible = ludoGameState.listOfCounter.isNotEmpty()) {
         CounterGroupUiVertical(
-            modifier = Modifier
-                .constrainAs(counterRef) {
-                    centerVerticallyTo(boardRef)
-                    linkTo(boardRef.end, parent.end, bias = 0.1f)
-                },
+            modifier =
+                Modifier
+                    .constrainAs(counterRef) {
+                        centerVerticallyTo(boardRef)
+                        linkTo(boardRef.end, parent.end, bias = 0.1f)
+                    },
             counterUiStateListProvider = { gameUiState.listOfCounter },
             isHumanProvider = { gameUiState.isHumanPlayer },
             onCounterClick = onCounter,
@@ -644,11 +663,17 @@ fun Show(
         DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(Res.string.give_up)) },
-                onClick = { show = false; onResign() },
+                onClick = {
+                    show = false
+                    onResign()
+                },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(Res.string.home)) },
-                onClick = { show = false; onBack() },
+                onClick = {
+                    show = false
+                    onBack()
+                },
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(Res.string.music)) },

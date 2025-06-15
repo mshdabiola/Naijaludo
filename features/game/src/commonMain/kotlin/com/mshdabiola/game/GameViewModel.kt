@@ -51,7 +51,6 @@ class GameViewModel(
     private val setting: Store,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-
     private val game by lazy { LogLudo(soundSystem) }
     private val showDialog = savedStateHandle.get<Boolean>(SHOW_DIALOG)
     private val gameId2 = savedStateHandle.get<Int>(GAME_ID)
@@ -62,14 +61,15 @@ class GameViewModel(
 
     private var clientServerJob: Job? = null
 
-    val settingUiState = setting.setting
-        .map { it.toUi() }
-        .distinctUntilChanged { old, new -> old == new }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            Setting.default.toUi(),
-        )
+    val settingUiState =
+        setting.setting
+            .map { it.toUi() }
+            .distinctUntilChanged { old, new -> old == new }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                Setting.default.toUi(),
+            )
 
     private val _ludoGameState = MutableStateFlow(LudoUiState(board = BoardUiState()))
     val ludoGameState = _ludoGameState.asStateFlow()
@@ -168,8 +168,9 @@ class GameViewModel(
                 .distinctUntilChanged()
                 .collectLatest {
 
-                    _gameUiState.value = gameUiState
-                        .value.copy(listOfDevice = it.toImmutableList())
+                    _gameUiState.value =
+                        gameUiState
+                            .value.copy(listOfDevice = it.toImmutableList())
                 }
         }
         viewModelScope.launch(dispatcher) {
@@ -180,12 +181,13 @@ class GameViewModel(
                 .collectLatest {
 
                     if (it) {
-                        _gameUiState.value = gameUiState
-                            .value.copy(
-                                connected = it,
-                                isDeviceDialogOpen = false,
-                                isWaitingDialogOpen = true,
-                            )
+                        _gameUiState.value =
+                            gameUiState
+                                .value.copy(
+                                    connected = it,
+                                    isDeviceDialogOpen = false,
+                                    isWaitingDialogOpen = true,
+                                )
 
                         startOffGame()
                     }
@@ -214,7 +216,10 @@ class GameViewModel(
         sendString("counter,$counterId")
     }
 
-    fun onPawn(index: Int, isDrawer: Boolean = false) {
+    fun onPawn(
+        index: Int,
+        isDrawer: Boolean = false,
+    ) {
         try {
             game.onPawn(index, isDrawer)
             val int = if (isDrawer) 1 else 0
@@ -281,11 +286,13 @@ class GameViewModel(
         val diceId = setting.getCurrentDice().firstOrNull() ?: ""
         val boardId = setting.getCurrentBoard().firstOrNull() ?: ""
         val dice = getUDice(diceId)
-        val newLudoUiState = ludoGameState.copy(
-            listOfDice = ludoGameState.listOfDice.map {
-                it.copy(color = dice.color)
-            },
-        )
+        val newLudoUiState =
+            ludoGameState.copy(
+                listOfDice =
+                    ludoGameState.listOfDice.map {
+                        it.copy(color = dice.color)
+                    },
+            )
         _gameUiState.update {
             it.copy(boardName = boardId)
         }
@@ -311,11 +318,12 @@ class GameViewModel(
 
     private fun startOffGame() {
         clientServerJob?.cancel()
-        clientServerJob = viewModelScope.launch {
-            log("start Server")
-            _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
-            blueManager.connect()
-        }
+        clientServerJob =
+            viewModelScope.launch {
+                log("start Server")
+                _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
+                blueManager.connect()
+            }
     }
 
     fun onYouAndComputer() {
@@ -353,19 +361,20 @@ class GameViewModel(
         _gameUiState.value = gameUiState.value.copy(isStartDialogOpen = false)
         val ludoSetting = settingUiState.value
         viewModelScope.launch(Dispatchers.Default) {
-            val players = listOf(
-                HumanPlayer(
-                    name = "Player 1",
-                    colors = listOf(GameColor.values()[0], GameColor.values()[1]),
-                    iconIndex = 0,
-                ),
-                HumanPlayer(
-                    name = "Player 2",
-                    isCurrent = true,
-                    colors = listOf(GameColor.values()[2], GameColor.values()[3]),
-                    iconIndex = 6,
-                ),
-            )
+            val players =
+                listOf(
+                    HumanPlayer(
+                        name = "Player 1",
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                        iconIndex = 0,
+                    ),
+                    HumanPlayer(
+                        name = "Player 2",
+                        isCurrent = true,
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                        iconIndex = 6,
+                    ),
+                )
             startGame(
                 Constant.getDefaultGameState(
                     numberOfPawn = ludoSetting.pawnNumber,
@@ -476,19 +485,20 @@ class GameViewModel(
         val ludoSetting = settingUiState.value
         _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
-            val player = listOf(
-                OfflinePlayer(
-                    name = name.ifBlank { "Offline" },
-                    iconIndex = 4,
-                    colors = listOf(GameColor.values()[2], GameColor.values()[3]),
-                ),
-                HumanPlayer(
-                    name = setting.getUser().name,
-                    isCurrent = true,
-                    colors = listOf(GameColor.values()[0], GameColor.values()[1]),
-                    iconIndex = 6,
-                ),
-            )
+            val player =
+                listOf(
+                    OfflinePlayer(
+                        name = name.ifBlank { "Offline" },
+                        iconIndex = 4,
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                    ),
+                    HumanPlayer(
+                        name = setting.getUser().name,
+                        isCurrent = true,
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                        iconIndex = 6,
+                    ),
+                )
 
             startGame(
                 Constant.getDefaultGameState(
@@ -503,23 +513,28 @@ class GameViewModel(
         }
     }
 
-    private fun onLineClientGame(name: String, noOfPawn: Int, style: Int) {
+    private fun onLineClientGame(
+        name: String,
+        noOfPawn: Int,
+        style: Int,
+    ) {
         val ludoSetting = settingUiState.value
         _gameUiState.value = gameUiState.value.copy(isWaitingDialogOpen = false)
         viewModelScope.launch(Dispatchers.Default) {
-            val player = listOf(
-                OfflinePlayer(
-                    name = name.ifBlank { "Offline" },
-                    iconIndex = 4,
-                    isCurrent = true,
-                    colors = listOf(GameColor.values()[0], GameColor.values()[1]),
-                ),
-                HumanPlayer(
-                    name = setting.getUser().name,
-                    colors = listOf(GameColor.values()[2], GameColor.values()[3]),
-                    iconIndex = 6,
-                ),
-            )
+            val player =
+                listOf(
+                    OfflinePlayer(
+                        name = name.ifBlank { "Offline" },
+                        iconIndex = 4,
+                        isCurrent = true,
+                        colors = listOf(GameColor.values()[0], GameColor.values()[1]),
+                    ),
+                    HumanPlayer(
+                        name = setting.getUser().name,
+                        colors = listOf(GameColor.values()[2], GameColor.values()[3]),
+                        iconIndex = 6,
+                    ),
+                )
 
             startGame(
                 Constant.getDefaultGameState(
@@ -535,9 +550,10 @@ class GameViewModel(
     }
 
     private fun onDevice(index: Int) {
-        clientServerJob = viewModelScope.launch(dispatcher) {
-            blueManager.connectToDevice(index)
-        }
+        clientServerJob =
+            viewModelScope.launch(dispatcher) {
+                blueManager.connectToDevice(index)
+            }
     }
 
     private fun setUpBlue() {
@@ -583,20 +599,25 @@ class GameViewModel(
 
     // save game logic
     var job: Job? = null
+
     private fun saveData() {
         job?.cancel()
-        job = viewModelScope.launch {
-            if (gameType() == GameType.COMPUTER) {
-                val state = game.gameState.first()
-                setting.setGame(
-                    state.listOfPlayer,
-                    state.listOfPawn,
-                )
+        job =
+            viewModelScope.launch {
+                if (gameType() == GameType.COMPUTER) {
+                    val state = game.gameState.first()
+                    setting.setGame(
+                        state.listOfPlayer,
+                        state.listOfPawn,
+                    )
+                }
             }
-        }
     }
 
-    private suspend fun getSavedGame(id: Int, playerName: String): LudoGameState? {
+    private suspend fun getSavedGame(
+        id: Int,
+        playerName: String,
+    ): LudoGameState? {
         val ludoAndOthers = setting.getGame(id, playerName)
 
         var pawns = ludoAndOthers.second
@@ -650,7 +671,10 @@ class GameViewModel(
         }
     }
 
-    fun getPositionIntOffset(id: Int, gameColor: GameColor): PointUiState {
+    fun getPositionIntOffset(
+        id: Int,
+        gameColor: GameColor,
+    ): PointUiState {
         return game.getPositionIntOffset(id, gameColor).toPointUiState()
     }
 
