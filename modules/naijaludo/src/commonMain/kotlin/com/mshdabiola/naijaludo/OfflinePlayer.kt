@@ -4,7 +4,6 @@ import com.mshdabiola.naijaludo.model.GameColor
 import com.mshdabiola.naijaludo.model.player.Player
 
 data class OfflinePlayer(
-
     override val name: String = "C. Player",
     override val win: Int = 0,
     override val isCurrent: Boolean = false,
@@ -12,7 +11,6 @@ data class OfflinePlayer(
     override val iconIndex: Int = 0,
     override val isComputer: Boolean = false,
 ) : Player {
-
     override fun copyPlayer(
         name: String,
         win: Int,
