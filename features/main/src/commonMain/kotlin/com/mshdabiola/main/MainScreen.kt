@@ -24,8 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -36,6 +34,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.component.GameButton
 import com.mshdabiola.designsystem.icon.Drawable
+import com.mshdabiola.designsystem.icon.LudoIcons
 import com.mshdabiola.designsystem.icon.drawable.Bg
 import com.mshdabiola.designsystem.icon.drawable.Bg2
 import com.mshdabiola.designsystem.icon.drawable.Logo
@@ -45,7 +44,7 @@ import com.mshdabiola.designsystem.string.Dimensions.Base4
 import com.mshdabiola.designsystem.string.Dimensions.LogoButtonSpace
 import com.mshdabiola.designsystem.string.Dimensions.LogoSize
 import com.mshdabiola.designsystem.string.Dimensions.PlayButtonSize
-import com.mshdabiola.model.DEVICE_TYPE
+import com.mshdabiola.model.PhoneType
 import com.mshdabiola.ui.MarketButton
 import com.mshdabiola.ui.issPortrait
 import naijaludo.features.main.generated.resources.Res
@@ -65,7 +64,7 @@ fun MainRoute(
     navigateToGame: () -> Unit,
     navigateToMarket: () -> Unit,
     navigateToSetting: () -> Unit,
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.DEFAULT,
+    deviceType: PhoneType = PhoneType.DEFAULT,
 ) {
     MainScreen(
         modifier = modifier,
@@ -96,25 +95,26 @@ fun MainScreen(
     onMarket: () -> Unit = {},
     onCloseApp: () -> Unit = {},
     navigateToSetting: () -> Unit = {},
-    deviceType: DEVICE_TYPE = DEVICE_TYPE.PHONE_PORT,
+    deviceType: PhoneType = PhoneType.PHONE_PORT,
 ) {
-    val vector = if (issPortrait()) {
-        Drawable.Bg
-    } else {
-        Drawable.Bg2
-    }
+    val vector =
+        if (issPortrait()) {
+            Drawable.Bg
+        } else {
+            Drawable.Bg2
+        }
 
     val painter = rememberVectorPainter(image = vector)
 
     Scaffold(
         containerColor = Color.Transparent,
-        modifier = modifier
-            .drawBehind {
-                with(painter) {
-                    draw(size)
-                }
-            },
-
+        modifier =
+            modifier
+                .drawBehind {
+                    with(painter) {
+                        draw(size)
+                    }
+                },
     ) { paddingValues ->
         Box(
             Modifier
@@ -133,16 +133,17 @@ fun MainScreen(
             }
 
             Column(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(end = 8.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(end = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 IconButton(
                     onClick = navigateToSetting,
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Settings,
+                        imageVector = LudoIcons.Settings,
                         contentDescription = stringResource(Res.string.setting),
                     )
                 }
@@ -150,12 +151,13 @@ fun MainScreen(
                 MarketButton(onClick = onMarket)
             }
 
-            if (deviceType == DEVICE_TYPE.PHONE_PORT || deviceType == DEVICE_TYPE.TABLET_PORT) {
+            if (deviceType == PhoneType.PHONE_PORT || deviceType == PhoneType.TABLET_PORT) {
                 Column(Modifier.align(Alignment.TopCenter)) {
                     Spacer(modifier = Modifier.height(Base4))
                     Image(
-                        modifier = Modifier
-                            .width(LogoSize),
+                        modifier =
+                            Modifier
+                                .width(LogoSize),
                         imageVector = Drawable.Logo,
                         contentDescription = stringResource(Res.string.logo),
                     )
@@ -163,13 +165,13 @@ fun MainScreen(
 
                 GameButton(
                     onClick = onPlay,
-                    modifier = Modifier
-                        .testTag("main:play")
-                        .align(Alignment.Center)
-                        .size(PlayButtonSize),
+                    modifier =
+                        Modifier
+                            .testTag("main:play")
+                            .align(Alignment.Center)
+                            .size(PlayButtonSize),
                     shape = RoundedCornerShape(Base2),
                     elevation = Base,
-
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
@@ -181,7 +183,6 @@ fun MainScreen(
                 Row(
                     modifier = Modifier.align(Alignment.Center),
                     verticalAlignment = Alignment.CenterVertically,
-
                 ) {
                     Image(
                         modifier = Modifier.width(LogoSize),
@@ -189,16 +190,17 @@ fun MainScreen(
                         contentDescription = stringResource(Res.string.logo),
                     )
                     Spacer(
-                        modifier = Modifier
-                            .width(LogoButtonSpace),
+                        modifier =
+                            Modifier
+                                .width(LogoButtonSpace),
                     )
                     GameButton(
                         onClick = onPlay,
-                        modifier = Modifier
-                            .size(PlayButtonSize),
+                        modifier =
+                            Modifier
+                                .size(PlayButtonSize),
                         shape = RoundedCornerShape(Base2),
                         elevation = Base,
-
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.PlayArrow,
@@ -207,8 +209,9 @@ fun MainScreen(
                         )
                     }
                     Spacer(
-                        modifier = Modifier
-                            .width(Base4),
+                        modifier =
+                            Modifier
+                                .width(Base4),
                     )
                 }
             }

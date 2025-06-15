@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class MainViewModel() : ViewModel() {
-
     fun onPlayGame() {
         viewModelScope.launch {
 //            log("destroy game")

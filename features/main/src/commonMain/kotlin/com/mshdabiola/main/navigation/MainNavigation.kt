@@ -13,10 +13,13 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.mshdabiola.main.MainRoute
 import com.mshdabiola.main.MainViewModel
-import com.mshdabiola.model.DEVICE_TYPE
+import com.mshdabiola.model.PhoneType
 import org.koin.compose.viewmodel.koinViewModel
 
-fun NavController.navigateToMain(main: Main, navOptions: NavOptions) = navigate(main, navOptions)
+fun NavController.navigateToMain(
+    main: Main,
+    navOptions: NavOptions,
+) = navigate(main, navOptions)
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.mainScreen(
@@ -25,7 +28,7 @@ fun NavGraphBuilder.mainScreen(
     navigateToGame: () -> Unit,
     navigateToMarket: () -> Unit,
     navigateToSetting: () -> Unit,
-    deviceType: DEVICE_TYPE,
+    deviceType: PhoneType,
 ) {
     composable<Main> {
         val viewModel: MainViewModel = koinViewModel()

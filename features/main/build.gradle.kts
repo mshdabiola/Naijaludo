@@ -15,14 +15,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(compose.components.resources)
-
             }
         }
         androidMain.dependencies {
-           // implementation(libs.androidx.constraintlayout)
+            // implementation(libs.androidx.constraintlayout)
             implementation(projects.naijaludo)
         }
-
-
     }
 }
