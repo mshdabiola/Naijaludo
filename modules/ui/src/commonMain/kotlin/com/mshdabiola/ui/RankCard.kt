@@ -7,7 +7,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.designsystem.component.LudoTextButton
 
 @Composable
 fun RankCard(modifier: Modifier = Modifier) {
@@ -82,7 +82,7 @@ fun RankCard(modifier: Modifier = Modifier) {
                 )
             }
             // Spacer(modifier = Modifier.height(4.dp))
-            TextButton(onClick = {
+            LudoTextButton(onClick = {
 //                try {
 //                    val activity = context as Activity
 //                    PlayGames.getLeaderboardsClient(activity)
