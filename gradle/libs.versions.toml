@@ -53,7 +53,7 @@ compose-plugin = "1.8.0"
 composeNavigation="2.9.0-beta01"
 androidxNavigationTest = "2.9.0" #for nav test
 compose = "1.8.2"
-composehot="1.0.0-alpha10"
+composehot="1.0.0-alpha11"
 lifecycleRuntimeCompose = "2.9.10-alpha01"
 foojay="0.10.0"
 
