@@ -66,7 +66,7 @@ firebaseCrashlyticsKts = "18.3.6"
 firebaseCrashylyticsPlugins = "2.9.9"
 playServicesMlkitTextRecognition = "19.0.0"
 
-uiTextGoogleFonts = "1.8.2"
+uiTextGoogleFonts = "1.9.1"
 
 koin = "4.1.0-Beta10"
 koinCompose = "4.1.0-Beta10"
